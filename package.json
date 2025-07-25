@@ -1,0 +1,44 @@
+{
+  "name": "avanti",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@ebay/nice-modal-react": "^1.2.13",
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.13.2",
+    "@react-oauth/google": "^0.12.1",
+    "@reduxjs/toolkit": "^2.2.1",
+    "autoprefixer": "10.4.14",
+    "axios": "^1.6.7",
+    "bcryptjs": "^3.0.2",
+    "debounce": "^2.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^5.3.0",
+    "mongoose": "^7.1.0",
+    "next": "13.3.4",
+    "next-auth": "^4.22.1",
+    "postcss": "8.4.23",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-google-recaptcha": "^3.1.0",
+    "react-hook-form": "^7.54.2",
+    "react-hot-toast": "^2.5.2",
+    "react-intersection-observer": "^9.8.1",
+    "react-loader-spinner": "^6.1.6",
+    "react-modal": "^3.16.3",
+    "react-redux": "^9.1.0",
+    "react-responsive": "^10.0.0",
+    "spinner": "^0.3.4",
+    "tailwindcss": "3.3.2"
+  },
+  "devDependencies": {
+    "styled-components": "^5.3.11"
+  }
+}
