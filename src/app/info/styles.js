@@ -8,7 +8,7 @@ export const PageWrapper = styled.div`
 `;
 
 export const ContentPart = styled.div`
-  min-height: calc(100vh - 345px);
+  min-height: calc(100vh - 272px);
 `;
 
 export const Title = styled.h1`

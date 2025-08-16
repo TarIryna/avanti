@@ -1,8 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
-import { useEffect, useState, useRef } from "react";
+import { useState, useRef } from "react";
 
 import Popper from "@mui/material/Popper";
 import Grow from "@mui/material/Grow";
@@ -13,23 +12,25 @@ import MenuItem from "@mui/material/MenuItem";
 
 import { menuData } from "@/utils/data";
 import { changeToInitialAction } from "@/store/actions/products";
+import { setIsOpenMenuAction } from "@/store/actions/common";
+import { useCommon } from "@/store/selectors";
 
 function handleListKeyDown(event) {
   if (event.key === "Tab") {
     event.preventDefault();
-    handleClose();
+    setIsOpenMenuAction(false);
   } else if (event.key === "Escape") {
-    handleClose();
+    setIsOpenMenuAction(false);
   }
 }
 
-const Menu = ({ open, menuRef, handleClose }) => {
+const Menu = ({ anchorRef }) => {
   const [submenu, setSubmenu] = useState(null);
   const [subtab, setSubtab] = useState(null);
   const submenuRef = useRef(null);
   const subsubRef = useRef(null);
   const lastTabRef = useRef(null);
-
+  const { isOpenMenu } = useCommon();
   const menu = Object.keys(menuData);
 
   const tabMenu = (tab) => {
@@ -61,11 +62,15 @@ const Menu = ({ open, menuRef, handleClose }) => {
     return route;
   };
 
+  const onClose = () => {
+    setIsOpenMenuAction(false);
+  };
+
   return (
     <div className="relative">
       <Popper
-        open={open}
-        anchorEl={menuRef}
+        open={isOpenMenu}
+        anchorEl={anchorRef}
         role={undefined}
         placement="right-start"
         transition
@@ -81,7 +86,7 @@ const Menu = ({ open, menuRef, handleClose }) => {
             }}
           >
             <Paper>
-              <ClickAwayListener onClickAway={handleClose}>
+              <ClickAwayListener onClickAway={() => setIsOpenMenuAction(false)}>
                 <MenuList
                   autoFocusItem={open}
                   id="composition-menu"

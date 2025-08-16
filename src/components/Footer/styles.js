@@ -5,13 +5,14 @@ export const Footer = styled.footer`
   background: black;
   color: white;
   width: 100%;
-  height: 170px;
+  height: 120px;
   display: flex;
   gap: 80px;
 `;
 export const ContactsWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(3, 200px);
+  grid-template-rows: repeat(2, 24px);
   gap: 10px;
   padding: 30px 0;
 `;
@@ -19,4 +20,5 @@ export const ContactItem = styled(Link)`
   color: white;
   font-weight: 500;
   font-size: 14px;
+  height: 20px;
 `;

@@ -1,5 +1,7 @@
 import { changeQueryAction } from "@/store/actions/products";
 import { useState } from "react";
+import { SearchInput } from "./styles";
+
 const Search = () => {
   const [searchData, setSearchData] = useState("");
   const handleSearchChange = (e) => {
@@ -7,13 +9,14 @@ const Search = () => {
     changeQueryAction(e.target.value);
   };
   return (
-    <input
+    <SearchInput
       type="text"
       placeholder="Пошук по назві або коду"
       value={searchData}
       onChange={(e) => handleSearchChange(e)}
       required
-      className="search_input peer"
+      name="search"
+      id="name"
     />
   );
 };

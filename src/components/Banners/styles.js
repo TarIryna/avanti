@@ -2,14 +2,20 @@ import styled from "@emotion/styled";
 import Link from "next/link";
 
 export const BannersWrapper = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 16px;
   margin: 20px 0;
+  width: 100%;
+  @media screen and (max-width: 1280px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media screen and (max-width: 540px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 
 export const BannerCard = styled.div`
-  width: 23vw;
-  aspect-ratio: 1.25;
   position: relative;
   img {
     width: 100%;

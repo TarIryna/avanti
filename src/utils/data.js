@@ -2,7 +2,7 @@ export const tabsData = [
   {
     name: "Для жінок",
     link: "/women",
-    image: "@/assets/images/women.jpg",
+    image: "/images/women.jpg",
     query: "women",
     menu: "Жінки",
     filterName: "Жінки",
@@ -10,7 +10,7 @@ export const tabsData = [
   {
     name: "Для чоловіків",
     link: "/men",
-    image: "@/assets/images/men.jpg",
+    image: "/images/men.jpg",
     query: "men",
     menu: "Чоловіки",
     filterName: "Чоловіки",
@@ -18,7 +18,7 @@ export const tabsData = [
   {
     name: "Для дівчат",
     link: "/girls",
-    image: "@/assets/images/girls.jpg",
+    image: "/girls.jpg",
     query: "girls",
     menu: "Дівчата",
     filterName: "Дівчата",
@@ -26,7 +26,7 @@ export const tabsData = [
   {
     name: "Для хлопчиків",
     link: "/boys",
-    image: "@/assets/images/boys.jpg",
+    image: "/boys.jpg",
     query: "boys",
     menu: "Хлопці",
     filterName: "Хлопці",

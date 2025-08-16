@@ -19,7 +19,6 @@ import Loading from "@/app/loading";
 import SeasonTabs from "./SeasonTabs";
 import List from "./CardList";
 import Filter from "./Filter";
-import Menu from "@/components/Menu";
 import { Pagination } from "@mui/material";
 
 const Collection = () => {
@@ -135,7 +134,6 @@ const Collection = () => {
 
   return (
     <section className="feed">
-      <Menu />
       <Filter />
       <form className="relative w-full flex-center" onSubmit={onSubmit}>
         <input

@@ -114,7 +114,7 @@ const Filter = () => {
       </option>
       {array.length > 0 &&
         array.map((item, index) => (
-          <option value={item.query} id={item.query} key={item.query}>
+          <option value={item.query} id={item.query} key={item.query ?? index}>
             {item.filterName ?? item.name}
           </option>
         ))}
@@ -126,7 +126,7 @@ const Filter = () => {
       <option value="">Розмір:</option>
       {sizes.length > 0 &&
         sizes.map((item) => (
-          <option value={item} id={item}>
+          <option value={item} id={item} key={item}>
             {item}
           </option>
         ))}

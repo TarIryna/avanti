@@ -4,26 +4,24 @@ import Image from "next/image";
 import Search from "@/components/Collection/Search";
 import RightBlock from "./RightBlock";
 import Logo from "@/assets/icons/logo_white.svg";
-
-import { useRef } from "react";
+import { toogleMenuAction } from "@/store/actions/common";
+import Menu from "../Menu";
 import * as S from "./styles";
+import { useRef } from "react";
+import { IconMenu } from "@/assets/icons/menuWhite";
 
 const Nav = () => {
+  const toggleMenu = () => {
+    toogleMenuAction();
+  };
   const anchorRef = useRef(null);
-
-  const handleToggle = () => {
-    setMenuDropdown((prevOpen) => !prevOpen);
-  };
-
-  const handleClose = (event) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return;
-    }
-    setMenuDropdown(false);
-  };
 
   return (
     <S.Navigation className="container">
+      <S.Menu ref={anchorRef}>
+        <IconMenu onClick={toggleMenu} />
+      </S.Menu>
+      <Menu anchorRef={anchorRef} />
       <S.Logo href="/">
         <Image src={Logo} alt="logo" width={150} height={69} />
       </S.Logo>
