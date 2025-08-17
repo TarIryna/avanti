@@ -2,7 +2,6 @@ import Order from "@/models/orders";
 import { connectToDB } from "@/utils/database";
 
 export const DELETE = async (request, { params }) => {
-  console.log("delete", params);
   try {
     await connectToDB();
 

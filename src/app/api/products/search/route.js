@@ -5,7 +5,7 @@ export const GET = async (request, { params }) => {
   const url = new URL(request.url);
   const searchParams = new URLSearchParams(url.searchParams);
   const query = searchParams.get("query").toString();
-  const pageSize = searchParams.get("pagesize");
+  const limit = searchParams.get("limit");
   const page = searchParams.get("page");
   try {
     await connectToDB();
@@ -17,8 +17,8 @@ export const GET = async (request, { params }) => {
       const response = await Product.find({
         $or: [{ name: { $regex: query } }],
       })
-        .limit(pageSize)
-        .skip((page - 1) * pageSize);
+        .limit(limit)
+        .skip((page - 1) * limit);
       result = { total, products: response };
     } else {
       const total = await Product.find({
@@ -27,8 +27,8 @@ export const GET = async (request, { params }) => {
       const response = await Product.find({
         $or: [{ name: { $regex: query } }],
       })
-        .limit(pageSize)
-        .skip((page - 1) * pageSize);
+        .limit(limit)
+        .skip((page - 1) * limit);
 
       result = { products: response, total };
     }

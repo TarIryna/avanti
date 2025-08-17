@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { changeToInitialAction } from "@/store/actions/products";
-
+import { TabsWrapper } from "./styles";
 import { tabsData } from "@/utils/data";
 
 const Tabs = () => {
@@ -16,7 +16,7 @@ const Tabs = () => {
   };
 
   return (
-    <div className="flex">
+    <TabsWrapper>
       {tabsData &&
         tabsData.map((tab) => (
           <button
@@ -29,7 +29,7 @@ const Tabs = () => {
             <Image src={tab.image} alt="category" width={150} height={150} />
           </button>
         ))}
-    </div>
+    </TabsWrapper>
   );
 };
 

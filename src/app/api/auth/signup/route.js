@@ -8,8 +8,6 @@ export async function POST(req) {
     const { email, password, username, name, surname, phone, city, adress } =
       body;
 
-    console.log(password);
-
     await connectToDB();
 
     const userExists = await User.findOne({ email });
@@ -24,7 +22,6 @@ export async function POST(req) {
     }
 
     const hashedPassword = await hash(password, 12);
-    console.log(hashedPassword);
 
     const newUser = await User.create({
       email,

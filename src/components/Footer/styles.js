@@ -5,7 +5,7 @@ export const Footer = styled.footer`
   background: black;
   color: white;
   width: 100%;
-  height: 120px;
+  min-height: 120px;
   display: flex;
   gap: 80px;
 `;
@@ -15,6 +15,10 @@ export const ContactsWrapper = styled.div`
   grid-template-rows: repeat(2, 24px);
   gap: 10px;
   padding: 30px 0;
+  @media screen and (max-width: 767px) {
+    grid-template-columns: repeat(2, 200px);
+    grid-template-rows: repeat(3, 24px);
+  }
 `;
 export const ContactItem = styled(Link)`
   color: white;

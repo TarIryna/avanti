@@ -7,7 +7,7 @@ import { getSortParam } from "@/helpers/getSortParam";
 export const GET = async (request, { params }) => {
   const url = new URL(request.url);
   const searchParams = new URLSearchParams(url.searchParams);
-  const pageSize = searchParams.get("pagesize");
+  const limit = searchParams.get("limit");
   const page = searchParams.get("page");
   const season = searchParams.get("season");
   const sortBy = searchParams.get("sortBy");
@@ -19,14 +19,14 @@ export const GET = async (request, { params }) => {
       const total = await Product.find({ season }).count();
       const products = await Product.find({ season })
         .sort(sortParam)
-        .limit(pageSize)
-        .skip((page - 1) * pageSize);
+        .limit(limit)
+        .skip((page - 1) * limit);
       result = { total, products };
     } else {
       const total = await Product.find({ season }).count();
       const products = await Product.find({ season })
         .sort(sortParam)
-        .limit(pageSize);
+        .limit(limit);
       result = { total, products };
     }
     return new Response(JSON.stringify(result), { status: 200 });

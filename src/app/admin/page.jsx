@@ -3,14 +3,6 @@
 import ProviderNext from "@/components/Provider";
 import AdminPage from "@/components/Admin/AdminPage";
 
-const Admin = () => {
-  return (
-    <>
-      {/* <ProviderNext> */}
-      <AdminPage />
-      {/* </ProviderNext> */}
-    </>
-  );
-};
+const Admin = () => <AdminPage />;
 
 export default Admin;

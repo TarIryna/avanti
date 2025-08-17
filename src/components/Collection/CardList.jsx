@@ -1,6 +1,6 @@
 "use client";
 
-import Card from "./Card";
+import Card from "./Card/Card";
 
 const List = ({ data }) => {
   return (

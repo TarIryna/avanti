@@ -8,21 +8,29 @@ export const fetchProductsByParams = async ({
   season,
   view,
   color,
-  sortBy,
+  sort,
   material,
   size,
-  pageSize = 24,
+  limit = 24,
   page = 1,
 }) => {
   try {
     changeIsLoadingAction(true);
+    const params = { gender, limit, page };
+    if (season) params.season = season;
+    if (view) params.view = view;
+    if (color) params.color = color;
+    if (size) params.sizes = size;
+    if (material) params.material = material;
+    if (sort) params.sort = sort;
+    const queryString = new URLSearchParams(params).toString();
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
     const response = await fetch(
-      `/api/products/filter?gender=${gender}&view=${view}&season=${season}&size=${size}&material=${material}&color=${color}&sortBy=${sortBy}&pagesize=${pageSize}&page=${page}`
+      `${baseUrl}/api/products/filter?${queryString}`
     );
     if (response.ok) {
-      console.log("response ok");
       const data = await response.json();
-      changeProductsAction(data);
+      return data;
     }
   } catch (error) {
     console.log(error);
@@ -31,13 +39,13 @@ export const fetchProductsByParams = async ({
 
 export const fetchProductsByQuery = async ({
   query = "",
-  pageSize = 24,
+  limit = 24,
   page = 1,
 }) => {
   try {
     changeIsLoadingAction(true);
     const response = await fetch(
-      `/api/products/search?query=${query}&sortBy=${sortBy}&pagesize=${pageSize}&page=${page}`
+      `/api/products/search?query=${query}&sortBy=${sortBy}&limit=${limit}&page=${page}`
     );
 
     if (response.ok) {
@@ -49,30 +57,30 @@ export const fetchProductsByQuery = async ({
   }
 };
 
-export const fetchProductsMain = async ({ pageSize = 24, page = 1 }) => {
-  console.log(pageSize, page);
-  const month = new Date().getMonth() + 1;
-  const currentSeason =
-    month < 3 || month === 12 || month === 11
-      ? "winter"
-      : month === 10 || month === 9
-      ? "demi"
-      : month >= 3 && month < 6
-      ? "autumn"
-      : month >= 6 && month < 9
-      ? "summer"
-      : "autumn";
-  try {
-    changeIsLoadingAction(true);
-    const response = await fetch(
-      `/api/products?sortBy=${sortBy}&pagesize=${pageSize}&page=${page}&season=${currentSeason}`
-    );
+// export const fetchProductsMain = async ({ limit = 24, page = 1 }) => {
+//   console.log(limit, page);
+//   const month = new Date().getMonth() + 1;
+//   const currentSeason =
+//     month < 3 || month === 12 || month === 11
+//       ? "winter"
+//       : month === 10 || month === 9
+//       ? "demi"
+//       : month >= 3 && month < 6
+//       ? "autumn"
+//       : month >= 6 && month < 9
+//       ? "summer"
+//       : "autumn";
+//   try {
+//     changeIsLoadingAction(true);
+//     const response = await fetch(
+//       `/api/products?sortBy=${sortBy}&limit=${limit}&page=${page}&season=${currentSeason}`
+//     );
 
-    if (response.ok) {
-      const data = await response.json();
-      changeProductsAction(data);
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
+//     if (response.ok) {
+//       const data = await response.json();
+//       return data;
+//     }
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };

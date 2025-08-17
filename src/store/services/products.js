@@ -26,7 +26,7 @@ export class ProductsService {
           const { data } = await axiosInstance({
             url: "/search",
             method: "POST",
-            params: { query, _pagesize: quantity, _page: page },
+            params: { query, _limit: quantity, _page: page },
           });
           return data;
         } catch (error) {
@@ -34,15 +34,15 @@ export class ProductsService {
         }
       } else {
         if (query === "" && !provider && !collection) {
-          url = `/game/list?gender=${gender}&material=${material}&color=${color}&_pagesize=${quantity}&_page=${page}`;
+          url = `/game/list?gender=${gender}&material=${material}&color=${color}&_limit=${quantity}&_page=${page}`;
         }
         if (provider) {
           const brand = provider.toLowerCase();
-          url = `/game/list?brand=${brand}&_pagesize=${quantity}&_page=${page}`;
+          url = `/game/list?brand=${brand}&_limit=${quantity}&_page=${page}`;
         }
         if (collection) {
           const col = collection.toLowerCase();
-          url = `/game/list?collection=${col}&_pagesize=${quantity}&_page=${page}`;
+          url = `/game/list?collection=${col}&_limit=${quantity}&_page=${page}`;
         }
         try {
           const { data } = await axiosInstance({

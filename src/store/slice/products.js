@@ -67,7 +67,7 @@ export const productsSlice = createSlice({
       state.color = action.payload.color;
       state.material = action.payload.material;
       state.sortBy = action.payload.sortBy;
-      state.quantity = action.payload.pageSize;
+      state.quantity = action.payload.limit;
       state.query = "";
     },
     changeToInitial: (state) => {
@@ -90,6 +90,10 @@ export const productsSlice = createSlice({
     },
     changeIsLoading: (state, action) => {
       state.isLoading = action.payload;
+    },
+    initProducts: (state, action) => {
+      console.log(action.payload);
+      state.products = action.payload;
     },
   },
 });

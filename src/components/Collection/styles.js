@@ -1,33 +1,5 @@
 import styled from "@emotion/styled";
 
-export const CardWrapper = styled.div`
-  min-height: 450px;
-  border: 1px solid grey;
-  border-radius: 14px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 20px;
-`;
-
-export const Title = styled.h3`
-  font-weight: 600;
-  font-size: 20px;
-`;
-
-export const ImageWrapper = styled.div`
-  width: 300px;
-  height: 300px;
-  position: relative;
-  img {
-    max-width: 100%;
-    max-height: 100%;
-    object-position: center;
-    object-fit: contain;
-  }
-`;
-
 export const SearchInput = styled.input`
   display: block;
   border-radius: 0.375rem;
@@ -48,5 +20,44 @@ export const SearchInput = styled.input`
     height: 30px;
     width: 200px;
     font-size: 12px;
+  }
+`;
+
+export const TabsWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+export const CollectionSearch = styled(SearchInput)`
+  margin: 0 auto 20px;
+`;
+
+export const FilterWrapper = styled.div`
+  width: 100%;
+  padding-bottom: 20px;
+`;
+
+export const LimitPageWrapper = styled.div`
+  display: flex;
+  gap: 10px;
+  @media screen and (max-width: 540px) {
+    justify-content: space-between;
+  }
+`;
+
+export const FilterTitle = styled.h3`
+  text-align: center;
+  font-weight: 800;
+  margin-bottom: 6px;
+`;
+
+export const FilterGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  @media screen and (max-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media screen and (max-width: 540px) {
+    grid-template-columns: repeat(2, 1fr);
   }
 `;

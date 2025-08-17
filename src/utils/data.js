@@ -2,7 +2,7 @@ export const tabsData = [
   {
     name: "Для жінок",
     link: "/women",
-    image: "/images/women.jpg",
+    image: "https://i.ibb.co/9j0mFhN/women.jpg",
     query: "women",
     menu: "Жінки",
     filterName: "Жінки",
@@ -10,7 +10,7 @@ export const tabsData = [
   {
     name: "Для чоловіків",
     link: "/men",
-    image: "/images/men.jpg",
+    image: "https://i.ibb.co/SDQmrfXj/men.jpg",
     query: "men",
     menu: "Чоловіки",
     filterName: "Чоловіки",
@@ -18,7 +18,7 @@ export const tabsData = [
   {
     name: "Для дівчат",
     link: "/girls",
-    image: "/girls.jpg",
+    image: "https://i.ibb.co/TqbYcghL/girls.jpg",
     query: "girls",
     menu: "Дівчата",
     filterName: "Дівчата",
@@ -26,7 +26,7 @@ export const tabsData = [
   {
     name: "Для хлопчиків",
     link: "/boys",
-    image: "/boys.jpg",
+    image: "https://i.ibb.co/HDn9KfjC/boys.jpg",
     query: "boys",
     menu: "Хлопці",
     filterName: "Хлопці",
@@ -36,88 +36,150 @@ export const tabsData = [
 export const menuData = {
   Жінки: {
     "Зимове взуття": {
-      "Кросівки зимові": "/women/winter-sneakers",
-      "Черевики на каблуках": "/women/winter-heels",
-      "Черевики на низькому": "/women/winter-boots",
-      Угги: "/women/winter-uggs",
-      Чоботи: "/women/winter-high",
-      Ботфорти: "/women/winter-botforts",
+      "Кросівки зимові": {
+        gender: "women",
+        season: "winter",
+        view: "sneakers",
+      },
+      "Черевики на каблуках": {
+        gender: "women",
+        season: "winter",
+        view: "heels",
+      },
+      "Черевики на низькому": {
+        gender: "women",
+        season: "winter",
+        view: "boots",
+      },
+      Угги: { gender: "women", season: "winter", view: "uggs" },
+      Чоботи: { gender: "women", season: "winter", view: "high" },
+      Ботфорти: { gender: "women", season: "winter", view: "botforts" },
     },
     "Літнє взуття": {
-      "Босоніжки  і шльопанці на каблуках": "/women/summer-heels",
-      Санділії: "/women/summer-sandals",
-      "Шльопанці на низькому": "/women/summer-flats",
-      "Пляжне взуття": "/women/summer-beach",
+      "Босоніжки і шльопанці на каблуках": {
+        gender: "women",
+        season: "summer",
+        view: "heels",
+      },
+      Санділії: { gender: "women", season: "summer", view: "sandals" },
+      "Шльопанці на низькому": {
+        gender: "women",
+        season: "summer",
+        view: "flats",
+      },
+      "Пляжне взуття": { gender: "women", season: "summer", view: "beach" },
     },
     "Весна-осінь": {
-      "Лофери, мокасини, сліпони": "/women/autumn-lofers",
-      "Кросівки і кеди": "/women/autumn-sneakers",
-      "Туфлі на каблуках": "/women/autumn-heels",
-      "Туфлі закриті на шнурках": "/women/autumn-shoes",
+      "Лофери, мокасини, сліпони": {
+        gender: "women",
+        season: "autumn",
+        view: "lofers",
+      },
+      "Кросівки і кеди": {
+        gender: "women",
+        season: "autumn",
+        view: "sneakers",
+      },
+      "Туфлі на каблуках": { gender: "women", season: "autumn", view: "heels" },
+      "Туфлі закриті на шнурках": {
+        gender: "women",
+        season: "autumn",
+        view: "shoes",
+      },
     },
     "Демісезонне взуття": {
-      "Черевики на каблуках": "/women/demi-heels",
-      "Черевики на низькому": "/women/demi-boots",
-      Чоботи: "women/demi-high",
+      "Черевики на каблуках": {
+        gender: "women",
+        season: "demi",
+        view: "heels",
+      },
+      "Черевики на низькому": {
+        gender: "women",
+        season: "demi",
+        view: "boots",
+      },
+      Чоботи: { gender: "women", season: "demi", view: "high" },
     },
   },
   Чоловіки: {
     "Зимове взуття": {
-      "Черевики класичні": "/men/winter-classic",
-      "Черевики спортивні": "/men/winter-boots",
-      Угги: "/men/winter-uggs",
+      "Черевики класичні": { gender: "men", season: "winter", view: "classic" },
+      "Черевики спортивні": { gender: "men", season: "winter", view: "boots" },
+      Угги: { gender: "men", season: "winter", view: "uggs" },
     },
     "Літнє взуття": {
-      Санділії: "/men/summer-sandals",
-      Шльопанці: "/men/summer-flats",
-      "Пляжне взуття": "/men/summer-beach",
+      Санділії: { gender: "men", season: "summer", view: "sandals" },
+      Шльопанці: { gender: "men", season: "summer", view: "flats" },
+      "Пляжне взуття": { gender: "men", season: "summer", view: "beach" },
     },
     "Весна-осінь": {
-      "Лофери, мокасини, сліпони": "/men/autumn-lofers",
-      "Кросівки і кеди": "/men/autumn-sneakers",
-      "Туфлі класичні": "/men/autumn-shoes",
-      "Туфлі комфорт": "/men/autumn-comfort",
+      "Лофери, мокасини, сліпони": {
+        gender: "men",
+        season: "autumn",
+        view: "lofers",
+      },
+      "Кросівки і кеди": { gender: "men", season: "autumn", view: "sneakers" },
+      "Туфлі класичні": { gender: "men", season: "autumn", view: "shoes" },
+      "Туфлі комфорт": { gender: "men", season: "autumn", view: "comfort" },
     },
     "Демісезонне взуття": {
-      "Черевики класичні": "/men/demi-classic",
-      "Черевики спортивні": "/men/demi-boots",
+      "Черевики класичні": { gender: "men", season: "demi", view: "classic" },
+      "Черевики спортивні": { gender: "men", season: "demi", view: "boots" },
     },
   },
   Дівчата: {
     "Зимове взуття": {
-      "Черевики класичні": "/girls/winter-classic",
-      "Черевики спортивні": "/girls/winter-boots",
-      Угги: "/girls/winter-uggs",
+      "Черевики класичні": {
+        gender: "girls",
+        season: "winter",
+        view: "classic",
+      },
+      "Черевики спортивні": {
+        gender: "girls",
+        season: "winter",
+        view: "boots",
+      },
+      Угги: { gender: "girls", season: "winter", view: "uggs" },
     },
     "Літнє взуття": {
-      Санділії: "/girls/summer-sandals",
-      Шльопанці: "/girls/summer-flats",
-      "Пляжне взуття": "/girls/summer-beach",
+      Санділії: { gender: "girls", season: "summer", view: "sandals" },
+      Шльопанці: { gender: "girls", season: "summer", view: "flats" },
+      "Пляжне взуття": { gender: "girls", season: "summer", view: "beach" },
     },
     "Весна-осінь": {
-      "Лофери, мокасини, сліпони": "/girls/autumn-lofers",
-      "Кросівки і кеди": "/girls/autumn-sneakers",
-      Туфлі: "/girls/autumn-shoes",
+      "Лофери, мокасини, сліпони": {
+        gender: "girls",
+        season: "autumn",
+        view: "lofers",
+      },
+      "Кросівки і кеди": {
+        gender: "girls",
+        season: "autumn",
+        view: "sneakers",
+      },
+      Туфлі: { gender: "girls", season: "autumn", view: "shoes" },
     },
     "Демісезонне взуття": {
-      "Черевики класичні": "/girls/demi-classic",
-      "Черевики спортивні": "/girls/demi-boots",
+      "Черевики класичні": { gender: "girls", season: "demi", view: "classic" },
+      "Черевики спортивні": { gender: "girls", season: "demi", view: "boots" },
     },
   },
   Хлопці: {
     "Зимове взуття": {
-      Черевики: "/boys/winter-boots",
-      Угги: "/boys/winter-uggs",
+      Черевики: { gender: "boys", season: "winter", view: "boots" },
+      Угги: { gender: "boys", season: "winter", view: "uggs" },
     },
     "Літнє взуття": {
-      Санділії: "/boys/summer-sandals",
-      "Пляжне взуття": "/boys/summer-beach",
+      Санділії: { gender: "boys", season: "summer", view: "sandals" },
+      "Пляжне взуття": { gender: "boys", season: "summer", view: "beach" },
     },
     "Весна-осінь": {
-      "Кросівки і кеди": "/boys/autumn-sneakers",
-      Туфлі: "/boys/autumn-shoes",
+      "Кросівки і кеди": { gender: "boys", season: "autumn", view: "sneakers" },
+      Туфлі: { gender: "boys", season: "autumn", view: "shoes" },
     },
-    "Демісезонне взуття": { Черевики: "/boys/demi-boots" },
+    "Демісезонне взуття": {
+      Черевики: { gender: "boys", season: "demi", view: "boots" },
+    },
   },
 };
 
@@ -143,9 +205,10 @@ export const seasons = [
   },
 ];
 
-const getNameView = (string) => {
-  const array = string.split("-");
-  const result = array[array.length - 1];
+const getNameView = (item) => {
+  const view = item?.view;
+  const array = view?.split("-");
+  const result = array?.length ? array[array.length - 1] : null;
   return result;
 };
 
@@ -271,7 +334,7 @@ export const sortList = [
   { name: "новинки", query: "new", filterName: "новинки" },
 ];
 
-export const pageSizes = [
+export const limits = [
   {
     name: "24",
     query: "24",

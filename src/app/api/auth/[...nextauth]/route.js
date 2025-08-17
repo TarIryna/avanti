@@ -61,8 +61,12 @@ const handler = NextAuth({
     async session({ session }) {
       // store the user id from MongoDB to session
       const sessionUser = await User.findOne({ email: session.user.email });
-      session.user = sessionUser;
-      session.id = sessionUser._id.toString();
+      session.user = {
+        id: sessionUser._id.toString(),
+        email: sessionUser.email,
+        name: sessionUser.username,
+        image: sessionUser.image,
+      };
       if (!!session.user) {
         loginUserAction();
       } else {
@@ -80,7 +84,7 @@ const handler = NextAuth({
         const userExists = await User.findOne({ email });
 
         // if not, create a new document and save user in MongoDB
-        if (!userExists && provider !== "credentials") {
+        if (!userExists && account.provider !== "credentials") {
           await User.create({
             email: profile.email,
             username: profile.name.replace(" ", "").toLowerCase(),

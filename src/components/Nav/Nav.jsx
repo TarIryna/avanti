@@ -28,7 +28,8 @@ const Nav = () => {
       <S.NavigationWrapper>
         <S.NavigationButton href="/women">Жінкам</S.NavigationButton>
         <S.NavigationButton href="/men">Чоловікам</S.NavigationButton>
-        <S.NavigationButton href="/children">Дітям</S.NavigationButton>
+        <S.NavigationButton href="/boys">Хлопчикам</S.NavigationButton>
+        <S.NavigationButton href="/girls">Дівчатам</S.NavigationButton>
         <S.NavigationButton href="/bags">Аксесуари</S.NavigationButton>
         <S.NavigationSale href="/sale">Акція</S.NavigationSale>
       </S.NavigationWrapper>

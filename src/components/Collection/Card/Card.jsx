@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { changeProductIdAction } from "@/store/actions/product";
 import { useRouter } from "next/navigation";
-import Sizes from "../Product/Sizes";
+import Sizes from "../../Product/Sizes";
 import * as S from "./styles";
 
 const Card = ({ item }) => {
@@ -33,10 +33,10 @@ const Card = ({ item }) => {
           </S.ImageWrapper>
           <div>{sizes?.length > 0 && <Sizes sizes={sizes} item={item} />}</div>
           {isSale ? (
-            <div className="flex-center gap-2">
-              <span className="current-price">{item.price2} грн.</span>
-              <span className="red-price mr-5">{item.price} грн.</span>
-            </div>
+            <S.PriceWrapper>
+              <S.LastPrice>{item.price2} грн.</S.LastPrice>
+              <S.SalePrice>{item.price} грн.</S.SalePrice>
+            </S.PriceWrapper>
           ) : (
             <div className="flex-center">
               <span className="current-price">{item.price} грн.</span>

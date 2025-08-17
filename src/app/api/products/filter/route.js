@@ -2,74 +2,53 @@ import Product from "@/models/product";
 import { connectToDB } from "@/utils/database";
 import { getSortParam } from "@/helpers/getSortParam";
 
-export const GET = async (request) => {
-  const url = new URL(request.url);
-  const searchParams = new URLSearchParams(url.searchParams);
-  const season = searchParams.get("season").toString();
-  const gender = searchParams.get("gender").toString();
-  const view = searchParams.get("view").toString();
-  const size = searchParams.get("size").toString();
-  const color = searchParams.get("color").toString();
-  const material = searchParams.get("material").toString();
-  const pageSize = searchParams.get("pagesize");
-  const page = searchParams.get("page");
-  const sortBy = searchParams.get("sortBy");
-  const sortParam = getSortParam(sortBy);
+export const dynamic = "force-dynamic";
 
-  const queryParams = { view, season, gender, color, material };
-  const filterParams = Object.fromEntries(
-    Object.entries(queryParams).filter(
-      ([_, value]) => value != null && value !== "" && value !== "null"
-    )
-  );
+export const GET = async (request) => {
   try {
     await connectToDB();
-    let result = {};
-    if (size === "null" || size?.length === 0) {
-      if (+page > 1) {
-        const total = await Product.find(filterParams).count();
-        const response = await Product.find(filterParams)
-          .sort(sortParam)
-          .limit(pageSize)
-          .skip((page - 1) * pageSize);
-        result = { total, products: response };
-      } else {
-        const total = await Product.find(filterParams).count();
-        const response = await Product.find(filterParams)
-          .sort(sortParam)
-          .limit(pageSize);
-        if (response) result = { total, products: response };
-      }
-    } else {
-      if (+page > 1) {
-        const total = await Product.find({
-          $or: [{ sizes: { $regex: size } }],
-          filterParams,
-        }).count();
-        const response = await Product.find({
-          $or: [{ sizes: { $regex: size } }],
-          filterParams,
-        })
-          .sort(sortParam)
-          .limit(pageSize)
-          .skip((page - 1) * pageSize);
-        result = { total, products: response };
-      } else {
-        const total = await Product.find({
-          $or: [{ sizes: { $regex: size } }],
-          filterParams,
-        }).count();
-        const response = await Product.find({
-          $or: [{ sizes: { $regex: size } }],
-          filterParams,
-        })
-          .sort(sortParam)
-          .limit(pageSize);
-        result = { total, products: response };
-      }
+
+    const { searchParams } = new URL(request.url);
+
+    const gender = searchParams.get("gender");
+    const season = searchParams.get("season");
+    const view = searchParams.get("view");
+    const sizes = searchParams.get("sizes");
+    const color = searchParams.get("color");
+    const material = searchParams.get("material");
+    const sort = searchParams.get("sort");
+    const limit = Number(searchParams.get("limit") ?? 24);
+    const page = Number(searchParams.get("page") ?? 1);
+
+    // ✅ строим фильтр динамически
+    const filterParams = { gender };
+
+    if (season && season !== "null") filterParams.season = season;
+    if (view && view !== "null") filterParams.view = view;
+    if (color && color !== "null") filterParams.color = color;
+    if (material && material !== "null") filterParams.material = material;
+    if (sizes && sizes !== "null") {
+      filterParams.sizes = { $regex: `\\b${sizes}\\b` };
     }
-    return new Response(JSON.stringify(result), { status: 200 });
+
+    const sortParam = getSortParam(sort);
+
+    // ✅ считаем total
+    const total = await Product.countDocuments(filterParams);
+
+    // ✅ достаем продукты с пагинацией
+    const products = await Product.find(filterParams)
+      .sort(sortParam)
+      .limit(limit)
+      .skip((page - 1) * limit);
+
+    const pages = Math.ceil(total / limit);
+
+    return new Response(JSON.stringify({ total, products, pages }), {
+      status: 200,
+    });
   } catch (error) {
-    return new Response("Failed to fetch all products", { status: 500 });
+    console.error("❌ API filter error:", error);
+    return new Response("Failed to fetch products", { status: 500 });
   }
 };

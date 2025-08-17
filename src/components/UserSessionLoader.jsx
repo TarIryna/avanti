@@ -3,21 +3,19 @@
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import { loginUserAction, logoutUserAction } from "@/store/actions/user";
-import { useUser } from "@/store/selectors";
+import { useDispatch } from "react-redux";
 
 const UserSessionLoader = () => {
   const { data: session, status } = useSession();
-  const user = useUser();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (status === "authenticated" && session?.user) {
-      loginUserAction(session.user);
-    } else {
-      if (user && status !== "authenticated") {
-        logoutUserAction();
-      }
+      dispatch(loginUserAction(session.user));
+    } else if (status === "unauthenticated") {
+      dispatch(logoutUserAction());
     }
-  }, [session, status]);
+  }, [dispatch, session, status]);
 
   return null;
 };
