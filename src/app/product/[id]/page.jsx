@@ -1,14 +1,11 @@
-"use client";
-
+import { fetchProduct } from "@/helpers/useFetchProduct";
 import Product from "@/components/Product/Product";
-import ProviderNext from "@/components/Provider";
 
-const ProductPage = () => {
-  return (
-    <>
-      <Product />
-    </>
-  );
-};
+export default async function ProductPage({ params }) {
+  const { id } = params;
 
-export default ProductPage;
+  // SSR-фетч
+  const product = await fetchProduct({ id });
+
+  return <Product product={product} />;
+}

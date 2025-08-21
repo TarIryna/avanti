@@ -1,37 +1,14 @@
-import { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
-import { useSession } from "next-auth/react";
-import { fetchProduct } from "@/helpers/useFetchProduct";
-import { useProduct } from "@/store/selectors";
 import Sizes from "./Sizes";
-import { loginUserAction } from "@/store/actions/user";
 import Gallary from "./Gallary";
 import Description from "./Description";
 import { capitalize } from "@/helpers/capitalize";
+import * as S from "./styles";
 
-const Product = () => {
-  const { data: session } = useSession();
-  const [images, setImages] = useState([]);
-  if (session) loginUserAction(session);
-  const params = useParams();
-  const id = params?.id;
-  const product = useProduct();
-  const sizes = product?.sizes?.split(" ");
-
-  useEffect(() => {
-    let array = [];
-    if (product)
-      for (const [key, value] of Object.entries(product)) {
-        if (key.includes("image")) {
-          array.push(value);
-        }
-      }
-    setImages(array);
-  }, [product]);
-
-  useEffect(() => {
-    fetchProduct({ id });
-  }, [id]);
+const Product = ({ product }) => {
+  const images = [product.image1, product.image2, product.image3].filter(
+    Boolean
+  );
+  const sizes = product?.sizes ? product.sizes.split(" ") : [];
 
   const sendEmail = () => {
     // TODO
@@ -40,23 +17,20 @@ const Product = () => {
   return (
     <>
       {product && (
-        <div
-          className="product_container"
-          style={{ padding: "10px 10px 20px 10px" }}
-        >
+        <S.ProductWrapper>
           {!!images.length && <Gallary images={images} />}
-          <div className="product_content_block">
-            <h2 className="product_name">{capitalize(product.name)}</h2>
+          <S.Content>
+            <S.Name>{capitalize(product.name)}</S.Name>
             <Description data={product} />
-            {sizes ? (
+            {!!sizes?.length ? (
               <Sizes sizes={sizes} item={product} />
             ) : (
-              <button className="product_button_ask" onClick={sendEmail}>
+              <S.ButtonAsk onClick={sendEmail}>
                 Запитати про наявність
-              </button>
+              </S.ButtonAsk>
             )}
-          </div>
-        </div>
+          </S.Content>
+        </S.ProductWrapper>
       )}
     </>
   );

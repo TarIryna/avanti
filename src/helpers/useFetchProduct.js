@@ -1,14 +1,13 @@
-import {
-  changeProductAction,
-  changeNewOrderByNonauthUser,
-} from "@/store/actions/product";
 export const fetchProduct = async ({ id }) => {
   try {
-    const response = await fetch(`/api/product/${id}`);
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+    const response = await fetch(`${baseUrl}/api/product/${id}`, {
+      cache: "no-store",
+    });
 
     if (response.ok) {
       const data = await response.json();
-      if (data) changeProductAction(data);
+      if (data) return data;
     }
   } catch (error) {
     console.log(error);

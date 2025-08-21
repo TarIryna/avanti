@@ -1,16 +1,18 @@
+"use client";
 import { useState } from "react";
+import * as S from "./styles";
+import Image from "next/image";
+
 const Gallary = ({ images }) => {
-  const [current, setCurrent] = useState(images[0]);
+  const [current, setCurrent] = useState(images?.[0] ?? null);
+  const imagesToDisplay = images.filter(Boolean);
 
   return (
-    <div
-      className={images?.length > 1 ? "gallery_wrapper" : "gallery_container"}
-    >
-      {images?.length > 1 && (
-        <div className="gallery_small_wrapper">
-          {images.map((item, idx) => (
-            <img
-              className="gallery_small_image"
+    <S.GalleryWrapper isGrid={imagesToDisplay?.length > 1}>
+      {imagesToDisplay?.length > 1 && (
+        <S.GallerySmallWrapper>
+          {imagesToDisplay.map((item, idx) => (
+            <S.GallerySmallImage
               src={item}
               alt={`image-${idx}`}
               width="200"
@@ -19,12 +21,14 @@ const Gallary = ({ images }) => {
               onClick={() => setCurrent(item)}
             />
           ))}
+        </S.GallerySmallWrapper>
+      )}
+      {current && (
+        <div>
+          <Image src={current} alt="large image" width="500" height="500" />
         </div>
       )}
-      <div>
-        <img src={current} alt="large image" width="500px" />
-      </div>
-    </div>
+    </S.GalleryWrapper>
   );
 };
 

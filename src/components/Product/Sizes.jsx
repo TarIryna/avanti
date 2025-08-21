@@ -1,6 +1,8 @@
+"use client";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { useUser } from "@/store/selectors";
+import * as S from "./styles";
 
 const Sizes = ({ sizes, item }) => {
   const [size, setSize] = useState("");
@@ -39,31 +41,24 @@ const Sizes = ({ sizes, item }) => {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
-      {!!sizes && <p className="product_sizes">Розміри в наявності:</p>}
-      <div className="sizes-container">
+    <S.SizesWrapper>
+      {!!sizes && <S.ProductSizes>Розміри в наявності:</S.ProductSizes>}
+      <S.SizesContainer>
         {sizes &&
           sizes.map((el) => (
-            <div
-              style={{
-                border: `${el === size ? "3px solid black" : "1px solid grey"}`,
-              }}
-              className="size-block pointer"
+            <S.SizesBlock
+              isActive={el === size}
               onClick={() => setSize(el)}
               key={`${item.code}${el}`}
             >
               {el}
-            </div>
+            </S.SizesBlock>
           ))}
-      </div>
-      <button
-        className="product_sizes_button"
-        onClick={() => onButtonClick()}
-        disabled={!size}
-      >
+      </S.SizesContainer>
+      <S.SizesButton onClick={() => onButtonClick()} disabled={!size}>
         Додати в кошик
-      </button>
-    </div>
+      </S.SizesButton>
+    </S.SizesWrapper>
   );
 };
 export default Sizes;

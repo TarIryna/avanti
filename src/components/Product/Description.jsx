@@ -1,23 +1,22 @@
-import { useState } from "react";
+import * as S from "./styles";
 const Description = ({ data }) => {
-  console.log(data);
   return (
     <div>
       <p>
-        <span className="product_price_title">Ціна: </span>
-        <span className="product_price">{data.price} грн</span>
+        <S.DescriptionTitle>Ціна: </S.DescriptionTitle>
+        <S.DescriptionPrice>{data.price} грн</S.DescriptionPrice>
       </p>
       <p>
-        <span className="product_title">Матеріал верху: </span>
-        <span className="product_value">{data.material_top}</span>
+        <S.DescriptionTitle>Матеріал верху: </S.DescriptionTitle>
+        <S.DescriptionValue>{data.material_top}</S.DescriptionValue>
       </p>
       <p>
-        <span className="product_title">Матеріал всередині: </span>
-        <span className="product_value">{data.material_inside}</span>
+        <S.DescriptionTitle>Матеріал всередині: </S.DescriptionTitle>
+        <S.DescriptionValue>{data.material_inside}</S.DescriptionValue>
       </p>
       <p>
-        <span className="product_title">Колір: </span>
-        <span className="product_value">{data.color}</span>
+        <S.DescriptionTitle>Колір: </S.DescriptionTitle>
+        <S.DescriptionValue>{data.color}</S.DescriptionValue>
       </p>
     </div>
   );
