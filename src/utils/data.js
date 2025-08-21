@@ -222,6 +222,7 @@ const makeUnique = (array) => {
 };
 
 export const views = (season, gender) => {
+  if (gender === "bags") return [];
   let data = [];
   const filterByGender = gender
     ? tabsData.find((item) => item.query === gender).menu
@@ -292,7 +293,7 @@ export const materialList = [
   {
     name: "Екошкіра",
     query: "pu",
-    filterName: "экокожа",
+    filterName: "Екошкіра",
   },
 ];
 

@@ -21,14 +21,21 @@ const Filter = () => {
   // универсальная функция для изменения параметров в URL
   const updateParam = (key, value) => {
     const query = new URLSearchParams(searchParams.toString());
+    let genderValue = gender;
     if (value) {
-      query.set(key, value);
+      switch (key) {
+        case "gender":
+          genderValue = value;
+          break;
+        default:
+          query.set(key, value);
+      }
     } else {
       query.delete(key);
     }
     query.set("page", "1"); // сброс страницы при смене фильтра
 
-    router.push(`/${gender}?${query.toString()}`);
+    router.push(`/${genderValue}?${query.toString()}`);
   };
 
   const gender = params.gender || "";

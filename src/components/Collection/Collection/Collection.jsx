@@ -2,14 +2,15 @@
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Pagination } from "@mui/material";
-import List from "./CardList";
-import Filter from "./Filter";
+import List from "../CardList";
+import Filter from "../Filter";
+import * as S from "./styles";
 
 export default function Collection({ initialData }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pages =
-    initialData?.total && initialData.total / (initialData.limit ?? 24);
+    !!initialData?.total && initialData.total / (initialData.limit ?? 24);
   const pathname = usePathname();
   const page = Number(searchParams.get("page") ?? 1);
 
@@ -23,7 +24,7 @@ export default function Collection({ initialData }) {
     <section className="container page">
       <Filter />
       {initialData && <List data={initialData.products} />}
-      {initialData && pages && pages > 1 && (
+      {!!pages && pages > 1 && (
         <Pagination
           count={initialData.pages}
           page={page}
@@ -32,6 +33,9 @@ export default function Collection({ initialData }) {
           variant="outlined"
           shape="rounded"
         />
+      )}
+      {initialData?.total === 0 && (
+        <S.Message>По вашому запиту нічого не знайдено</S.Message>
       )}
     </section>
   );

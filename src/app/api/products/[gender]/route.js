@@ -7,15 +7,16 @@ export const GET = async (request, { params }) => {
     const { searchParams } = new URL(request.url);
 
     const gender = searchParams.get("gender");
+    const type = gender === "bags" ? "bags" : "shoes";
     const view = searchParams.get("view");
     const season = searchParams.get("season");
     const size = searchParams.get("size");
     const material = searchParams.get("material");
     const color = searchParams.get("color");
-    const sortBy = searchParams.get("sortBy");
+    const sort = searchParams.get("sort");
     const page = Number(searchParams.get("page") ?? 1);
     const limit = Number(searchParams.get("limit") ?? 24);
-    const query = { gender };
+    const query = { gender, type };
 
     // Добавляешь фильтры только если они есть
     if (view) query.view = view;
@@ -23,7 +24,7 @@ export const GET = async (request, { params }) => {
     if (size) query.size = size;
     if (material) query.material = material;
     if (color) query.color = color;
-    if (sortBy) query.sortBy = sortBy;
+    if (sort) query.sort = sort;
 
     const products = await Product.find(query)
       .limit(limit)
@@ -39,12 +40,19 @@ export const GET = async (request, { params }) => {
 export const POST = async (request, { params }) => {
   try {
     await connectToDB();
-    const product = await Product.find({
-      gender: params?.gender,
-    }).limit(36);
-    if (!product) return new Response("Product Not Found", { status: 404 });
-
-    return new Response(JSON.stringify(product), { status: 200 });
+    if (params.gender === "bags") {
+      const product = await Product.find({
+        type: params?.gender,
+      }).limit(24);
+      if (!product) return new Response("Product Not Found", { status: 404 });
+      return new Response(JSON.stringify(product), { status: 200 });
+    } else {
+      const product = await Product.find({
+        gender: params?.gender,
+      }).limit(24);
+      if (!product) return new Response("Product Not Found", { status: 404 });
+      return new Response(JSON.stringify(product), { status: 200 });
+    }
   } catch (error) {
     return new Response("Internal Server Error", { status: 500 });
   }

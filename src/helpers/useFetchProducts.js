@@ -11,6 +11,7 @@ export const fetchProductsByParams = async ({
   sort,
   material,
   size,
+  type = "shoes",
   limit = 24,
   page = 1,
 }) => {
@@ -23,10 +24,13 @@ export const fetchProductsByParams = async ({
     if (size) params.sizes = size;
     if (material) params.material = material;
     if (sort) params.sort = sort;
+    if (type) params.type = type;
+
     const queryString = new URLSearchParams(params).toString();
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
     const response = await fetch(
-      `${baseUrl}/api/products/filter?${queryString}`
+      `${baseUrl}/api/products/filter?${queryString}`,
+      { cache: "no-store" }
     );
     if (response.ok) {
       const data = await response.json();
@@ -45,7 +49,8 @@ export const fetchProductsByQuery = async ({
   try {
     changeIsLoadingAction(true);
     const response = await fetch(
-      `/api/products/search?query=${query}&sortBy=${sortBy}&limit=${limit}&page=${page}`
+      `/api/products/search?query=${query}&sortBy=${sortBy}&limit=${limit}&page=${page}`,
+      { cache: "no-store" }
     );
 
     if (response.ok) {

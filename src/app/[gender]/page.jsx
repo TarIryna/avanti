@@ -1,4 +1,4 @@
-import Collection from "@/components/Collection/Collection";
+import Collection from "@/components/Collection/Collection/Collection";
 import { fetchProductsByParams } from "@/helpers/useFetchProducts";
 import { redirect } from "next/navigation";
 
@@ -11,6 +11,8 @@ export default async function PageGender({ params, searchParams }) {
   const color = searchParams?.color;
   const size = searchParams?.size;
   const sort = searchParams?.sort;
+  const material = searchParams?.material;
+  const type = searchParams?.type;
   const basePath = `/${params.gender}`;
   const queryParams = { gender, page, limit };
   if (season) queryParams.season = season;
@@ -18,10 +20,16 @@ export default async function PageGender({ params, searchParams }) {
   if (color) queryParams.color = color;
   if (size) queryParams.size = size;
   if (sort) queryParams.sort = sort;
-  const query = new URLSearchParams(searchParams);
+  if (material) queryParams.material = material;
+  if (type) queryParams.type = type;
+  const query = new URLSearchParams(queryParams);
   // добавляем дефолтные, если их нет
   if (!query?.has("page")) query.set("page", "1");
   if (!query?.has("limit")) query.set("limit", "24");
+
+  if (gender === "kids") {
+    return redirect(`girls?${query.toString()}`);
+  }
 
   // если чего-то не хватало — делаем redirect
   if (!searchParams.page || !searchParams.limit) {

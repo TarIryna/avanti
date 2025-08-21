@@ -47,6 +47,9 @@ const ProductSchema = new Schema(
     material_inside: {
       type: String,
     },
+    type: {
+      type: String,
+    },
   },
   { versionKey: false, timestamps: true }
 );
