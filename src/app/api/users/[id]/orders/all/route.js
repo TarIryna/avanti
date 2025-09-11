@@ -8,7 +8,7 @@ export const GET = async (request, { params }) => {
       creator: params.id,
     }).populate("creator");
 
-    return new Response(JSON.stringify(orders), { status: 200 });
+    return new Response(JSON.stringify(orders ?? []), { status: 200 });
   } catch (error) {
     return new Response("Failed to fetch prompts created by user", {
       status: 500,

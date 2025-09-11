@@ -1,20 +1,22 @@
-import { useUser } from "@/store/selectors";
-import { useEffect, useState } from "react";
+// import { useUser } from "@/store/selectors";
+// import { useEffect, useState } from "react";
 
 const Orders = () => {
-  const { user, isAuth } = useUser();
-  const [orders, setOrders] = useState([]);
+  // const { user, isAuth } = useUser();
+  // const [orders, setOrders] = useState([]);
+  // console.log(orders);
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      const response = fetch(`/api/users/${user.id}/orders/all`);
-      const data = await response.json();
+  // useEffect(() => {
+  //   const fetchOrders = async () => {
+  //     const response = fetch(`/api/users/${user.id}/orders/all`);
+  //     const data = await response.json();
 
-      setOrders(data);
-    };
+  //     setOrders(data);
+  //   };
 
-    if (user.id) fetchOrders();
-  }, [user.id]);
+  //   if (user.id) fetchOrders();
+  //   else push("/");
+  // }, [user.id]);
 
   const handleEdit = (post) => {
     push(`/update-prompt?id=${post._id}`);

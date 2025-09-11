@@ -1,9 +1,16 @@
+"use client";
 import { useUser } from "@/store/selectors";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const Returns = () => {
-  // const { user, isAuth } = useUser();
+  const { user, isAuth } = useUser();
+  const { push } = useRouter();
   // const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    if (!isAuth) push("/");
+  }, [isAuth]);
 
   // useEffect(() => {
   //   const fetchOrders = async () => {

@@ -23,6 +23,7 @@
 
 .app {
   position: relative;
+  width: 100vw;
 
 }
 .container {
@@ -53,7 +54,7 @@
 }
 
 .page {
-  min-height: calc(100svh - 220px);
+  min-height: calc(100svh - 240px);
   padding-top: 20px;
   padding-bottom: 20px;
 }
@@ -228,9 +229,7 @@
   left: 50%;
   transform: translateX(-50%);
  }
- .navigation {
- 
- }
+
  .main-logo{
   width: auto;
   height: 100px;

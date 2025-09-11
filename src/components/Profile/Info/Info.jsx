@@ -1,4 +1,4 @@
-import { useSession } from "next-auth/react";
+"use client";
 import { Button } from "@mui/material";
 import { MODALS } from "@/constants/constants";
 import { registerDynamicModal } from "@/helpers/useDynamicModal";
@@ -6,6 +6,9 @@ import * as S from "./styles";
 import { useModal } from "@ebay/nice-modal-react";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useUser } from "@/store/selectors";
+import { PageContainer } from "@/components";
+import { useEffect } from "react";
 
 registerDynamicModal(
   MODALS.UPDATE_PROFILE,
@@ -13,18 +16,20 @@ registerDynamicModal(
 );
 
 const Info = () => {
-  const { data: session } = useSession();
   const { show: showUpdate } = useModal(MODALS.UPDATE_PROFILE);
-  const user = session?.user;
+  const { user, isAuth } = useUser();
   const { push } = useRouter();
 
-  const onSignOut = () => {
-    signOut();
-    push("/");
+  const onSignOut = async () => {
+    await signOut();
   };
 
+  useEffect(() => {
+    if (!isAuth) push("/");
+  }, [isAuth]);
+
   return (
-    <>
+    <PageContainer>
       <h2>Дані профіля</h2>
       <S.Line>
         <p>Ім'я:</p>
@@ -50,9 +55,9 @@ const Info = () => {
         <p>Реквізити доставки:</p>
         <p>{user?.adress}</p>
       </S.Line>
-      <Button onClick={() => showUpdate(user)}>Оновити дані</Button>
+      <Button onClick={() => showUpdate({ user })}>Оновити дані</Button>
       <Button onClick={onSignOut}>Вийти з аккаунту</Button>
-    </>
+    </PageContainer>
   );
 };
 

@@ -26,11 +26,21 @@ const Nav = () => {
         <Image src={Logo} alt="logo" width={150} height={69} />
       </S.Logo>
       <S.NavigationWrapper>
-        <S.NavigationButton href="/women">Жінкам</S.NavigationButton>
-        <S.NavigationButton href="/men">Чоловікам</S.NavigationButton>
-        <S.NavigationButton href="/boys">Хлопчикам</S.NavigationButton>
-        <S.NavigationButton href="/girls">Дівчатам</S.NavigationButton>
-        <S.NavigationButton href="/bags">Аксесуари</S.NavigationButton>
+        <S.NavigationButton href="/women?page=1&limit=24">
+          Жінкам
+        </S.NavigationButton>
+        <S.NavigationButton href="/men?page=1&limit=24">
+          Чоловікам
+        </S.NavigationButton>
+        <S.NavigationButton href="/boys?page=1&limit=24">
+          Хлопчикам
+        </S.NavigationButton>
+        <S.NavigationButton href="/girls?page=1&limit=24">
+          Дівчатам
+        </S.NavigationButton>
+        <S.NavigationButton href="/women?type=bags&page=1&limit=24">
+          Аксесуари
+        </S.NavigationButton>
         <S.NavigationSale href="/sale">Акція</S.NavigationSale>
       </S.NavigationWrapper>
       <Search />

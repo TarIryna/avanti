@@ -41,9 +41,8 @@ const handler = NextAuth({
         }
 
         return {
+          ...user,
           id: user._id.toString(),
-          email: user.email,
-          name: user.username,
         };
       },
     }),
@@ -61,11 +60,15 @@ const handler = NextAuth({
     async session({ session }) {
       // store the user id from MongoDB to session
       const sessionUser = await User.findOne({ email: session.user.email });
+
+      const plainUser =
+        typeof sessionUser.toObject === "function"
+          ? sessionUser.toObject()
+          : sessionUser;
+
       session.user = {
-        id: sessionUser._id.toString(),
-        email: sessionUser.email,
-        name: sessionUser.username,
-        image: sessionUser.image,
+        ...plainUser,
+        id: plainUser._id.toString(),
       };
       if (!!session.user) {
         loginUserAction();

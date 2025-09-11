@@ -54,11 +54,14 @@ export const NavigationWrapper = styled.div`
 `;
 
 export const ButtonsWrapper = styled.div`
-  display: grid;
+  display: flex;
   gap: 10px;
   align-items: center;
-  grid-template-columns: repeat(3, 30px);
   margin-left: 20px;
+  > div,
+  a {
+    width: 30px;
+  }
 `;
 
 export const Logo = styled(Link)`

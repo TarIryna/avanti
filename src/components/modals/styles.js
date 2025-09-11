@@ -5,7 +5,6 @@ export const Wrapper = styled.div`
   display: flex;
   border-radius: 16px;
   overflow: hidden;
-  background-color: var(--ost-grey-700);
   ${media.mobile} {
     border-radius: 0;
   }

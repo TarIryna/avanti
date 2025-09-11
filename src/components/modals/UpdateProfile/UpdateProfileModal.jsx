@@ -8,13 +8,15 @@ import { useForm, FormProvider } from "react-hook-form";
 import { Input } from "@/components/ui";
 import { Button } from "@mui/material";
 import { Wrapper, Container, Content } from "../styles";
+import { toast } from "react-hot-toast";
+import { changeUserInfoAction } from "@/store/actions/neworder";
 import * as S from "./styles";
 
 const UpdateProfileModal = create(({ id }) => {
   const { hide, args } = useModal(MODALS.UPDATE_PROFILE);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const user = args;
-  const userId = user?._id;
+  const { user } = args;
+  const userId = user?.id;
 
   const methods = useForm({ mode: "onSubmit" });
   const {
@@ -27,7 +29,7 @@ const UpdateProfileModal = create(({ id }) => {
 
   const updateProfile = async (data) => {
     setIsSubmitting(true);
-    if (!userId) return alert("Missing Id!");
+    if (!user.email) return alert("Missing email!");
     try {
       const response = await fetch(`/api/users/${userId}`, {
         method: "PATCH",
@@ -37,7 +39,10 @@ const UpdateProfileModal = create(({ id }) => {
       });
 
       if (response.ok) {
-        console.log("updated");
+        toast.success("Дані оновлено");
+        const updatedUser = await response.json();
+        changeUserInfoAction(updatedUser);
+        hide();
       }
     } catch (error) {
       console.log(error);
@@ -47,7 +52,6 @@ const UpdateProfileModal = create(({ id }) => {
   };
 
   const onSubmit = (data) => {
-    console.log(data);
     updateProfile(data);
   };
 
@@ -61,7 +65,7 @@ const UpdateProfileModal = create(({ id }) => {
               <S.Form onSubmit={handleSubmit(onSubmit)} autoComplete="on">
                 <Input
                   placeholder="Ім'я"
-                  {...register("name", { required: true })}
+                  {...register("username", { required: true })}
                   error={errors?.name}
                   tabIndex={1}
                   enterKeyHint="next"
