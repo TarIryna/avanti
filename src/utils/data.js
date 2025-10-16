@@ -225,7 +225,7 @@ export const views = (season, gender) => {
   if (gender === "bags") return [];
   let data = [];
   const filterByGender = gender
-    ? tabsData.find((item) => item.query === gender).menu
+    ? tabsData.find((item) => item.query === gender)?.menu
     : null;
   const filterBySeason = season
     ? seasons.find((item) => item.link === season).name

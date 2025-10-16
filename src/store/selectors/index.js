@@ -12,3 +12,5 @@ export const useProducts = () => useSelector((state) => state.products);
 
 export const useProduct = () =>
   useSelector((state) => state.product.productInfo);
+
+export const useCart = () => useSelector((state) => state.cart);

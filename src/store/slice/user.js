@@ -21,8 +21,12 @@ export const userSlice = createSlice({
     changeAuth: (state, action) => {
       state.isAuth = action.payload;
     },
-    changeUserDeliveryData: (state, action) => {
+    updateUser: (state, action) => {
       state.user.user = action.payload;
+    },
+    changeUserDeliveryData: (state, action) => {
+      state.user.user.city = action.payload.city;
+      state.user.user.address = action.payload.address;
     },
   },
 });

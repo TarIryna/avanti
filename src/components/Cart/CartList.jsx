@@ -1,11 +1,13 @@
 import CartItem from "./CartItem/CartItem";
 
 const CartList = ({ products, status }) => {
-  const total = products.reduce(
-    (accumulator, item) =>
-      accumulator + Number(item.price) * Number(item.quantity ?? 1),
-    0
-  );
+  const total =
+    !!products &&
+    products?.reduce(
+      (accumulator, item) =>
+        accumulator + Number(item.price) * Number(item.quantity ?? 1),
+      0
+    );
 
   return (
     <div>

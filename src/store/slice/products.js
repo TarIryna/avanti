@@ -92,7 +92,6 @@ export const productsSlice = createSlice({
       state.isLoading = action.payload;
     },
     initProducts: (state, action) => {
-      console.log(action.payload);
       state.products = action.payload;
     },
   },

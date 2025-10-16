@@ -8,15 +8,16 @@ import { useChangeOrderStatus } from "@/helpers/useChangeOrderStatus";
 import { FormProvider, useForm } from "react-hook-form";
 
 import CartList from "./CartList";
-import CartShipping from "./CartShipping";
 import CartClientInfo from "./CartClientInfo";
 import { useState } from "react";
+import * as S from "./styles";
+import DeliveryForm from "./DeliveryForm";
 
-const CartInProcess = ({ orders }) => {
-  console.log("in progress");
+const DeliveryCart = ({ onSuccess }) => {
   const [needUpdate, setNeedUpdate] = useState(false);
   const methods = useForm({ mode: "onSubmit" });
   const { handleSubmit, register } = methods;
+  const { isAuth, user } = useUser();
 
   const handleOrder = (deliveryData) => {
     const orderId = generateId();
@@ -74,45 +75,46 @@ const CartInProcess = ({ orders }) => {
   };
 
   const onSubmit = (e) => {
-    setNeedUpdate(true);
-    e.preventDefault();
-    const name = e.target.elements.name.value;
-    const surname = e.target.elements.surname.value;
-    const phone = e.target.elements.phone.value;
-    const isViber = e.target.elements.viber.checked;
-    const city = e.target.elements.city.value;
-    const adress = e.target.elements.adress.value;
+    console.log(e);
+    // setNeedUpdate(true);
+    // e.preventDefault();
+    // const name = user?.name ?? e.target.elements.name.value;
+    // const surname = user.surname ?? e.target.elements.surname.value;
+    // const phone = user?.phone ?? e.target.elements.phone.value;
+    // const isViber = e.target.elements.viber.checked;
+    // const city = e.target.elements.city.value;
+    // const adress = e.target.elements.adress.value;
 
-    const orderData = {
-      name,
-      surname,
-      phone,
-      isViber,
-      city,
-      adress,
-    };
-    const isFullInfo = checkInfo(orderData);
-    if (!isFullInfo) toast.error("Не вся інформація заповнена");
-    else {
-      // const result = confirm("Зберегти реквізити доставки?");
-      updateUser(orderData, userId);
-      toast.info("Очікуйте підтвердження замовлення!");
-      handleOrder(orderData);
-    }
-    // else handleOrder("new");
-    setNeedUpdate(false);
+    // const orderData = {
+    //   name,
+    //   surname,
+    //   phone,
+    //   isViber,
+    //   city,
+    //   adress,
+    // };
+    // console.log(orderData);
+    // const isFullInfo = checkInfo(orderData);
+    // if (!isFullInfo) toast.error("Не вся інформація заповнена");
+    // else {
+    //   updateUser(orderData, userId);
+    //   toast.info("Очікуйте підтвердження замовлення!");
+    //   handleOrder(orderData);
+    // }
+    // // else handleOrder("new");
+    // setNeedUpdate(false);
   };
 
   return (
     <div>
-      <FormProvider>
-        <form className="cart_shipping__form" onSubmit={onSubmit}>
-          <CartList status="progress" products={orders} />
-          {/* <CartClientInfo needUpdate={needUpdate} register={register} /> */}
-          <CartShipping />
-        </form>
+      <FormProvider {...methods}>
+        <S.Form onSubmit={handleSubmit(onSubmit)}>
+          <CartClientInfo needUpdate={needUpdate} register={register} />
+          <DeliveryForm register={register} />
+          <button type="submit">Відправити замовлення</button>
+        </S.Form>
       </FormProvider>
     </div>
   );
 };
-export default CartInProcess;
+export default DeliveryCart;

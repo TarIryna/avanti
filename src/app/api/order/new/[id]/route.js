@@ -1,4 +1,4 @@
-import Order from "@/models/orders";
+import Order from "@/models/order";
 import { connectToDB } from "@/utils/database";
 
 export const DELETE = async (request, { params }) => {

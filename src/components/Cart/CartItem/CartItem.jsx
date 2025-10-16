@@ -6,28 +6,23 @@ import { useUser } from "@/store/selectors";
 import IconDelete from "@/assets/icons/delete.svg";
 import Image from "next/image";
 import * as S from "./styles";
+import { useDispatch } from "react-redux";
+import { deleteItenFromCart } from "@/store/slice/cart";
 
 const CartItem = ({ admin, data, status }) => {
   const userId = useUser()?.user?.id;
+  const dispatch = useDispatch();
+
   const deleteOrder = async () => {
     try {
-      const response = await fetch(`/api/order/new/${data.code.toString()}`, {
+      dispatch(deleteItenFromCart(data));
+      const response = await fetch(`/api/order/new/${data._id}`, {
         method: "DELETE",
       });
 
-      // useEffect(() => {
-      //   const localStorageData =
-      //     window &&
-      //     typeof window !== "undefined" &&
-      //     localStorage.getItem("cart");
-      //   if (localStorageData) {
-      //     getNewOrder(localStorageData);
-      //   }
-      // }, [isAuth]);
-
       if (response.ok) {
         toast.success("Успішно видалено із кошика!");
-        useFetchAllOrders(userId);
+        useFetchAllOrders(userId, dispatch);
       }
     } catch (error) {
       console.log(error);

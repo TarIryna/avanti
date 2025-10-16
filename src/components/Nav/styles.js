@@ -101,3 +101,22 @@ export const Menu = styled.div`
     height: 100%;
   }
 `;
+
+export const CartLink = styled(Link)`
+  position: relative;
+`;
+
+export const LabelCart = styled.div`
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: #3dbc3d;
+  border-radius: 50%;
+  top: -4px;
+  right: 1px;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+`;

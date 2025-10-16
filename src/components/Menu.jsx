@@ -58,7 +58,7 @@ const Menu = ({ anchorRef }) => {
   const getLink = (item) => {
     changeToInitialAction();
     const routeText = menuData[submenu][subtab][item];
-    const route = routeText.replace("-", "/");
+    const route = routeText?.replace("-", "/");
     return route;
   };
 
@@ -95,7 +95,7 @@ const Menu = ({ anchorRef }) => {
                 >
                   {menuData &&
                     menu &&
-                    menu.map((tab) => (
+                    menu?.map((tab) => (
                       <MenuItem
                         key={tab}
                         onClick={() => openMenu(tab)}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useUser } from "@/store/selectors";
 import CartForm from "./CartForm/CartForm";
-import { Input } from "../ui";
+import { ViberInput, ViberWrapper } from "./styles";
 
 const CartClientInfo = ({ register }) => {
   const { user, isAuth } = useUser();
@@ -35,20 +35,21 @@ const CartClientInfo = ({ register }) => {
       <h3>Заповніть особисті дані:</h3>
       {!isAuth && <CartForm register={register} />}
 
-      <label>
-        Якщо хочете, щоб менеджер зв'язався по вайберу, зробіть відмітку
-      </label>
-      <Input
-        onChange={onChangeViber}
-        className="cart_shipping__input"
-        type="checkbox"
-        placeholder="viber"
-        {...register("viber", { required: true })}
-        tabIndex={1}
-        enterKeyHint="next"
-        defaultValue={isViber}
-        onBlur={(e) => onBlurEmail(e)}
-      />
+      <ViberWrapper>
+        <label>
+          Якщо хочете, щоб менеджер зв'язався по вайберу, зробіть відмітку
+        </label>
+        <ViberInput
+          onChange={onChangeViber}
+          type="checkbox"
+          placeholder="viber"
+          {...register("viber")}
+          tabIndex={1}
+          enterKeyHint="next"
+          defaultValue={isViber}
+          onBlur={(e) => onBlurEmail(e)}
+        />
+      </ViberWrapper>
     </div>
   );
 };

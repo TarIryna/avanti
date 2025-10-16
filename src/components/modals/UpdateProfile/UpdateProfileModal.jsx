@@ -9,7 +9,7 @@ import { Input } from "@/components/ui";
 import { Button } from "@mui/material";
 import { Wrapper, Container, Content } from "../styles";
 import { toast } from "react-hot-toast";
-import { changeUserInfoAction } from "@/store/actions/neworder";
+import { updateUserAction } from "@/store/actions/user";
 import * as S from "./styles";
 
 const UpdateProfileModal = create(({ id }) => {
@@ -41,7 +41,7 @@ const UpdateProfileModal = create(({ id }) => {
       if (response.ok) {
         toast.success("Дані оновлено");
         const updatedUser = await response.json();
-        changeUserInfoAction(updatedUser);
+        updateUserAction(updatedUser);
         hide();
       }
     } catch (error) {
