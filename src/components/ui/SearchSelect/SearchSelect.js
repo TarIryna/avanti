@@ -51,14 +51,14 @@ const SearchSelect = ({
     if (query) debouncedFetch(query);
   }, [query, debouncedFetch]);
 
-  const handleSelect = (e) => {
-    const value = e.target.value;
-    const option = options.find((opt) => opt.value === value) || null;
-    setSelected(option);
-    onChange?.(value);
-    setIsVisibleInput(false);
-    setQuery(option.label);
-  };
+const handleSelect = (e) => {
+  const value = e.target.value;
+  const option = options.find((opt) => opt.value === value) || null;
+  setSelected(option);
+  onChange?.(option);
+  setIsVisibleInput(false);
+  setQuery(option?.label || "");
+};
 
   return (
     <S.Wrapper>

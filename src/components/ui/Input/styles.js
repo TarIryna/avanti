@@ -14,6 +14,7 @@ export const InputWrapper = styled.div`
   position: relative;
   width: 100%;
   height: 40px;
+  ${({isBorder}) => (isBorder && 'border: 1px solid grey; border-radius: 14px;')}
 `;
 
 export const Recommended = styled.h4``;
@@ -100,7 +101,7 @@ export const ShowPass = styled(RightIconWrapper)`
 export const Input = styled.input`
   flex: 1 1 auto;
   width: 100%;
-  height: 44px;
+  height: 100%;
   font-weight: 400;
   font-size: 14px;
   line-height: 120%;
@@ -138,3 +139,11 @@ export const ButtonShow = styled.button`
 `;
 
 export const Error = styled.div``;
+
+export const Label = styled.div`
+    position: absolute;
+    top: 0;
+    left: 18px;
+    font-size: 8px;
+
+`

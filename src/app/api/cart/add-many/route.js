@@ -1,49 +1,49 @@
 import { NextResponse } from "next/server";
 import { connectToDB } from "@/utils/database";
-import Order from "@/models/order";
+import Cart from "@/models/cart";
 import Product from "@/models/product";
 
+// ========================
 // POST /api/cart/add-many
-export async function POST(req) {
+// Добавление нескольких товаров сразу
+// ========================
+export async function ADD_MANY(req) {
   try {
     await connectToDB();
-
     const { items, userId } = await req.json();
-    console.log("items in api add-many", items, "user id", userId);
 
-    if (!Array.isArray(items) || items.length === 0) {
+    if (!Array.isArray(items) || items.length === 0)
       return NextResponse.json({ error: "No items provided" }, { status: 400 });
-    }
 
-    // добавляем каждый товар
-    const newOrders = [];
+    let cart = await Cart.findOne({ creator: userId, status: "new" });
+    if (!cart) cart = new Cart({ creator: userId, items: [] });
 
     for (const item of items) {
       const product = await Product.findById(item.id);
-      if (!product) {
-        console.warn("Product not found:", item.id);
-        continue; // пропускаем или выбрасываем ошибку
+      if (!product) continue;
+
+      const existingIndex = cart.items.findIndex(
+        (i) => i.product.toString() === product._id.toString() && i.size === item.size
+      );
+
+      if (existingIndex >= 0) {
+        cart.items[existingIndex].quantity += item.quantity || 1;
+      } else {
+        cart.items.push({
+          product: product._id,
+          price: item.price,
+          image: item.image || "",
+          size: item.size,
+          code: item.code,
+          quantity: item.quantity || 1,
+        });
       }
-
-      const order = await Order.create({
-        creator: userId,
-        product: product._id, // гарантируем правильный ObjectId
-        price: item.price,
-        image: item.image || "",
-        size: item.size,
-        quantity: item.quantity || 1,
-        status: "new",
-      });
-
-      newOrders.push(order);
     }
 
-    return NextResponse.json(
-      { success: true, items: newOrders },
-      { status: 201 }
-    );
+    await cart.save();
+    return NextResponse.json(cart, { status: 201 });
   } catch (error) {
-    console.error("Error in POST /api/cart/add-many:", error);
+    console.error("POST /api/cart/add-many error:", error);
     return NextResponse.json({ error: "Failed to add items" }, { status: 500 });
   }
 }

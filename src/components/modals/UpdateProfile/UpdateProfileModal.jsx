@@ -97,11 +97,11 @@ const UpdateProfileModal = create(({ id }) => {
                 />
                 <Input
                   placeholder="Реквізити доставки"
-                  {...register("adress", { required: true })}
-                  error={errors?.adress}
+                  {...register("address", { required: true })}
+                  error={errors?.address}
                   tabIndex={1}
                   enterKeyHint="done"
-                  defaultValue={user?.adress}
+                  defaultValue={user?.address}
                 />
                 <Button type="submit">Оновити</Button>
               </S.Form>

@@ -50,6 +50,9 @@ const ProductSchema = new Schema(
     type: {
       type: String,
     },
+    small_image: {
+      type: String,
+    }
   },
   { versionKey: false, timestamps: true }
 );

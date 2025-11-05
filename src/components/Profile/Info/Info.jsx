@@ -6,7 +6,7 @@ import * as S from "./styles";
 import { useModal } from "@ebay/nice-modal-react";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useUser } from "@/store/selectors";
+import { useUserSession } from "@/fetchActions/user/useUser";
 import { PageContainer } from "@/components";
 import { useEffect } from "react";
 
@@ -17,7 +17,8 @@ registerDynamicModal(
 
 const Info = () => {
   const { show: showUpdate } = useModal(MODALS.UPDATE_PROFILE);
-  const { user, isAuth } = useUser();
+  const { data: user, isSuccess } = useUserSession();
+  const isAuth = !!user && isSuccess;
   const { push } = useRouter();
 
   const onSignOut = async () => {
@@ -53,7 +54,7 @@ const Info = () => {
       </S.Line>
       <S.Line>
         <p>Реквізити доставки:</p>
-        <p>{user?.adress}</p>
+        <p>{user?.address}</p>
       </S.Line>
       <Button onClick={() => showUpdate({ user })}>Оновити дані</Button>
       <Button onClick={onSignOut}>Вийти з аккаунту</Button>

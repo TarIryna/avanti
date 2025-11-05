@@ -36,7 +36,6 @@ export const GET = async (request) => {
 
     // ✅ считаем total
     const total = await Product.countDocuments(filterParams);
-    console.log(filterParams);
     // ✅ достаем продукты с пагинацией
     const products = await Product.find(filterParams)
       .sort(sortParam)

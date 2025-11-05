@@ -117,7 +117,7 @@ const RegistrationForm = () => {
         <Input
           type="text"
           placeholder="Адреса доставки"
-          {...register("adress", { required: true })}
+          {...register("address", { required: true })}
           tabIndex={8}
           enterKeyHint="next"
         />

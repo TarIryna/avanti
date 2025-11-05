@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { useUser } from "@/store/selectors";
+import { useUserSession } from "@/fetchActions/user/useUser";
 import CartForm from "./CartForm/CartForm";
-import { ViberInput, ViberWrapper } from "./styles";
+import { ViberInput, ViberWrapper, List } from "./styles";
 
 const CartClientInfo = ({ register }) => {
-  const { user, isAuth } = useUser();
+  const { data: user, isLoading, isError } = useUserSession();
   const userId = user?.id;
   const userName = user?.name;
   const userSurname = user?.surname;
@@ -31,9 +31,9 @@ const CartClientInfo = ({ register }) => {
   const allLinesComplete = name && surname && phone;
 
   return (
-    <div>
+    <List>
       <h3>Заповніть особисті дані:</h3>
-      {!isAuth && <CartForm register={register} />}
+      <CartForm register={register} />
 
       <ViberWrapper>
         <label>
@@ -50,7 +50,7 @@ const CartClientInfo = ({ register }) => {
           onBlur={(e) => onBlurEmail(e)}
         />
       </ViberWrapper>
-    </div>
+    </List>
   );
 };
 export default CartClientInfo;

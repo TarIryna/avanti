@@ -24,11 +24,19 @@ export const GET = async (request, { params }) => {
       const total = await Product.find({
         $or: [{ name: { $regex: query } }],
       }).count();
+      // const response = await Product.find({
+      //   $or: [{ name: { $regex: query } }],
+      // })
+      //   .limit(limit)
+      //   .skip((page - 1) * limit);
       const response = await Product.find({
-        $or: [{ name: { $regex: query } }],
+        $or: [{ name: { $regex: query, $options: "i" } }],
       })
         .limit(limit)
-        .skip((page - 1) * limit);
+        .skip((page - 1) * limit)
+        .lean();
+
+        console.log(response)
 
       result = { products: response, total };
     }

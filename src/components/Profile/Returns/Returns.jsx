@@ -1,10 +1,11 @@
 "use client";
-import { useUser } from "@/store/selectors";
+import { useUserSession } from "@/fetchActions/user/useUser";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const Returns = () => {
-  const { user, isAuth } = useUser();
+  const { data: user, isSuccess} = useUserSession();
+  const isAuth = !!user && isSuccess
   const { push } = useRouter();
   // const [orders, setOrders] = useState([]);
 

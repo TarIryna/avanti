@@ -4,7 +4,7 @@ const initialState = {
   userId: "",
   orders: [],
   city: null,
-  adress: null,
+  address: null,
   name: null,
   surname: null,
   phone: null,
@@ -32,13 +32,13 @@ export const newOrderSlice = createSlice({
     },
     changeDeliveryInfo: (state, action) => {
       state.city = action.payload.city?.name ?? action.payload.city;
-      state.adress = action.payload.adress?.name ?? action.payload.adress;
+      state.address = action.payload.address?.name ?? action.payload.address;
     },
     changeToInitial: (state, action) => {
       state.userId = "";
       state.orders = [];
       state.city = null;
-      state.adress = null;
+      state.address = null;
       state.name = null;
       state.surname = null;
       state.phone = null;

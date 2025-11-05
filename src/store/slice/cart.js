@@ -3,6 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
   fetchServerCartAPI,
   addItemsToServerCartAPI,
+  addItemToCartAPI,
 } from "@/helpers/api/cart";
 
 // thunk: загрузить корзину
@@ -18,11 +19,18 @@ export const fetchServerCart = createAsyncThunk(
 export const addItemsToServerCart = createAsyncThunk(
   "cart/addItemsToServerCart",
   async ({ localItems, userId }) => {
-    // POST добавить
-    await addItemsToServerCartAPI(localItems, userId);
-    // затем получить актуальную корзину
-    const res = await fetchServerCartAPI(userId);
-    return res;
+    const response = await addItemsToServerCartAPI(localItems, userId);
+    console.log(response)
+    return response.items;
+  }
+);
+
+export const addItemToCart = createAsyncThunk(
+  "cart/addItemToCart",
+  async ({item, userId }) => {
+    const response = await addItemToCartAPI(item, userId);
+    console.log(response)
+    return response.items;
   }
 );
 
@@ -40,7 +48,7 @@ export const cartSlice = createSlice({
     clearCart: (state) => {
       state.items = [];
     },
-    addItemToCart: (state, action) => {
+    addItemToCartNonauth: (state, action) => {
       state.items = [...state.items, action.payload];
     },
     deleteItenFromCart: (state, action) => {
@@ -69,14 +77,29 @@ export const cartSlice = createSlice({
       })
       .addCase(addItemsToServerCart.fulfilled, (state, action) => {
         state.isLoading = false;
+        console.log(action.payload)
         state.items = action.payload;
       })
       .addCase(addItemsToServerCart.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.error?.message || "addItemsToServerCart error";
-      });
+      })
+      // addItemToCart
+       .addCase(addItemToCart.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(addItemToCart.fulfilled, (state, action) => {
+        state.isLoading = false;
+        console.log(action.payload)
+        state.items = action.payload;
+      })
+      .addCase(addItemToCart.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error?.message || "addItemToCart error";
+      })
   },
 });
 
-export const { setCartItems, clearCart, addItemToCart, deleteItenFromCart } =
+export const { setCartItems, clearCart, addItemToCartNonauth, deleteItenFromCart } =
   cartSlice.actions;

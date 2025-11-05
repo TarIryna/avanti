@@ -1,58 +1,50 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { useUser } from "@/store/selectors";
-import { addItemToCart } from "@/store/slice/cart";
+import { useUserSession } from "@/fetchActions/user/useUser";
+import { useAddItemToCart } from "@/fetchActions/cart/useAddItemToCart";
 import * as S from "./styles";
-import { useDispatch } from "react-redux";
 
 const Sizes = ({ sizes, item }) => {
   const [size, setSize] = useState("");
-  const userId = useUser()?.user?.id;
-  const dispatch = useDispatch();
+  const { data: user} = useUserSession()
+  const userId = user?.id;
   const itemId = item?._id ?? item?.id;
+  const { mutate, isSuccess } = useAddItemToCart()
 
-  const onButtonClick = async () => {
-    const newItemToStore = {
-      id: itemId,
-      code: item.code,
-      image: item.image1 ?? item.image ?? item.small_image,
-      price: item.price2 ?? item.price,
-      size,
-    };
-    if (!userId) {
-      dispatch(addItemToCart(newItemToStore));
-      const currentCart = localStorage?.getItem("cart");
-      const image = !!item.small_image ? item.small_image : item.image1;
-      const newItem = `code=${item.code},size=${size},price=${item.price},image=${image},id=${itemId}`;
-      localStorage?.setItem(
-        "cart",
-        currentCart ? `${currentCart};${newItem}` : newItem
-      );
-    } else {
-      try {
-        dispatch(addItemToCart(newItemToStore));
-        const response = await fetch("/api/order/new", {
-          method: "POST",
-          body: JSON.stringify({
-            productId: item._id,
-            userId,
-            size,
-            quantity: 1,
-            status: "new",
-            image: item.image1,
-            price: item.price2 ?? item.price,
-          }),
-        });
-
-        if (response.ok) {
-          toast.success("Товар додано у кошик!");
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
+const onButtonClick = async () => {
+  // Формируем объект, который соответствует схеме Cart.items
+  const newItem = {
+    product: itemId,
+    price: item.price,
+    image: item.small_image || item.image1,
+    code: item.code,
+    size,        // выбранный размер
+    quantity: 1, // по умолчанию 1
   };
+
+
+  if (!userId) {
+    // 🔹 Гость
+    const localCart = JSON.parse(localStorage.getItem("cart") || "[]");
+    const updatedCart = [...localCart, newItem];
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+
+    toast.success("Товар додано у кошик!");
+  } else {
+    // 🔹 Авторизованный пользователь
+    try {
+      mutate({ 
+        userId,       // ID пользователя
+        ...newItem    // все нужные поля для сервера
+      });
+    } catch (error) {
+      toast.error("Не вдалося додати товар");
+    }
+  }
+};
+
+
 
   return (
     <S.SizesWrapper>

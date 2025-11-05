@@ -1,22 +1,13 @@
-// import { useUser } from "@/store/selectors";
-// import { useEffect, useState } from "react";
+'use client'
+import { useOrders } from "@/fetchActions/orders/useOrders";
+import { useUserSession } from "@/fetchActions/user/useUser";
+import * as S from './styles'
+import { Order } from "./components/Order";
 
 const Orders = () => {
-  // const { user, isAuth } = useUser();
-  // const [orders, setOrders] = useState([]);
-  // console.log(orders);
-
-  // useEffect(() => {
-  //   const fetchOrders = async () => {
-  //     const response = fetch(`/api/users/${user.id}/orders/all`);
-  //     const data = await response.json();
-
-  //     setOrders(data);
-  //   };
-
-  //   if (user.id) fetchOrders();
-  //   else push("/");
-  // }, [user.id]);
+  const { data: user, isSuccess } = useUserSession();
+  const isAuth = !!user && isSuccess
+  const { data: items, isLoading, error, refetch } = useOrders(user?.id ?? user?._id);
 
   const handleEdit = (post) => {
     push(`/update-prompt?id=${post._id}`);
@@ -42,7 +33,11 @@ const Orders = () => {
     }
   };
 
-  return <div>Orders</div>;
+  return (
+<S.List>
+  {!!items?.length && items.map(item => <Order order={item}/>)}
+</S.List>
+  )
 };
 
 export default Orders;

@@ -58,7 +58,7 @@ const AdminPage = () => {
           <span className="bb1 mr5 mb5">
             {user.products[0].delivery.city},{" "}
           </span>
-          <span className="bb1 mb5">{user.products[0].delivery.adress}</span>
+          <span className="bb1 mb5">{user.products[0].delivery.address}</span>
         </div>
         <CartList products={user.products} />
       </div>

@@ -8,6 +8,7 @@ export const fetchServerCartAPI = async (userId) => {
     });
     if (!res.ok) throw new Error("Failed to fetch server cart");
     const data = await res.json();
+    console.log(data)
     // предположим, что сервер возвращает массив заказов
     return Array.isArray(data) ? data : data.items || [];
   } catch (err) {
@@ -29,6 +30,23 @@ export const addItemsToServerCartAPI = async (items, userId) => {
     return Array.isArray(data) ? data : data.items || [];
   } catch (err) {
     console.error("addItemsToServerCartAPI error:", err);
+    return [];
+  }
+};
+
+export const addItemToCartAPI = async (item, userId) => {
+  try {
+    const url = userId ? `/api/cart/add?userId=${userId}` : `/api/cart`;
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ item }),
+    });
+  if (!res.ok) throw new Error("Failed to add items to cart");
+    const data = await res.json();
+    return Array.isArray(data) ? data : data.items || [];
+  } catch (err) {
+    console.error("addItemToCartAPI error:", err);
     return [];
   }
 };

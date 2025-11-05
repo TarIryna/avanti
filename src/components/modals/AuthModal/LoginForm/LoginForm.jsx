@@ -37,8 +37,6 @@ const LoginForm = () => {
       password,
     });
 
-    console.log(result);
-
     if (result?.error) {
       toast.error("Помилка: " + result.error);
     } else {

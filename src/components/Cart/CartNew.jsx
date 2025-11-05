@@ -1,10 +1,15 @@
+'use client'
 import CartList from "./CartList";
 import { useChangeOrderStatus } from "@/helpers/useChangeOrderStatus";
 import { useState } from "react";
 import DeliveryCart from "./DeliveryCart";
+import { useQueryClient } from "@tanstack/react-query";
+import { useUserSession } from "@/fetchActions/user/useUser";
 
 const CartNew = ({ products, isFetched }) => {
   const [isDeliveryDataShown, setIsDeliveryDataShown] = useState(false);
+  const queryClient = useQueryClient()
+  const { data: user } = useUserSession();
 
   const changeOrderStatus = () => {
     products.map((order) => {
@@ -15,6 +20,9 @@ const CartNew = ({ products, isFetched }) => {
         deliveryData: null,
       });
     });
+     queryClient.invalidateQueries({
+       queryKey: ['cart', user?._id ?? user?.id ?? '' ],
+      })
   };
 
   const openDelivery = () => {

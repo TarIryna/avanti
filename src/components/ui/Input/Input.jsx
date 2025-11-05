@@ -8,7 +8,7 @@ const Input = ({
   autocomplete = "off",
   name,
   placeholder,
-  lable,
+  label,
   rules,
   step = 1,
   type,
@@ -19,7 +19,7 @@ const Input = ({
   doubleIcon,
   focusedColor,
   event,
-  existLable = true,
+  existlabel = true,
   info,
   disabled = false,
   onClickGaEvent,
@@ -33,6 +33,7 @@ const Input = ({
   tabIndex,
   enterKeyHint = "enter",
   onKeyDown,
+  isBorder
 }) => {
   const {
     setValue,
@@ -56,7 +57,7 @@ const Input = ({
       const amount = (+e.target.value).toFixed(2);
       setForm({
         ...form,
-        [name]: lable && existLable ? `${amount} ${lable} ` : amount,
+        [name]: label && existlabel ? `${amount} ${label} ` : amount,
       });
       setValue(name, amount);
     }
@@ -70,7 +71,9 @@ const Input = ({
         doubleIcon={doubleIcon}
         isFocused={isFocused}
         disabled={disabled}
+        isBorder={isBorder}
       >
+        <S.Label>{label}</S.Label>
         {icon}
         {form ? (
           <>
@@ -82,7 +85,7 @@ const Input = ({
               maxLength={max}
               value={form[name]}
               placeholder={placeholder}
-              lable={lable}
+              label={label}
               autoComplete={autocomplete}
               onBlur={onBlur}
               autocomplete={autocomplete}
@@ -99,7 +102,7 @@ const Input = ({
                   }
                   setForm({
                     ...form,
-                    [name]: lable && existLable ? `${value} ${lable} ` : value,
+                    [name]: label && existlabel ? `${value} ${label} ` : value,
                   });
                 },
               })}
@@ -123,7 +126,7 @@ const Input = ({
               step={step}
               error={hasError}
               placeholder={placeholder}
-              lable={lable}
+              label={label}
               maxLength={max}
               disabled={disabled}
               onBlur={onBlur}

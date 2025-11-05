@@ -23,28 +23,31 @@ const handler = NextAuth({
         },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials) {
-        await connectToDB();
-        const user = await User.findOne({ email: credentials.email });
+    async authorize(credentials) {
+      await connectToDB();
+      const user = await User.findOne({ email: credentials.email });
 
-        if (!user || !user.password) {
-          throw new Error("Користувача не знайдено");
-        }
+      if (!user || !user.password) {
+        throw new Error("Користувача не знайдено");
+      }
 
-        const isValid = await verifyPassword(
-          credentials.password,
-          user.password
-        );
+      const isValid = await verifyPassword(credentials.password, user.password);
+      if (!isValid) {
+        throw new Error("Невірний пароль");
+      }
 
-        if (!isValid) {
-          throw new Error("Невірний пароль");
-        }
+      // 👇 обязательно приведи Mongoose-документ к простому объекту
+      const plainUser =
+        typeof user.toObject === "function" ? user.toObject() : user;
 
-        return {
-          ...user,
-          id: user._id.toString(),
-        };
-      },
+
+      return {
+        id: plainUser._id.toString(),
+        email: plainUser.email,
+        name: plainUser.username || plainUser.name || "",
+        image: plainUser.image || null,
+      };
+    }
     }),
   ],
   session: {
@@ -97,7 +100,6 @@ const handler = NextAuth({
 
         return true;
       } catch (error) {
-        // console.log("Error checking if user exists: ", error.message);
         return false;
       }
     },

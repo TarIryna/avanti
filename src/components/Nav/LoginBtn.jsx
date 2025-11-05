@@ -6,7 +6,7 @@ import AuthIcon from "@/assets/icons/auth.svg";
 import LoginIcon from "@/assets/icons/login.svg";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useUser } from "@/store/selectors";
+import { useUserSession } from "@/fetchActions/user/useUser";
 
 registerDynamicModal(
   MODALS.AUTHORIZATION,
@@ -16,7 +16,8 @@ registerDynamicModal(
 const LoginButton = () => {
   const { show: showAuth } = useModal(MODALS.AUTHORIZATION);
   const { push } = useRouter();
-  const { isAuth, user } = useUser();
+  const { data: user, isLoading, isSuccess } = useUserSession();
+  const isAuth = !!user && isSuccess
 
   const onAuth = () => {
     showAuth({ mode: LOGIN });

@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 
-export const useUser = () => useSelector((state) => state.user);
+// export const useUser = () => useSelector((state) => state.user);
 
 export const useCommon = () => useSelector((state) => state.common);
 
@@ -13,4 +13,4 @@ export const useProducts = () => useSelector((state) => state.products);
 export const useProduct = () =>
   useSelector((state) => state.product.productInfo);
 
-export const useCart = () => useSelector((state) => state.cart);
+// export const useCart = () => useSelector((state) => state.cart);

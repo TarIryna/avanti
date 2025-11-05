@@ -38,3 +38,18 @@ export const ViberWrapper = styled.div`
   align-items: center;
   gap: 10px;
 `;
+
+export const RegistrationButton = styled.button`
+  cursor: pointer;
+  width: 400px;
+  height: 44px;
+  border-radius: 14px;
+  color: black;
+  font-weight: 800;
+`
+
+export const List = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`

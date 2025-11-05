@@ -8,6 +8,7 @@ const Product = ({ product }) => {
   const images = [product.image1, product.image2, product.image3].filter(
     Boolean
   );
+
   const sizes = product?.sizes ? product.sizes.split(" ") : [];
 
   const sendEmail = () => {

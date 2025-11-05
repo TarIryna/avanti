@@ -1,33 +1,22 @@
 "use client";
-
-import { useFetchAllOrders } from "@/helpers/useFetchAllOrders";
 import { toast } from "react-hot-toast";
-import { useUser } from "@/store/selectors";
+import { useUserSession } from "@/fetchActions/user/useUser";
 import IconDelete from "@/assets/icons/delete.svg";
 import Image from "next/image";
 import * as S from "./styles";
-import { useDispatch } from "react-redux";
-import { deleteItenFromCart } from "@/store/slice/cart";
+import { useRemoveItemFromCart } from "@/fetchActions/cart/useRemoveItemFromCart";
 
 const CartItem = ({ admin, data, status }) => {
-  const userId = useUser()?.user?.id;
-  const dispatch = useDispatch();
+  const { data: user} = useUserSession()
+  const itemId = data?._id ?? data?.id
+  const userId = user?._id ?? user?.width
 
-  const deleteOrder = async () => {
-    try {
-      dispatch(deleteItenFromCart(data));
-      const response = await fetch(`/api/order/new/${data._id}`, {
-        method: "DELETE",
-      });
+  const { mutate, isLoading } = useRemoveItemFromCart(userId);
 
-      if (response.ok) {
-        toast.success("Успішно видалено із кошика!");
-        useFetchAllOrders(userId, dispatch);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+  const deleteItem = () => {
+    mutate({productId: itemId, size: data.size});
   };
+
 
   return (
     <>
@@ -47,7 +36,7 @@ const CartItem = ({ admin, data, status }) => {
               src={IconDelete.src}
               width="24"
               height="24"
-              onClick={deleteOrder}
+              onClick={() => deleteItem()}
               alt="delete"
             />
           )}

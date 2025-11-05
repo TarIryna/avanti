@@ -1,10 +1,12 @@
 import { useProgressOrders } from "@/store/selectors/orders";
-import { useUser } from "@/store/selectors";
+import { useCart } from "@/fetchActions/cart/useFetchCart";
 import { changeOrderIsLoadingAction } from "@/store/actions/orders";
-import { changeUserDeliveryDataAction } from "@/store/actions/user";
+import { updateUserAction } from "@/store/actions/user";
+import { useUserSession } from "@/fetchActions/user/useUser";
 import { toast } from "react-hot-toast";
-import { useFetchAllOrders } from "@/helpers/useFetchAllOrders";
+// import { useFetchAllOrders } from "@/helpers/useFetchAllOrders";
 import { useChangeOrderStatus } from "@/helpers/useChangeOrderStatus";
+import { useUpdateUser } from "@/fetchActions/user/useUpdateUser";
 import { FormProvider, useForm } from "react-hook-form";
 
 import CartList from "./CartList";
@@ -12,43 +14,43 @@ import CartClientInfo from "./CartClientInfo";
 import { useState } from "react";
 import * as S from "./styles";
 import DeliveryForm from "./DeliveryForm";
+import { useModal } from "@ebay/nice-modal-react";
+import { LOGIN, MODALS } from "@/constants/constants";
+import { registerDynamicModal } from "@/helpers/useDynamicModal";
+import { useAddNewOrder } from "@/helpers/useAddNewOrder";
+
+
+registerDynamicModal(
+  MODALS.AUTHORIZATION,
+  import("@/components/modals/AuthModal/AuthModal")
+);
 
 const DeliveryCart = ({ onSuccess }) => {
   const [needUpdate, setNeedUpdate] = useState(false);
+  const [showDelivery, setShowDelivery] = useState(false)
   const methods = useForm({ mode: "onSubmit" });
   const { handleSubmit, register } = methods;
-  const { isAuth, user } = useUser();
+  const { show: showAuth } = useModal(MODALS.AUTHORIZATION);
+  const { data: user, isLoadingUser, isError } = useUserSession();
+  const isAuth = !!user;
+  const userId = user?._id ?? user?.id
+  const { data: items, isLoading } = useCart(userId);
 
-  const handleOrder = (deliveryData) => {
-    const orderId = generateId();
-    const newStatus = "confirmed";
-    changeOrderIsLoadingAction(true);
-    products.map((item) =>
-      useChangeOrderStatus({
-        order: item,
-        status: newStatus,
-        orderId,
-        delivery: deliveryData,
-      })
-    );
-    changeOrderIsLoadingAction(false);
-    useFetchAllOrders(userId);
+  const isDeliveryChangeShown = !user?.cityDescription || ! user?.addressDescription || showDelivery
+
+  const { mutate: updateUser, isLoading: isUpdatingUser, isError: isErrorUpdating } = useUpdateUser();
+  const { mutate: confirmOrder, isPending, isError: isErrorConfirmingOrder } = useAddNewOrder();
+
+  const handleUpdate = (orderData) => {
+    updateUser({ id: userId, orderData });
   };
 
-  const updateUser = async (orderData, id) => {
-    try {
-      const response = await fetch(`/api/users/${id}`, {
-        method: "PATCH",
-        body: JSON.stringify(orderData),
-      });
-
-      if (response) {
-        const data = await response?.json();
-        changeUserDeliveryDataAction(data);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+  const handleOrder = (deliveryData) => {
+    confirmOrder({
+        items,
+        delivery: deliveryData,
+        userId
+      })
   };
 
   const checkInfo = (data) => {
@@ -56,7 +58,7 @@ const DeliveryCart = ({ onSuccess }) => {
       data.name?.length > 0 &&
       data.surname?.length > 0 &&
       data.city?.length > 0 &&
-      data.adress?.length > 0 &&
+      data.address?.length > 0 &&
       data.phone?.length > 0
         ? true
         : false;
@@ -75,42 +77,43 @@ const DeliveryCart = ({ onSuccess }) => {
   };
 
   const onSubmit = (e) => {
-    console.log(e);
-    // setNeedUpdate(true);
-    // e.preventDefault();
-    // const name = user?.name ?? e.target.elements.name.value;
-    // const surname = user.surname ?? e.target.elements.surname.value;
-    // const phone = user?.phone ?? e.target.elements.phone.value;
-    // const isViber = e.target.elements.viber.checked;
-    // const city = e.target.elements.city.value;
-    // const adress = e.target.elements.adress.value;
+    const name = e.name ?? user?.name;
+    const surname = e.surname ?? user?.surname;
+    const phone = e.phone ?? user?.phone;
+    const isViber = e.viber ?? user?.viber;
+    const cityDescription = e.cityDescription ?? user?.cityDescription;
+    const city = e.city ?? user?.city
+    const addressDescription = e.addressDescription ?? user?.addressDescription;
+    const address = e.address ?? user?.address
 
-    // const orderData = {
-    //   name,
-    //   surname,
-    //   phone,
-    //   isViber,
-    //   city,
-    //   adress,
-    // };
-    // console.log(orderData);
-    // const isFullInfo = checkInfo(orderData);
-    // if (!isFullInfo) toast.error("Не вся інформація заповнена");
-    // else {
-    //   updateUser(orderData, userId);
-    //   toast.info("Очікуйте підтвердження замовлення!");
-    //   handleOrder(orderData);
-    // }
-    // // else handleOrder("new");
-    // setNeedUpdate(false);
+    const orderData = {
+      name,
+      surname,
+      phone,
+      isViber,
+      city,
+      address,
+      cityDescription,
+      addressDescription
+    };
+    const isFullInfo = checkInfo(orderData);
+    if (!isFullInfo) toast.error("Не вся інформація заповнена");
+    else {
+      handleUpdate(orderData);
+      toast.success("Очікуйте підтвердження замовлення!");
+      handleOrder(orderData);
+    }
+    // else handleOrder("new");
   };
 
   return (
     <div>
+      {!isAuth && <S.RegistrationButton onClick={() => showAuth({ mode: LOGIN })}>Авторизуйтесь або заповніть дані нижче</S.RegistrationButton>}
       <FormProvider {...methods}>
         <S.Form onSubmit={handleSubmit(onSubmit)}>
           <CartClientInfo needUpdate={needUpdate} register={register} />
-          <DeliveryForm register={register} />
+          <button type="button" onClick={() => setShowDelivery(true)}>Змінити реквізити доставки</button>
+          {isDeliveryChangeShown && <DeliveryForm register={register} />}
           <button type="submit">Відправити замовлення</button>
         </S.Form>
       </FormProvider>

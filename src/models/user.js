@@ -28,8 +28,14 @@ const UserSchema = new Schema({
   city: {
     type: String,
   },
-  adress: {
+  cityDescription: {
+    type: String
+  },
+  address: {
     type: String,
+  },
+  addressDescription: {
+    type: String
   },
   isViber: {
     type: Boolean,
