@@ -13,9 +13,9 @@
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
     "@mui/material": "^5.13.2",
+    "@react-email/render": "^2.0.0",
     "@react-oauth/google": "^0.12.1",
     "@reduxjs/toolkit": "^2.2.1",
-    "@sendinblue/client": "^3.3.1",
     "@tailwindcss/postcss": "^4.1.12",
     "@tanstack/react-query": "^5.90.5",
     "autoprefixer": "10.4.14",
@@ -38,6 +38,7 @@
     "react-modal": "^3.16.3",
     "react-redux": "^9.1.0",
     "react-responsive": "^10.0.0",
+    "resend": "^6.4.2",
     "spinner": "^0.3.4",
     "tailwindcss": "3.3.2"
   },

@@ -20,6 +20,19 @@ export const useAddNewOrder = () => {
         body: JSON.stringify(params),
       });
 
+      const emailParams = {
+        to: "avanti2uzh@gmail.com",
+        subject: "Нове замовлення на avanti.shoes!" ,
+        html: "<h2>Ваше замовлення на сайті avanti.shoes</h2>"
+      }
+
+      const emailResult = await fetch("/api/email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(emailParams)
+      })
+      console.log(emailResult)
+
       if (!res.ok) {
         const error = await res.text();
         throw new Error(error || "Не вдалося оновити статус замовлення");
