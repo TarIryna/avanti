@@ -1,6 +1,7 @@
 "use client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
+import { clearLocalCart } from "@/fetchActions/cart/utils/localCart";
 
 export const useAddNewOrder = () => {
   const queryClient = useQueryClient();
@@ -12,7 +13,6 @@ export const useAddNewOrder = () => {
         delivery,
         userId
       };
-      console.log('items', items, 'delivery', delivery)
 
       const res = await fetch("/api/order/new", {
         method: "POST",
@@ -31,10 +31,13 @@ export const useAddNewOrder = () => {
     onSuccess: (_, variables) => {
       // например, обновляем список заказов
       queryClient.invalidateQueries(["orders"]);
+      queryClient.invalidateQueries(["cart"]);
+      clearLocalCart()
       toast.success("Статус замовлення оновлено ✅");
     },
 
     onError: (error) => {
+      console.log(error)
       console.error("Помилка оновлення:", error);
       toast.error("Не вдалося оновити замовлення");
     },

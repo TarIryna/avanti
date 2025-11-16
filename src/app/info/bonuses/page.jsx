@@ -1,5 +1,4 @@
 "use client";
-import ProviderNext from "@/components/Provider";
 import * as S from "../styles";
 
 const InfoBonusPage = (props) => {

@@ -23,6 +23,7 @@ export const CardWrapper = styled.div`
   align-items: center;
   flex-direction: column;
   padding: 10px 0;
+  cursor: pointer;
 `;
 
 export const Title = styled.h3`

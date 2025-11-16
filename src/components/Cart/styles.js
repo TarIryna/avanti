@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { Input } from "../ui";
+import { media } from "@/styles/mediaBrakepoints";
 
 export const Form = styled.form`
   width: 500px;
@@ -7,6 +8,9 @@ export const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  ${media.mobile}{
+    width: 100%;
+  }
 `;
 
 export const CustomInput = styled.input`
@@ -46,10 +50,18 @@ export const RegistrationButton = styled.button`
   border-radius: 14px;
   color: black;
   font-weight: 800;
+  ${media.mobile}{
+    width: 100%;
+    font-size: 14px;
+  }
 `
 
 export const List = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+`
+
+export const DeliveryCartWrapper = styled.div`
+  max-width: 100%;
 `

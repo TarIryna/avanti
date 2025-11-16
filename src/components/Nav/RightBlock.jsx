@@ -3,16 +3,13 @@ import LoginButton from "./LoginBtn";
 import FavouriteIcon from "@/assets/icons/favourite.svg";
 import CartIcon from "@/assets/icons/shopping_cart.svg";
 import { useUserSession } from "@/fetchActions/user/useUser";
-import { useCart } from "@/fetchActions/cart/useFetchCart";
-import { useMemo } from "react";
+import { useCartStore } from "../GeneralProvider/context/CartProvider";
 
 const RightBlock = () => {
   const onFavourite = () => {};
   const { data: user, isSuccess } = useUserSession();
   const isAuth = !!user && isSuccess
-  const userId = user?.id ?? user?._id;
-  const { data: items } = useCart(userId);
-  const length =  items?.length ?? 0
+  const { items, length } = useCartStore();
 
 
   return (

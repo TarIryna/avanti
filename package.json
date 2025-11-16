@@ -15,6 +15,7 @@
     "@mui/material": "^5.13.2",
     "@react-oauth/google": "^0.12.1",
     "@reduxjs/toolkit": "^2.2.1",
+    "@sendinblue/client": "^3.3.1",
     "@tailwindcss/postcss": "^4.1.12",
     "@tanstack/react-query": "^5.90.5",
     "autoprefixer": "10.4.14",

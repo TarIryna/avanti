@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import Link from "next/link";
 import Image from "next/image";
 import { css } from "@emotion/react";
+import { media } from "@/styles/mediaBrakepoints";
 
 const navLinkStyles = css`
   padding: 5px 10px;
@@ -17,16 +18,20 @@ const navLinkStyles = css`
 export const Navigation = styled.nav`
   display: flex;
   height: 100px;
+  width: 100%;
   position: relative;
   align-items: center;
   background: black;
   padding: 10px 40px;
-  @media screen and (max-width: 1280px) {
+  ${media.tabletLg} {
     padding: 10px 20px;
   }
-  @media screen and (max-width: 767px) {
+  ${media.tabletSm} {
     height: unset;
     padding: 10px 16px !important;
+  }
+  ${media.mobile}{
+    max-width: 100vw;
   }
 `;
 export const NavigationButton = styled(Link)`
@@ -69,11 +74,12 @@ export const ButtonsWrapper = styled.div`
 
 export const Logo = styled(Link)`
   min-width: 150px;
-  @media screen and (max-width: 1024px) {
+  ${media.tabletLg} {
     min-width: 100px;
   }
-  @media screen and (max-width: 540px) {
+  ${media.mobile} {
     min-width: 60px;
+    max-width: 80px;
   }
 `;
 
@@ -103,6 +109,10 @@ export const Menu = styled.div`
     width: 100%;
     height: 100%;
   }
+    ${media.mobile}{
+      width: 20px;
+      height: 20px;
+    }
 `;
 
 export const CartLink = styled(Link)`

@@ -1,20 +1,18 @@
 "use client";
 import { toast } from "react-hot-toast";
-import { useUserSession } from "@/fetchActions/user/useUser";
 import IconDelete from "@/assets/icons/delete.svg";
 import Image from "next/image";
 import * as S from "./styles";
 import { useRemoveItemFromCart } from "@/fetchActions/cart/useRemoveItemFromCart";
+import { useCartStore } from "@/components/GeneralProvider/context/CartProvider";
 
 const CartItem = ({ admin, data, status }) => {
-  const { data: user} = useUserSession()
-  const itemId = data?._id ?? data?.id
-  const userId = user?._id ?? user?.width
+  const itemId = data?._id ?? data?.id ?? data?.product
 
-  const { mutate, isLoading } = useRemoveItemFromCart(userId);
+  const { removeItem } = useCartStore();
 
   const deleteItem = () => {
-    mutate({productId: itemId, size: data.size});
+    removeItem({productId: itemId, size: data.size});
   };
 
 

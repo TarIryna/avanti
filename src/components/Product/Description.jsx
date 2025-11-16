@@ -1,7 +1,7 @@
 import * as S from "./styles";
 const Description = ({ data }) => {
   return (
-    <div>
+    <S.Description>
       <p>
         <S.DescriptionTitle>Ціна: </S.DescriptionTitle>
         <S.DescriptionPrice>{data.price} грн</S.DescriptionPrice>
@@ -18,7 +18,7 @@ const Description = ({ data }) => {
         <S.DescriptionTitle>Колір: </S.DescriptionTitle>
         <S.DescriptionValue>{data.color}</S.DescriptionValue>
       </p>
-    </div>
+    </S.Description>
   );
 };
 

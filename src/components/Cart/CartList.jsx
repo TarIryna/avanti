@@ -1,13 +1,13 @@
+import { useMemo } from "react";
 import CartItem from "./CartItem/CartItem";
 
 const CartList = ({ products, status }) => {
-  const total =
-    !!products &&
+  const total = useMemo(() =>  !!products &&
     products?.reduce(
       (accumulator, item) =>
         accumulator + Number(item.price) * Number(item.quantity ?? 1),
       0
-    );
+    ), [products])
 
   return (
     <div>

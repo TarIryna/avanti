@@ -1,6 +1,6 @@
 import "@/styles/globals.css";
 import Nav from "@/components/Nav/Nav";
-import ProviderNext from "@/components/Provider";
+import { ClientProvider } from "@/components/GeneralProvider/ClientProvider";
 import { Toaster } from "react-hot-toast";
 import Footer from "@/components/Footer/Footer";
 
@@ -13,7 +13,7 @@ const RootLayout = ({ children }) => {
   return (
     <html lang="ua">
       <body>
-        <ProviderNext>
+        <ClientProvider>
           <div className="main">
             <div className="gradient" />
           </div>
@@ -24,7 +24,7 @@ const RootLayout = ({ children }) => {
             {children}
             <Footer />
           </main>
-        </ProviderNext>
+        </ClientProvider>
       </body>
     </html>
   );

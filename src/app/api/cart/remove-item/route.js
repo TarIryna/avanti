@@ -3,11 +3,6 @@ import { connectToDB } from "@/utils/database";
 import Cart from "@/models/cart";
 import Product from "@/models/product";
 
-// ========================
-// PATCH /api/cart/remove-item
-// Удаление одного товара из корзины
-// body: { creator: string, productId: string }
-// ========================
 export async function PATCH(req) {
   try {
     await connectToDB();

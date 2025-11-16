@@ -31,7 +31,9 @@ const Card = ({ item }) => {
               onClick={() => handleClick(item._id)}
             />
           </S.ImageWrapper>
-          <div>{sizes?.length > 0 && <Sizes sizes={sizes} item={item} />}</div>
+          <div> 
+            <Sizes sizes={sizes} item={item} />
+          </div>
           {isSale ? (
             <S.PriceWrapper>
               <S.LastPrice>{item.price2} грн.</S.LastPrice>

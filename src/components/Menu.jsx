@@ -58,7 +58,7 @@ const Menu = ({ anchorRef }) => {
   const getLink = (item) => {
     changeToInitialAction();
     const routeText = menuData[submenu][subtab][item];
-    const route = routeText?.replace("-", "/");
+    const route = String(routeText)?.replace("-", "/");
     return route;
   };
 

@@ -36,8 +36,6 @@ export const GET = async (request, { params }) => {
         .skip((page - 1) * limit)
         .lean();
 
-        console.log(response)
-
       result = { products: response, total };
     }
 

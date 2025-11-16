@@ -1,5 +1,4 @@
 import { useProgressOrders } from "@/store/selectors/orders";
-import { useCart } from "@/fetchActions/cart/useFetchCart";
 import { changeOrderIsLoadingAction } from "@/store/actions/orders";
 import { updateUserAction } from "@/store/actions/user";
 import { useUserSession } from "@/fetchActions/user/useUser";
@@ -18,6 +17,7 @@ import { useModal } from "@ebay/nice-modal-react";
 import { LOGIN, MODALS } from "@/constants/constants";
 import { registerDynamicModal } from "@/helpers/useDynamicModal";
 import { useAddNewOrder } from "@/helpers/useAddNewOrder";
+import { useCartStore } from "../GeneralProvider/context/CartProvider";
 
 
 registerDynamicModal(
@@ -34,7 +34,7 @@ const DeliveryCart = ({ onSuccess }) => {
   const { data: user, isLoadingUser, isError } = useUserSession();
   const isAuth = !!user;
   const userId = user?._id ?? user?.id
-  const { data: items, isLoading } = useCart(userId);
+  const { items, isLoading, clearCart } = useCartStore();
 
   const isDeliveryChangeShown = !user?.cityDescription || ! user?.addressDescription || showDelivery
 
@@ -42,7 +42,9 @@ const DeliveryCart = ({ onSuccess }) => {
   const { mutate: confirmOrder, isPending, isError: isErrorConfirmingOrder } = useAddNewOrder();
 
   const handleUpdate = (orderData) => {
-    updateUser({ id: userId, orderData });
+    if (userId){
+      updateUser({ id: userId, orderData });
+    }
   };
 
   const handleOrder = (deliveryData) => {
@@ -51,6 +53,7 @@ const DeliveryCart = ({ onSuccess }) => {
         delivery: deliveryData,
         userId
       })
+    clearCart()
   };
 
   const checkInfo = (data) => {

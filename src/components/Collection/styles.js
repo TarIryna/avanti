@@ -1,3 +1,4 @@
+import { media } from "@/styles/mediaBrakepoints";
 import styled from "@emotion/styled";
 
 export const SearchInput = styled.input`
@@ -16,10 +17,10 @@ export const SearchInput = styled.input`
   @media screen and (max-width: 1024px) {
     height: 40px;
   }
-  @media screen and (max-width: 540px) {
+  ${media.mobile} {
     height: 30px;
-    width: 200px;
     font-size: 12px;
+    width: 160px;
   }
 `;
 
@@ -58,6 +59,6 @@ export const FilterGrid = styled.div`
     grid-template-columns: repeat(3, 1fr);
   }
   @media screen and (max-width: 540px) {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 50%);
   }
 `;

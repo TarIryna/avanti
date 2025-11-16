@@ -22,7 +22,6 @@ export const useRemoveItemFromCart = (userId) => {
         const error = await response.json();
         throw new Error(error.message || "Ошибка при удалении товара");
       }
-
       return response.json();
     },
     onSuccess: () => {

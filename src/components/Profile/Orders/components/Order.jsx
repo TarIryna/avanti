@@ -3,7 +3,6 @@ import Image from 'next/image'
 
 export const Order = ({order}) => {
 const total = order?.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-console.log('total', total, order)
 
 const renderProducts = () => (
     !!order.items?.length > 0 && order.items.map(product => 
