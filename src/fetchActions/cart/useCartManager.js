@@ -35,7 +35,6 @@ export const useCartManager = (initialUserId) => {
       const updated = addLocalItem(item);
       setLocal(updated);
     }
-   toast.success("Товар успішно доданий у корзину");
   };
 
   const removeItem = async ({productId, size}) => {

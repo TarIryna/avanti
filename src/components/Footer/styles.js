@@ -1,3 +1,4 @@
+import { media } from "@/styles/mediaBrakepoints";
 import styled from "@emotion/styled";
 import Link from "next/link";
 
@@ -15,10 +16,14 @@ export const ContactsWrapper = styled.div`
   grid-template-rows: repeat(2, 24px);
   gap: 10px;
   padding: 30px 0;
-  @media screen and (max-width: 767px) {
+  ${media.tabletSm} {
     grid-template-columns: repeat(2, 200px);
     grid-template-rows: repeat(3, 24px);
   }
+    ${media.mobile}{
+    width: 100%;
+     grid-template-columns: repeat(2, 50%);
+    }
 `;
 export const ContactItem = styled(Link)`
   color: white;

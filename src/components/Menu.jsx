@@ -52,13 +52,14 @@ const Menu = ({ anchorRef }) => {
   };
 
   const onChooseItem = (item) => {
-    // console.log(item);
+    console.log(subMenu, subtab, item);
   };
 
   const getLink = (item) => {
     changeToInitialAction();
     const routeText = menuData[submenu][subtab][item];
-    const route = String(routeText)?.replace("-", "/");
+    const route = `/${routeText?.gender}?page=1&limit=24&season=${routeText?.season}&view=${routeText?.view}`;
+    console.log(route)
     return route;
   };
 

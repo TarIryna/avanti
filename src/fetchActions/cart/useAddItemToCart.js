@@ -24,11 +24,11 @@ export const useAddItemToCart = () => {
     onSuccess: (_data, variables) => {
       const { userId } = variables;
       queryClient.invalidateQueries({ queryKey: ["cart", userId] });
-      toast.success("Товар добавлен в корзину!");
+      toast.success("Товар успішно доданий у корзину");
     },
     onError: (error) => {
       console.error("Ошибка добавления товаров в корзину:", error);
-      toast.error(error.message || "Не удалось добавить товар");
+      toast.error(error.message || "Не вдалось додати товар");
     },
   });
 };

@@ -60,5 +60,9 @@ export const FilterGrid = styled.div`
   }
   @media screen and (max-width: 540px) {
     grid-template-columns: repeat(2, 50%);
+    column-gap: 4px;
   }
+    select {
+      background: white;
+    }
 `;

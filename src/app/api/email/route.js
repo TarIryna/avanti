@@ -15,8 +15,11 @@ export async function POST(request) {
       html,
     });
 
+    console.log('result', result)
+
     return NextResponse.json(result);
   } catch (error) {
+    console.log('error', error)
     return NextResponse.json({ error }, { status: 500 });
   }
 }

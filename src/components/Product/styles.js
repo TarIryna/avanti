@@ -143,7 +143,7 @@ ${buttonStyles};
     transform: rotate(180deg);
   }
   ${media.mobile}{
-    left: 3px;
+    left: 14px;
   }
 `
 
@@ -151,7 +151,7 @@ export const RightButton = styled.div`
 ${buttonStyles};
   right: 20px;
    ${media.mobile}{
-    right: 3px;
+    right: 5px;
   }
 `
 
@@ -161,7 +161,7 @@ export const SliderWrapper = styled.div`
   height: 100%;
   padding: 0 40px;
   ${media.mobile}{
-    padding: 0 20px;
+    padding: 0;
     }
 `;
 
@@ -206,4 +206,10 @@ export const Description = styled.div`
   ${media.mobile}{
     width: 100%;
   }
+`
+
+export const Back = styled(Image)`
+  position: absolute;
+  left: 16px;
+  top: 16px;
 `

@@ -1,7 +1,9 @@
 import { useState, useRef } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import * as S from "./styles";
 import { IconArrow } from "../icons";
+
 
 export const Slider = ({ imagesToDisplay }) => {
   const [index, setIndex] = useState(0);
@@ -10,6 +12,7 @@ export const Slider = ({ imagesToDisplay }) => {
   const areButtons = length > 1;
   const isFirst = index === 0;
   const isLast = index === length - 1;
+  const router = useRouter();
 
   const handleNext = () => {
     setIndex((prev) => Math.min(prev + 1, imagesToDisplay.length - 1));
@@ -33,6 +36,7 @@ export const Slider = ({ imagesToDisplay }) => {
         ))}
       </S.Slider>
       </S.Padding>
+      <S.Back src="/arrow.png" alt="back" width="30" height="20" onClick={() => router.back()}/>
       {areButtons && <S.Length>{`${index + 1} / ${length}`}</S.Length>}
       {areButtons && !isFirst && (
         <S.LeftButton onClick={handlePrev} disabled={index === 0}>

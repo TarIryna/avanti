@@ -70,6 +70,18 @@ export const ButtonsWrapper = styled.div`
     align-items: center;
     justify-content: center;
   }
+    img {
+      width: 25px;
+      height: 25px;
+      }
+  ${media.mobile}{
+    > div, a {
+      width: 20px;
+    }
+      img {
+        height: 20px;
+        width: 20px;
+      }
 `;
 
 export const Logo = styled(Link)`
@@ -84,20 +96,14 @@ export const Logo = styled(Link)`
 `;
 
 export const AuthButton = styled(Image)`
-  width: 25px;
-  height: 25px;
   cursor: pointer;
   border-radius: 50%;
 `;
 
 export const CartImage = styled(Image)`
-  width: 25px;
-  height: 25px;
 `;
 
 export const FavouriteImage = styled(Image)`
-  max-width: 25px;
-  max-height: 25px;
 `;
 
 export const Menu = styled.div`
