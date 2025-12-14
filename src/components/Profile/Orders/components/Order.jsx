@@ -1,5 +1,6 @@
 import * as S from './styles'
 import Image from 'next/image'
+import { statusTranslate } from './data';
 
 export const Order = ({order}) => {
 const total = order?.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -8,7 +9,7 @@ const renderProducts = () => (
     !!order.items?.length > 0 && order.items.map(product => 
     <S.ProductWrapper>
         <S.ImageWrapper>
-            <Image src={product.image} alt={product.id} fill/>
+            <Image src={product.image === 'no image' ? '/default.webp' : product.image} alt={product.id} fill/>
         </S.ImageWrapper>
         <div>
             {!!product.code && <p>{`Кількість: ${product.code}`}</p>}
@@ -22,7 +23,7 @@ const renderProducts = () => (
     return (
         <S.Wrapper>
             <p>{order.createdAt?.slice(0, 10)}</p>
-            <p>{`Статус: ${order.status}`}</p>
+            <S.Status status={order.status}>{`Статус: `}<span>{statusTranslate[order.status] ?? order.status}</span></S.Status>
             <p><strong>Реквізити доставки:</strong><br/>
             <span>{order.delivery.cityDescription}</span><br/>
             <span>{order.delivery.addressDescription}</span><br/>

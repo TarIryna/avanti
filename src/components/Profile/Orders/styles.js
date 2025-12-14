@@ -5,3 +5,12 @@ export const List = styled.div`
     flex-direction: column;
     gap: 8px;
 `
+export const Wrapper = styled.div`
+    min-height: calc(100svh - 200px);
+    padding: 20px;
+`
+export const Title = styled.h2`
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+`

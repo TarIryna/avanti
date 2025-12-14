@@ -34,9 +34,12 @@ const Orders = () => {
   };
 
   return (
-<S.List>
-  {!!items?.length && items.map(item => <Order order={item}/>)}
-</S.List>
+    <S.Wrapper>
+      <S.Title>Замовлення</S.Title>
+      <S.List>
+        {!!items?.length && items.map(item => <Order order={item}/>)}
+      </S.List>
+    </S.Wrapper>
   )
 };
 
