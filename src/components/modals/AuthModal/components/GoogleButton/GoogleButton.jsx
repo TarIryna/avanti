@@ -11,7 +11,7 @@ const GoogleButton = ({ mode }) => {
     const result = await signIn("google");
 
     if (!result?.error) {
-      push("/dashboard");
+      push("/");
     } else {
       alert("Ошибка: " + result.error);
     }
