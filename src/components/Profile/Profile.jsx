@@ -17,10 +17,6 @@ const Profile = () => {
     await signOut();
   };
 
-  useEffect(() => {
-    if (!isAuth) push("/");
-  }, [isAuth]);
-
   return (
     <S.Wrapper className="page">
       <S.Title>Мій профіль:</S.Title>

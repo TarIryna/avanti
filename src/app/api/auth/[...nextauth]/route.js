@@ -65,22 +65,6 @@ const handler = NextAuth({
       session.user.id = token.id;
       return session;
     },
-    // async session({ session }) {
-    //   // store the user id from MongoDB to session
-    //   const sessionUser = await User.findOne({ email: session.user.email });
-
-    //   const plainUser =
-    //     typeof sessionUser.toObject === "function"
-    //       ? sessionUser.toObject()
-    //       : sessionUser;
-
-    //   session.user = {
-    //     ...plainUser,
-    //     id: plainUser._id.toString(),
-    //   };
-
-    //   return session;
-    // },
     async signIn({ account, profile, user, credentials }) {
       try {
         await connectToDB();
