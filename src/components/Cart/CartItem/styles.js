@@ -25,3 +25,8 @@ export const ImageWrapper = styled.div`
     object-position: center;
   }
 `;
+
+export const Text = styled.div`
+    font-size: 14px;
+    font-weight: 400;
+`

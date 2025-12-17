@@ -22,6 +22,9 @@ const UserSchema = new Schema({
   surname: {
     type: String,
   },
+  fathername: {
+    type: String,
+  },
   phone: {
     type: String,
   },

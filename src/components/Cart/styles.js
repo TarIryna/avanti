@@ -65,3 +65,9 @@ export const List = styled.div`
 export const DeliveryCartWrapper = styled.div`
   max-width: 100%;
 `
+export const CartListProducts = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+`

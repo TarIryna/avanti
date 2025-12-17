@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-const statusColors = {
+export const statusColors = {
     new: '#56d956',
     delivered: 'orange',
     completed: 'blue'

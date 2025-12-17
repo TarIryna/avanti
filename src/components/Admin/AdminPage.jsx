@@ -1,28 +1,26 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import CartList from "@/components/Cart/CartList";
+import { useUserSession } from "@/fetchActions/user/useUser";
+import { adminEmails } from "./constants";
+import * as S from "./styles";
+import { OrderAdmin } from "./OrderAdmin";
+import { useQuery } from "@tanstack/react-query";
+import { fetchOrders } from "@/fetchActions/orders/fetchOrders";
 
 const AdminPage = () => {
-  const { data: session } = useSession();
-  const [isAccess, setIsAccess] = useState(false);
-  const [orders, setOrders] = useState([]);
+  const { data: user } = useUserSession();
+  const [isAdmin, setIsAdmin] = useState(false);
 
-  const fetchConfirmedOrders = async () => {
-    try {
-      const response = await fetch("/api/order/all", {
-        method: "GET",
-      });
-
-      if (response) {
-        const data = await response.json();
-        setOrders(data);
-      }
-    } catch (error) {
-      // console.log(error);
-    }
-  };
+  const {
+    data: orders = [],
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["orders"],
+    queryFn: fetchOrders,
+    enabled: isAdmin, // 👈 запрос только если есть доступ
+  });
 
   var object = orders.reduce((acc, cur) => {
     const user = cur.creator;
@@ -39,36 +37,26 @@ const AdminPage = () => {
   }
 
   useEffect(() => {
-    if (session?.id === "646b1cd6234250a294af7a22") setIsAccess(true);
-  }, [session?.id]);
+    const isAdmin = user && adminEmails.some(i => i === user.email)
+    setIsAdmin(isAdmin)
+  }, [user])
 
-  useEffect(() => {
-    if (isAccess) fetchConfirmedOrders();
-  }, [isAccess]);
-
-  const renderUserOrders = (user) => {
-    return (
-      <div className="admin__user_cart">
-        <h4>Реквізити:</h4>
-        <div>
-          <span className="mr5">{user.products[0].delivery.name}</span>
-          <span className="mr5">{user.products[0].delivery.surname}</span>
-          <span className="mr5">{user.products[0].delivery.phone}</span>
-          <br />
-          <span className="bb1 mr5 mb5">
-            {user.products[0].delivery.city},{" "}
-          </span>
-          <span className="bb1 mb5">{user.products[0].delivery.address}</span>
-        </div>
-        <CartList products={user.products} />
-      </div>
-    );
-  };
 
   return (
     <section>
-      {isAccess ? <h4>Адмінка</h4> : <h4>У вас нема доступу до адмінки</h4>}
-      {isAccess && users && users.map((user) => renderUserOrders(user))}
+      {isAdmin ? (
+        <S.Title>АДМІН ПАНЕЛЬ</S.Title>
+      ) : (
+        <S.Title>У вас нема доступу до адмін панелі</S.Title>
+      )}
+
+      {isAdmin && isLoading && <p>Завантаження...</p>}
+      {isAdmin && isError && <p>Помилка завантаження</p>}
+
+      {isAdmin &&
+        orders.map((order) => (
+          <OrderAdmin key={order._id} order={order} />
+        ))}
     </section>
   );
 };

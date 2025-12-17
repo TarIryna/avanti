@@ -2,7 +2,6 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { verifyPassword } from "@/helpers/verifyPassword";
-import { loginUserAction, logoutUserAction } from "@/store/actions/user";
 
 import User from "@/models/user";
 import { connectToDB } from "@/utils/database";
@@ -53,34 +52,8 @@ const handler = NextAuth({
   session: {
     strategy: "jwt", // Хранение сессий через JWT
   },
-cookies: {
-    sessionToken: {
-      name: "__Secure-next-auth.session-token",
-      options: {
-        httpOnly: true,
-        sameSite: "none",
-        secure: true,
-        path: "/",
-      },
-    },
-    callbackUrl: {
-      name: "__Secure-next-auth.callback-url",
-      options: {
-        sameSite: "none",
-        secure: true,
-        path: "/",
-      },
-    },
-    csrfToken: {
-      name: "__Host-next-auth.csrf-token",
-      options: {
-        httpOnly: true,
-        sameSite: "none",
-        secure: true,
-        path: "/",
-      },
-    },
-  },
+  useSecureCookies: true,
+  trustHost: true,
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
@@ -88,27 +61,26 @@ cookies: {
       }
       return token;
     },
-    async session({ session }) {
-      // store the user id from MongoDB to session
-      const sessionUser = await User.findOne({ email: session.user.email });
-
-      const plainUser =
-        typeof sessionUser.toObject === "function"
-          ? sessionUser.toObject()
-          : sessionUser;
-
-      session.user = {
-        ...plainUser,
-        id: plainUser._id.toString(),
-      };
-      if (!!session.user) {
-        loginUserAction();
-      } else {
-        logoutUserAction();
-      }
-
+    async session({ session, token }) {
+      session.user.id = token.id;
       return session;
     },
+    // async session({ session }) {
+    //   // store the user id from MongoDB to session
+    //   const sessionUser = await User.findOne({ email: session.user.email });
+
+    //   const plainUser =
+    //     typeof sessionUser.toObject === "function"
+    //       ? sessionUser.toObject()
+    //       : sessionUser;
+
+    //   session.user = {
+    //     ...plainUser,
+    //     id: plainUser._id.toString(),
+    //   };
+
+    //   return session;
+    // },
     async signIn({ account, profile, user, credentials }) {
       try {
         await connectToDB();

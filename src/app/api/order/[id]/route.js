@@ -13,3 +13,18 @@ export const DELETE = async (request, { params }) => {
     return new Response("Error deleting product", { status: 500 });
   }
 };
+
+export const PUT = async (req, { params }) => {
+  await connectToDB();
+
+  const { ttn } = await req.json();
+  const { id } = params;
+
+  const order = await Order.findByIdAndUpdate(
+    id,
+    { $set: { "deliver.ttn": ttn } },
+    { new: true }
+  );
+
+  return Response.json(order);
+};

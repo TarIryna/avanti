@@ -3,6 +3,7 @@ import Cart from "@/models/cart";
 import Product from "@/models/product";
 import User from "@/models/user";
 import { connectToDB } from "@/utils/database";
+import { sendTelegramMessage } from "@/fetchActions/orders/sendTelegramMessage";
 
 export const POST = async (request) => {
   let { delivery, items, userId } = await request.json();
@@ -48,6 +49,7 @@ export const POST = async (request) => {
         size: item.size,
         quantity: item.quantity,
         price: product.price,
+        code: product.code,
         image:
           product?.small_image ||
           product?.image1 ||
@@ -74,6 +76,20 @@ export const POST = async (request) => {
     if (!createdGuest) {
       await Cart.deleteMany({ creator: userId });
     }
+
+    const text =
+      `🛒 Нове замовлення!\n` +
+      `👤 Клієнт: Ірина Тар 0506927217\n` +
+      `Реквізити: Київ Відділення №10 (до 1100 кг ): вул. Василя Жуковського, 22А\n` +
+      `📦 Товари: всього ${validatedItems.length}:\n` +
+      validatedItems
+        .map(
+          item =>
+            `код: ${item.code} кількість: ${item.quantity} ціна: ${item.price}`
+        )
+        .join("\n");
+
+    const resTelegram =  await sendTelegramMessage(text);
 
     return new Response(
       JSON.stringify({

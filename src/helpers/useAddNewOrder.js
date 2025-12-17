@@ -31,7 +31,6 @@ export const useAddNewOrder = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(emailParams)
       })
-      console.log(emailResult)
 
       if (!res.ok) {
         const error = await res.text();
