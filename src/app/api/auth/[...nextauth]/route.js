@@ -2,11 +2,10 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { verifyPassword } from "@/helpers/verifyPassword";
-
 import User from "@/models/user";
 import { connectToDB } from "@/utils/database";
 
-const handler = NextAuth({
+export const authOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_ID,
@@ -15,66 +14,65 @@ const handler = NextAuth({
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: {
-          label: "Email",
-          type: "email",
-          placeholder: "your-email@example.com",
-        },
+        email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
-    async authorize(credentials) {
-      await connectToDB();
-      const user = await User.findOne({ email: credentials.email });
+      async authorize(credentials) {
+        await connectToDB();
+        const user = await User.findOne({ email: credentials.email });
 
-      if (!user || !user.password) {
-        throw new Error("Користувача не знайдено");
-      }
+        if (!user || !user.password) {
+          throw new Error("Користувача не знайдено");
+        }
 
-      const isValid = await verifyPassword(credentials.password, user.password);
-      if (!isValid) {
-        throw new Error("Невірний пароль");
-      }
+        const isValid = await verifyPassword(credentials.password, user.password);
+        if (!isValid) {
+          throw new Error("Невірний пароль");
+        }
 
-      // 👇 обязательно приведи Mongoose-документ к простому объекту
-      const plainUser =
-        typeof user.toObject === "function" ? user.toObject() : user;
-
-
-      return {
-        id: plainUser._id.toString(),
-        email: plainUser.email,
-        name: plainUser.username || plainUser.name || "",
-        image: plainUser.image || null,
-      };
-    }
+        return {
+          id: user._id.toString(), // ✅ Mongo ID
+          email: user.email,
+          name: user.username || "",
+          image: user.image || null,
+        };
+      },
     }),
   ],
-  session: {
-    strategy: "jwt", // Хранение сессий через JWT
-  },
+
+  session: { strategy: "jwt" },
   useSecureCookies: true,
   trustHost: true,
+
   callbacks: {
     async jwt({ token, user }) {
+      // 🔥 при первом логине
       if (user) {
-        token.id = user.id;
+        await connectToDB();
+
+        const dbUser = await User.findOne({ email: user.email });
+
+        token.id = dbUser._id.toString(); // ✅ ВСЕГДА Mongo ID
+        token.email = dbUser.email;
       }
+
       return token;
     },
+
     async session({ session, token }) {
-      session.user.id = token.id;
+      session.user.id = token.id; // ✅ Mongo ObjectId
       return session;
     },
-    async signIn({ account, profile, user, credentials }) {
+
+    async signIn({ account, profile, credentials }) {
       try {
         await connectToDB();
-        const email = profile?.email ?? credentials?.email ?? user?.email;
 
-        // check if user already exists
+        const email = profile?.email ?? credentials?.email;
+
         const userExists = await User.findOne({ email });
 
-        // if not, create a new document and save user in MongoDB
-        if (!userExists && account.provider !== "credentials") {
+        if (!userExists && account.provider === "google") {
           await User.create({
             email: profile.email,
             username: profile.name.replace(" ", "").toLowerCase(),
@@ -83,12 +81,14 @@ const handler = NextAuth({
         }
 
         return true;
-      } catch (error) {
+      } catch {
         return false;
       }
     },
   },
-  secret: process.env.NEXTAUTH_SECRET,
-});
 
+  secret: process.env.NEXTAUTH_SECRET,
+};
+
+const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };

@@ -2,6 +2,9 @@ import { NextResponse } from "next/server";
 import { connectToDB } from "@/utils/database";
 import Cart from "@/models/cart";
 import Product from "@/models/product";
+import { authOptions } from "@/lib/auth";
+import { getServerSession } from "next-auth";
+import mongoose from "mongoose";
 
 // ========================
 // POST /api/cart/add
@@ -12,6 +15,8 @@ export async function POST(req) {
     await connectToDB();
     const body = await req.json();
     const { creator, product, price, image, size, quantity, code } = body;
+    console.log('creator', creator)
+
   
 
     if (!creator || !product || !size || !price) {
