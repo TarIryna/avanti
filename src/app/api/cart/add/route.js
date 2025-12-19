@@ -15,7 +15,6 @@ export async function POST(req) {
     await connectToDB();
     const body = await req.json();
     const { creator, product, price, image, size, quantity, code } = body;
-    console.log('creator', creator)
 
   
 

@@ -59,7 +59,6 @@ const Menu = ({ anchorRef }) => {
     changeToInitialAction();
     const routeText = menuData[submenu][subtab][item];
     const route = `/${routeText?.gender}?page=1&limit=24&season=${routeText?.season}&view=${routeText?.view}`;
-    console.log(route)
     return route;
   };
 
