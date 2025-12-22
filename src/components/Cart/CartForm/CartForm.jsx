@@ -1,11 +1,9 @@
-import { FormProvider, useForm } from "react-hook-form";
-import { Input, Button } from "@/components/ui";
-import * as S from "./styles";
-import { useEffect } from "react";
+import { Input } from "@/components/ui";
 import { useUserSession } from "@/fetchActions/user/useUser";
 
 const CartForm = ({ register }) => {
   const { data: user } = useUserSession()
+
   const onBlurEmail = (e) => {
     console.log(e);
   };
@@ -22,6 +20,7 @@ const CartForm = ({ register }) => {
         onBlur={(e) => onBlurEmail(e)}
         label='e-mail'
         isBorder
+        disabled={!!user?.email}
       />
       <Input
         type="text"
@@ -47,13 +46,13 @@ const CartForm = ({ register }) => {
         type="tel"
         placeholder="Телефон"
         {...register("phone", { required: true })}
-        tabIndex={6}
+        tabIndex={4}
         enterKeyHint="next"
         defaultValue={user?.phone ?? ''}
         label="Телефон"
         isBorder
       />
-      <Input
+      {/* <Input
         type="text"
         placeholder="Місто"
         {...register("city", { required: true })}
@@ -70,7 +69,7 @@ const CartForm = ({ register }) => {
         defaultValue={user?.addressDescription ?? ''}
         enterKeyHint="done"
         isBorder
-      />
+      /> */}
     </>
   );
 };

@@ -61,6 +61,14 @@ export const authOptions = {
 
     async session({ session, token }) {
       session.user.id = token.id; // ✅ Mongo ObjectId
+      const dbUser = await User.findById(token.id).lean();
+
+      if (dbUser) {
+        session.user = {
+          ...dbUser,
+          id: dbUser._id.toString(),
+        };
+      }
       return session;
     },
 

@@ -3,8 +3,15 @@ export const sendTelegramMessage = async (text) => {
     const token = process.env.TELEGRAM_BOT_TOKEN;
     const chatId = process.env.TELEGRAM_CHAT_ID;
 
+      const isLocalhost =
+    process.env.NEXTAUTH_URL?.includes("localhost")
+
     if (!token || !chatId) {
       throw new Error("Telegram env variables are missing");
+    }
+
+    if (isLocalhost){
+      return {message: 'Is local dev'}
     }
 
     const url = `https://api.telegram.org/bot${token}/sendMessage`;
@@ -27,7 +34,6 @@ export const sendTelegramMessage = async (text) => {
     }
 
     const data = await response.json();
-    console.log("Telegram message sent:", data);
 
     return data;
   } catch (error) {

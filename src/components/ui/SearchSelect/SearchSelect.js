@@ -1,20 +1,31 @@
 "use client";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import debounce from "debounce";
 import * as S from "./styles";
 
 const SearchSelect = ({
-  defaultValue = "",
+  defaultValue = { value: '', label: '' },
   fetchOptions, // async (query) => [{ value, label }]
   placeholder = "Введіть для пошуку...",
   name = "select",
   onChange,
+  title
 }) => {
   const [options, setOptions] = useState([]);
   const [selected, setSelected] = useState(null);
   const [query, setQuery] = useState("");
   const [showSearch, setShowSearch] = useState(true);
   const [isVisibleInput, setIsVisibleInput] = useState(true);
+  const isInitialized = useRef(false);
+
+useEffect(() => {
+  if (!isInitialized.current && defaultValue?.value) {
+    setSelected(defaultValue);
+    setQuery(defaultValue.label);
+    setIsVisibleInput(false);
+    isInitialized.current = true;
+  }
+}, [defaultValue]);
   // const [isLoading, setIsLoading] = useState(false);
 
   // дебаунс запросов
@@ -25,18 +36,6 @@ const SearchSelect = ({
         const data = await fetchOptions(q);
         // setIsLoading(false);
         setOptions(data);
-
-        // если передан дефолт и мы ещё не выбрали
-        // if (defaultValue && !selected) {
-        //   const defaultSelected = data.find(
-        //     (item) => item.label === defaultValue
-        //   );
-        //   if (defaultSelected) {
-        //     setSelected(defaultSelected);
-        //     onChange?.(defaultSelected.value);
-        //     setShowSearch(false);
-        //   }
-        // }
       }, 400),
     [defaultValue, selected]
   );
@@ -50,6 +49,7 @@ const SearchSelect = ({
   useEffect(() => {
     if (query) debouncedFetch(query);
   }, [query, debouncedFetch]);
+  
 
 const handleSelect = (e) => {
   const value = e.target.value;
@@ -60,8 +60,14 @@ const handleSelect = (e) => {
   setQuery(option?.label || "");
 };
 
+const onClear = (e) => {
+  setQuery("")
+  onChange({value: '', label: ''})
+}
+
   return (
     <S.Wrapper>
+      {title && <S.Title>{title}</S.Title>}
       {showSearch && (
         <S.Input
           type="text"
@@ -85,7 +91,7 @@ const handleSelect = (e) => {
           </option>
         ))}
       </S.Select>
-      <S.Clear onClick={() => setQuery("")}>X</S.Clear>
+      <S.Clear onClick={onClear}>X</S.Clear>
     </S.Wrapper>
   );
 };

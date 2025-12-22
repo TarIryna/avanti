@@ -3,7 +3,6 @@ import { changeOrderIsLoadingAction } from "@/store/actions/orders";
 import { updateUserAction } from "@/store/actions/user";
 import { useUserSession } from "@/fetchActions/user/useUser";
 import { toast } from "react-hot-toast";
-// import { useFetchAllOrders } from "@/helpers/useFetchAllOrders";
 import { useChangeOrderStatus } from "@/helpers/useChangeOrderStatus";
 import { useUpdateUser } from "@/fetchActions/user/useUpdateUser";
 import { FormProvider, useForm } from "react-hook-form";
@@ -88,6 +87,7 @@ const DeliveryCart = ({ onSuccess }) => {
     const city = e.city ?? user?.city
     const addressDescription = e.addressDescription ?? user?.addressDescription;
     const address = e.address ?? user?.address
+    const email = e.email ?? user?.email
 
     const orderData = {
       name,
@@ -95,6 +95,7 @@ const DeliveryCart = ({ onSuccess }) => {
       phone,
       isViber,
       city,
+      email,
       address,
       cityDescription,
       addressDescription
@@ -115,8 +116,7 @@ const DeliveryCart = ({ onSuccess }) => {
       <FormProvider {...methods}>
         <S.Form onSubmit={handleSubmit(onSubmit)}>
           <CartClientInfo needUpdate={needUpdate} register={register} />
-          <button type="button" onClick={() => setShowDelivery(true)}>Змінити реквізити доставки</button>
-          {isDeliveryChangeShown && <DeliveryForm register={register} />}
+          <DeliveryForm register={register} />
           <button type="submit">Відправити замовлення</button>
         </S.Form>
       </FormProvider>

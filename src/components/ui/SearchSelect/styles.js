@@ -2,12 +2,13 @@ import styled from "@emotion/styled";
 
 export const Wrapper = styled.div`
   position: relative;
+  height: 40px;
 `;
 
 export const Input = styled.input`
   width: 90%;
   display: block;
-  height: 28px;
+  height: calc(100% - 2px);
   padding: 0 16px;
   border-radius: 12px;
   position: absolute;
@@ -24,7 +25,7 @@ export const Input = styled.input`
 
 export const Select = styled.select`
   width: 100%;
-  height: 30px;
+  height: inherit;
   border: 0.8px solid grey;
   border-radius: 12px;
 `;
@@ -37,3 +38,11 @@ export const Clear = styled.div`
   transform: translate3d(0, -50%, 0);
   font-size: 10px;
 `;
+
+export const Title = styled.div`
+  position: absolute;
+  top: 0;
+  left: 18px;
+  font-size: 8px;
+  z-index: 2;
+  `

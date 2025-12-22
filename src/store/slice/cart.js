@@ -20,7 +20,6 @@ export const addItemsToServerCart = createAsyncThunk(
   "cart/addItemsToServerCart",
   async ({ localItems, userId }) => {
     const response = await addItemsToServerCartAPI(localItems, userId);
-    console.log(response)
     return response.items;
   }
 );
@@ -29,7 +28,6 @@ export const addItemToCart = createAsyncThunk(
   "cart/addItemToCart",
   async ({item, userId }) => {
     const response = await addItemToCartAPI(item, userId);
-    console.log(response)
     return response.items;
   }
 );
@@ -77,7 +75,6 @@ export const cartSlice = createSlice({
       })
       .addCase(addItemsToServerCart.fulfilled, (state, action) => {
         state.isLoading = false;
-        console.log(action.payload)
         state.items = action.payload;
       })
       .addCase(addItemsToServerCart.rejected, (state, action) => {
@@ -91,7 +88,6 @@ export const cartSlice = createSlice({
       })
       .addCase(addItemToCart.fulfilled, (state, action) => {
         state.isLoading = false;
-        console.log(action.payload)
         state.items = action.payload;
       })
       .addCase(addItemToCart.rejected, (state, action) => {

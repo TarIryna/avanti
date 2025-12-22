@@ -8,7 +8,6 @@ export const fetchServerCartAPI = async (userId) => {
     });
     if (!res.ok) throw new Error("Failed to fetch server cart");
     const data = await res.json();
-    console.log(data)
     // предположим, что сервер возвращает массив заказов
     return Array.isArray(data) ? data : data.items || [];
   } catch (err) {

@@ -9,11 +9,11 @@ const CartClientInfo = ({ register }) => {
   const userName = user?.name;
   const userSurname = user?.surname;
   const userPhone = user?.phone;
-  const userViber = user?.isViber;
+  // const userViber = user?.isViber;
   const [name, setName] = useState(userName ?? "");
   const [surname, setSurname] = useState(userSurname ?? "");
   const [phone, setPhone] = useState(userPhone ?? "");
-  const [isViber, setIsViber] = useState(userViber ?? false);
+  // const [isViber, setIsViber] = useState(userViber ?? false);
 
   const onChangeName = (e) => {
     setName(e.target.value);
@@ -24,9 +24,9 @@ const CartClientInfo = ({ register }) => {
   const onChangePhone = (e) => {
     setPhone(e.target.value);
   };
-  const onChangeViber = (e) => {
-    setIsViber(e.target.value);
-  };
+  // const onChangeViber = (e) => {
+  //   setIsViber(e.target.value);
+  // };
 
   const allLinesComplete = name && surname && phone;
 
@@ -35,7 +35,7 @@ const CartClientInfo = ({ register }) => {
       <h3>Заповніть особисті дані:</h3>
       <CartForm register={register} />
 
-      <ViberWrapper>
+      {/* <ViberWrapper>
         <label>
           Якщо хочете, щоб менеджер зв'язався по вайберу, зробіть відмітку
         </label>
@@ -49,7 +49,7 @@ const CartClientInfo = ({ register }) => {
           defaultValue={isViber}
           onBlur={(e) => onBlurEmail(e)}
         />
-      </ViberWrapper>
+      </ViberWrapper> */}
     </List>
   );
 };

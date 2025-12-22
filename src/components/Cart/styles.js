@@ -71,3 +71,7 @@ export const CartListProducts = styled.div`
   gap: 10px;
   margin-top: 10px;
 `
+
+export const Text = styled.div`
+  font-size: 14px;
+`
