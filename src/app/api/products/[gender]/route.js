@@ -17,6 +17,7 @@ export const GET = async (request, { params }) => {
     const page = Number(searchParams.get("page") ?? 1);
     const limit = Number(searchParams.get("limit") ?? 24);
     const query = { gender, type };
+    const isSale = gender === 'sale'
 
     // Добавляешь фильтры только если они есть
     if (view) query.view = view;
@@ -25,6 +26,7 @@ export const GET = async (request, { params }) => {
     if (material) query.material = material;
     if (color) query.color = color;
     if (sort) query.sort = sort;
+    if (isSale) query.price2 = { $exists: true, $ne: null };
 
     const products = await Product.find(query)
       .limit(limit)

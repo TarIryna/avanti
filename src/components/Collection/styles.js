@@ -66,3 +66,17 @@ export const FilterGrid = styled.div`
       background: white;
     }
 `;
+
+export const SearchButton = styled.button`
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+`
+
+export const SearchWrapper = styled.div`
+  position: relative;
+  margin-left: auto;
+  `

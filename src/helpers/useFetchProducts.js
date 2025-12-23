@@ -14,6 +14,7 @@ export const fetchProductsByParams = async ({
   type = "shoes",
   limit = 24,
   page = 1,
+  query
 }) => {
   try {
     changeIsLoadingAction(true);
@@ -25,6 +26,7 @@ export const fetchProductsByParams = async ({
     if (material) params.material = material;
     if (sort) params.sort = sort;
     if (type) params.type = type;
+    if (query) params.query = query;
 
     const queryString = new URLSearchParams(params).toString();
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
@@ -61,31 +63,3 @@ export const fetchProductsByQuery = async ({
     console.log(error);
   }
 };
-
-// export const fetchProductsMain = async ({ limit = 24, page = 1 }) => {
-//   console.log(limit, page);
-//   const month = new Date().getMonth() + 1;
-//   const currentSeason =
-//     month < 3 || month === 12 || month === 11
-//       ? "winter"
-//       : month === 10 || month === 9
-//       ? "demi"
-//       : month >= 3 && month < 6
-//       ? "autumn"
-//       : month >= 6 && month < 9
-//       ? "summer"
-//       : "autumn";
-//   try {
-//     changeIsLoadingAction(true);
-//     const response = await fetch(
-//       `/api/products?sortBy=${sortBy}&limit=${limit}&page=${page}&season=${currentSeason}`
-//     );
-
-//     if (response.ok) {
-//       const data = await response.json();
-//       return data;
-//     }
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };

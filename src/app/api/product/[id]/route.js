@@ -4,7 +4,7 @@ import { connectToDB } from "@/utils/database";
 export const GET = async (request, { params }) => {
   try {
     await connectToDB();
-    const product = await Product.findOne({ code: params.id });
+    const product = await Product.findOne({code: Number(params.id) }).lean();
     return new Response(JSON.stringify(product), { status: 200 });
   } catch (error) {
     return new Response("Failed to fetch all products", { status: 500 });

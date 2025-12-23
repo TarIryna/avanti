@@ -28,7 +28,7 @@ const Card = ({ item }) => {
               src={image}
               alt="user_image"
               fill
-              onClick={() => handleClick(item._id)}
+              onClick={() => handleClick(item.code)}
             />
           </S.ImageWrapper>
           <div> 

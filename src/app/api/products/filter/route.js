@@ -8,6 +8,7 @@ export const GET = async (request) => {
   try {
     await connectToDB();
     const { searchParams } = new URL(request.url);
+    const query = searchParams.get("query");
     const gender = searchParams.get("gender");
     const season = searchParams.get("season");
     const view = searchParams.get("view");
@@ -18,11 +19,11 @@ export const GET = async (request) => {
     const type = searchParams.get("type");
     const limit = Number(searchParams.get("limit") ?? 24);
     const page = Number(searchParams.get("page") ?? 1);
+    const isSale = gender === 'sale'
 
     // ✅ строим фильтр динамически
     const filterParams = {};
     if (type && type !== "null") filterParams.type = type;
-    if (gender && gender !== "bags") filterParams.gender = gender;
     if (season && season !== "null") filterParams.season = season;
     if (view && view !== "null") filterParams.view = view;
     if (color && color !== "null") filterParams.color = color;
@@ -30,6 +31,32 @@ export const GET = async (request) => {
     if (type && type !== "null") filterParams.type = type;
     if (sizes && sizes !== "null") {
       filterParams.sizes = { $regex: `\\b${sizes}\\b` };
+    }
+    if (isSale){
+      filterParams.price2 = { $exists: true, $ne: null };
+    }
+    if (gender === "kids") {
+      filterParams.gender = { $in: ["girls", "boys"] };
+    } else if (
+      gender &&
+      gender !== "bags" &&
+      gender !== "sale" &&
+      gender !== "all"
+    ) {
+      filterParams.gender = gender;
+    }
+
+    if (query) {
+      const orConditions = [
+        { name: { $regex: query, $options: "i" } },
+      ];
+
+      // если query — число, ищем и по code
+      if (!isNaN(query)) {
+        orConditions.push({ code: Number(query) });
+      }
+
+      filterParams.$or = orConditions;
     }
 
     const sortParam = getSortParam(sort);

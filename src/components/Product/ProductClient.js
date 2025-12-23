@@ -3,16 +3,16 @@
 import { useQuery } from "@tanstack/react-query";
 import Product from "@/components/Product/Product";
 
-const fetchProductById = async (id) => {
-  const res = await fetch(`/api/product/${id}`);
+const fetchProductById = async (code) => {
+  const res = await fetch(`/api/product/${code}`);
   if (!res.ok) throw new Error("Failed to fetch product");
   return res.json();
 };
 
 export default function ProductClient({ product }) {
   const { data } = useQuery({
-    queryKey: ["product", product._id],
-    queryFn: () => fetchProductById(product._id),
+    queryKey: ["product", product?.code],
+    queryFn: () => fetchProductById(product.code),
     initialData: product,
   });
 

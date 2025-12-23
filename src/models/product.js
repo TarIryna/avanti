@@ -1,9 +1,9 @@
-import { Schema, model, models } from "mongoose";
+import { model, models, Schema } from "mongoose";
 
 const ProductSchema = new Schema(
   {
     code: {
-      type: String,
+      type: Number,
       required: [true, "code is required"],
       unique: true,
     },
@@ -15,46 +15,26 @@ const ProductSchema = new Schema(
       type: String,
       required: [true, "gender is required"],
     },
-    view: {
-      type: String,
-    },
+    view: String,
     season: {
       type: String,
       required: [true, "season is required"],
     },
-    quantity: {
-      type: Number,
-    },
+    quantity: Number,
     price: {
       type: Number,
       required: true,
     },
-    price2: {
-      type: Number,
-    },
-    sizes: {
-      type: String,
-    },
-    material: {
-      type: String,
-    },
-    color: {
-      type: String,
-    },
-    material_top: {
-      type: String,
-    },
-    material_inside: {
-      type: String,
-    },
-    type: {
-      type: String,
-    },
-    small_image: {
-      type: String,
-    }
+    price2: Number,
+    sizes: String,
+    material: String,
+    color: String,
+    material_top: String,
+    material_inside: String,
+    type: String,
+    small_image: String
   },
-  { versionKey: false, timestamps: true }
+  { versionKey: false, timestamps: true, collection: "products" } // ← обязательно
 );
 
 const Product = models.Product || model("Product", ProductSchema);
