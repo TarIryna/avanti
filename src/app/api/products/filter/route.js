@@ -1,6 +1,7 @@
 import Product from "@/models/product";
 import { connectToDB } from "@/utils/database";
 import { getSortParam } from "@/helpers/getSortParam";
+import { getSeasonPriorityByDate } from "@/helpers/getSortParam";
 
 export const dynamic = "force-dynamic";
 
@@ -61,15 +62,64 @@ export const GET = async (request) => {
 
     const sortParam = getSortParam(sort);
 
-    // ✅ считаем total
-    const total = await Product.countDocuments(filterParams);
-    // ✅ достаем продукты с пагинацией
-    const products = await Product.find(filterParams)
-      .sort(sortParam)
-      .limit(limit)
-      .skip((page - 1) * limit);
+const seasonPriority = getSeasonPriorityByDate();
 
-    const pages = Math.ceil(total / limit);
+// защита
+Object.keys(sortParam).forEach((key) => {
+  if (typeof sortParam[key] !== "number") {
+    delete sortParam[key];
+  }
+});
+
+const baseSort = getSortParam(sort);
+
+const finalSort = {
+  seasonOrder: 1,   // сначала сезон
+  ...baseSort,  // потом выбранный sort
+  _id: 1      
+};
+
+
+const pipeline = [
+  { $match: filterParams },
+
+  // добавляем вычисляемое поле для сортировки по сезону
+  {
+    $addFields: {
+      seasonOrder: {
+        $switch: {
+          branches: [
+            { case: { $eq: ["$season", seasonPriority[0]] }, then: 0 },
+            { case: { $eq: ["$season", seasonPriority[1]] }, then: 1 },
+            { case: { $eq: ["$season", seasonPriority[2]] }, then: 2 },
+          ],
+          default: 99,
+        },
+      },
+    },
+  },
+
+  {
+    $facet: {
+      data: [
+        { $sort: finalSort },      // сортировка
+        { $skip: (page - 1) * limit },
+        { $limit: limit },
+      ],
+      meta: [
+        { $count: "total" },       // ❗ ОБЩЕЕ количество
+      ],
+    },
+  },
+];
+
+
+
+const result = await Product.aggregate(pipeline);
+
+const products = result[0]?.data || [];
+const total = result[0]?.meta[0]?.total || 0;
+const pages = Math.ceil(total / limit);
 
     return new Response(JSON.stringify({ total, products, pages }), {
       status: 200,

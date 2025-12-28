@@ -44,6 +44,13 @@ export const LimitPageWrapper = styled.div`
   @media screen and (max-width: 540px) {
     justify-content: space-between;
   }
+
+  select {
+    border: 1px solid grey;\
+    padding: 2px 10px;
+    border-radius: 12px;
+    height: 34px;
+  }
 `;
 
 export const FilterTitle = styled.h3`

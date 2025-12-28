@@ -34,22 +34,6 @@ const CartClientInfo = ({ register }) => {
     <List>
       <h3>Заповніть особисті дані:</h3>
       <CartForm register={register} />
-
-      {/* <ViberWrapper>
-        <label>
-          Якщо хочете, щоб менеджер зв'язався по вайберу, зробіть відмітку
-        </label>
-        <ViberInput
-          onChange={onChangeViber}
-          type="checkbox"
-          placeholder="viber"
-          {...register("viber")}
-          tabIndex={1}
-          enterKeyHint="next"
-          defaultValue={isViber}
-          onBlur={(e) => onBlurEmail(e)}
-        />
-      </ViberWrapper> */}
     </List>
   );
 };

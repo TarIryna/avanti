@@ -30,6 +30,7 @@ export const Select = styled.select`
   height: 30px;
   border: 0.8px solid grey;
   border-radius: 12px;
+  background: white;
 `;
 
 export const ViberInput = styled(Input)`

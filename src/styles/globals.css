@@ -265,7 +265,14 @@
   margin: 20px auto;
   justify-content: center;
 }
+
+.filter__select{
+  border: none;
+  outline: none;
+  background: white;
+}
 .filter__select:focus-visible{
   border: none;
   outline: none;
+  background: white;
 }

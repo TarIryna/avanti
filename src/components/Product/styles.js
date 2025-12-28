@@ -113,6 +113,9 @@ export const GalleryWrapper = styled.div`
   ${media.desktopSm}{
     aspect-ratio: unset;
   }
+  ${media.mobile}{
+    touch-action: pan-y;
+  }
 `;
 
 const buttonStyles = css`

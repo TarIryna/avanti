@@ -11,10 +11,6 @@ const Product = ({ product }) => {
 
   const sizes = product?.sizes ? product.sizes.split(" ") : [];
 
-  const sendEmail = () => {
-    // TODO
-  };
-
   return (
     <>
       {product && (
@@ -23,13 +19,7 @@ const Product = ({ product }) => {
           <S.Content>
             <S.Name>{capitalize(product.name)}</S.Name>
             <Description data={product} />
-            {!!sizes?.length ? (
-              <Sizes sizes={sizes} item={product} />
-            ) : (
-              <S.ButtonAsk onClick={sendEmail}>
-                Запитати про наявність
-              </S.ButtonAsk>
-            )}
+            <Sizes sizes={sizes} item={product} />
           </S.Content>
         </S.ProductWrapper>
       )}

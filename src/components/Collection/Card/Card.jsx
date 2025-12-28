@@ -8,7 +8,7 @@ import * as S from "./styles";
 
 const Card = ({ item }) => {
   const router = useRouter();
-  const sizes = item.sizes?.split(" ");
+  const sizes = item?.sizes && typeof item?.sizes === 'string' && item?.sizes?.includes(" ") ? item?.sizes?.split(" ") : [item?.sizes];
   const isSale = item.price > 0 && item.price2 > 0;
   const name = item.name.slice(0, 1).toUpperCase() + item.name.slice(1);
   const image = item.small_iamge ?? item.image1;

@@ -18,6 +18,6 @@ export const bannersData = [
     image:
       "https://i.ibb.co/mB84207/sumka-zhenskaya-591231-korichnevaya-1-1080x1080-1.webp",
     text: "Аксесуари",
-    link: "/women?type=bags&page=1&limit=24",
+    link: "/all?type=bags&page=1&limit=24",
   },
 ];

@@ -28,6 +28,8 @@ export const Select = styled.select`
   height: inherit;
   border: 0.8px solid grey;
   border-radius: 12px;
+  background: white;
+  padding: 0 10px 0;
 `;
 
 export const Clear = styled.div`

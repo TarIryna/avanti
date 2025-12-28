@@ -8,6 +8,8 @@ import { IconArrow } from "../icons";
 export const Slider = ({ imagesToDisplay }) => {
   const [index, setIndex] = useState(0);
   const sliderRef = useRef(null);
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
   const length = imagesToDisplay?.length;
   const areButtons = length > 1;
   const isFirst = index === 0;
@@ -22,11 +24,37 @@ export const Slider = ({ imagesToDisplay }) => {
     setIndex((prev) => Math.max(prev - 1, 0));
   };
 
+  const handleTouchStart = (e) => {
+  touchStartX.current = e.touches[0].clientX;
+};
+
+const handleTouchMove = (e) => {
+  touchEndX.current = e.touches[0].clientX;
+};
+
+const handleTouchEnd = () => {
+  const diff = touchStartX.current - touchEndX.current;
+
+  // порог — чтобы не реагировать на микродвижения
+  const threshold = 50;
+
+  if (diff > threshold) {
+    handleNext(); // свайп влево
+  }
+
+  if (diff < -threshold) {
+    handlePrev(); // свайп вправо
+  }
+};
+
   return (
     <S.SliderWrapper>
         <S.Padding>
       <S.Slider
         ref={sliderRef}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
         style={{ transform: `translateX(-${index * 100}%)` }}
       >
         {imagesToDisplay?.map((item, i) => (

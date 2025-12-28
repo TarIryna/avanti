@@ -1,0 +1,7 @@
+version: '2'
+tunnels:
+  project:
+    proto: http
+    hostname: prime-lovely-ladybird.ngrok-free.app
+    addr: 3000
+authtoken: 2xRWiwtRlOSU7huh9XxiSZnsJja_4Kyc2mG9grRgjQ49ApGhN

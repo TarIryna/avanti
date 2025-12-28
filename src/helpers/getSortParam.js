@@ -2,19 +2,28 @@ export const getSortParam = (sort) => {
   switch (sort) {
     case "priceUp":
       return { price: 1 };
-      break;
     case "priceDown":
       return { price: -1 };
-      break;
     case "popular":
       return { pop: -1 };
-      break;
     case "new":
       return { code: -1 };
-      break;
-
     default:
       return {};
-      break;
   }
+};
+
+
+export const getSeasonPriorityByDate = () => {
+  const month = new Date().getMonth() + 1;
+
+  if ([12, 1, 2].includes(month)) {
+    return ["winter", "autumn", "summer"];
+  }
+
+  if ([3, 4, 5, 6, 7, 8].includes(month)) {
+    return ["summer", "autumn", "winter"];
+  }
+
+  return ["autumn", "winter", "summer"];
 };
