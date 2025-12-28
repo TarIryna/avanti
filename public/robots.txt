@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Закрываем страницы, которые не нужны в индексе
+Disallow: /*?sort=
+Disallow: /*?page=
+Disallow: /*?filter=
+
+# Указываем sitemap основного домена
+Sitemap: https://avanti-shoes.com.ua//sitemap.xml

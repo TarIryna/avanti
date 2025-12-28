@@ -2,6 +2,28 @@ import Collection from "@/components/Collection/Collection/Collection";
 import { fetchProductsByParams } from "@/helpers/useFetchProducts";
 import { redirect } from "next/navigation";
 
+// --- SEO для страницы ---
+export async function generateMetadata({ params }) {
+  const genderMap = {
+    men: 'Чоловіче взуття',
+    women: 'Жіноче взуття',
+    girls: 'Взуття для дівчат',
+    boys: 'Взуття для хлопців',
+  };
+
+  const title = `${genderMap[params.gender]} — купить с доставкой`;
+  const description = `Великий вибір ${genderMap[params.gender].toLowerCase()}. Фото, ціни, доставка.`;
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: `https://avanti-shoes.com.ua/${params.gender}`,
+    },
+  };
+}
+
+// --- Компонент страницы ---
 export default async function PageGender({ params, searchParams }) {
   const gender = params.gender;
   const page = Number(searchParams.page ?? 1);
@@ -14,6 +36,7 @@ export default async function PageGender({ params, searchParams }) {
   const material = searchParams?.material;
   const type = searchParams?.type;
   const searchQuery = searchParams?.query;
+
   const basePath = `/${params.gender}`;
   const queryParams = { page, limit };
   if (season) queryParams.season = season;
@@ -24,12 +47,12 @@ export default async function PageGender({ params, searchParams }) {
   if (material) queryParams.material = material;
   if (type) queryParams.type = type;
   if (searchQuery) queryParams.query = searchQuery;
+
   const query = new URLSearchParams(queryParams);
-  // добавляем дефолтные, если их нет
   if (!query?.has("page")) query.set("page", "1");
   if (!query?.has("limit")) query.set("limit", "24");
 
-  // если чего-то не хватало — делаем redirect
+  // redirect если дефолтные параметры отсутствуют
   if (!searchParams.page || !searchParams.limit) {
     return redirect(`${basePath}?${query.toString()}`);
   }
