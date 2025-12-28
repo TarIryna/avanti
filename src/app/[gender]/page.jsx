@@ -9,10 +9,11 @@ export async function generateMetadata({ params }) {
     women: 'Жіноче взуття',
     girls: 'Взуття для дівчат',
     boys: 'Взуття для хлопців',
+    sale: "Взуття зі знижками"
   };
 
-  const title = `${genderMap[params.gender]} — купить с доставкой`;
-  const description = `Великий вибір ${genderMap[params.gender].toLowerCase()}. Фото, ціни, доставка.`;
+  const title = `${genderMap[params.gender]} — купити с доставкою`;
+  const description = `Великий вибір ${genderMap[params.gender]?.toLowerCase()}. Фото, ціни, доставка.`;
 
   return {
     title,
