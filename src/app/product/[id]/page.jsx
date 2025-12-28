@@ -5,14 +5,14 @@ export async function generateMetadata({ params }) {
   let product = null
 
   try {
-    const res = await fetch(`https://api.avanti-shoes.com.ua/product/${params.code}`)
+    const res = await fetch(`https://api.avanti-shoes.com.ua/product/${params.id}`)
 
     if (!res.ok) {
       console.error('Product API error', res.status)
       return {
-        title: 'Товар не найден',
+        title: `${params?.id ?? 'Товар'} купити з доставкою`,
         description: '',
-        alternates: { canonical: `https://avanti-shoes.com.ua/product/${params.code}` },
+        alternates: { canonical: `https://avanti-shoes.com.ua/product/${params.id}` },
       }
     }
 
@@ -21,7 +21,7 @@ export async function generateMetadata({ params }) {
   } catch (err) {
     console.error('Failed to fetch product', err)
     return {
-      title: 'Товар не найден',
+      title: `${params?.code ?? 'Товар'} купити з доставкою`,
       description: '',
       alternates: { canonical: `https://avanti-shoes.com.ua/product/${params.code}` },
     }
