@@ -11,18 +11,8 @@ import MenuList from "@mui/material/MenuList";
 import MenuItem from "@mui/material/MenuItem";
 
 import { menuData } from "@/utils/data";
-import { changeToInitialAction } from "@/store/actions/products";
-import { setIsOpenMenuAction } from "@/store/actions/common";
-import { useCommon } from "@/store/selectors";
+import { useMenuStore } from "@/components/GeneralProvider/context/MenuProvider"
 
-function handleListKeyDown(event) {
-  if (event.key === "Tab") {
-    event.preventDefault();
-    setIsOpenMenuAction(false);
-  } else if (event.key === "Escape") {
-    setIsOpenMenuAction(false);
-  }
-}
 
 const Menu = ({ anchorRef }) => {
   const [submenu, setSubmenu] = useState(null);
@@ -30,8 +20,8 @@ const Menu = ({ anchorRef }) => {
   const submenuRef = useRef(null);
   const subsubRef = useRef(null);
   const lastTabRef = useRef(null);
-  const { isOpenMenu } = useCommon();
   const menu = Object.keys(menuData);
+  const { isOpenMenu, setIsOpenMenu } = useMenuStore();
 
   const tabMenu = (tab) => {
     const result = Object.keys(menuData[tab]);
@@ -51,20 +41,24 @@ const Menu = ({ anchorRef }) => {
     setSubtab(value);
   };
 
-  const onChooseItem = (item) => {
-    console.log(subMenu, subtab, item);
-  };
-
   const getLink = (item) => {
-    changeToInitialAction();
     const routeText = menuData[submenu][subtab][item];
     const route = `/${routeText?.gender}?page=1&limit=24&season=${routeText?.season}&view=${routeText?.view}`;
     return route;
   };
 
   const onClose = () => {
-    setIsOpenMenuAction(false);
+    setIsOpenMenu(false);
   };
+
+  function handleListKeyDown(event) {
+  if (event.key === "Tab") {
+    event.preventDefault();
+    setIsOpenMenu(false);
+  } else if (event.key === "Escape") {
+    setIsOpenMenu(false);
+  }
+}
 
   return (
     <div className="relative">
@@ -86,7 +80,7 @@ const Menu = ({ anchorRef }) => {
             }}
           >
             <Paper>
-              <ClickAwayListener onClickAway={() => setIsOpenMenuAction(false)}>
+              <ClickAwayListener onClickAway={() => onClose()}>
                 <MenuList
                   autoFocusItem={open}
                   id="composition-menu"
@@ -127,7 +121,7 @@ const Menu = ({ anchorRef }) => {
                                       <Link href={getLink(item)}>
                                         <MenuItem
                                           key={index}
-                                          onClick={() => onChooseItem(item)}
+                                          onClick={() => onClose()}
                                           sx={{ display: "block" }}
                                           ref={lastTabRef}
                                         >

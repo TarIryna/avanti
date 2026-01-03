@@ -3,9 +3,8 @@ import * as S from "../styles";
 
 const ReturnInfoPage = (props) => {
   return (
-    <>
-      <S.Title>ПОВЕРНЕННЯ ТА ОБМІН</S.Title>
-      <S.PageWrapper className="container">
+      <S.PageWrapper className="container page">
+        <S.Title>ПОВЕРНЕННЯ ТА ОБМІН</S.Title>
         <S.ContentPart>
           <S.Subtitle>Умови повернення:</S.Subtitle>
           <S.Text>
@@ -36,8 +35,7 @@ const ReturnInfoPage = (props) => {
             Краще скористайтесь послугою "Легке повернення", тоді Вам не
             потрібно вказувати реквізити та сплачувати за доставку. Якщо з
             якихось причин це не вдалось оформити, то використовуйте такі
-            реквізити: Нова пошта, м.Ужгород, відділення №10, 0506665992, Санич
-            Юлія
+            реквізити: Нова пошта, м.Ужгород, відділення №10, 0506927217, ФОП Тар Ірина
           </S.Text>
           <S.Subtitle>Повернення акційного товару</S.Subtitle>
           <S.Text>
@@ -57,7 +55,6 @@ const ReturnInfoPage = (props) => {
           </ul>
         </S.ContentPart>
       </S.PageWrapper>
-    </>
   );
 };
 

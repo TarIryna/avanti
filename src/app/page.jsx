@@ -15,7 +15,7 @@ export async function generateMetadata() {
 }
 
 const Home = () => (
-  <section className="w-full flex-center flex-col">
+  <section className="page home">
     <Banners />
   </section>
 );

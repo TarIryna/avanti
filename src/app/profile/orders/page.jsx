@@ -21,8 +21,5 @@ async function getOrders(userId) {
 }
 
 export default async function OrdersPage() {
-  const session = await getServerSession(authOptions);
-  const userId = session?.user?.id;
-
   return <Orders />;
 }

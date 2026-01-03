@@ -3,9 +3,8 @@ import * as S from "../styles";
 
 const DeliveryPage = (props) => {
   return (
-    <>
-      <S.Title>ДОСТАВКА І ОПЛАТА</S.Title>
-      <S.PageWrapper className="container">
+      <S.PageWrapper className="container page">
+        <S.Title>ДОСТАВКА І ОПЛАТА</S.Title>
         <S.ContentPart>
           <S.Subtitle>Методи доставки:</S.Subtitle>
           <S.Text>1. Нова пошта</S.Text>
@@ -43,16 +42,10 @@ const DeliveryPage = (props) => {
         </S.ContentPart>
         <S.ContentPart>
           <S.Subtitle>Методи оплати:</S.Subtitle>
-          <S.Text>1. Накладеним платежем</S.Text>
-          <S.Text>
-            Передоплата 100 грн на картку, залишок накладеним платежем (буде
-            додаткова комісія від транспортної служби)
-          </S.Text>
-          <S.Text>2. Оплата на картку</S.Text>
-          <S.Text>Повна оплата на картку</S.Text>
+          <S.Text>1. Накладеним платежем (комісія нової пошти 2% від суми). Передоплата 100 грн на картку, яка буде врахована у кінцевому розрахунку</S.Text>
+          <S.Text>2. Оплата на рахунок</S.Text>
         </S.ContentPart>
       </S.PageWrapper>
-    </>
   );
 };
 

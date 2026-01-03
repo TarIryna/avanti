@@ -3,19 +3,17 @@ import styled from "@emotion/styled";
 export const PageWrapper = styled.div`
   margin: 20px 0;
   display: flex;
-  gap: 50px;
+  flex-direction: column;
   justify-content: center;
 `;
 
 export const ContentPart = styled.div`
-  min-height: calc(100vh - 272px);
 `;
 
 export const Title = styled.h1`
   font-size: 20px;
   font-weight: 800;
   text-align: center;
-  margin-top: 20px;
 `;
 
 export const Subtitle = styled.h2`

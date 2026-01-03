@@ -1,13 +1,8 @@
-import { useProgressOrders } from "@/store/selectors/orders";
-import { changeOrderIsLoadingAction } from "@/store/actions/orders";
-import { updateUserAction } from "@/store/actions/user";
 import { useUserSession } from "@/fetchActions/user/useUser";
 import { toast } from "react-hot-toast";
-import { useChangeOrderStatus } from "@/helpers/useChangeOrderStatus";
 import { useUpdateUser } from "@/fetchActions/user/useUpdateUser";
 import { FormProvider, useForm } from "react-hook-form";
 
-import CartList from "./CartList";
 import CartClientInfo from "./CartClientInfo";
 import { useState } from "react";
 import * as S from "./styles";
@@ -34,8 +29,6 @@ const DeliveryCart = ({ onSuccess }) => {
   const isAuth = !!user;
   const userId = user?._id ?? user?.id
   const { items, isLoading, clearCart } = useCartStore();
-
-  const isDeliveryChangeShown = !user?.cityDescription || ! user?.addressDescription || showDelivery
 
   const { mutate: updateUser, isLoading: isUpdatingUser, isError: isErrorUpdating } = useUpdateUser();
   const { mutate: confirmOrder, isPending, isError: isErrorConfirmingOrder } = useAddNewOrder();
@@ -65,17 +58,6 @@ const DeliveryCart = ({ onSuccess }) => {
         ? true
         : false;
     return result;
-  };
-
-  const generateId = () => {
-    const today = new Date();
-    const year = today.getFullYear().toString();
-    const month = (today.getMonth() + 1).toString();
-    const date = today.getDate().toString();
-    const hours = today.getHours().toString();
-    const minutes = today.getMinutes().toString();
-    const seconds = today.getSeconds().toString();
-    return year + month + date + hours + minutes + seconds;
   };
 
   const onSubmit = (e) => {

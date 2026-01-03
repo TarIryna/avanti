@@ -24,7 +24,9 @@ export const useAddItemToCart = () => {
     onSuccess: (_data, variables) => {
       const { userId } = variables;
       queryClient.invalidateQueries({ queryKey: ["cart", userId] });
-      toast.success("Товар успішно доданий у корзину");
+      setTimeout(() => {
+        toast.success("Товар успішно доданий у корзину");
+      }, 5);
     },
     onError: (error) => {
       console.error("Ошибка добавления товаров в корзину:", error);

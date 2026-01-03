@@ -3,5 +3,5 @@
 import { GeneralProvider } from "./GeneralProvider";
 
 export const ClientProvider = ({ children }) => {
-  return <GeneralProvider>{children}</GeneralProvider>;
+  return <GeneralProvider>{children}</GeneralProvider>
 };

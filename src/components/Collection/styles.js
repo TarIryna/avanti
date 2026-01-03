@@ -9,7 +9,7 @@ export const SearchInput = styled.input`
   background-color: rgb(255 255 255);
   padding: 5px 16px;
   font-family: Satoshi, sans-serif;
-  font-size: 0.875rem;
+  font-size: 16px;
   line-height: 1.25rem;
   font-weight: 500;
   margin-left: auto;
@@ -19,7 +19,6 @@ export const SearchInput = styled.input`
   }
   ${media.mobile} {
     height: 30px;
-    font-size: 12px;
     width: 160px;
   }
 `;

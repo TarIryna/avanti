@@ -40,7 +40,7 @@ export const OrderAdmin = ({order}) => {
                 <S.Text>{`Місто: ${order.delivery.city}`}</S.Text>
                 <S.Text>{`Адреса: ${order.delivery.address}`}</S.Text>
                 {order?.delivery?.ttn && <S.Text>{`ТТН: ${order.delivery.ttn}`}</S.Text> }
-                <CartList products={order.items} />
+                <CartList products={order.items} total={order?.total}/>
            
                 {!order?.delivery?.ttn &&
                 <S.Form>

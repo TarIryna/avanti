@@ -4,15 +4,16 @@ import Image from "next/image";
 import Search from "@/components/Collection/Search";
 import RightBlock from "./RightBlock";
 import Logo from "@/assets/icons/logo_white.svg";
-import { toogleMenuAction } from "@/store/actions/common";
 import Menu from "../Menu";
 import * as S from "./styles";
 import { useRef } from "react";
 import { IconMenu } from "@/assets/icons/menuWhite";
+import { useMenuStore } from "@/components/GeneralProvider/context/MenuProvider"
 
 const Nav = () => {
+  const { isOpenMenu, setIsOpenMenu } = useMenuStore();
   const toggleMenu = () => {
-    toogleMenuAction();
+    setIsOpenMenu(!isOpenMenu);
   };
   const anchorRef = useRef(null);
 

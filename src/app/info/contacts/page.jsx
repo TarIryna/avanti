@@ -1,11 +1,10 @@
 "use client";
 import * as S from "../styles";
 
-const ContactsPage = (props) => {
+const ContactsPage = () => {
   return (
-    <>
-      <S.Title>НАШІ КОНТАКТИ</S.Title>
-      <S.PageWrapper className="container">
+      <S.PageWrapper className="container page">
+        <S.Title>НАШІ КОНТАКТИ</S.Title>
         <S.ContentPart>
           <S.Subtitle>Телефони:</S.Subtitle>
           <S.Text>
@@ -22,7 +21,6 @@ const ContactsPage = (props) => {
           </S.Text>
         </S.ContentPart>
       </S.PageWrapper>
-    </>
   );
 };
 

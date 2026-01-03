@@ -1,7 +1,6 @@
 import "@/styles/globals.css";
 import Nav from "@/components/Nav/Nav";
 import { ClientProvider } from "@/components/GeneralProvider/ClientProvider";
-import { Toaster } from "react-hot-toast";
 import Footer from "@/components/Footer/Footer";
 
 export const metadata = {
@@ -19,7 +18,6 @@ const RootLayout = ({ children }) => {
           </div>
 
           <main className="app">
-            <Toaster position="top-right" />
             <Nav />
             {children}
             <Footer />

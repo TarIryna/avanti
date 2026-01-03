@@ -3,9 +3,8 @@ import * as S from "../styles";
 
 const InfoBonusPage = (props) => {
   return (
-    <>
-      <S.Title>БОНУСНА ПРОГРАМА</S.Title>
-      <S.PageWrapper className="container">
+      <S.PageWrapper className="container page">
+        <S.Title>БОНУСНА ПРОГРАМА</S.Title>
         <S.ContentPart>
           <S.Text>
             <p>
@@ -24,7 +23,6 @@ const InfoBonusPage = (props) => {
           </S.Text>
         </S.ContentPart>
       </S.PageWrapper>
-    </>
   );
 };
 

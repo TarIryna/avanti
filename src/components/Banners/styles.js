@@ -10,8 +10,9 @@ export const BannersWrapper = styled.div`
   @media screen and (max-width: 1280px) {
     grid-template-columns: repeat(2, 1fr);
   }
-  @media screen and (max-width: 540px) {
-    grid-template-columns: repeat(1, 1fr);
+  @media screen and (max-width: 767px) {
+     gap: 8px;
+     margin: 0;
   }
 `;
 
@@ -19,6 +20,9 @@ export const BannerCard = styled.div`
   position: relative;
   img {
     width: 100%;
+  }
+  a {
+    text-align: center;
   }
 `;
 

@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
-import { addLocalItem, getLocalCart, removeLocalItem, setLocalCart, clearLocalCart } from "./utils/localCart";
+import { addLocalItem, getLocalCart, removeLocalItem, setLocalCart, clearLocalCart, changeLocalItemQuantity } from "./utils/localCart";
 import { useAddItemToCart } from "./useAddItemToCart";
 import { useRemoveItemFromCart } from "./useRemoveItemFromCart";
 import { useCart } from "./useCart";
 import { toast } from "react-hot-toast";
+import { useChangeItemQauntityCart } from "./useChangeItemQuantityCart";
 
 export const useCartManager = (initialUserId) => {
   const [userId, setUserId] = useState(initialUserId ?? null);
@@ -13,6 +14,7 @@ export const useCartManager = (initialUserId) => {
 
   const addMutation = useAddItemToCart();
   const removeMutation = useRemoveItemFromCart(userId);
+  const changeItem = useChangeItemQauntityCart()
 
   // sync guest cart on login
   useEffect(() => {
@@ -34,8 +36,20 @@ export const useCartManager = (initialUserId) => {
     } else {
       const updated = addLocalItem(item);
       setLocal(updated);
+      toast.success("Товар успішно доданий у корзину");
     }
   };
+
+const changeItemQuantity = async (item) => {
+  if (userId) {
+    await changeItem.mutateAsync({ userId, ...item });
+    refetch();
+  } else {
+    const updated = changeLocalItemQuantity(item);
+    setLocal(updated);
+  }
+};
+
 
   const removeItem = async ({productId, size}) => {
     if (userId) {
@@ -45,6 +59,7 @@ export const useCartManager = (initialUserId) => {
       const updated = removeLocalItem({productId, size});
       setLocal(updated);
       setLocalCart(updated);
+      toast.success("Товар успішно видалений з корзини");
     }
   };
 
@@ -61,6 +76,11 @@ export const useCartManager = (initialUserId) => {
     () => (userId ? serverCart || [] : localCart),
     [userId, serverCart, localCart]
   );
+
+  const total = useMemo(() => 
+    items.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0),
+    [items]
+  );
   
   const length = useMemo(() => items.reduce(
   (accumulator, item) => accumulator + (item.quantity ?? 0),
@@ -69,9 +89,11 @@ export const useCartManager = (initialUserId) => {
 
   return {
     items,
+    total,
     length,
     addItem,
     removeItem,
+    changeItemQuantity,
     clearCart,
     setUserId,
 

@@ -3,9 +3,8 @@ import * as S from "../styles";
 
 const Garanty = (props) => {
   return (
-    <>
-      <S.Title>Гарантії</S.Title>
-      <S.PageWrapper className="container">
+      <S.PageWrapper className="container page">
+        <S.Title>Гарантії</S.Title>
         <S.ContentPart>
           <S.Subtitle>Гарантійні строки:</S.Subtitle>
           <S.Text>
@@ -231,7 +230,6 @@ const Garanty = (props) => {
           </ul>
         </S.ContentPart>
       </S.PageWrapper>
-    </>
   );
 };
 

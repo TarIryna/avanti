@@ -3,6 +3,7 @@ import { useOrders } from "@/fetchActions/orders/useOrders";
 import { useUserSession } from "@/fetchActions/user/useUser";
 import * as S from './styles'
 import { Order } from "./components/Order";
+import { PageContainer } from "@/components";
 
 const Orders = () => {
   const { data: user, isSuccess } = useUserSession();
@@ -34,12 +35,12 @@ const Orders = () => {
   };
 
   return (
-    <S.Wrapper>
+    <PageContainer>
       <S.Title>Замовлення</S.Title>
       <S.List>
         {!!items?.length && items.map(item => <Order order={item}/>)}
       </S.List>
-    </S.Wrapper>
+    </PageContainer>
   )
 };
 

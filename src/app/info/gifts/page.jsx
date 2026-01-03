@@ -3,9 +3,8 @@ import * as S from "../styles";
 
 const GiftsPage = () => {
   return (
-    <>
-      <S.Title>ПОДАРУНКОВІ КАРТКИ</S.Title>
-      <S.PageWrapper className="container">
+      <S.PageWrapper className="container page">
+        <S.Title>ПОДАРУНКОВІ КАРТКИ</S.Title>
         <S.ContentPart>
           <S.Text>
             <p>
@@ -20,7 +19,6 @@ const GiftsPage = () => {
           </S.Text>
         </S.ContentPart>
       </S.PageWrapper>
-    </>
   );
 };
 

@@ -14,7 +14,7 @@ const Product = ({ product }) => {
   return (
     <>
       {product && (
-        <S.ProductWrapper>
+        <S.ProductWrapper className="page">
           {!!images.length && <Gallary images={images} />}
           <S.Content>
             <S.Name>{capitalize(product.name)}</S.Name>

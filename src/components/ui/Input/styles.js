@@ -39,7 +39,7 @@ export const InputElement = styled.input(
     padding: ${hasRightIcon ? "10px 38px 10px 12px" : "10px 12px"};
     background: rgb(238, 225, 225);
     border: 1px solid rgb(174, 174, 174);
-    font-size: 14px;
+    font-size: 16px;
     line-height: 120%;
     font-weight: 500;
     color: white;
@@ -103,7 +103,7 @@ export const Input = styled.input`
   width: 100%;
   height: 100%;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 120%;
   color: black;
   border-radius: 16px;

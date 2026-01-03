@@ -16,10 +16,13 @@ const navLinkStyles = css`
 `;
 
 export const Navigation = styled.nav`
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
   display: flex;
   height: 100px;
   width: 100%;
-  position: relative;
   align-items: center;
   background: black;
   padding: 10px 40px;

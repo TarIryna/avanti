@@ -20,17 +20,17 @@ export const useRemoveItemFromCart = (userId) => {
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.message || "Ошибка при удалении товара");
+        throw new Error(error.message || "Помилка при видаленні товару");
       }
       return response.json();
     },
     onSuccess: () => {
-      toast.success("Товар успешно удален из корзины!");
+      toast.success("Товар успішно видалений з корзини");
       queryClient.invalidateQueries({ queryKey: ["cart", userId] });
     },
     onError: (error) => {
-      console.error("Ошибка при удалении товара из корзины", error);
-      toast.error(error.message || "Не удалось удалить товар");
+      console.error("Помилка при видаленні товара з корзины", error);
+      toast.error(error.message || "Не вдалося видалити товар");
     },
   });
 };

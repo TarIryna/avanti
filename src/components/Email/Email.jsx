@@ -31,6 +31,7 @@ export default function OrderEmail({ title, items }) {
               />
               <Section>
                 <Text><b>Код:</b> {item.code}</Text>
+                <Text><b>Розмір:</b> {item.size}</Text>
                 <Text><b>Кількість:</b> {item.quantity}</Text>
                 <Text><b>Ціна:</b> {item.price} грн</Text>
               </Section>

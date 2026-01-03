@@ -12,6 +12,12 @@ export const Wrapper = styled.div`
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: start;
+  gap: 4px;
+  img {
+    margin-left: 20px;
+    margin-top: 10px;
+  }
 `;
 
 export const ImageWrapper = styled.div`
@@ -29,4 +35,20 @@ export const ImageWrapper = styled.div`
 export const Text = styled.div`
     font-size: 14px;
     font-weight: 400;
+    ${({isPointer}) => ( isPointer && 'cursor: pointer;')}
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+
+export const QuantityButton = styled.div`
+  border: 0.5px solid grey;
+  border-radius: 10px;
+  margin: 0 5px;
+  width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 `

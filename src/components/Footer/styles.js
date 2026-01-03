@@ -21,6 +21,7 @@ export const ContactsWrapper = styled.div`
     grid-template-rows: repeat(3, 24px);
   }
     ${media.mobile}{
+    padding: 16px 0;
     width: 100%;
      grid-template-columns: repeat(2, 50%);
     }

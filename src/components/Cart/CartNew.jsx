@@ -6,7 +6,7 @@ import DeliveryCart from "./DeliveryCart";
 import { useQueryClient } from "@tanstack/react-query";
 import { useUserSession } from "@/fetchActions/user/useUser";
 
-const CartNew = ({ products, isFetched }) => {
+const CartNew = ({ products,  total }) => {
   const [isDeliveryDataShown, setIsDeliveryDataShown] = useState(false);
   const queryClient = useQueryClient()
   const { data: user } = useUserSession();
@@ -31,11 +31,11 @@ const CartNew = ({ products, isFetched }) => {
 
   return (
     <div>
-      <CartList status="new" products={products} />
+      <CartList status="new" products={products} total={total}/>
       {isDeliveryDataShown ? (
         <DeliveryCart onSuccess={() => changeOrderStatus()} />
       ) : (
-        <button onClick={openDelivery}>Продавжити оформлення замовлення</button>
+        <button onClick={openDelivery}>Продовжити оформлення замовлення</button>
       )}
     </div>
   );

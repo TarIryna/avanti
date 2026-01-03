@@ -40,6 +40,21 @@ export const addLocalItem = (item) => {
   return updated;
 };
 
+export const changeLocalItemQuantity = (item) => {
+  const cart = getLocalCart();
+
+  const updated = cart.map((i) =>
+    i.product === item.product && i.size === item.size
+      ? { ...i, quantity: item.quantity } // ← заменяем, а не прибавляем
+      : i
+  );
+
+  setLocalCart(updated);
+  return updated;
+};
+
+
+
 
 export const removeLocalItem = (data) => {
   const cart = getLocalCart();
