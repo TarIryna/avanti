@@ -38,7 +38,7 @@ const Orders = () => {
     <PageContainer>
       <S.Title>Замовлення</S.Title>
       <S.List>
-        {!!items?.length && items.map(item => <Order order={item}/>)}
+        {!!items?.length ? items.map(item => <Order order={item}/>) : <p>Замовлень не знайдено</p>}
       </S.List>
     </PageContainer>
   )

@@ -8,9 +8,9 @@ const ContactsPage = () => {
         <S.ContentPart>
           <S.Subtitle>Телефони:</S.Subtitle>
           <S.Text>
-            <a href="tel:+380506665992">+380506665992</a>
-            <a href="tel:+380506927217">+380506927217</a>
-            <a href="tel:+380664811752">+380664811752</a>
+            <a href="tel:+380506665992">+380506665992</a><br/>
+            <a href="tel:+380506927217">+380506927217</a><br/>
+            <a href="tel:+380664811752">+380664811752</a><br/>
           </S.Text>
           <S.Subtitle>Email:</S.Subtitle>
           <a href="mailto:avanti2uzh@gmail.com">avanti2uzh@gmail.com</a>
