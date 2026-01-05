@@ -6,7 +6,7 @@ import Image from "next/image";
 
 export const ProductWrapper = styled.div`
   display: grid;
-  grid-template-columns: 60% 40%;
+  grid-template-columns: 1fr 570px;
   align-items: center;
   gap: 20px;
   padding: 20px;
@@ -55,29 +55,33 @@ export const ProductSizes = styled.p`
 
 export const SizesContainer = styled.div`
   display: flex;
-  gap: 10px;
   justify-content: center;
   height: 30px;
   margin-top: 10px;
 `;
 
 export const SizesBlock = styled.div`
-  width: 30px;
-  border: 1px solid grey;
-  padding: 2px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 4px;
   cursor: pointer;
-  border: ${({ isActive }) =>
-    isActive ? "3px solid black" : "1px solid grey"};
+  width: 40px;
+  text-align: center;
+  transition: 0.1s linear;
+  &:not(:last-child){
+    border-right: 1px solid grey;
+    }
+  font-weight: ${({ isActive }) =>
+    isActive ? "900" : "400"};
+  ${({ isOne}) =>
+    isOne && "border-right: 1px solid grey; border-left: 1px solid grey;"};
 `;
 
 export const OneSize = styled(SizesBlock)`
   width: fit-content;
   padding: 2px 10px;
-  border: 3px solid black;
+  border-left: 1px solid grey;
+  border-right: 1px solid grey;
 `
 
 export const SizesButton = styled.button`
@@ -108,8 +112,8 @@ export const DescriptionValue = styled.span`
 export const GalleryWrapper = styled.div`
   aspect-ratio: 1;
   position: relative;
-  max-height: calc(100svh - 100px);
-  max-width: 100%;
+  max-height: calc(100svh - 260px);
+  width: 100%;
   ${media.desktopSm}{
     aspect-ratio: unset;
   }
@@ -171,7 +175,7 @@ export const SliderWrapper = styled.div`
 export const Padding = styled.div`
   position: relative;
   overflow-x: hidden;
-  width: 100%
+  width: 100%;
   height: 100%;
 `
 
@@ -179,19 +183,24 @@ export const Slider = styled.div`
   display: flex;
   transition: transform 0.3s ease;
   width: 100%;
+  height: 100%;
 `;
 
 export const ImageCard = styled.div`
-  flex: 0 0 100%; /* каждый слайд — ширина контейнера */
+  flex: 0 0 100%; 
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 
   img {
     width: 100%;
     height: 100%;
     object-fit: contain;
+    object-position: center;
+    transform: translate3d(0, 0, 0);
+
   }
 `;
 

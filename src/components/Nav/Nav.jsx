@@ -39,7 +39,7 @@ const Nav = () => {
         <S.NavigationButton href="/girls?page=1&limit=24">
           Дівчатам
         </S.NavigationButton>
-        <S.NavigationButton href="/women?type=bags&page=1&limit=24">
+        <S.NavigationButton href="/all?type=bags&page=1&limit=24">
           Аксесуари
         </S.NavigationButton>
         <S.NavigationSale href="/sale?page=1&limit=24">Акція</S.NavigationSale>

@@ -9,7 +9,7 @@ export const getSortParam = (sort) => {
     case "new":
       return { code: -1 };
     default:
-      return {};
+      return { code: -1, pop: -1 };
   }
 };
 

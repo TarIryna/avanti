@@ -9,7 +9,7 @@ const Product = ({ product }) => {
     Boolean
   );
 
-  const sizes = product?.sizes ? product.sizes.split(" ") : [];
+  const sizes = product?.sizes && typeof product.sizes === 'string' ? product?.sizes?.split(" ") : [product.sizes];
 
   return (
     <>

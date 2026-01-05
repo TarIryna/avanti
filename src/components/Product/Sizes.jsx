@@ -5,8 +5,10 @@ import { useState } from "react";
 
 const Sizes = ({ sizes, item }) => {
   const [size, setSize] = useState("один розмір");
+  const [isActive, setActive] = useState(false)
   const itemId = item?._id ?? item?.id;
   const { addItem } = useCartStore()
+  const length = sizes?.length
 
 const onButtonClick = async () => {
   // Формируем объект, который соответствует схеме Cart.items
@@ -27,17 +29,18 @@ const onButtonClick = async () => {
     <S.SizesWrapper>
       {!!sizes && <S.ProductSizes>Розміри в наявності:</S.ProductSizes>}
       <S.SizesContainer>
-        {sizes ?
+        {!!length && !!sizes[0]?.length ?
           sizes.map((el) => (
             <S.SizesBlock
               isActive={el === size}
               onClick={() => setSize(el)}
               key={`${item.code}${el}`}
+              isOne={length === 1}
             >
               {el}
             </S.SizesBlock>
           )) :
-          <S.OneSize>{size}</S.OneSize>}
+          <S.OneSize onClick={() => setActive(true)}isActive={isActive}>{size}</S.OneSize>}
       </S.SizesContainer>
       <S.SizesButton onClick={() => onButtonClick()} disabled={!size}>
         Додати в кошик

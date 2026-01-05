@@ -37,8 +37,8 @@ export const OrderAdmin = ({order}) => {
                 <S.BlockTitle>Реквізити отримувача:</S.BlockTitle>
                 <S.Text>{`ПІБ: ${order.delivery.surname} ${order.delivery.name}`}</S.Text>
                 <S.Text>{`Телефон: ${order.delivery.phone}`}</S.Text>
-                <S.Text>{`Місто: ${order.delivery.city}`}</S.Text>
-                <S.Text>{`Адреса: ${order.delivery.address}`}</S.Text>
+                <S.Text>{`Місто: ${order.delivery.cityDescription}`}</S.Text>
+                <S.Text>{`Адреса: ${order.delivery.addressDescription}`}</S.Text>
                 {order?.delivery?.ttn && <S.Text>{`ТТН: ${order.delivery.ttn}`}</S.Text> }
                 <CartList products={order.items} total={order?.total}/>
            

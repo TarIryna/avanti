@@ -80,7 +80,7 @@ export const POST = async (request) => {
     const text =
       `🛒 Нове замовлення!\n` +
       `👤 Клієнт: Ірина Тар 0506927217\n` +
-      `Реквізити: Київ Відділення №10 (до 1100 кг ): вул. Василя Жуковського, 22А\n` +
+      `Реквізити: ${delivery.cityDescription} ${delivery.addressDescription}\n` +
       `📦 Товари: всього ${validatedItems.length}:\n` +
       validatedItems
         .map(
@@ -90,6 +90,7 @@ export const POST = async (request) => {
         .join("\n");
 
     const resTelegram =  await sendTelegramMessage(text);
+    console.log(resTelegram)
 
     return new Response(
       JSON.stringify({

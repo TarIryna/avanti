@@ -26,6 +26,8 @@
   width: 100vw;
   height: 100svh;
   overflow-y: auto;
+  max-width: 1920px;
+  margin: 0 auto;
 }
 .app::-webkit-scrollbar {
   width: 10px;

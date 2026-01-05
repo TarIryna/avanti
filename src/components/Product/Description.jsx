@@ -11,7 +11,7 @@ const Description = ({ data }) => {
         <S.DescriptionValue>{data.material_top}</S.DescriptionValue>
       </p>
       <p>
-        <S.DescriptionTitle>Матеріал всередині: </S.DescriptionTitle>
+        <S.DescriptionTitle>Матеріал підкладки: </S.DescriptionTitle>
         <S.DescriptionValue>{data.material_inside}</S.DescriptionValue>
       </p>
       <p>

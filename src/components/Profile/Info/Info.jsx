@@ -50,11 +50,11 @@ const Info = () => {
       </S.Line>
       <S.Line>
         <p>Місто:</p>
-        <p>{user?.city}</p>
+        <p>{user?.cityDescription}</p>
       </S.Line>
       <S.Line>
         <p>Реквізити доставки:</p>
-        <p>{user?.address}</p>
+        <p>{user?.addressDescription}</p>
       </S.Line>
       <Button onClick={() => showUpdate({ user })}>Оновити дані</Button>
       <Button onClick={onSignOut}>Вийти з аккаунту</Button>

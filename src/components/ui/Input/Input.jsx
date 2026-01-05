@@ -24,7 +24,7 @@ const Input = ({
   disabled = false,
   onClickGaEvent,
   idInput = "",
-  onChange,
+  onValueChange,
   defaultValue,
   defaultError,
   fullError,
@@ -83,40 +83,33 @@ const Input = ({
               step={step}
               show={show}
               maxLength={max}
-              value={form[name]}
               placeholder={placeholder}
               label={label}
               autoComplete={autocomplete}
-              onBlur={onBlur}
-              autocomplete={autocomplete}
               type={show ? "text" : type}
               defaultValue={defaultValue}
-              ariaLabelledby={name}
               {...register(name, {
                 ...rules,
                 onBlur: onBlurHandler,
                 onChange: (e) => {
-                  let value = e.target.value;
-                  if (typeof onChange === "function") {
-                    onChange({ target: { value } });
+                  const value = e.target.value;
+
+                  if (typeof onValueChange === "function") {
+                    onValueChange(e); // ⚠️ без ручного setState
                   }
-                  setForm({
-                    ...form,
-                    [name]: label && existlabel ? `${value} ${label} ` : value,
-                  });
                 },
               })}
-              onWheel={(e) => e.target.blur()}
               onFocus={() => setIsFocused(true)}
+              onBlur={onBlurHandler}
               tabIndex={tabIndex}
-              enterKeyHint={enterKeyHint}
               id={idInput}
-              onKeyDown={(event) => {
+               onKeyDown={(event) => {
                 if (typeof onKeyDown === "function") {
                   onKeyDown(event);
                 }
               }}
             />
+
             <b>{doubleIcon}</b>
           </>
         ) : (
@@ -129,20 +122,18 @@ const Input = ({
               label={label}
               maxLength={max}
               disabled={disabled}
-              onBlur={onBlur}
+              onBlur={onBlurHandler}
               show={show}
               type={show ? "text" : type}
               defaultValue={defaultValue}
               {...register(name, {
                 ...rules,
                 onBlur: onBlurHandler,
-                onChange: (e) => {
-                  let value = e.target.value;
-                  if (type === "number") {
-                    value = inputParser(value);
-                  }
-                  if (typeof onChange === "function") {
-                    onChange({ target: { value } });
+               oonChange: (e) => {
+                  const value = e.target.value;
+
+                  if (typeof onValueChange === "function") {
+                    onValueChange(e); // ⚠️ без ручного setState
                   }
                 },
               })}

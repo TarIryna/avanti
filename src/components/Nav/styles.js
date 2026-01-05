@@ -18,7 +18,8 @@ const navLinkStyles = css`
 export const Navigation = styled.nav`
   position: fixed;
   top: 0;
-  left: 0;
+  left: 50%;
+  transform: translate3d(-50%, 0, 0);
   z-index: 100;
   display: flex;
   height: 100px;

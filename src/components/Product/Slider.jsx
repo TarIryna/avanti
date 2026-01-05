@@ -59,7 +59,7 @@ const handleTouchEnd = () => {
       >
         {imagesToDisplay?.map((item, i) => (
           <S.ImageCard key={i}>
-            <Image src={item} alt={`slide ${i}`} width={500} height={500} />
+            <Image src={item} alt={`slide ${i}`} fill />
           </S.ImageCard>
         ))}
       </S.Slider>
