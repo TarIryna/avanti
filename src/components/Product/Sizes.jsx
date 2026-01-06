@@ -9,6 +9,7 @@ const Sizes = ({ sizes, item }) => {
   const itemId = item?._id ?? item?.id;
   const { addItem } = useCartStore()
   const length = sizes?.length
+  const isFirstSize = !!sizes?.toString()?.length
 
 const onButtonClick = async () => {
   // Формируем объект, который соответствует схеме Cart.items
@@ -29,7 +30,7 @@ const onButtonClick = async () => {
     <S.SizesWrapper>
       {!!sizes && <S.ProductSizes>Розміри в наявності:</S.ProductSizes>}
       <S.SizesContainer>
-        {!!length && !!sizes[0]?.length ?
+        {!!length && isFirstSize ?
           sizes.map((el) => (
             <S.SizesBlock
               isActive={el === size}

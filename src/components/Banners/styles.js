@@ -5,14 +5,12 @@ export const BannersWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 16px;
-  margin: 20px 0;
   width: 100%;
   @media screen and (max-width: 1280px) {
     grid-template-columns: repeat(2, 1fr);
   }
   @media screen and (max-width: 767px) {
      gap: 8px;
-     margin: 0;
   }
 `;
 

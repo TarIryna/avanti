@@ -9,7 +9,8 @@ export async function generateMetadata({ params }) {
     women: 'Жіноче взуття',
     girls: 'Взуття для дівчат',
     boys: 'Взуття для хлопців',
-    sale: "Взуття зі знижками"
+    sale: "Взуття зі знижками",
+    all: "Взуття для всієї сім'ї"
   };
 
   const title = `${genderMap[params.gender]} — купити с доставкою`;
