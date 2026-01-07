@@ -8,6 +8,7 @@ export const PageWrapper = styled.div`
 `;
 
 export const ContentPart = styled.div`
+  ${({margin}) => (margin && 'margin-top: 20px;')}
 `;
 
 export const Title = styled.h1`
@@ -37,5 +38,6 @@ export const Text = styled.p`
   ul {
     list-style: disc inside;
     margin-bottom: 16px;
+    font-size: inherit;
   }
 `;

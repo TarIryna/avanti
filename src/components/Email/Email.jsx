@@ -37,6 +37,11 @@ export default function OrderEmail({ title, items }) {
               </Section>
             </Section>
           ))}
+           <Hr />
+
+          <Text style={footer}>
+            Очікуйте дзвінка від менеджера для уточнення методу оплати!
+          </Text>
 
           <Hr />
 

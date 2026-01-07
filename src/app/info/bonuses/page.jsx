@@ -5,7 +5,7 @@ const InfoBonusPage = (props) => {
   return (
       <S.PageWrapper className="container page">
         <S.Title>БОНУСНА ПРОГРАМА</S.Title>
-        <S.ContentPart>
+        <S.ContentPart margin>
           <S.Text>
             <p>
               За покупку від 2000грн можна отримати віртуальну бонусну картку на
