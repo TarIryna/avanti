@@ -8,7 +8,7 @@ const getModalStyles = (isHidden, isSecond) => ({
     backdropFilter: isSecond ? "blur(0)" : "blur(8px)",
     width: "100vw",
     height: "100%",
-    zIndex: "var(--ost-z-index-modal)",
+    zIndex: 200,
     overflow: "hidden",
     display: "flex",
     flexDirection: "column",

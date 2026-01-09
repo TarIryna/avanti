@@ -3,6 +3,9 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import * as S from "./styles";
 import { IconArrow } from "../icons";
+import { useModal } from "@ebay/nice-modal-react";
+import { MODALS } from "@/constants/constants";
+import { useIsMobile } from "@/hooks";
 
 
 export const Slider = ({ imagesToDisplay }) => {
@@ -15,6 +18,8 @@ export const Slider = ({ imagesToDisplay }) => {
   const isFirst = index === 0;
   const isLast = index === length - 1;
   const router = useRouter();
+  const { show: showModal } = useModal(MODALS.PRODUCT_MODAL)
+  const isMobile = useIsMobile()
 
   const handleNext = () => {
     setIndex((prev) => Math.min(prev + 1, imagesToDisplay.length - 1));
@@ -47,6 +52,12 @@ const handleTouchEnd = () => {
   }
 };
 
+const onImageClick = () => {
+  if (!isMobile){
+    showModal({images: imagesToDisplay})
+  }
+}
+
   return (
     <S.SliderWrapper>
         <S.Padding>
@@ -59,7 +70,7 @@ const handleTouchEnd = () => {
       >
         {imagesToDisplay?.map((item, i) => (
           <S.ImageCard key={i}>
-            <Image src={item} alt={`slide ${i}`} fill />
+            <Image src={item} alt={`slide ${i}`} fill onClick={onImageClick}/>
           </S.ImageCard>
         ))}
       </S.Slider>

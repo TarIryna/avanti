@@ -11,6 +11,7 @@ export const TitleWrapper = styled.div`
   padding: 10px 0;
   position: relative;
   width: 100%;
+  z-index: 2;
 `;
 
 export const Icon = styled.div`
@@ -20,4 +21,7 @@ export const Icon = styled.div`
   background: white;
   border-radius: 50%;
   cursor: pointer;
+  img {
+    cursor: pointer;
+  }
 `;

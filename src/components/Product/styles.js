@@ -110,13 +110,10 @@ export const DescriptionValue = styled.span`
 `;
 
 export const GalleryWrapper = styled.div`
-  aspect-ratio: 1;
+  height: 100%;
   position: relative;
   max-height: calc(100svh - 260px);
   width: 100%;
-  ${media.desktopSm}{
-    aspect-ratio: unset;
-  }
   ${media.mobile}{
     touch-action: pan-y;
   }
@@ -200,6 +197,7 @@ export const ImageCard = styled.div`
     object-fit: contain;
     object-position: center;
     transform: translate3d(0, 0, 0);
+    cursor: pointer;
 
   }
 `;

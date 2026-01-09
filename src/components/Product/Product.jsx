@@ -4,6 +4,7 @@ import Description from "./Description";
 import { capitalize } from "@/helpers/capitalize";
 import * as S from "./styles";
 
+
 const Product = ({ product }) => {
   const images = [product?.image1, product?.image2, product?.image3].filter(
     Boolean
