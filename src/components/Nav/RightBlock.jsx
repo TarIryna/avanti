@@ -15,7 +15,7 @@ const RightBlock = () => {
   return (
     <S.ButtonsWrapper>
       <LoginButton />
-      {isAuth && (
+      {/* {isAuth && (
         <S.FavouriteImage
           src={FavouriteIcon}
           width="25"
@@ -23,7 +23,7 @@ const RightBlock = () => {
           alt="favourite"
           onClick={onFavourite}
         />
-      )}
+      )} */}
       <S.CartLink href="/cart">
         <S.CartImage
           src={CartIcon}

@@ -3,7 +3,6 @@ import { registerDynamicModal } from "@/helpers/useDynamicModal";
 import { MODALS, LOGIN } from "@/constants/constants";
 import { AuthButton } from "./styles";
 import AuthIcon from "@/assets/icons/auth.svg";
-import LoginIcon from "@/assets/icons/login.svg";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useUserSession } from "@/fetchActions/user/useUser";
@@ -43,7 +42,7 @@ const LoginButton = () => {
         <>
           <AuthButton
             alt="auth"
-            src={LoginIcon}
+            src={AuthIcon}
             width="30"
             height="30"
             onClick={onAuth}

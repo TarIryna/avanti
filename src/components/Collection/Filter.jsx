@@ -57,10 +57,12 @@ const Filter = () => {
     ? sizesList.filter((s) => +s > 32 && +s < 44)
     : sizesList.filter((s) => +s < 42);
 
-  const renderOptions = (array, name, currentValue) => (
+  const renderOptions = (array, name, currentValue) => {
+    const isCurrent =  currentValue !== '';
+    return (
     <select
       id={name}
-      className="filter__select"
+      className={`filter__select${isCurrent ? '_current' : ''}`}
       value={currentValue}
       onChange={(e) => updateParam(name, e.target.value)}
     >
@@ -87,6 +89,7 @@ const Filter = () => {
       ))}
     </select>
   );
+}
 
   const renderSizes = (sizes) => (
     <select

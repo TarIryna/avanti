@@ -36,6 +36,13 @@ export const CollectionSearch = styled(SearchInput)`
 export const FilterWrapper = styled.div`
   width: 100%;
   padding-bottom: 20px;
+
+   select {
+      background: white;
+    }
+    select.filter__select_current {
+    font-weight: 700;
+    }
 `;
 
 export const LimitPageWrapper = styled.div`
@@ -69,9 +76,7 @@ export const FilterGrid = styled.div`
     grid-template-columns: repeat(2, 50%);
     column-gap: 4px;
   }
-    select {
-      background: white;
-    }
+   
 `;
 
 export const SearchButton = styled.button`
@@ -90,4 +95,9 @@ export const SearchButton = styled.button`
 export const SearchWrapper = styled.div`
   position: relative;
   margin-left: auto;
+  `
+
+  export const Select = styled.select`
+  font-weight: 400;
+  ${(isCurrent) => (isCurrent && 'font-weight: 700;')}
   `
