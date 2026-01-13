@@ -198,7 +198,9 @@ export const ImageCard = styled.div`
     object-position: center;
     transform: translate3d(0, 0, 0);
     cursor: pointer;
-
+    ${media.mobile}{
+      position: unset !important; 
+    }
   }
 `;
 

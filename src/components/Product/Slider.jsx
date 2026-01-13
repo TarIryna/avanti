@@ -5,7 +5,6 @@ import * as S from "./styles";
 import { IconArrow } from "../icons";
 import { useModal } from "@ebay/nice-modal-react";
 import { MODALS } from "@/constants/constants";
-import { useIsMobile } from "@/hooks";
 
 
 export const Slider = ({ imagesToDisplay }) => {
@@ -19,7 +18,6 @@ export const Slider = ({ imagesToDisplay }) => {
   const isLast = index === length - 1;
   const router = useRouter();
   const { show: showModal } = useModal(MODALS.PRODUCT_MODAL)
-  const isMobile = useIsMobile()
 
   const handleNext = () => {
     setIndex((prev) => Math.min(prev + 1, imagesToDisplay.length - 1));
@@ -53,9 +51,7 @@ const handleTouchEnd = () => {
 };
 
 const onImageClick = () => {
-  if (!isMobile){
     showModal({images: imagesToDisplay})
-  }
 }
 
   return (
