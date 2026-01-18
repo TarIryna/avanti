@@ -3,13 +3,13 @@ import { connectToDB } from "@/utils/database";
 
 export const PATCH = async (request, { params }) => {
   const data = await request.json();
-
+  
   try {
     await connectToDB();
 
     const updatedUser = await User.findByIdAndUpdate(
       params.id,
-      { $set: data }, // безопасно обновляем только переданные поля
+      { $set: data.user }, // безопасно обновляем только переданные поля
       { new: true, runValidators: true } // вернуть обновлённый документ + валидация схемы
     );
 

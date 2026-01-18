@@ -14,7 +14,7 @@ export const InputWrapper = styled.div`
   position: relative;
   width: 100%;
   height: 40px;
-  ${({isBorder}) => (isBorder && 'border: 1px solid grey; border-radius: 14px;')}
+  ${({isBorder}) => (isBorder && 'border: 1px solid grey; border-radius: 16px;')}
 `;
 
 export const Recommended = styled.h4``;

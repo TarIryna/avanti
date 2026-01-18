@@ -10,33 +10,34 @@ import {
   sortList,
   limits,
 } from "@/utils/data";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { FilterSelect } from "./FilterSelect";
+import { useParams, useSearchParams, useRouter } from "next/navigation";
 import * as S from "./styles";
 
 const Filter = () => {
-  const router = useRouter();
   const params = useParams();
   const searchParams = useSearchParams();
+  const router = useRouter();
 
-  // универсальная функция для изменения параметров в URL
-  const updateParam = (key, value) => {
-    const query = new URLSearchParams(searchParams.toString());
-    let genderValue = gender;
-    if (value) {
-      switch (key) {
-        case "gender":
-          genderValue = value;
-          break;
-        default:
-          query.set(key, value);
+    // универсальная функция для изменения параметров в URL
+    const updateParam = (key, value) => {
+      const query = new URLSearchParams(searchParams.toString());
+      let genderValue = gender;
+      if (value) {
+        switch (key) {
+          case "gender":
+            genderValue = value;
+            break;
+          default:
+            query.set(key, value);
+        }
+      } else {
+        query.delete(key);
       }
-    } else {
-      query.delete(key);
-    }
-    query.set("page", "1"); // сброс страницы при смене фильтра
-
-    router.push(`/${genderValue}?${query.toString()}`);
-  };
+      query.set("page", "1"); // сброс страницы при смене фильтра
+  
+      router.push(`/${genderValue}?${query.toString()}`);
+    };
 
   const gender = params.gender || "";
   const season = searchParams.get("season") || "";
@@ -56,40 +57,6 @@ const Filter = () => {
     : gender === "women"
     ? sizesList.filter((s) => +s > 32 && +s < 44)
     : sizesList.filter((s) => +s < 42);
-
-  const renderOptions = (array, name, currentValue) => {
-    const isCurrent =  currentValue !== '';
-    return (
-    <select
-      id={name}
-      className={`filter__select${isCurrent ? '_current' : ''}`}
-      value={currentValue}
-      onChange={(e) => updateParam(name, e.target.value)}
-    >
-      <option value="">
-        {name === "season"
-          ? "Сезон"
-          : name === "gender"
-          ? "Стать"
-          : name === "color"
-          ? "Колір"
-          : name === "material"
-          ? "Матеріал верху"
-          : name === "sort"
-          ? "Сортувати за"
-          : name === "limits"
-          ? "Кількість на сторінці"
-          : "Вигляд"}
-        :
-      </option>
-      {array.map((item, index) => (
-        <option value={item.query ?? item} key={item.query ?? item ?? index}>
-          {item.filterName ?? item.name ?? item}
-        </option>
-      ))}
-    </select>
-  );
-}
 
   const renderSizes = (sizes) => (
     <select
@@ -112,17 +79,17 @@ const Filter = () => {
       <S.FilterTitle>Фільтри і сортування</S.FilterTitle>
       <div className="filter-wrapper">
         <S.FilterGrid>
-          {tabsData && renderOptions(tabsData, "gender", gender)}
-          {seasons && renderOptions(seasons, "season", season)}
-          {viewList && renderOptions(viewList, "view", view)}
+          {tabsData && <FilterSelect options={tabsData} label="gender" currentValue={gender} updateParam={updateParam}/>}
+          {seasons && <FilterSelect options={seasons} label="season" currentValue={season} updateParam={updateParam}/>}
+          {viewList && <FilterSelect options={viewList} label="view" currentValue={view} updateParam={updateParam}/> }
           {sizesByGender && renderSizes(sizesByGender)}
-          {colorsList && renderOptions(colorsList, "color", color)}
-          {materialList && renderOptions(materialList, "material", material)}
+          {colorsList && <FilterSelect options={colorsList} label="color" currentValue={color} updateParam={updateParam}/>}
+          {materialList && <FilterSelect options={materialList} label="material" currentValue={material} updateParam={updateParam}/> }
         </S.FilterGrid>
       </div>
       <S.LimitPageWrapper>
-        {sortList && renderOptions(sortList, "sort", sort)}
-        {limits && renderOptions(limits, "limit", limit)}
+        {sortList && <FilterSelect options={sortList} label="sort" currentValue={sort} updateParam={updateParam}/>}
+        {limits &&  <FilterSelect options={limits} label="limit" currentValue={limit} updateParam={updateParam}/> }
       </S.LimitPageWrapper>
     </S.FilterWrapper>
   );

@@ -40,6 +40,12 @@ export const FilterWrapper = styled.div`
    select {
       background: white;
     }
+    select:focus-visible, select:focus, select:active {
+      outline: none;
+    }
+    select:focus:not(:focus-visible) {
+      outline: none;
+    }
     select.filter__select_current {
     font-weight: 700;
     }
@@ -69,8 +75,10 @@ export const FilterTitle = styled.h3`
 export const FilterGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(6, 1fr);
+  column-gap: 16px;
   @media screen and (max-width: 1024px) {
     grid-template-columns: repeat(3, 1fr);
+    column-gap: 8px;
   }
   @media screen and (max-width: 540px) {
     grid-template-columns: repeat(2, 50%);

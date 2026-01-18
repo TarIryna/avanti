@@ -1,3 +1,4 @@
+// hooks/useUserSession.ts
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
@@ -7,9 +8,9 @@ export const useUserSession = () => {
   return useQuery({
     queryKey: ["userSession"],
     queryFn: async () => {
-      const session = await getSession(); // NextAuth
-      return session?.user || null;ch
+      const session = await getSession();
+      return session?.user ?? null;
     },
-    staleTime: 1440 * 60 * 1000, // 5 минут кэш
+    staleTime: 5 * 60 * 1000,
   });
 };

@@ -1,33 +1,58 @@
-// hooks/useUpdateUser.js
+// hooks/useUpdateUser.ts
 "use client";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-hot-toast";
 
-export const useUpdateUser = () => {
+export const useUpdateUser = (onClose) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ id, orderData }) => {
-      const response = await fetch(`/api/users/${id}`, {
+    mutationFn: async ({ id, user }) => {
+      const res = await fetch(`/api/users/${id}`, {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(orderData),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user }),
       });
 
-      if (!response.ok) {
-        throw new Error("Ошибка при обновлении пользователя");
+      if (!res.ok) {
+        throw new Error("Failed to update user");
       }
 
-      return response.json();
+      return res.json(); // updatedUser
     },
-    onSuccess: (data) => {
-      // Можно обновить кэш, например userSession, если это тот же пользователь
-      queryClient.invalidateQueries(["userSession"]);
+
+    onSuccess: (updatedUser) => {
+      // 🔥 мгновенно обновляем UI
+      queryClient.setQueryData(["userSession"], (old) => ({
+        ...old,
+        ...updatedUser,
+      }));
+
+      toast.success("Дані оновлено");
+      onClose?.();
     },
-    onError: (error) => {
-      console.error("Ошибка при обновлении пользователя", error);
-    },
+    onMutate: async ({ user }) => {
+  await queryClient.cancelQueries(["userSession"]);
+
+  const previousUser = queryClient.getQueryData(["userSession"]);
+
+  queryClient.setQueryData(["userSession"], (old) => ({
+    ...old,
+    ...user,
+  }));
+
+  return { previousUser };
+},
+
+  onError: (_err, _vars, context) => {
+    queryClient.setQueryData(["userSession"], context.previousUser);
+    toast.error("Помилка оновлення");
+    console.log(_err)
+  },
+
+    // onError: () => {
+    //   toast.error("Помилка оновлення");
+    // },
   });
 };

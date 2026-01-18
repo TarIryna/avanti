@@ -4,52 +4,56 @@ import React, { useEffect, useState } from "react";
 import ReactModal from "../ReactModal";
 import { LOGIN, MODALS } from "@/constants/constants";
 import Head from "../components/Head/Head";
-import { useForm, FormProvider } from "react-hook-form";
+import { useForm, FormProvider, Controller } from "react-hook-form";
 import { Input } from "@/components/ui";
 import { Button } from "@mui/material";
 import { Wrapper, Container, Content } from "../styles";
 import { toast } from "react-hot-toast";
-import { updateUserAction } from "@/store/actions/user";
+import { useUpdateUser } from "@/fetchActions/user/useUpdateUser";
 import * as S from "./styles";
+import DeliverySelect from "@/components/Cart/DeliverySelect/DeliverySelect";
+import { useUserSession } from "@/fetchActions/user/useUser";
 
 const UpdateProfileModal = create(({ id }) => {
-  const { hide, args } = useModal(MODALS.UPDATE_PROFILE);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const { user } = args;
+  const { hide } = useModal(MODALS.UPDATE_PROFILE);
+  const { data: user } = useUserSession();
+  const { mutate: updateUser, isPending } = useUpdateUser(hide);
   const userId = user?.id;
 
-  const methods = useForm({ mode: "onSubmit" });
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-    setError,
-    reset,
-  } = methods;
+  const methods = useForm({
+    mode: "onSubmit" ,
+  defaultValues: {
+    city: "",
+    cityDescription: "",
 
-  const updateProfile = async (data) => {
-    setIsSubmitting(true);
-    if (!user.email) return alert("Missing email!");
-    try {
-      const response = await fetch(`/api/users/${userId}`, {
-        method: "PATCH",
-        body: JSON.stringify({
-          user: data,
-        }),
-      });
+    address: "",
+    addressDescription: "",
+  },
+});
+ const {
+  handleSubmit,
+  register,
+  formState: { errors },
+  control,
+  setValue,
+  watch,
+} = methods;
 
-      if (response.ok) {
-        toast.success("Дані оновлено");
-        const updatedUser = await response.json();
-        updateUserAction(updatedUser);
-        hide();
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+const updateProfile = (formData) => {
+  if (!user?._id) return;
+
+  updateUser({
+    id: user._id,
+    user: {
+      ...formData,
+      city: formData.city,
+      cityDescription: formData.cityDescription,
+      address: formData.address,
+      addressDescription: formData.addressDescription,
+    },
+  });
+};
+
 
   const onSubmit = (data) => {
     updateProfile(data);
@@ -70,6 +74,8 @@ const UpdateProfileModal = create(({ id }) => {
                   tabIndex={1}
                   enterKeyHint="next"
                   defaultValue={user?.name}
+                  isBorder
+                  label="Ім'я"
                 />
                 <Input
                   placeholder="Прізвище"
@@ -78,6 +84,8 @@ const UpdateProfileModal = create(({ id }) => {
                   tabIndex={2}
                   enterKeyHint="next"
                   defaultValue={user?.surname}
+                  isBorder
+                  label="Прізвище"
                 />
                 <Input
                   placeholder="Телефон"
@@ -86,23 +94,62 @@ const UpdateProfileModal = create(({ id }) => {
                   tabIndex={3}
                   enterKeyHint="next"
                   defaultValue={user?.phone}
+                  isBorder
+                  label="Телефон"
                 />
-                <Input
-                  placeholder="Місто"
-                  {...register("city", { required: true })}
-                  error={errors?.city}
-                  tabIndex={4}
-                  enterKeyHint="next"
-                  defaultValue={user?.city}
+             <Controller
+                name="city"
+                control={control}
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <DeliverySelect
+                    title="Місто"
+                    value={field.value}
+                    onChange={(option) => {
+                      field.onChange(option.label);     // то, что хранится в RHF
+                      setValue("city", option.value);
+                      setValue("cityDescription", option.label) // если нужен Ref
+                      setValue("address", "");           // сброс адреса
+                    }}
+                    fetchOptions={async (query) => {
+                      const res = await fetch(
+                        `/api/shipping/novaposhta/cities?query=${query}`
+                      );
+                      const json = await res.json();
+                      return json.data.map((c) => ({
+                        value: c.Ref,
+                        label: c.Description,
+                      }));
+                    }}
+                  />
+                )}
+              />
+
+          <Controller
+              name="address"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <DeliverySelect
+                  title="Адреса доставки"
+                  value={field.value}
+                  onChange={(option) => {
+                    setValue("address", option.value);
+                    setValue("addressDescription", option.label)
+                  }}
+                  fetchOptions={async () => {
+                    const res = await fetch(
+                      `/api/shipping/novaposhta/adress?query=${methods.watch("city")}`
+                    );
+                    const json = await res.json();
+                    return json.data.map((a) => ({
+                      value: a.Ref,
+                      label: a.Description,
+                    }));
+                  }}
                 />
-                <Input
-                  placeholder="Реквізити доставки"
-                  {...register("address", { required: true })}
-                  error={errors?.address}
-                  tabIndex={1}
-                  enterKeyHint="done"
-                  defaultValue={user?.address}
-                />
+              )}
+            />
                 <Button type="submit">Оновити</Button>
               </S.Form>
             </FormProvider>

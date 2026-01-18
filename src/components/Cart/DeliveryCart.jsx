@@ -35,7 +35,7 @@ const DeliveryCart = ({ onSuccess }) => {
 
   const handleUpdate = (orderData) => {
     if (userId){
-      updateUser({ id: userId, orderData });
+        updateUser({ id: userId, user: orderData });
     }
   };
 

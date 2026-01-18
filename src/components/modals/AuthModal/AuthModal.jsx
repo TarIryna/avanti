@@ -15,6 +15,7 @@ const AuthorizationModal = create(({ id, mode, res }) => {
   const { visible, hide } = useModal(id);
   const { visible: isVisibleForgotPass } = useModal(MODALS.FORGOT_PASSWORD);
   const isHiddenModal = isVisibleForgotPass;
+  const title = activeTab === LOGIN ? 'Авторизація' : 'Реєстрація'
 
   useEffect(() => {
     if (visible) {
@@ -34,10 +35,10 @@ const AuthorizationModal = create(({ id, mode, res }) => {
       >
         <Wrapper>
           <Container>
-            <Head close={hide} title="Авторизація" />
+            <Head close={hide} title={title} />
             <Content>
               {activeTab === LOGIN ? <Login /> : <Registration />}
-              {mode === LOGIN && (
+              {activeTab === LOGIN && (
                 <Link onClick={() => setActiveTab(REGISTRATION)}>
                   Зареєструватись
                 </Link>

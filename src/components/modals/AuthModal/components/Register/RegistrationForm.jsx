@@ -1,13 +1,14 @@
 import { useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm, Controller } from "react-hook-form";
 import { Button, Input } from "@/components/ui";
 import { useAuthModalContext } from "../../contexts/authContext";
 import { signIn } from "next-auth/react";
 import * as S from "./styles";
 import { toast } from "react-hot-toast";
 import { useModal } from "@ebay/nice-modal-react";
+import DeliverySelect from "@/components/Cart/DeliverySelect/DeliverySelect";
 import { MODALS } from "@/constants/constants";
 
 const RegistrationForm = () => {
@@ -15,10 +16,26 @@ const RegistrationForm = () => {
     useAuthModalContext() || {};
   const [isProcessing, setIsProcessing] = useState(false);
   const recaptchaRef = useRef < ReCAPTCHA > null;
-  const methods = useForm({ mode: "onSubmit" });
   const { hide } = useModal(MODALS.AUTHORIZATION);
 
-  const { handleSubmit, register } = methods;
+const methods = useForm({
+  defaultValues: {
+    city: "",
+    cityDescription: "",
+
+    address: "",
+    addressDescription: "",
+  },
+});
+
+
+ const {
+  handleSubmit,
+  register,
+  control,
+  setValue,
+  watch,
+} = methods;
 
   const onSubmit = async (data) => {
     setIsProcessing(true);
@@ -62,26 +79,32 @@ const RegistrationForm = () => {
         {!googleRegMethod && (
           <Input
             type="email"
-            placeholder="e-mail"
+            placeholder="example@mail.com"
             {...register("email", { required: true })}
             tabIndex={1}
             enterKeyHint="next"
+            isBorder
+            label='E-mail'
           />
         )}
         <Input
           type="text"
-          placeholder="username"
+          placeholder="example_username"
           {...register("username", { required: true })}
           tabIndex={2}
           enterKeyHint="next"
+          isBorder
+          label='Username'
         />
         {!googleRegMethod && (
           <Input
             type="password"
-            placeholder="пароль"
+            placeholder="123456"
             {...register("password", { required: true })}
             tabIndex={3}
             enterKeyHint="next"
+            isBorder
+            label='Пароль'
           />
         )}
         <S.Row>
@@ -91,6 +114,8 @@ const RegistrationForm = () => {
             {...register("name", { required: true })}
             tabIndex={4}
             enterKeyHint="next"
+            isBorder
+            label="Ім'я"
           />
           <Input
             type="text"
@@ -98,6 +123,8 @@ const RegistrationForm = () => {
             {...register("surname", { required: true })}
             tabIndex={5}
             enterKeyHint="next"
+            isBorder
+            label="Прізвище"
           />
         </S.Row>
         <Input
@@ -106,21 +133,63 @@ const RegistrationForm = () => {
           {...register("phone", { required: true })}
           tabIndex={6}
           enterKeyHint="next"
+          isBorder
+          label="Телефон"
         />
-        <Input
-          type="text"
-          placeholder="Місто"
-          {...register("city", { required: true })}
-          tabIndex={7}
-          enterKeyHint="next"
+       <Controller
+          name="city"
+          control={control}
+          rules={{ required: true }}
+          render={({ field }) => (
+            <DeliverySelect
+              title="Місто"
+              value={field.value}
+              onChange={(option) => {
+                field.onChange(option.label);     // то, что хранится в RHF
+                setValue("city", option.value);
+                setValue("cityDescription", option.label) // если нужен Ref
+                setValue("address", "");           // сброс адреса
+              }}
+              fetchOptions={async (query) => {
+                const res = await fetch(
+                  `/api/shipping/novaposhta/cities?query=${query}`
+                );
+                const json = await res.json();
+                return json.data.map((c) => ({
+                  value: c.Ref,
+                  label: c.Description,
+                }));
+              }}
+            />
+          )}
         />
-        <Input
-          type="text"
-          placeholder="Адреса доставки"
-          {...register("address", { required: true })}
-          tabIndex={8}
-          enterKeyHint="next"
+
+       <Controller
+          name="address"
+          control={control}
+          rules={{ required: true }}
+          render={({ field }) => (
+            <DeliverySelect
+              title="Адреса доставки"
+              value={field.value}
+              onChange={(option) => {
+                setValue("address", option.value);
+                setValue("addressDescription", option.label)
+              }}
+              fetchOptions={async () => {
+                const res = await fetch(
+                  `/api/shipping/novaposhta/adress?query=${methods.watch("city")}`
+                );
+                const json = await res.json();
+                return json.data.map((a) => ({
+                  value: a.Ref,
+                  label: a.Description,
+                }));
+              }}
+            />
+          )}
         />
+
         {!!process.env.NEXT_PUBLIC_GOOGLE_CAPTCHA && (
           <ReCAPTCHA
             sitekey={process.env.NEXT_PUBLIC_GOOGLE_CAPTCHA}

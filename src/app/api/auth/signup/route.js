@@ -5,7 +5,7 @@ import { connectToDB } from "@/utils/database";
 export async function POST(req) {
   try {
     const body = await req.json();
-    const { email, password, username, name, surname, phone, city, address } =
+    const { email, password, username, name, surname, phone, city, address, cityDescription, addressDescription } =
       body;
 
     await connectToDB();
@@ -31,7 +31,9 @@ export async function POST(req) {
       surname,
       phone,
       city,
+      cityDescription,
       address,
+      addressDescription
     });
 
     return new Response(
