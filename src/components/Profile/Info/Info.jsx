@@ -30,7 +30,7 @@ const Info = () => {
   }, [isAuth]);
 
   return (
-    <>
+    <S.Content>
       <h2>Дані профіля</h2>
       <S.Line>
         <p>Ім'я:</p>
@@ -58,7 +58,7 @@ const Info = () => {
       </S.Line>
       <Button onClick={() => showUpdate({ user })}>Оновити дані</Button>
       <Button onClick={onSignOut}>Вийти з аккаунту</Button>
-    </>
+    </S.Content>
   );
 };
 

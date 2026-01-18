@@ -14,3 +14,9 @@ export const Line = styled.div`
     }
   }
 `;
+
+export const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`
