@@ -4,7 +4,8 @@ import * as S from "../styles";
 const ContactsPage = () => {
   return (
       <S.PageWrapper className="container page">
-        <S.Title>НАШІ КОНТАКТИ</S.Title>
+        <S.Title invisible>Контакти магазину Аванті в місті Ужгород</S.Title>
+        <S.SecondTitle>НАШІ КОНТАКТИ</S.SecondTitle>
         <S.ContentPart>
           <S.Subtitle>Телефони:</S.Subtitle>
           <S.Text>

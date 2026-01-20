@@ -4,8 +4,12 @@ import { ClientProvider } from "@/components/GeneralProvider/ClientProvider";
 import Footer from "@/components/Footer/Footer";
 
 export const metadata = {
-  title: "Avanti (Аванті) — магазин взуття в Ужгороді",
-  description: "Avanti — магазин взуття та сумок в Ужгороді. Жіноче, чоловіче та дитяче взуття. Доставка по Україні.",
+  title: {
+    default: "Avanti — взуття та сумки",
+    template: "%s | Avanti",
+  },
+  description:
+    "Avanti — інтернет-магазин взуття та сумок. Жіноче, чоловіче та дитяче взуття з доставкою по Україні.",
 };
 
 const RootLayout = ({ children }) => {
