@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { fetchProductsByParams } from "@/helpers/useFetchProducts";
 
 export async function GET() {
-  const data = await fetchProductsByParams({gender: 'all', page: 1, limit: 3000}); // твои товары, 
+  const data = await fetchProductsByParams({gender: 'all', page: 1, limit: 3000}); // твои товары,
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
@@ -10,6 +10,7 @@ export async function GET() {
 <title>Avanti catalog</title>
 <link>https://avanti-shoes.com.ua</link>
 <description>Каталог товарів Avanti</description>
+${data.total}
 
 ${data?.products?.map(
     (p) => `
@@ -25,7 +26,7 @@ ${data?.products?.map(
 </item>
 `
   )
-  .join("")}
+  ?.join("")}
 
 </channel>
 </rss>`;
