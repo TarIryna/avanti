@@ -26,6 +26,7 @@ ${data?.products?.map(
   <g:price>${p.price} UAH</g:price>
   <g:availability>in stock</g:availability>
   <g:brand>Avanti</g:brand>
+  <g:google_product_category><![CDATA[${ p.facebook || "Clothing & Accessories > Shoes & Footwear > Shoes"}]]></g:google_product_category>
 </item>
 `
   )
