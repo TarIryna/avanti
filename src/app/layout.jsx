@@ -106,7 +106,7 @@ const RootLayout = ({ children }) => {
               s.parentNode.insertBefore(t,s)}
               (window, document,'script',
               'https://connect.facebook.net/en_US/fbevents.js');
-              fbq('init', '2108223476665153');
+              fbq('init', '1453738283138896');
               fbq('track', 'PageView');
             `,
           }}
