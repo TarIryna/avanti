@@ -25,6 +25,7 @@ ${data?.products?.map(
   <g:image_link>${p.image1 ?? p.image ?? p.image2 ?? p.image3 ?? p.small_image}</g:image_link>
   <g:price>${p.price} UAH</g:price>
   <g:availability>in stock</g:availability>
+  <g:condition>new</g:condition>
   <g:brand>Avanti</g:brand>
   <g:google_product_category><![CDATA[${ p.facebook || "Clothing & Accessories > Shoes & Footwear > Shoes"}]]></g:google_product_category>
 </item>
