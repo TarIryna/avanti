@@ -45,6 +45,7 @@ export const ButtonAsk = styled.div`
 export const SizesWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  position: relative;
 `;
 
 export const ProductSizes = styled.p`
@@ -58,6 +59,10 @@ export const SizesContainer = styled.div`
   justify-content: center;
   height: 30px;
   margin-top: 10px;
+  ${({isNotification}) => (isNotification && css`
+    border: 1px solid red;
+    border-radius: 16px;
+    `)}
 `;
 
 export const SizesBlock = styled.div`
@@ -224,4 +229,14 @@ export const Back = styled(Image)`
   position: absolute;
   left: 16px;
   top: 16px;
+`
+
+export const Notification = styled.div`
+  position: absolute;
+  left: 50%;
+  top: 13px;
+  transform: translate3d(-50%, 0, 0);
+  color: red;
+  text-align: center;
+  width: max-content;
 `

@@ -53,6 +53,7 @@ export const menuData = {
       },
       Угги: { gender: "women", season: "winter", view: "uggs" },
       Чоботи: { gender: "women", season: "winter", view: "high" },
+      Ботфорти: { gender: "women", season: "winter", view: "botforts"},
     },
     "Літнє взуття": {
       "Босоніжки і шльопанці на каблуках": {
@@ -98,6 +99,7 @@ export const menuData = {
         view: "boots",
       },
       Чоботи: { gender: "women", season: "demi", view: "high" },
+      Ботфорти: { gender: "women", season: "demi", view: "botforts"},
     },
   },
   Чоловіки: {
