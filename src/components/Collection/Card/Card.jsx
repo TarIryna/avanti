@@ -11,7 +11,6 @@ const Card = ({ item }) => {
   const sizes = item?.sizes && typeof item?.sizes === 'string' && item?.sizes?.includes(" ") ? item?.sizes?.split(" ") : [item?.sizes];
   const isSale = item.price > 0 && item.price2 > 0;
   const name = item.name.slice(0, 1).toUpperCase() + item.name.slice(1);
-  const image = item.image1 ?? item.small_image ?? item.image2;
 
   const handleClick = (id) => {
     changeProductIdAction(id);
@@ -20,13 +19,13 @@ const Card = ({ item }) => {
 
   return (
     <>
-      {item && item.image1 && item.price && (
+      {item && item.image1 && (
         <S.CardWrapper>
           <S.Title>{name}</S.Title>
           <S.ImageWrapper>
             <Image
-              src={image}
-              alt="user_image"
+              src={item.image1}
+              alt={item.code}
               fill
               onClick={() => handleClick(item.code)}
             />
@@ -41,7 +40,7 @@ const Card = ({ item }) => {
             </S.PriceWrapper>
           ) : (
             <div className="flex-center">
-              <span className="current-price">{item.price} грн.</span>
+              <span className="current-price">{item.price ?? 0} грн.</span>
             </div>
           )}
         </S.CardWrapper>
