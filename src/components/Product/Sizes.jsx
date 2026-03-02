@@ -4,7 +4,7 @@ import * as S from "./styles";
 import { useEffect, useState } from "react";
 
 const Sizes = ({ sizes, item }) => {
-  const [size, setSize] = useState("один розмір");
+  const [size, setSize] = useState(item.type === "bags" ? item.color : "один розмір");
   const [isActive, setActive] = useState(false)
   const [isNotification, setIsNotification] = useState(false)
   const itemId = item?._id ?? item?.id;
@@ -12,31 +12,35 @@ const Sizes = ({ sizes, item }) => {
   const length = sizes?.length
   const isFirstSize = !!sizes?.toString()?.length
 
-  const isSelectedSize = () => {
-    if (size === "один розмір" && sizes?.length > 1){
-      setIsNotification(true)
-      return false
-    }
-    else if (size === "один розмір" && sizes?.length === 1){
-      setSize(sizes[0])
-      return true
-    }
-    else return true
+const isSelectedSize = () => {
+  if (size === "один розмір" && sizes?.length > 1) {
+    setIsNotification(true);
+    return false;
   }
 
+  if (size === "один розмір" && sizes?.length === 1) {
+    return sizes[0]; // ⬅️ возвращаем реальный размер
+  }
+
+  return size;
+};
+
 const onButtonClick = async () => {
-  if (isSelectedSize()){
+  const selectedSize = isSelectedSize();
+  if (!selectedSize) return;
+
   const newItem = {
     product: itemId,
     price: item.price,
     image: item.small_image || item.image1,
     code: item.code,
-    size,        // выбранный размер
-    quantity: 1, // по умолчанию 1
+    size: selectedSize, // ✅ всегда корректный размер
+    quantity: 1,
   };
-  await addItem(newItem)
-}
+
+  await addItem(newItem);
 };
+
 
 useEffect(() => {
   if (isNotification){

@@ -107,6 +107,13 @@ export const DescriptionTitle = styled.span`
 export const DescriptionPrice = styled.span`
   font-size: 18px;
   font-weight: 700;
+  padding-left: 10px;
+  ${({isPrice}) => (isPrice && css`
+    color: red;
+    `)}
+  ${({isFirst}) => (isFirst && css`
+    text-decoration: line-through;
+    `)}
 `;
 
 export const DescriptionValue = styled.span`

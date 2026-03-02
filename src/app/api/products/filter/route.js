@@ -17,35 +17,40 @@ export const GET = async (request) => {
     const color = searchParams.get("color");
     const material = searchParams.get("material");
     const sort = searchParams.get("sort");
-    const type = searchParams.get("type");
+    const type = searchParams.get("type") ?? 'shoes';
     const limit = Number(searchParams.get("limit") ?? 24);
     const page = Number(searchParams.get("page") ?? 1);
     const isSale = gender === 'sale'
 
     // ✅ строим фильтр динамически
-    const filterParams = {};
-    if (type && type !== "null") filterParams.type = type;
-    if (season && season !== "null") filterParams.season = season;
-    if (view && view !== "null") filterParams.view = view;
-    if (color && color !== "null") filterParams.color = color;
-    if (material && material !== "null") filterParams.material = material;
-    if (type && type !== "null") filterParams.type = type;
-    if (sizes && sizes !== "null") {
-      filterParams.sizes = { $regex: `\\b${sizes}\\b` };
-    }
-    if (isSale){
-      filterParams.price2 = { $exists: true, $ne: null };
-    }
-    if (gender === "kids") {
-      filterParams.gender = { $in: ["girls", "boys"] };
-    } else if (
-      gender &&
-      gender !== "bags" &&
-      gender !== "sale" &&
-      gender !== "all"
-    ) {
-      filterParams.gender = gender;
-    }
+const filterParams = {};
+
+// Фильтр по type
+filterParams.type = type ?? 'shoes';
+
+// Фильтры по сезону, виду, цвету, материалу
+if (season && season !== "null") filterParams.season = season;
+if (view && view !== "null") filterParams.view = view;
+if (color && color !== "null") filterParams.color = color;
+if (material && material !== "null") filterParams.material = material;
+
+// Фильтр по размерам
+if (sizes && sizes !== "null") {
+  filterParams.sizes = { $regex: `\\b${sizes}\\b` };
+}
+
+// Товары на распродаже
+if (isSale) filterParams.price2 = { $exists: true, $ne: null };
+
+// Фильтр по gender
+if (gender === "all") {
+  // ничего не добавляем, ищем все gender
+} else if (gender === "kids") {
+  filterParams.gender = { $in: ["girls", "boys"] };
+} else if (gender && gender !== "bags" && gender !== "sale") {
+  filterParams.gender = gender;
+}
+
 
     if (query) {
       const orConditions = [
@@ -113,6 +118,7 @@ const pipeline = [
   },
 ];
 
+console.log("FILTER", JSON.stringify(filterParams, null, 2));
 
 
 const result = await Product.aggregate(pipeline);

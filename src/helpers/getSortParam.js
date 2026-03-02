@@ -17,13 +17,21 @@ export const getSortParam = (sort) => {
 export const getSeasonPriorityByDate = () => {
   const month = new Date().getMonth() + 1;
 
-  if ([12, 1, 2].includes(month)) {
-    return ["winter", "autumn", "summer"];
+  if ([11, 12, 1].includes(month)) {
+    return ["winter", "demi", "autumn"];
   }
 
-  if ([3, 4, 5, 6, 7, 8].includes(month)) {
-    return ["summer", "autumn", "winter"];
+  if ([2, 10].includes(month)) {
+    return ["demi",  "winter", "autumn"];
   }
 
-  return ["autumn", "winter", "summer"];
+  if ([5, 6, 7 ].includes(month)) {
+    return ["summer", "autumn"];
+  }
+
+   if ([3, 4 ].includes(month)) {
+    return ["autumn", "summer" ];
+  }
+
+  return ["autumn", "winter"];
 };

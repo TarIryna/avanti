@@ -7,7 +7,7 @@ export const GET = async (request, { params }) => {
     const { searchParams } = new URL(request.url);
 
     const gender = searchParams.get("gender");
-    const type = gender === "bags" ? "bags" : "shoes";
+    const type = searchParams.get("type") ?? 'shoes';
     const view = searchParams.get("view");
     const season = searchParams.get("season");
     const size = searchParams.get("size");

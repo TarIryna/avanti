@@ -45,6 +45,8 @@ export const Text = styled.p`
   font-size: 14px;
   font-weight: 400;
 
+  ${({isMargin}) => (isMargin && 'margin-bottom: 20px;')}
+
   ul {
     list-style: disc inside;
     margin-bottom: 16px;

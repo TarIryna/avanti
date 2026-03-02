@@ -36,7 +36,7 @@ export default async function PageGender({ params, searchParams }) {
   const size = searchParams?.size;
   const sort = searchParams?.sort;
   const material = searchParams?.material;
-  const type = searchParams?.type;
+  const type = searchParams?.type ?? 'shoes';
   const searchQuery = searchParams?.query;
 
   const basePath = `/${params.gender}`;

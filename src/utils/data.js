@@ -301,23 +301,28 @@ export const materialList = [
 export const colorsList = [
   {
     name: "білий",
-    query: "Белый",
+    query: "білий",
     filterName: "білий",
   },
   {
     name: "чорний",
-    query: "Черный",
+    query: "чорний",
     filterName: "чорний",
   },
   {
     name: "бежевий",
-    query: "Бежевый",
+    query: "бежевий",
     filterName: "бежевий",
   },
   {
     name: "коричневий",
-    query: "Коричневый",
+    query: "коричневий",
     filterName: "коричневий",
+  },
+    {
+    name: "сірий",
+    query: "сірий",
+    filterName: "сірий",
   },
 ];
 

@@ -4,7 +4,8 @@ const Description = ({ data }) => {
     <S.Description>
       <p>
         <S.DescriptionTitle>Ціна: </S.DescriptionTitle>
-        <S.DescriptionPrice>{data.price} грн</S.DescriptionPrice>
+        {data?.price2 && data?.price2 > 0 && <S.DescriptionPrice isFirst={!!data?.price2}>{data.price2} грн</S.DescriptionPrice>}
+        <S.DescriptionPrice isPrice={!!data?.price2}>{data.price} грн</S.DescriptionPrice>
       </p>
       <p>
         <S.DescriptionTitle>Матеріал верху: </S.DescriptionTitle>
