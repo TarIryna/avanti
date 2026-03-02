@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import ImageWrapper from "@/components/Product/ImageWrapper";
 import { changeProductIdAction } from "@/store/actions/product";
 import { useRouter } from "next/navigation";
 import Sizes from "../../Product/Sizes";
@@ -22,14 +22,12 @@ const Card = ({ item }) => {
       {item && item.image1 && (
         <S.CardWrapper>
           <S.Title>{name}</S.Title>
-          <S.ImageWrapper>
-            <Image
+          <ImageWrapper
               src={item.image1}
               alt={item.code}
               fill
               onClick={() => handleClick(item.code)}
             />
-          </S.ImageWrapper>
           <div> 
             <Sizes sizes={sizes} item={item} />
           </div>
