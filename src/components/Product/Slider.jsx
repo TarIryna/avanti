@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import Image from "next/image";
+import ImageWrapper from "./ImageWrapper";
 import { useRouter } from "next/navigation";
 import * as S from "./styles";
 import { IconArrow } from "../icons";
@@ -66,7 +66,7 @@ const onImageClick = () => {
       >
         {imagesToDisplay?.map((item, i) => (
           <S.ImageCard key={i}>
-            <Image src={item} alt={`slide ${i}`} fill onClick={onImageClick}/>
+            <ImageWrapper src={item} alt={`slide ${i}`} fill onClick={onImageClick}/>
           </S.ImageCard>
         ))}
       </S.Slider>

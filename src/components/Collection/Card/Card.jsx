@@ -20,14 +20,15 @@ const Card = ({ item }) => {
   return (
     <>
       {item && item.image1 && (
-        <S.CardWrapper>
+        <S.CardWrapper onClick={() => handleClick(item.code)}>
           <S.Title>{name}</S.Title>
+          <S.ImageWrapper>
           <ImageWrapper
               src={item.image1}
               alt={item.code}
               fill
-              onClick={() => handleClick(item.code)}
             />
+            </S.ImageWrapper>
           <div> 
             <Sizes sizes={sizes} item={item} />
           </div>

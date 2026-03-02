@@ -118,8 +118,6 @@ const pipeline = [
   },
 ];
 
-console.log("FILTER", JSON.stringify(filterParams, null, 2));
-
 
 const result = await Product.aggregate(pipeline);
 
