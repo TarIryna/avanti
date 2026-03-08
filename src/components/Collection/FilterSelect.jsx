@@ -1,12 +1,13 @@
 export const FilterSelect = ({options, label, currentValue, updateParam}) => {
+  const isCurrent = (label === "gender" && currentValue !== "all") || (label !== "gender" && currentValue !== "")
        return (
         <select
           id={label}
-          className={`filter__select${currentValue !== '' ? '_current' : ''}`}
+          className={`filter__select${isCurrent ? '_current' : ''}`}
           value={currentValue}
           onChange={(e) => updateParam(label, e.target.value)}
         >
-          <option value="">
+          <option value={label === "gender" ? "all" : ""}>
             {label === "season"
               ? "Сезон"
               : label === "gender"

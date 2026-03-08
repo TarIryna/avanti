@@ -117,7 +117,7 @@ export const menuData = {
       "Лофери, мокасини, сліпони": {
         gender: "men",
         season: "autumn",
-        view: "lofers",
+        view: "casual",
       },
       "Кросівки і кеди": { gender: "men", season: "autumn", view: "sneakers" },
       "Туфлі класичні": { gender: "men", season: "autumn", view: "shoes" },

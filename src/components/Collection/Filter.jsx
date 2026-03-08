@@ -20,26 +20,39 @@ const Filter = () => {
   const router = useRouter();
 
     // универсальная функция для изменения параметров в URL
-    const updateParam = (key, value) => {
-      const query = new URLSearchParams(searchParams.toString());
-      let genderValue = gender;
-      if (value) {
-        switch (key) {
-          case "gender":
-            genderValue = value;
-            break;
-          default:
-            query.set(key, value);
-        }
-      } else {
-        query.delete(key);
-      }
-      query.set("page", "1"); // сброс страницы при смене фильтра
-  
-      router.push(`/${genderValue}?${query.toString()}`);
-    };
+const updateParam = (key, value) => {
+  const query = new URLSearchParams(searchParams.toString());
+  let genderValue = gender;
 
-  const gender = params.gender || "";
+  if (value) {
+    switch (key) {
+      case "gender":
+        genderValue = value;
+        break;
+
+      case "view":
+        query.set("view", value);
+        query.delete("season"); // сбрасываем season
+        break;
+      
+      case "season":
+        query.set("season", value);
+        query.delete("view"); // сбрасываем season
+        break;
+
+      default:
+        query.set(key, value);
+    }
+  } else {
+    query.delete(key);
+  }
+
+  query.set("page", "1");
+
+  router.push(`/${genderValue}?${query.toString()}`);
+};
+
+  const gender = params.gender || "all";
   const season = searchParams.get("season") || "";
   const view = searchParams.get("view") || "";
   const size = searchParams.get("size") || "";
