@@ -44,7 +44,7 @@ export const menuData = {
       "Черевики на каблуках": {
         gender: "women",
         season: "winter",
-        view: "heels",
+        view: "boots-heels",
       },
       "Черевики на низькому": {
         gender: "women",
@@ -59,7 +59,7 @@ export const menuData = {
       "Босоніжки і шльопанці на каблуках": {
         gender: "women",
         season: "summer",
-        view: "heels",
+        view: "summer-heels",
       },
       Санділії: { gender: "women", season: "summer", view: "sandals" },
       "Шльопанці на низькому": {
@@ -70,10 +70,15 @@ export const menuData = {
       "Пляжне взуття": { gender: "women", season: "summer", view: "beach" },
     },
     "Весна-осінь": {
-      "Лофери, мокасини, сліпони": {
+      "Лофери, мокасини": {
         gender: "women",
         season: "autumn",
         view: "lofers",
+      },
+    "Балетки, сліпони": {
+        gender: "women",
+        season: "autumn",
+        view: "slippers",
       },
       "Кросівки і кеди": {
         gender: "women",
@@ -91,7 +96,7 @@ export const menuData = {
       "Черевики на каблуках": {
         gender: "women",
         season: "demi",
-        view: "heels",
+        view: "boots-heels",
       },
       "Черевики на низькому": {
         gender: "women",
@@ -114,10 +119,15 @@ export const menuData = {
       "Пляжне взуття": { gender: "men", season: "summer", view: "beach" },
     },
     "Весна-осінь": {
-      "Лофери, мокасини, сліпони": {
+      "Лофери, мокасини": {
         gender: "men",
         season: "autumn",
         view: "casual",
+      },
+       "Сліпони": {
+        gender: "men",
+        season: "autumn",
+        view: "slippers",
       },
       "Кросівки і кеди": { gender: "men", season: "autumn", view: "sneakers" },
       "Туфлі класичні": { gender: "men", season: "autumn", view: "shoes" },
@@ -148,10 +158,15 @@ export const menuData = {
       "Пляжне взуття": { gender: "girls", season: "summer", view: "beach" },
     },
     "Весна-осінь": {
-      "Лофери, мокасини, сліпони": {
+      "Лофери, мокасини": {
         gender: "girls",
         season: "autumn",
         view: "lofers",
+      },
+        "Балетки, сліпони": {
+        gender: "girls",
+        season: "autumn",
+        view: "slippers",
       },
       "Кросівки і кеди": {
         gender: "girls",
@@ -177,6 +192,8 @@ export const menuData = {
     "Весна-осінь": {
       "Кросівки і кеди": { gender: "boys", season: "autumn", view: "sneakers" },
       Туфлі: { gender: "boys", season: "autumn", view: "shoes" },
+      Сліпони: { gender: "boys", season: "autumn", view: "slippers" },
+      Лофери: { gender: "boys", season: "autumn", view: "lofers" },
     },
     "Демісезонне взуття": {
       Черевики: { gender: "boys", season: "demi", view: "boots" },
@@ -209,14 +226,17 @@ export const seasons = [
 const getNameView = (item) => {
   const view = item?.view;
   const array = view?.split("-");
-  const result = array?.length ? array[array.length - 1] : null;
+
+  const result =
+    array?.length > 2 ? array[array.length - 1] : view;
   return result;
 };
+
 
 const makeUnique = (array) => {
   const newArray = [];
   array.map((item) => {
-    if (newArray.find((newItem) => newItem.query === item.query)) return;
+    if (newArray.find((newItem) => newItem.name === item.name)) return;
     else newArray.push(item);
   });
   return newArray;
@@ -245,7 +265,7 @@ export const views = (season, gender) => {
     for (let i in elementsOfGender) {
       const elements = menuData[filterByGender][i];
       for (let j in elements) {
-        data.push({
+             data.push({
           name: j,
           query: getNameView(menuData[filterByGender][i][j]),
         });
