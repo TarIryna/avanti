@@ -61,6 +61,8 @@ const updateParam = (key, value) => {
   const sort = searchParams.get("sort") || "";
   const limit = searchParams.get("limit") || "24";
 
+  console.log(view)
+
   const viewList = views(season, gender);
   const sizesList = sizes();
   const sizesByGender = !gender

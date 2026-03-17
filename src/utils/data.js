@@ -39,7 +39,7 @@ export const menuData = {
       "Кросівки зимові": {
         gender: "women",
         season: "winter",
-        view: "sneakers",
+        view: "winter-sneakers",
       },
       "Черевики на каблуках": {
         gender: "women",
@@ -90,6 +90,11 @@ export const menuData = {
         gender: "women",
         season: "autumn",
         view: "shoes",
+      },
+       "Жіноче взуття комфорт": {
+        gender: "women",
+        season: "autumn",
+        view: "comfort",
       },
     },
     "Демісезонне взуття": {
