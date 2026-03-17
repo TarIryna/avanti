@@ -51,7 +51,7 @@ useEffect(() => {
 
   return (
     <S.SizesWrapper>
-      {!!sizes && <S.ProductSizes>Розміри в наявності:</S.ProductSizes>}
+      {!!sizes && <S.ProductSizes>{item.type === "bags" ? "Колір в наявності": "Розміри в наявності:"}</S.ProductSizes>}
       {isNotification && <S.Notification>Необхідно додати розмір</S.Notification>}
       <S.SizesContainer isNotification={isNotification}>
         {!!length && isFirstSize ?

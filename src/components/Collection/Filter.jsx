@@ -9,6 +9,7 @@ import {
   materialList,
   sortList,
   limits,
+  bagsData
 } from "@/utils/data";
 import { FilterSelect } from "./FilterSelect";
 import { useParams, useSearchParams, useRouter } from "next/navigation";
@@ -18,6 +19,16 @@ const Filter = () => {
   const params = useParams();
   const searchParams = useSearchParams();
   const router = useRouter();
+
+  const gender = params.gender || "all";
+  const season = searchParams.get("season") || "";
+  const view = searchParams.get("view") || "";
+  const size = searchParams.get("size") || "";
+  const color = searchParams.get("color") || "";
+  const material = searchParams.get("material") || "";
+  const sort = searchParams.get("sort") || "";
+  const limit = searchParams.get("limit") || "24";
+  const type = searchParams.get("type") || "shoes";
 
     // универсальная функция для изменения параметров в URL
 const updateParam = (key, value) => {
@@ -31,8 +42,14 @@ const updateParam = (key, value) => {
         break;
 
       case "view":
+        console.log(view, type)
         query.set("view", value);
-        query.delete("season"); // сбрасываем season
+        if (!view.includes('boots') || !view.includes('high') || !view.includes('botforts') ){
+           query.delete("season"); // сбрасываем season
+        }
+        if (type === "bags"){
+          console.log('сбить все фильтры')
+        }
         break;
       
       case "season":
@@ -52,18 +69,10 @@ const updateParam = (key, value) => {
   router.push(`/${genderValue}?${query.toString()}`);
 };
 
-  const gender = params.gender || "all";
-  const season = searchParams.get("season") || "";
-  const view = searchParams.get("view") || "";
-  const size = searchParams.get("size") || "";
-  const color = searchParams.get("color") || "";
-  const material = searchParams.get("material") || "";
-  const sort = searchParams.get("sort") || "";
-  const limit = searchParams.get("limit") || "24";
 
-  console.log(view)
 
-  const viewList = views(season, gender);
+  const viewList = views(season, gender, type);
+  console.log(viewList)
   const sizesList = sizes();
   const sizesByGender = !gender
     ? sizesList

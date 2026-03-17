@@ -206,6 +206,16 @@ export const menuData = {
   },
 };
 
+export const bagsData = [
+  {name: "Кроссбоді", query: "bags-crossbody"},
+  {name: "Сумки класичні жіночі", query: "bags-classic"},
+  {name:"Дорожні сумки", query: "bags-travel"},
+  {name: "Вечірні клатчі", query: "bags-clatch"},
+  {name: "Гаманці", query: "bags-wallet"},
+  {name: "Рюкзаки", query: "bags-backpack"},
+  {name: "Сумки для ноутбуків", query: "bags-notebook"},
+  ]
+
 export const seasons = [
   {
     link: "winter",
@@ -247,8 +257,8 @@ const makeUnique = (array) => {
   return newArray;
 };
 
-export const views = (season, gender) => {
-  if (gender === "bags") return [];
+export const views = (season, gender, type) => {
+  if (type === "bags") return bagsData;
   let data = [];
   const filterByGender = gender
     ? tabsData.find((item) => item.query === gender)?.menu
