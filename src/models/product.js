@@ -32,7 +32,9 @@ const ProductSchema = new Schema(
     material_top: String,
     material_inside: String,
     type: String,
-    small_image: String
+    small_image: String,
+    vendor: String,
+    model: String
   },
   { versionKey: false, timestamps: true, collection: "products" } // ← обязательно
 );

@@ -17,80 +17,65 @@ const RootLayout = ({ children }) => {
   return (
     <html lang="uk">
       <body>
+  
         <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "ShoeStore",
-              "name": "Avanti (Аванті)",
-              "url": "https://avanti-shoes.com.ua/",
-              "address": {
-                "@type": "PostalAddress",
-                "addressLocality": "Ужгород",
-                "addressCountry": "UA"
-              },
-              "areaServed": "UA"
-            }),
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@graph": [
-                {
-                  "@type": "ShoeStore",
-                  "name": "Avanti (Аванті)",
-                  "url": "https://avanti-shoes.com.ua/",
-                  "logo": "https://avanti-shoes.com.ua/logo.png",
-                  "image": "https://avanti-shoes.com.ua/banner.jpg",
-                  "address": {
-                    "@type": "PostalAddress",
-                    "streetAddress": "вул. Примерна, 1",
-                    "addressLocality": "Ужгород",
-                    "addressRegion": "Закарпатська обл.",
-                    "postalCode": "88000",
-                    "addressCountry": "UA"
-                  },
-                  "telephone": "+380123456789",
-                  "email": "info@avanti-shoes.com.ua",
-                  "areaServed": "UA",
-                  "sameAs": [
-                    "https://www.instagram.com/avanti_shoes/",
-                    "https://www.facebook.com/avanti.shops/"
-                  ],
-                  "openingHoursSpecification": [
-                    {
-                      "@type": "OpeningHoursSpecification",
-                      "dayOfWeek": [
-                        "Monday",
-                        "Tuesday",
-                        "Wednesday",
-                        "Thursday",
-                        "Friday",
-                        "Saturday"
-                      ],
-                      "opens": "09:00",
-                      "closes": "20:00"
-                    }
-                  ]
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "ShoeStore",
+                "name": "Avanti (Аванті)",
+                "url": "https://avanti-shoes.com.ua/",
+                "logo": "https://avanti-shoes.com.ua/logo.png",
+                "image": "https://avanti-shoes.com.ua/banner.jpg",
+                "telephone": "+380123456789",
+                "email": "info@avanti-shoes.com.ua",
+                "address": {
+                  "@type": "PostalAddress",
+                  "streetAddress": "вул. Примерна, 1",
+                  "addressLocality": "Ужгород",
+                  "addressRegion": "Закарпатська обл.",
+                  "postalCode": "88000",
+                  "addressCountry": "UA"
                 },
-                {
-                  "@type": "Organization",
-                  "name": "Avanti (Аванті)",
-                  "url": "https://avanti-shoes.com.ua/",
-                  "logo": "https://avanti-shoes.com.ua/logo.png",
-                  "sameAs": [
-                    "https://www.instagram.com/avanti_shoes/",
-                    "https://www.facebook.com/avanti.shops/"
-                  ]
-                }
-              ]
-            }),
-          }}
-        />
+                "areaServed": "UA",
+                "openingHoursSpecification": [
+                  {
+                    "@type": "OpeningHoursSpecification",
+                    "dayOfWeek": [
+                      "Monday",
+                      "Tuesday",
+                      "Wednesday",
+                      "Thursday",
+                      "Friday",
+                      "Saturday"
+                    ],
+                    "opens": "09:00",
+                    "closes": "19:00"
+                  }
+                ],
+                "sameAs": [
+                  "https://www.instagram.com/avanti_shoes/",
+                  "https://www.facebook.com/avanti.shops/"
+                ]
+              },
+              {
+                "@type": "Organization",
+                "name": "Avanti",
+                "url": "https://avanti-shoes.com.ua/",
+                "logo": "https://avanti-shoes.com.ua/logo.png",
+                "sameAs": [
+                  "https://www.instagram.com/avanti_shoes/",
+                  "https://www.facebook.com/avanti.shops/"
+                ]
+              }
+            ]
+          }),
+        }}
+      />
+
 
         <Script
           id="meta-pixel"

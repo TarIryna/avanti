@@ -72,7 +72,6 @@ const updateParam = (key, value) => {
 
 
   const viewList = views(season, gender, type);
-  console.log(viewList)
   const sizesList = sizes();
   const sizesByGender = !gender
     ? sizesList

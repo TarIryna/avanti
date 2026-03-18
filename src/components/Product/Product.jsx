@@ -16,9 +16,12 @@ const Product = ({ product }) => {
     <>
       {product && (
         <S.ProductWrapper className="page">
+          <h1>
+            {product.name} {product.vendor} {product.model}
+          </h1>
           {!!images.length && <Gallary images={images} />}
           <S.Content>
-            <S.Name>{capitalize(product.name)}</S.Name>
+            <S.Name>{`${capitalize(product.name)} ${product.vendor ?? ''} ${product.model ?? ""}`}</S.Name>
             <Description data={product} />
             <Sizes sizes={sizes} item={product} />
           </S.Content>

@@ -15,6 +15,12 @@ export const ProductWrapper = styled.div`
      gap: 16px;
      padding: 0;
   }
+
+  h1{
+    color: transparent;
+    font-size: 2px;
+    position: absolute;
+  }
 `;
 
 export const Content = styled.div`
