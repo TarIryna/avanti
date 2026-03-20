@@ -40,8 +40,6 @@ const DeliverySelect = ({
     setQuery(value);
   }, [value]);
 
-console.log(value, query)
-
   return (
     <S.Wrap ref={ref}>
       <S.Label>{title}</S.Label>

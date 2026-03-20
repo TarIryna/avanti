@@ -42,7 +42,6 @@ const updateParam = (key, value) => {
         break;
 
       case "view":
-        console.log(view, type)
         query.set("view", value);
         if (!view.includes('boots') || !view.includes('high') || !view.includes('botforts') ){
            query.delete("season"); // сбрасываем season

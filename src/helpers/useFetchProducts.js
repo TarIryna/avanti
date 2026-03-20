@@ -43,23 +43,3 @@ export const fetchProductsByParams = async ({
   }
 };
 
-export const fetchProductsByQuery = async ({
-  query = "",
-  limit = 24,
-  page = 1,
-}) => {
-  try {
-    changeIsLoadingAction(true);
-    const response = await fetch(
-      `/api/products/search?query=${query}&sortBy=${sortBy}&limit=${limit}&page=${page}`,
-      { cache: "no-store" }
-    );
-
-    if (response.ok) {
-      const data = await response.json();
-      changeProductsAction(data);
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};

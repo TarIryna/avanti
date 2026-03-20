@@ -52,18 +52,23 @@ if (gender === "all") {
 }
 
 
-    if (query) {
-      const orConditions = [
-        { name: { $regex: query, $options: "i" } },
-      ];
+ if (query) {
+  const safeQuery = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-      // если query — число, ищем и по code
-      if (!isNaN(query)) {
-        orConditions.push({ code: Number(query) });
-      }
+  const orConditions = [
+    { name: { $regex: safeQuery, $options: "i" } },
+    { vendor: { $regex: safeQuery, $options: "i" } },
+    { model: { $regex: safeQuery, $options: "i" } },
+  ];
 
-      filterParams.$or = orConditions;
-    }
+  // если число — добавляем code
+  if (!isNaN(query)) {
+    orConditions.push({ code: Number(query) });
+  }
+
+  filterParams.$or = orConditions;
+}
+
 
     const sortParam = getSortParam(sort);
 

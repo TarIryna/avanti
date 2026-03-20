@@ -44,18 +44,19 @@ export const POST = async (request) => {
       const itemTotal = product.price * (item.quantity || 1);
       total += itemTotal;
 
+      const image = product?.small_image ||
+          product?.image1 ||
+          product?.image2 ||
+          product.image ||
+          "no image"
+
       validatedItems.push({
         product: product._id,
         size: item.size,
         quantity: item.quantity,
         price: product.price,
         code: product.code,
-        image:
-          product?.small_image ||
-          product?.image1 ||
-          product?.image2 ||
-          product.image ||
-          "no image",
+        image,
       });
     }
 
