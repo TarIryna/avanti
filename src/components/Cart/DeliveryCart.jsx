@@ -19,13 +19,16 @@ registerDynamicModal(
   import("@/components/modals/AuthModal/AuthModal")
 );
 
-const DeliveryCart = ({ onSuccess }) => {
+const DeliveryCart = () => {
   const [needUpdate, setNeedUpdate] = useState(false);
-  const [showDelivery, setShowDelivery] = useState(false)
   const methods = useForm({ mode: "onSubmit" });
-  const { handleSubmit, register } = methods;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = methods;
   const { show: showAuth } = useModal(MODALS.AUTHORIZATION);
-  const { data: user, isLoadingUser, isError } = useUserSession();
+  const { data: user } = useUserSession();
   const isAuth = !!user;
   const userId = user?._id ?? user?.id
   const { items, isLoading, clearCart } = useCartStore();
@@ -49,15 +52,22 @@ const DeliveryCart = ({ onSuccess }) => {
   };
 
   const checkInfo = (data) => {
+    const isName = data.name?.length > 0 
+    const isSurname = data.surname?.length > 0
+    const isPhone = data.phone?.length > 0
+    const isCity = data.city?.length > 0
+    const isAddress = data.address?.length > 0
     const result =
-      data.name?.length > 0 &&
-      data.surname?.length > 0 &&
-      data.city?.length > 0 &&
-      data.address?.length > 0 &&
-      data.phone?.length > 0
+      isName &&
+      isSurname &&
+      isCity &&
+      isAddress  &&
+      isPhone
         ? true
         : false;
-    return result;
+
+    const text = result ? "" : `Не заповнені поля:\n ${isName ? "" : "* iм'я\n"}${isSurname ? "" : "* прізвище\n"}${isPhone ? "" : "* телефон\n"}${isCity ? "" : "* місто (необхідно обрати із списку)\n"}${isAddress ? "" : "* відділення пошти (необхідно обрати із списку)"}`
+    return {result, text};
   };
 
   const onSubmit = (e) => {
@@ -83,7 +93,7 @@ const DeliveryCart = ({ onSuccess }) => {
       addressDescription
     };
     const isFullInfo = checkInfo(orderData);
-    if (!isFullInfo) toast.error("Не вся інформація заповнена");
+    if (!isFullInfo.result && isFullInfo.text) toast.error(isFullInfo.text);
     else {
       handleUpdate(orderData);
       toast.success("Очікуйте підтвердження замовлення!");

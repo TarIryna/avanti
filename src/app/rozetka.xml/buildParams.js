@@ -1,4 +1,4 @@
-export function buildParams(row) {
+export function buildParams(row, escapeXML) {
   return Object.entries(row)
     .filter(([key, value]) =>
       key.includes('|') &&
@@ -8,8 +8,10 @@ export function buildParams(row) {
     )
     .map(([key, value]) => {
       const [name, id] = key.split('|');
-      return `<param name="${name.trim()}" id="${id.trim()}">${value}</param>`;
+
+      return `<param name="${escapeXML(name.trim())}" id="${escapeXML(id.trim())}">
+${escapeXML(value)}
+</param>`;
     })
     .join('\n');
 }
-  
