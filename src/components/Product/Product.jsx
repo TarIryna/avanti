@@ -6,12 +6,9 @@ import * as S from "./styles";
 
 
 const Product = ({ product }) => {
-  const images = [product?.image1, product?.image2, product?.image3].filter(
-    Boolean
-  );
+  const images = product.images
 
-  const sizes = product?.sizes && typeof product.sizes === 'string' ? product?.sizes?.split(" ") : [product.sizes];
-
+  const sizes = product.type === "bags" ? [{size: product.color ?? "колір", q: 1}] : product?.sizes2?.length > 0 ? product.sizes2 : [{size: "один розмір", q: 1}]
   return (
     <>
       {product && (

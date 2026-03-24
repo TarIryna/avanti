@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { buildParams } from "./buildParams";
+import { categories, getMaterialInside, getMaterialTop, getSeason, getColor, getDescription, getSizeLength } from "./data";
 
 const escapeXML = (str = "") =>
   String(str)
@@ -22,13 +23,6 @@ export async function GET() {
   );
 
   const data = await res.json();
-  data.products.forEach(p => {
-  Object.entries(p).forEach(([key, value]) => {
-    if (typeof value === "string" && value.includes("&")) {
-      console.log("BAD FIELD:", key, value);
-    }
-  });
-});
 
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
@@ -43,36 +37,65 @@ export async function GET() {
     </currencies>
 
     <categories>
-      <category id="1">Взуття</category>
-      <category id="2">Сумки</category>
+    ${categories
+      .map(
+        (c) => `<category id="${c.categoryId}">${escapeXML(c.name)}</category>`
+      )
+      .join("\n")}
     </categories>
 
     <offers>
 ${data?.products
   ?.flatMap((p) => {
+    if (!p.rozetkaId) return [];
     if (!Array.isArray(p.sizes2) || p.sizes2.length === 0) {
       return [];
     }
-
     return p.sizes2.map((s) => {
       const available = (s.q ?? 0) > 0;
+
+const buildPictures = (images) => {
+  if (!images) return "";
+
+  const arr = Array.isArray(images)
+    ? images
+    : String(images).split(";");
+
+  return arr
+    .map((img) => img?.trim())
+    .filter(Boolean)
+    .map((img) => `<picture>${escapeXML(img)}</picture>`)
+    .join("\n");
+};
+
+const mainImage = Array.isArray(p.images) ? p.images[0] : p.small_image;
+
 
       return `
       <offer id="${escapeXML(p.code + s.size)}" available="${available}">
         <price>${escapeXML(p.price)}</price>
+        <price_old>${p.price2 ?? ""}</price_old>
+        <promo_price>${Math.ceil(p.price * 0.95)}</promo_price>
         <currencyId>UAH</currencyId>
-        <categoryId>${p.type === "bags" ? 2 : 1}</categoryId>
-
-        <picture>${escapeXML(p.image1)}</picture>
-
+        <categoryId>${p.rozetkaId}</categoryId>
+        <status>${s.q > 0 ? "available" : "not available"}</status>
         <vendor>${escapeXML(p.vendor ?? "")}</vendor>
-
         <name><![CDATA[${p.name} ${s.size}]]></name>
-        <description><![CDATA[${p.description ?? p.name}]]></description>
-
+        <description><![CDATA[${getDescription(p.vendor, "ukr")}.]]></description>
         <stock_quantity>${escapeXML(s.q ?? 0)}</stock_quantity>
+        <active>${escapeXML(s.q > 0 ? "true" : "false")}</active>
+        <image>${escapeXML(mainImage)}</image>
 
-        <param name="Розмір">${escapeXML(s.size)}</param>
+        ${buildPictures(p.images)}
+
+        <param name="Размер">${escapeXML(s.size)}</param>
+        <param name="Высота каблука">${p.heel ?? ""}</param>
+        <param name="Страна-производитель товара">${p.country}</param>
+        <param name="Материал верха">${getMaterialTop(p.material_top) ?? ""}</param>
+        <param name="Материал подкладки">${getMaterialInside(p.material_inside) ?? ""}</param>
+        <param name="Сезон">${getSeason(p.season)}</param>
+        <param name="Стиль обуви">${p.style}</param>
+        <param name="Цвет">${getColor(p.color)}</param>
 
        ${buildParams(p, escapeXML)}
       </offer>

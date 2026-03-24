@@ -1,4 +1,5 @@
 import * as S from "./styles";
+import { getMaterialInside, getMaterialTop, getSeason } from "@/app/rozetka.xml/data";
 const Description = ({ data }) => {
   return (
     <S.Description>
@@ -9,11 +10,11 @@ const Description = ({ data }) => {
       </p>
       <p>
         <S.DescriptionTitle>Матеріал верху: </S.DescriptionTitle>
-        <S.DescriptionValue>{data.material_top}</S.DescriptionValue>
+        <S.DescriptionValue>{getMaterialTop(data.material_top, "ukr")}</S.DescriptionValue>
       </p>
       <p>
         <S.DescriptionTitle>Матеріал підкладки: </S.DescriptionTitle>
-        <S.DescriptionValue>{data.material_inside}</S.DescriptionValue>
+        <S.DescriptionValue>{getMaterialInside(data.material_inside, "ukr")}</S.DescriptionValue>
       </p>
       <p>
         <S.DescriptionTitle>Колір: </S.DescriptionTitle>

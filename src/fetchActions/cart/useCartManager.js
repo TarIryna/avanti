@@ -46,7 +46,7 @@ const changeItemQuantity = async (item) => {
     refetch();
   } else {
     const updated = changeLocalItemQuantity(item);
-    setLocal(updated);
+    setLocal(updated); // только state
   }
 };
 
@@ -56,7 +56,7 @@ const changeItemQuantity = async (item) => {
       await removeMutation.mutateAsync({ productId, size });
       refetch();
     } else {
-      const updated = removeLocalItem({productId, size});
+      const updated = removeLocalItem({productId, size}); 
       setLocal(updated);
       setLocalCart(updated);
       toast.success("Товар успішно видалений з корзини");

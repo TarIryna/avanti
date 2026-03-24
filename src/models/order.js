@@ -23,9 +23,9 @@ const OrderSchema = new Schema(
           type: String,
           required: [true, "Image is required!"],
         },
-        size: {
-          type: String,
-          required: [true, "Size is required!"],
+       size: {
+          size: String,
+          q: Number
         },
          code: {
           type: Number,

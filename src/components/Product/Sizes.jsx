@@ -4,73 +4,85 @@ import * as S from "./styles";
 import { useEffect, useState } from "react";
 
 const Sizes = ({ sizes, item }) => {
-  const [size, setSize] = useState(item.type === "bags" ? item.color : "один розмір");
-  const [isActive, setActive] = useState(false)
-  const [isNotification, setIsNotification] = useState(false)
+  const [size, setSize] = useState(null);
+  const [isNotification, setIsNotification] = useState(false);
+
   const itemId = item?._id ?? item?.id;
-  const { addItem } = useCartStore()
-  const length = sizes?.length
-  const isFirstSize = !!sizes?.toString()?.length
+  const { addItem } = useCartStore();
 
-const isSelectedSize = () => {
-  if (size === "один розмір" && sizes?.length > 1) {
-    setIsNotification(true);
-    return false;
-  }
 
-  if (size === "один розмір" && sizes?.length === 1) {
-    return sizes[0]; // ⬅️ возвращаем реальный размер
-  }
-
-  return size;
-};
-
-const onButtonClick = async () => {
-  const selectedSize = isSelectedSize();
-  if (!selectedSize) return;
-
-  const newItem = {
-    product: itemId,
-    price: item.price,
-    image: item.small_image || item.image1,
-    code: item.code,
-    size: selectedSize, // ✅ всегда корректный размер
-    quantity: 1,
+  const isSelectedSize = () => {
+    if (sizes.length === 1){
+      setSize(sizes[0])
+      return sizes[0]
+    }
+    if (!size) {
+      setIsNotification(true);
+      return false;
+    }
+    return size;
   };
 
-  await addItem(newItem);
-};
+  const onButtonClick = async () => {
+    const selectedSize = isSelectedSize();
+    if (!selectedSize) return;
 
+    const newItem = {
+      product: itemId,
+      price: item.price,
+      image: item.small_image || item.images?.[0],
+      code: item.code,
+      size: selectedSize,
+      quantity: 1,
+    };
 
-useEffect(() => {
-  if (isNotification){
-    setIsNotification(false)
-  }
-}, [size])
+    await addItem(newItem);
+  };
 
+  useEffect(() => {
+    if (isNotification) setIsNotification(false);
+  }, [size]);
 
   return (
     <S.SizesWrapper>
-      {!!sizes && <S.ProductSizes>{item.type === "bags" ? "Колір в наявності": "Розміри в наявності:"}</S.ProductSizes>}
-      {isNotification && <S.Notification>Необхідно додати розмір</S.Notification>}
+    {!!(item.type === "bags" ? item.color : sizes?.length) && (
+          <S.ProductSizes>
+            {item.type === "bags"
+              ? "Колір в наявності"
+              : "Розміри в наявності:"}
+          </S.ProductSizes>
+        )}
+
+      {isNotification && (
+        <S.Notification>Необхідно додати розмір</S.Notification>
+      )}
+
       <S.SizesContainer isNotification={isNotification}>
-        {!!length && isFirstSize ?
-          sizes.map((el) => (
+        {sizes?.map((el) => {
+          const isDisabled = el?.q === 0;
+
+          if (el){
+            return (
             <S.SizesBlock
-              isActive={el === size}
-              onClick={() => setSize(el)}
-              key={`${item.code}${el}`}
-              isOne={length === 1}
+              key={`${item.code}${el?.size}`}
+              isActive={el?.size === size?.size}
+              isDisabled={isDisabled}
+              onClick={() => !isDisabled && setSize(el)}
+              isOne={sizes?.length === 1}
             >
-              {el}
+              {el?.size}
             </S.SizesBlock>
-          )) :
-          <S.OneSize onClick={() => setActive(true)}isActive={isActive}>{size}</S.OneSize>}
+          );
+
+          } 
+        })}
       </S.SizesContainer>
-      <S.SizesButton onClick={() => onButtonClick()} disabled={!size}>
+
+      <S.SizesButton onClick={onButtonClick} disabled={!size && sizes.length > 1}>
         Додати в кошик
       </S.SizesButton>
     </S.SizesWrapper>
   );
 };
-export default Sizes;
+
+export default Sizes

@@ -4,6 +4,7 @@ import Image from "next/image";
 import * as S from "./styles";
 import { useCartStore } from "@/components/GeneralProvider/context/CartProvider";
 import { useState } from "react";
+import { toast } from "react-hot-toast";
 
 const CartItem = ({ data, status }) => {
   const itemId = data?._id ?? data?.id ?? data?.product;
@@ -11,13 +12,18 @@ const CartItem = ({ data, status }) => {
   const [quantity, setQuantity] = useState(data?.quantity ?? 0);
 
   const deleteItem = () => {
-    removeItem({ productId: itemId, size: data.size });
+    removeItem({ productId: itemId, size: data?.size?.size ?? "" });
   };
 
   const increment = () => {
     const newQuantity = quantity + 1;
-    setQuantity(newQuantity);
-    changeItemQuantity({ ...data, quantity: newQuantity });
+    if (!!data?.size?.q && data?.size?.q >= newQuantity){
+      setQuantity(newQuantity);
+      changeItemQuantity({ ...data, quantity: newQuantity });
+    }
+    else {
+      toast.error("Максимальна кількість досягнута")
+    }
   };
 
   const decrement = () => {
@@ -39,7 +45,7 @@ const CartItem = ({ data, status }) => {
             )}
           </S.ImageWrapper>
           <S.Content>
-            <S.Text>Розмір: {data.size}</S.Text>
+            <S.Text>Розмір: {data?.size?.size ?? data?.size ?? ""}</S.Text>
             <S.Text>
               Кількість:  
               <S.QuantityButton onClick={decrement}>-</S.QuantityButton> 

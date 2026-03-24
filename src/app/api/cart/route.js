@@ -41,8 +41,10 @@ export async function POST(req) {
     if (!cart) cart = new Cart({ creator, items: [] });
 
     const existingIndex = cart.items.findIndex(
-      (i) => i.product.toString() === product && i.size === size
-    );
+        (i) =>
+          i.product.toString() === product &&
+          i.size?.size === size?.size
+      );
 
     if (existingIndex >= 0) {
       cart.items[existingIndex].quantity += quantity || 1;
@@ -78,7 +80,7 @@ export async function ADD_MANY(req) {
       if (!product) continue;
 
       const existingIndex = cart.items.findIndex(
-        (i) => i.product.toString() === product._id.toString() && i.size === item.size
+        (i) => i.product.toString() === product._id.toString() && i.size?.size === item.size?.size
       );
 
       if (existingIndex >= 0) {
@@ -118,7 +120,7 @@ export async function REMOVE(req) {
     if (!cart) return NextResponse.json({ message: "Cart not found" }, { status: 404 });
 
     cart.items = cart.items.filter(
-      (item) => !(item.product.toString() === product && item.size === size)
+      (item) => !(item.product.toString() === product && item.size?.size === size?.size)
     );
 
     await cart.save();

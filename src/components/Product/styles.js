@@ -76,7 +76,8 @@ export const SizesBlock = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  width: 40px;
+  min-width: 40px;
+  padding: 0 5px;
   text-align: center;
   transition: 0.1s linear;
   &:not(:last-child){
@@ -86,6 +87,9 @@ export const SizesBlock = styled.div`
     isActive ? "900" : "400"};
   ${({ isOne}) =>
     isOne && "border-right: 1px solid grey; border-left: 1px solid grey;"};
+  ${({ isDisabled}) =>
+    isDisabled && "color: grey;"};
+
 `;
 
 export const OneSize = styled(SizesBlock)`

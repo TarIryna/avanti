@@ -27,7 +27,7 @@ ${data?.products?.map(
   <g:description><![CDATA[${p.name}]]></g:description>
   <g:link>https://avanti-shoes.com.ua/product/${p.code}</g:link>
   <link>https://avanti-shoes.com.ua/product/${p.code}</link>
-  <g:image_link>${p.image1 ?? p.image ?? p.image2 ?? p.image3 ?? p.small_image}</g:image_link>
+  <g:image_link>${p.images[0] ?? p.small_image}</g:image_link>
   <g:price>${p.price} UAH</g:price>
   <g:gender>${p.gender === 'boys' ? 'male' : p.gender === 'girls' ? 'female' : p.gender === 'women' ? 'female' : 'male'}</g:gender>
   <g:availability>in stock</g:availability>

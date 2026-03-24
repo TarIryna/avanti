@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { connectToDB } from "@/utils/database";
 import Cart from "@/models/cart";
-import Product from "@/models/product";
 
 export async function PATCH(req) {
   try {
@@ -17,7 +16,7 @@ export async function PATCH(req) {
       return NextResponse.json({ message: "Cart not found" }, { status: 404 });
     }
 
-    cart.items = cart.items.filter((item) => item.product.toString() !== productId && item.size.toString() !== size);
+    cart.items = cart.items.filter((item) => item.product.toString() !== productId && item.size?.size?.toString() !== size);
     await cart.save();
 
     return NextResponse.json({ message: "Item removed from cart" }, { status: 200 });

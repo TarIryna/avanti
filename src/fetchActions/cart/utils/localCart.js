@@ -21,14 +21,17 @@ export const addLocalItem = (item) => {
   const cart = getLocalCart();
 
   const existing = cart.find(
-    (i) => i.product === item.product && i.size === item.size
+    (i) =>
+      i.product === item.product &&
+      i.size?.size === item.size?.size
   );
 
   let updated;
 
   if (existing) {
     updated = cart.map((i) =>
-      i.product === item.product && i.size === item.size
+      i.product === item.product &&
+      i.size?.size === item.size?.size
         ? { ...i, quantity: i.quantity + item.quantity }
         : i
     );
@@ -44,9 +47,29 @@ export const changeLocalItemQuantity = (item) => {
   const cart = getLocalCart();
 
   const updated = cart.map((i) =>
-    i.product === item.product && i.size === item.size
-      ? { ...i, quantity: item.quantity } // ← заменяем, а не прибавляем
+    i.product === item.product &&
+    i.size?.size === item.size?.size
+      ? { ...i, quantity: item.quantity }
       : i
+  );
+
+  setLocalCart(updated); // 🔥 запись тут
+
+  return updated;
+};
+
+
+
+export const removeLocalItem = (data) => {
+  const cart = getLocalCart();
+  const { productId, size } = data;
+
+  const updated = cart.filter(
+    (i) =>
+      !(
+        i.product === productId &&
+        i.size?.size === size
+      )
   );
 
   setLocalCart(updated);
@@ -54,20 +77,6 @@ export const changeLocalItemQuantity = (item) => {
 };
 
 
-
-
-export const removeLocalItem = (data) => {
-  const cart = getLocalCart();
-  const { productId, size } = data
-
-
-
-  const updated = cart.filter(
-    (i) => !(i.product === productId && i.size === size)
-  );
-  setLocalCart(updated);
-  return updated;  // новый массив
-};
 
 export const clearLocalCart = () => {
   if (typeof window === "undefined") return;

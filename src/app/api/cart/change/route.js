@@ -34,7 +34,7 @@ export async function PUT(req) {
 const existingIndex = cart.items.findIndex(
   (i) =>
     i.code === Number(code) &&
-    String(i.size).trim() === String(size).trim()
+    String(i.size.size).trim() === String(size).trim()
 );
 
     if (existingIndex === -1) {

@@ -18,8 +18,8 @@ export async function generateMetadata({ params }) {
     },
     openGraph: {
       title: `${product.name} ${product?.vendor ?? ''}`,
-      images: product.image1
-        ? [{ url: product.image1 }]
+      images: product.images
+        ? product.images
         : [],
     },
   };

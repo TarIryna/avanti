@@ -8,9 +8,10 @@ import * as S from "./styles";
 
 const Card = ({ item }) => {
   const router = useRouter();
-  const sizes = item?.sizes && typeof item?.sizes === 'string' && item?.sizes?.includes(" ") ? item?.sizes?.split(" ") : [item?.sizes];
-  const isSale = item.price > 0 && item.price2 > 0;
+  const sizes = item.type === "bags" ? [{size: item.color ?? "колір", q: 1}] : item?.sizes2?.length > 0 ? item.sizes2 : [{size: "один розмір", q: 1}]
   const name = item.name.slice(0, 1).toUpperCase() + item.name.slice(1);
+  const image = item.images[0]
+  const isSale = item.price > 0 && item.price2 > 0;
 
   const handleClick = (id) => {
     changeProductIdAction(id);
@@ -19,12 +20,12 @@ const Card = ({ item }) => {
 
   return (
     <>
-      {item && item.image1 && (
-        <S.CardWrapper onClick={() => handleClick(item.code)}>
-          <S.Title>{name}</S.Title>
-          <S.ImageWrapper>
+      {item && image && (
+          <S.CardWrapper>
+          <S.Title onClick={() => handleClick(item.code)}>{name}</S.Title>
+          <S.ImageWrapper onClick={() => handleClick(item.code)}>
           <ImageWrapper
-              src={item.image1}
+              src={image}
               alt={item.code}
               fill
             />
@@ -33,12 +34,12 @@ const Card = ({ item }) => {
             <Sizes sizes={sizes} item={item} />
           </div>
           {isSale ? (
-            <S.PriceWrapper>
+            <S.PriceWrapper onClick={() => handleClick(item.code)}>
               <S.LastPrice>{item.price2} грн.</S.LastPrice>
               <S.SalePrice>{item.price} грн.</S.SalePrice>
             </S.PriceWrapper>
           ) : (
-            <div className="flex-center">
+            <div className="flex-center" onClick={() => handleClick(item.code)}>
               <span className="current-price">{item.price ?? 0} грн.</span>
             </div>
           )}

@@ -15,7 +15,7 @@ export const useChangeItemQauntityCart = () => {
       product,
       price,
       image,
-      size,
+      size: size?.size,
       quantity,
       code,
     }),

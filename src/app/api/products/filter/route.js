@@ -36,7 +36,12 @@ if (material && material !== "null") filterParams.material = material;
 
 // Фильтр по размерам
 if (sizes && sizes !== "null") {
-  filterParams.sizes = { $regex: `\\b${sizes}\\b` };
+  filterParams.sizes2 = {
+    $elemMatch: {
+      size: sizes,
+      q: { $gt: 0 } // только в наличии
+    }
+  };
 }
 
 // Товары на распродаже
