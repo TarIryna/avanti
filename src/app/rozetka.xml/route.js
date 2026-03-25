@@ -48,10 +48,10 @@ export async function GET() {
 ${data?.products
   ?.flatMap((p) => {
     if (!p.rozetkaId) return [];
-    if (!Array.isArray(p.sizes2) || p.sizes2.length === 0) {
+    if (!Array.isArray(p.sizes) || p.sizes.length === 0) {
       return [];
     }
-    return p.sizes2.map((s) => {
+    return p.sizes.map((s) => {
       const available = (s.q ?? 0) > 0;
 
 const buildPictures = (images) => {

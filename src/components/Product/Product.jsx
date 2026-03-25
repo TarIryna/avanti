@@ -8,7 +8,7 @@ import * as S from "./styles";
 const Product = ({ product }) => {
   const images = product.images
 
-  const sizes = product.type === "bags" ? [{size: product.color ?? "колір", q: 1}] : product?.sizes2?.length > 0 ? product.sizes2 : [{size: "один розмір", q: 1}]
+  const sizes = product.type === "bags" ? [{size: product.color ?? "колір", q: 1}] : product?.sizes?.length > 0 ? product.sizes : [{size: "один розмір", q: 1}]
   return (
     <>
       {product && (
