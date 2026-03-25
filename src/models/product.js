@@ -9,7 +9,6 @@ const ProductSchema = new Schema(
     },
     name: {
       type: String,
-      required: [true, "name is required"],
     },
     gender: {
       type: String,
@@ -26,15 +25,29 @@ const ProductSchema = new Schema(
       required: true,
     },
     price2: Number,
-    sizes: String,
+    sizes: [
+      {
+        size: String,
+        q: Number,
+      }
+    ],
     material: String,
     color: String,
-    material_top: String,
-    material_inside: String,
+    material_top: Number,
+    material_inside: Number,
     type: String,
     small_image: String,
-    vendor: String,
-    model: String
+    vendor: Number,
+    model: String,
+    size_type: Number,
+    facebook: String,
+    style: Number,
+    country: Number,
+    rozetka_id: Number,
+    description: String,
+    images: [String],
+    year: Number,
+    heel: Number
   },
   { versionKey: false, timestamps: true, collection: "products" } // ← обязательно
 );

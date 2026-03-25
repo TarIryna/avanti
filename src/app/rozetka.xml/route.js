@@ -1,6 +1,18 @@
 import { NextResponse } from "next/server";
 import { buildParams } from "./buildParams";
-import { categories, getMaterialInside, getMaterialTop, getSeason, getColor, getDescription, getSizeLength } from "./data";
+import { categories } from "@/data/categories";
+import { 
+  getMaterialInside, 
+  getMaterialTop, 
+  getSeason, 
+  getColor, 
+  getDescription, 
+  getSizeLength, 
+  getStyle, 
+  getVendor, 
+  getHeels,
+  getCountry
+ } from "../../data/getData";
 
 const escapeXML = (str = "") =>
   String(str)
@@ -39,7 +51,7 @@ export async function GET() {
     <categories>
     ${categories
       .map(
-        (c) => `<category id="${c.categoryId}">${escapeXML(c.name)}</category>`
+        (c) => `<category id="${c.category_id}">${escapeXML(c.name)}</category>`
       )
       .join("\n")}
     </categories>
@@ -51,7 +63,7 @@ ${data?.products
     if (!Array.isArray(p.sizes) || p.sizes.length === 0) {
       return [];
     }
-    return p.sizes.map((s) => {
+    return p.sizes?.map((s) => {
       const available = (s.q ?? 0) > 0;
 
 const buildPictures = (images) => {
@@ -77,9 +89,9 @@ const mainImage = Array.isArray(p.images) ? p.images[0] : p.small_image;
         <price_old>${p.price2 ?? ""}</price_old>
         <promo_price>${Math.ceil(p.price * 0.95)}</promo_price>
         <currencyId>UAH</currencyId>
-        <categoryId>${p.rozetkaId}</categoryId>
+        <categoryId>${p.rozetka_id}</categoryId>
         <status>${s.q > 0 ? "available" : "not available"}</status>
-        <vendor>${escapeXML(p.vendor ?? "")}</vendor>
+        <vendor>${escapeXML(getVendor(p.vendor))}</vendor>
         <name><![CDATA[${p.name} ${s.size}]]></name>
         <description><![CDATA[${getDescription(p.vendor, "ukr")}.]]></description>
         <stock_quantity>${escapeXML(s.q ?? 0)}</stock_quantity>
@@ -89,12 +101,12 @@ const mainImage = Array.isArray(p.images) ? p.images[0] : p.small_image;
         ${buildPictures(p.images)}
 
         <param name="Размер">${escapeXML(s.size)}</param>
-        <param name="Высота каблука">${p.heel ?? ""}</param>
-        <param name="Страна-производитель товара">${p.country}</param>
+        <param name="Высота каблука">${getHeels(p.heel)}</param>
+        <param name="Страна-производитель товара">${getCountry(p.country)}</param>
         <param name="Материал верха">${getMaterialTop(p.material_top) ?? ""}</param>
         <param name="Материал подкладки">${getMaterialInside(p.material_inside) ?? ""}</param>
         <param name="Сезон">${getSeason(p.season)}</param>
-        <param name="Стиль обуви">${p.style}</param>
+        <param name="Стиль обуви">${getStyle(p.style)}</param>
         <param name="Цвет">${getColor(p.color)}</param>
 
        ${buildParams(p, escapeXML)}

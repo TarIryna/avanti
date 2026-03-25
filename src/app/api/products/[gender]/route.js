@@ -1,3 +1,4 @@
+import { getGender, getTypeId } from "@/data/getData";
 import Product from "@/models/product";
 import { connectToDB } from "@/utils/database";
 
@@ -6,8 +7,9 @@ export const GET = async (request, { params }) => {
     await connectToDB();
     const { searchParams } = new URL(request.url);
 
-    const gender = searchParams.get("gender");
-    const type = searchParams.get("type") ?? 'shoes';
+    const genderQuery = searchParams.get("gender");
+    const gender = getGender(genderQuery)
+    const type = getTypeId(searchParams.get("type"));
     const view = searchParams.get("view");
     const season = searchParams.get("season");
     const size = searchParams.get("size");
@@ -17,7 +19,7 @@ export const GET = async (request, { params }) => {
     const page = Number(searchParams.get("page") ?? 1);
     const limit = Number(searchParams.get("limit") ?? 24);
     const query = { gender, type };
-    const isSale = gender === 'sale'
+    const isSale = genderQuery === 'sale'
 
     // Добавляешь фильтры только если они есть
     if (view) query.view = view;
@@ -44,13 +46,13 @@ export const POST = async (request, { params }) => {
     await connectToDB();
     if (params.gender === "bags") {
       const product = await Product.find({
-        type: params?.gender,
+        type: 3,
       }).limit(24);
       if (!product) return new Response("Product Not Found", { status: 404 });
       return new Response(JSON.stringify(product), { status: 200 });
     } else {
       const product = await Product.find({
-        gender: params?.gender,
+        gender: getGender(params?.gender),
       }).limit(24);
       if (!product) return new Response("Product Not Found", { status: 404 });
       return new Response(JSON.stringify(product), { status: 200 });

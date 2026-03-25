@@ -2,6 +2,7 @@ import Product from "@/models/product";
 import { connectToDB } from "@/utils/database";
 import { getSortParam } from "@/helpers/getSortParam";
 import { getSeasonPriorityByDate } from "@/helpers/getSortParam";
+import { getGender, getTypeId } from "@/data/getData";
 
 export const dynamic = "force-dynamic";
 
@@ -10,7 +11,8 @@ export const GET = async (request) => {
     await connectToDB();
     const { searchParams } = new URL(request.url);
     const query = searchParams.get("query");
-    const gender = searchParams.get("gender");
+    const genderQuery = searchParams.get("gender");
+    const gender = getGender(genderQuery);
     const season = searchParams.get("season");
     const view = searchParams.get("view");
     const sizes = searchParams.get("sizes");
@@ -20,13 +22,13 @@ export const GET = async (request) => {
     const type = searchParams.get("type") ?? 'shoes';
     const limit = Number(searchParams.get("limit") ?? 24);
     const page = Number(searchParams.get("page") ?? 1);
-    const isSale = gender === 'sale'
+    const isSale = genderQuery === 'sale'
 
     // ✅ строим фильтр динамически
 const filterParams = {};
 
 // Фильтр по type
-filterParams.type = type ?? 'shoes';
+filterParams.type = getTypeId(type);
 
 // Фильтры по сезону, виду, цвету, материалу
 if (season && season !== "null") filterParams.season = season;
@@ -48,14 +50,14 @@ if (sizes && sizes !== "null") {
 if (isSale) filterParams.price2 = { $exists: true, $ne: null };
 
 // Фильтр по gender
-if (gender === "all") {
+if (genderQuery === "all") {
   // ничего не добавляем, ищем все gender
-} else if (gender === "kids") {
-  filterParams.gender = { $in: ["girls", "boys"] };
-} else if (gender && gender !== "bags" && gender !== "sale") {
+} else if (genderQuery === "kids") {
+  filterParams.gender = { $in: [4, 3] };
+} else if (gender && genderQuery !== "bags" && genderQuery !== "sale") {
+  console.log("gender", gender)
   filterParams.gender = gender;
 }
-
 
  if (query) {
   const safeQuery = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");

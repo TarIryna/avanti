@@ -45,9 +45,9 @@ const Sizes = ({ sizes, item }) => {
 
   return (
     <S.SizesWrapper>
-    {!!(item.type === "bags" ? item.color : sizes?.length) && (
+    {!!(item.type === 3 ? item.color : sizes?.length) && (
           <S.ProductSizes>
-            {item.type === "bags"
+            {item.type === 3
               ? "Колір в наявності"
               : "Розміри в наявності:"}
           </S.ProductSizes>

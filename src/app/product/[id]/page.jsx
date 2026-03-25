@@ -1,5 +1,6 @@
 import { fetchProduct } from "@/helpers/useFetchProduct";
 import ProductClient from "@/components/Product/ProductClient";
+import { getVendor } from "@/data/getData";
 
 export async function generateMetadata({ params }) {
   const product = await fetchProduct({ id: params.id });
@@ -11,16 +12,14 @@ export async function generateMetadata({ params }) {
   }
 
   return {
-    title: `${product.name} виробник ${product?.vendor ?? '' } ${product.model ?? ""} — купити з доставкою`,
+    title: `${product.name} виробник ${getVendor(product?.vendor)} ${product.model ?? ""} — купити з доставкою`,
     description: product.shortDescription || "",
     alternates: {
       canonical: `https://avanti-shoes.com.ua/product/${product.code}`,
     },
     openGraph: {
-      title: `${product.name} ${product?.vendor ?? ''}`,
-      images: product.images
-        ? product.images
-        : [],
+      title: `${product.name} ${getVendor(product?.vendor)}`,
+      images: product.images ?? [],
     },
   };
 }

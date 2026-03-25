@@ -8,7 +8,7 @@ import * as S from "./styles";
 
 const Card = ({ item }) => {
   const router = useRouter();
-  const sizes = item.type === "bags" ? [{size: item.color ?? "колір", q: 1}] : item?.sizes?.length > 0 ? item.sizes : [{size: "один розмір", q: 1}]
+  const sizes = item.type === 3 ? [{size: item.color ?? "колір", q: 1}] : item?.sizes?.length > 0 ? item.sizes : [{size: "один розмір", q: 1}]
   const name = item.name.slice(0, 1).toUpperCase() + item.name.slice(1);
   const image = item.images[0]
   const isSale = item.price > 0 && item.price2 > 0;
