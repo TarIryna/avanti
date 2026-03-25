@@ -55,7 +55,6 @@ if (genderQuery === "all") {
 } else if (genderQuery === "kids") {
   filterParams.gender = { $in: [4, 3] };
 } else if (gender && genderQuery !== "bags" && genderQuery !== "sale") {
-  console.log("gender", gender)
   filterParams.gender = gender;
 }
 

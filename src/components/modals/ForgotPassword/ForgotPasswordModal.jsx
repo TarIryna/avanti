@@ -21,7 +21,7 @@ const ForgorPassword = create(({ id }) => {
   } = methods;
 
   const onSubmit = (formData) => {
-    console.log(formData);
+    console.log("form");
   };
 
   return (
