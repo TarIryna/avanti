@@ -35,6 +35,7 @@ export async function GET() {
   );
 
   const data = await res.json();
+  console.log(data?.products?.length)
 
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
@@ -59,7 +60,7 @@ export async function GET() {
     <offers>
 ${data?.products
   ?.flatMap((p) => {
-    if (!p.rozetkaId) return [];
+    if (!p.rozetka_id) return [];
     if (!Array.isArray(p.sizes) || p.sizes.length === 0) {
       return [];
     }
