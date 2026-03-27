@@ -11,7 +11,8 @@ import {
   getStyle, 
   getVendor, 
   getHeels,
-  getCountry
+  getCountry,
+  getName
  } from "../../data/getData";
 
 const escapeXML = (str = "") =>
@@ -101,7 +102,7 @@ const mainImage = Array.isArray(p.images) ? p.images[0] : p.small_image;
         <categoryId>${p.rozetka_id}</categoryId>
         <status>${s.q > 0 ? "available" : "not available"}</status>
         <vendor>${escapeXML(getVendor(p.vendor))}</vendor>
-        <name><![CDATA[${p.name} ${s.size}]]></name>
+        <name><![CDATA[${getName(p, s.size)}]]></name>
         <description><![CDATA[${getDescription(p.vendor, "ukr")}.]]></description>
         <stock_quantity>${escapeXML(s.q ?? 0)}</stock_quantity>
         <active>${escapeXML(s.q > 0 ? "true" : "false")}</active>

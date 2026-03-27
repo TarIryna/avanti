@@ -37,8 +37,8 @@ export const getDescription = (vendor, language = "ru") => {
 }
 
 export const getSizeLength = (size, type) => {
-  const data = sizesLengths.find(item => item.name === type)
-  return data[size] ?? ""
+  const data = sizesLengths.find(i => i.id === type)
+  return `${data?.[size]}см` ?? ""
 }
 
 export const getGender = (name) => {
@@ -75,4 +75,12 @@ export const getYear = (id) => {
 
 export const getTypeId = (type) => {
   return types.find(i => i.eng === type)?.id ?? 1
+}
+
+export const getShortName = (id) => {
+  return categories.find(i => i.category_id === id)?.short ?? ""
+}
+
+export const getName = (product, size) => {
+  return `${getShortName(product.rozetka_id)} ${getVendor(product.vendor)} ${product.model} ${size} ${getSizeLength(size, product.size_type)}`
 }
