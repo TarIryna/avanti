@@ -32,7 +32,7 @@ export const getColor = (ukr, language = "ru") => {
 }
 
 export const getDescription = (vendor, language = "ru") => {
-  const data = vendors.find(item => item.name === vendor)
+  const data = vendors.find(item => item.id === vendor)
   return language === "ru" ? data?.description : data?.description_ukr
 }
 
