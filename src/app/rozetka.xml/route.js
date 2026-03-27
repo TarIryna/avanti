@@ -35,7 +35,6 @@ export async function GET() {
   );
 
   const data = await res.json();
-  console.log(data?.products?.length)
 
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
@@ -61,7 +60,11 @@ export async function GET() {
 ${data?.products
   ?.flatMap((p) => {
     if (!p.rozetka_id) return [];
+    if (!p.price) return [];
     if (!Array.isArray(p.sizes) || p.sizes.length === 0) {
+      return [];
+    }
+    if (!Array.isArray(p.images) || p.images.length === 0) {
       return [];
     }
     return p.sizes?.map((s) => {
@@ -81,14 +84,19 @@ const buildPictures = (images) => {
     .join("\n");
 };
 
+const getPrice = (price, koef) => {
+  const result = !!price ? (Math.ceil(price * koef / 10)) * 10 : 0
+  return result
+}
+
 const mainImage = Array.isArray(p.images) ? p.images[0] : p.small_image;
 
 
       return `
       <offer id="${escapeXML(p.code + s.size)}" available="${available}">
-        <price>${escapeXML(p.price)}</price>
-        <price_old>${p.price2 ?? ""}</price_old>
-        <promo_price>${Math.ceil(p.price * 0.95)}</promo_price>
+        <price>${escapeXML(getPrice(p.price, 1.125) )}</price>
+        ${p.price2 > 0 ? `<price_old>${getPrice(p.price2, 1.125)}</price_old>` : ""}
+        ${p.price > 0 ? `<promo_price>${getPrice(p.price, 1.07)}</promo_price>` : ""}
         <currencyId>UAH</currencyId>
         <categoryId>${p.rozetka_id}</categoryId>
         <status>${s.q > 0 ? "available" : "not available"}</status>
