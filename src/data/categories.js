@@ -626,15 +626,15 @@ export const categories = [
    "name-urk": "Жіночі сабо",
    "eng": "flats"
  },
- {
-   "viewId": 66,
-   "name": "Сумки",
-   "promViewId": 7,
-   "category_id": 20769,
-   "description": "Сумка",
-   "short": "Сумка",
-   "search": "сумка",
-   "name-urk": "сумка",
-   "eng": "bags"
- }
+//  {
+//    "viewId": 66,
+//    "name": "Сумки",
+//    "promViewId": 7,
+//    "category_id": 20769,
+//    "description": "Сумка",
+//    "short": "Сумка",
+//    "search": "сумка",
+//    "name-urk": "сумка",
+//    "eng": "bags"
+//  }
 ]

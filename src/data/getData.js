@@ -82,5 +82,5 @@ export const getShortName = (id) => {
 }
 
 export const getName = (product, size) => {
-  return `${getShortName(product.rozetka_id)} ${getVendor(product.vendor)} ${product.model} ${size} ${getSizeLength(size, product.size_type)}`
+  return `${getShortName(product.rozetka_id)} ${getVendor(product.vendor)} ${product.model} ${product.color} ${size} ${getSizeLength(size, product.size_type)}`
 }
