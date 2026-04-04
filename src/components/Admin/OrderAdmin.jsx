@@ -44,6 +44,7 @@ export const OrderAdmin = ({order}) => {
            
                 {!order?.delivery?.ttn &&
                 <S.Form>
+                    <S.Label>Внести ТТН</S.Label>
                     <S.Input value={ttn} onChange={(e) => setTtn(e.target.value)}/> 
                     <S.Button onClick={() => changeOrderStatus(order, ttn)}>Оформити відправку</S.Button>
                 </S.Form> }

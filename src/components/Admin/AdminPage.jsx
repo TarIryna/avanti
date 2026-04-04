@@ -43,7 +43,7 @@ const AdminPage = () => {
 
 
   return (
-    <section>
+    <section className="container page">
       {isAdmin ? (
         <S.Title>АДМІН ПАНЕЛЬ</S.Title>
       ) : (

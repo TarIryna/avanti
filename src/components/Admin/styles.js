@@ -64,3 +64,7 @@ export const Button = styled.button`
     border: 0.5px solid grey;
     border-radius: 10px;
 `
+
+export const Label = styled.div`
+    font-size: 12px;
+`
