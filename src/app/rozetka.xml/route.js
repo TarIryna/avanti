@@ -12,16 +12,9 @@ import {
   getVendor, 
   getHeels,
   getCountry,
-  getName
+  getName,
+  escapeXML
  } from "../../data/getData";
-
-const escapeXML = (str = "") =>
-  String(str)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&apos;");
 
 export async function GET() {
   const queryString = new URLSearchParams({

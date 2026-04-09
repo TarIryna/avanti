@@ -11,6 +11,14 @@ import { categories } from "./categories"
 import { years } from "./years"
 import { types } from "./types"
 
+export const escapeXML = (str = "") =>
+  String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+
 export const getMaterialTop = (id, language = "ru") => {
   const data = materailsTop.find(item => item.id === id)
   return language === "ru" ? data?.name : data?.ukr
@@ -44,6 +52,11 @@ export const getSizeLength = (size, type) => {
 export const getGender = (name) => {
   const data = genders.find(i => i.eng === name)
   return data?.id ?? "all"
+}
+
+export const getGoogleGender = (id) => {
+  const data = genders.find(i => i.id === id)
+  return data?.google ?? "all"
 }
 
 export const getStyle = (id, language = "ru") => {

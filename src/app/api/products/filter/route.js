@@ -57,23 +57,47 @@ if (genderQuery === "all") {
 } else if (gender && genderQuery !== "bags" && genderQuery !== "sale") {
   filterParams.gender = gender;
 }
+if (query) {
+  const words = query
+    .toLowerCase()
+    .split(/\s+/)
+    .filter(Boolean);
 
- if (query) {
-  const safeQuery = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const andConditions = words.map((word) => {
+    const safeWord = word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-  const orConditions = [
-    { name: { $regex: safeQuery, $options: "i" } },
-    { vendor: { $regex: safeQuery, $options: "i" } },
-    { model: { $regex: safeQuery, $options: "i" } },
-  ];
+    const orConditions = [
+      { name: { $regex: safeWord, $options: "i" } },
+      { model: { $regex: safeWord, $options: "i" } },
+    ];
 
-  // если число — добавляем code
-  if (!isNaN(query)) {
-    orConditions.push({ code: Number(query) });
-  }
+    // если число → ищем по коду
+    if (!isNaN(word)) {
+      orConditions.push({ code: Number(word) });
+    }
 
-  filterParams.$or = orConditions;
+    return { $or: orConditions };
+  });
+
+  filterParams.$and = andConditions;
 }
+
+//  if (query) {
+//   const safeQuery = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+//   const orConditions = [
+//     { name: { $regex: safeQuery, $options: "i" } },
+//     { vendor: { $regex: safeQuery, $options: "i" } },
+//     { model: { $regex: safeQuery, $options: "i" } },
+//   ];
+
+//   // если число — добавляем code
+//   if (!isNaN(query)) {
+//     orConditions.push({ code: Number(query) });
+//   }
+
+//   filterParams.$or = orConditions;
+// }
 
 
     const sortParam = getSortParam(sort);
