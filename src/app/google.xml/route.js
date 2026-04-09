@@ -20,7 +20,7 @@ export async function GET() {
   <channel>
     <title>Avanti</title>
     <link>https://avanti-shoes.com.ua</link>
-    <description>Интернет-магазин обуви</description>
+    <description>Інтернет-магазин взуття</description>
 
 ${data?.products
   ?.flatMap((p) => {
@@ -43,7 +43,7 @@ ${data?.products
         <title><![CDATA[${getName(p, s.size)}]]></title>
         <description><![CDATA[${getDescription(p.vendor, "ukr")}]]></description>
 
-        <link>https://avanti-shoes.com.ua/product/${p.slug}</link>
+        <link>https://avanti-shoes.com.ua/product/${p.code}</link>
 
         <g:image_link>${escapeXML(mainImage)}</g:image_link>
 
