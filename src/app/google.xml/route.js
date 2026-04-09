@@ -29,12 +29,14 @@ ${data?.products
     return p.sizes.map((s) => {
       const available = (s.q ?? 0) > 0;
 
-      const getPrice = (price, koef) =>
-        price ? (Math.ceil(price * koef / 10)) * 10 : 0;
-
       const mainImage = Array.isArray(p.images)
         ? p.images[0]
         : p.small_image;
+      const hasSale = p.price2 > p.price && p.price > 0;
+
+      const formatPrice = (price) => Number(price).toFixed(2);
+
+
 
       return `
       <item>
@@ -47,10 +49,10 @@ ${data?.products
 
         <g:image_link>${escapeXML(mainImage)}</g:image_link>
 
-        <g:price>${p.price} UAH</g:price>
+        <g:price>${hasSale ? formatPrice(p.price2) : formatPrice(p.price)} UAH</g:price>
         ${
-          p.price2 > 0
-            ? `<g:sale_price>${p.price2} UAH</g:sale_price>`
+          hasSale
+            ? `<g:sale_price>${formatPrice(p.price)} UAH</g:sale_price>`
             : ""
         }
 
