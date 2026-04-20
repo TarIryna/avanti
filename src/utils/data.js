@@ -41,7 +41,7 @@ export const menuData = {
         season: "winter",
         view: "winter-sneakers",
       },
-      "Черевики на каблуках": {
+      "Черевики на підборах": {
         gender: "women",
         season: "winter",
         view: "boots-heels",
@@ -56,7 +56,7 @@ export const menuData = {
       Ботфорти: { gender: "women", season: "winter", view: "botforts"},
     },
     "Літнє взуття": {
-      "Босоніжки і шльопанці на каблуках": {
+      "Босоніжки і шльопанці на підборах": {
         gender: "women",
         season: "summer",
         view: "summer-heels",
@@ -85,7 +85,7 @@ export const menuData = {
         season: "autumn",
         view: "sneakers",
       },
-      "Туфлі на каблуках": { gender: "women", season: "autumn", view: "heels" },
+      "Туфлі на підборах": { gender: "women", season: "autumn", view: "heels" },
       "Туфлі закриті на шнурках": {
         gender: "women",
         season: "autumn",
@@ -98,7 +98,7 @@ export const menuData = {
       },
     },
     "Демісезонне взуття": {
-      "Черевики на каблуках": {
+      "Черевики на підборах": {
         gender: "women",
         season: "demi",
         view: "boots-heels",
