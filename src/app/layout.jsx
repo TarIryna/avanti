@@ -97,6 +97,24 @@ const RootLayout = ({ children }) => {
           }}
         />
 
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-18067191476"
+          strategy="afterInteractive"
+        />
+
+      <Script
+        id="google-gtag"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-18067191476');
+          `,
+        }}
+      />
+
 
         <ClientProvider>
           <div className="main">
