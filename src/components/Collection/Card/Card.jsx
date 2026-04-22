@@ -37,11 +37,13 @@ const Card = ({ item }) => {
             <S.PriceWrapper onClick={() => handleClick(item.code)}>
               <S.LastPrice>{item.price2} грн.</S.LastPrice>
               <S.SalePrice>{item.price} грн.</S.SalePrice>
+              <S.DiscountMessage className="discount">-10% у кошику</S.DiscountMessage>
             </S.PriceWrapper>
           ) : (
-            <div className="flex-center" onClick={() => handleClick(item.code)}>
+            <S.PriceContainer onClick={() => handleClick(item.code)}>
               <span className="current-price">{item.price ?? 0} грн.</span>
-            </div>
+              <S.DiscountMessage>-10% у кошику</S.DiscountMessage>
+            </S.PriceContainer>
           )}
         </S.CardWrapper>
       )}

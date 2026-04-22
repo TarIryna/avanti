@@ -6,7 +6,7 @@ export const Footer = styled.footer`
   background: black;
   color: white;
   width: 100%;
-  min-height: 120px;
+  min-height: 40px;
   display: flex;
   gap: 80px;
 `;
@@ -15,7 +15,7 @@ export const ContactsWrapper = styled.div`
   grid-template-columns: repeat(3, 200px);
   grid-template-rows: repeat(2, 24px);
   gap: 10px;
-  padding: 30px 0;
+  padding: 20px 0;
   ${media.tabletSm} {
     grid-template-columns: repeat(2, 200px);
     grid-template-rows: repeat(3, 24px);

@@ -29,7 +29,8 @@ const Sizes = ({ sizes, item }) => {
 
     const newItem = {
       product: itemId,
-      price: item.price,
+      price2: item.price2 ?? item.price,
+      price: Math.ceil(item.price * 0.9),
       image: item.small_image || item.images?.[0],
       code: item.code,
       size: selectedSize,

@@ -44,6 +44,31 @@ export const ImageWrapper = styled.div`
   }
 `;
 
+
+export const DiscountMessage = styled.div`
+  border-radius: 50%;
+  border: 0.8px solid red;
+  color: red;
+  font-size: 14px;
+  padding: 5px 10px;
+  position: absolute;
+  right: -113%;
+  width: max-content;
+`
+
 export const PriceWrapper = styled.div`
   margin-top: 10px;
+  position: relative;
+   .discount {
+    top: 21%;
+    right: -40%;
+    font-size: 10px;
+  }
 `;
+
+export const PriceContainer = styled.div`
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ position: relative;
+`

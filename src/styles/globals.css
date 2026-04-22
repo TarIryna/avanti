@@ -68,7 +68,7 @@
 
 .page {
   min-height: calc(100svh - 124px);
-  padding: 90px 20px 10px;
+  padding: 100px 20px 10px;
   justify-content: start;
    @media screen and (max-width: 768px){
       padding: 110px 20px 20px;

@@ -36,6 +36,7 @@ export const Text = styled.div`
     font-size: 14px;
     font-weight: 400;
     ${({isPointer}) => ( isPointer && 'cursor: pointer;')}
+    ${({isBold}) => ( isBold && 'font-weight: 600; color: red;')}
     display: flex;
     align-items: center;
     justify-content: center;

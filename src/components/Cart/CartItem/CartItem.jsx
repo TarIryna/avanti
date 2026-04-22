@@ -52,7 +52,8 @@ const CartItem = ({ data, status }) => {
               {quantity}
               <S.QuantityButton onClick={increment}>+</S.QuantityButton>
             </S.Text>
-            <S.Text>Ціна: {data.price} грн.</S.Text>
+            <S.Text>Ціна: {data.price2}</S.Text>
+            <S.Text isBold>Акційна ціна: {data.price} грн.</S.Text>
 
             {(status === "new" || status === "progress") && (
               <Image
