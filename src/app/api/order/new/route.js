@@ -82,7 +82,7 @@ export const POST = async (request) => {
       validatedItems
         .map(
           item =>
-            `код: ${item.code} розмір: ${item.size?.size ?? item.size} кількість: ${item.quantity} ціна: ${item.price}`
+            `код: ${item.code} розмір: ${item.size?.size ?? item.size} кількість: ${item.quantity} ціна: ${item.price} акційна ціна: ${Math.ceil(item.price)}`
         )
         .join("\n");
 
