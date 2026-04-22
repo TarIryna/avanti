@@ -98,6 +98,19 @@ const DeliveryCart = () => {
       handleUpdate(orderData);
       toast.success("Очікуйте підтвердження замовлення!");
       handleOrder(orderData);
+        if (typeof window !== "undefined" && window.gtag) {
+          window.gtag('event', 'conversion', {
+            send_to: 'AW-18067191476/3Kr-CN2_h6AcELTtjadD',
+            value: items.reduce((sum, item) => sum + item.salePrice * item.quantity, 0),
+            currency: 'UAH',
+            items: items.map(item => ({
+              id: item.code,
+              name: item.name,
+              quantity: item.quantity,
+              price: item.salePrice
+            }))
+          });
+        }
     }
     // else handleOrder("new");
   };
