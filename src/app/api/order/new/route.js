@@ -38,20 +38,17 @@ export const POST = async (request) => {
     const validatedItems = [];
 
     for (const item of items) {
-      const product = await Product.findById(item.product);
-      if (!product) continue;
-
-      const itemTotal = product.price * (item.quantity || 1);
+      const itemTotal = item.price * (item.quantity || 1);
       total += itemTotal;
 
-      const image = product?.small_image || product.images[0] || "no image"
+      const image = item?.product?.small_image || item?.product.images[0] || "no image"
 
       validatedItems.push({
-        product: product._id,
+        product: item?.product._id,
         size: item.size,
         quantity: item.quantity,
-        price: product.price,
-        code: product.code,
+        price: item.price,
+        code: item?.product.code,
         image,
       });
     }

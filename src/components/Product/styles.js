@@ -118,7 +118,6 @@ export const DescriptionPrice = styled.span`
   font-size: 18px;
   font-weight: 700;
   padding-left: 10px;
-  position: relative;
   ${({isPrice}) => (isPrice && css`
     color: red;
     `)}
@@ -134,8 +133,13 @@ export const DiscountMessage = styled.div`
   font-size: 14px;
   padding: 5px 10px;
   position: absolute;
-  right: -113%;
+  right: 15%;
   width: max-content;
+  ${({isSale}) => (isSale && 'right: 6%;')}
+  ${media.mobile}{
+    right: 29%;
+      ${({isSale}) => (isSale && 'right: 11%;')}
+  }
 `
 
 export const DescriptionValue = styled.span`
@@ -268,4 +272,8 @@ export const Notification = styled.div`
   color: red;
   text-align: center;
   width: max-content;
+`
+
+export const PriceContainer = styled.p`
+    position: relative;
 `
