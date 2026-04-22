@@ -133,7 +133,7 @@ export const DiscountMessage = styled.div`
   font-size: 14px;
   padding: 5px 10px;
   position: absolute;
-  right: 15%;
+  right: 10%;
   width: max-content;
   ${({isSale}) => (isSale && 'right: 6%;')}
   ${media.mobile}{
