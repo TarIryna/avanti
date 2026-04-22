@@ -118,6 +118,7 @@ export const DescriptionPrice = styled.span`
   font-size: 18px;
   font-weight: 700;
   padding-left: 10px;
+  position: relative;
   ${({isPrice}) => (isPrice && css`
     color: red;
     `)}
@@ -125,6 +126,17 @@ export const DescriptionPrice = styled.span`
     text-decoration: line-through;
     `)}
 `;
+
+export const DiscountMessage = styled.div`
+  border-radius: 50%;
+  border: 0.8px solid red;
+  color: red;
+  font-size: 14px;
+  padding: 5px 10px;
+  position: absolute;
+  right: -113%;
+  width: max-content;
+`
 
 export const DescriptionValue = styled.span`
   font-size: 16px;

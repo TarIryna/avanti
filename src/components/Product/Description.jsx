@@ -6,7 +6,9 @@ const Description = ({ data }) => {
       <p>
         <S.DescriptionTitle>Ціна: </S.DescriptionTitle>
         {data?.price2 && data?.price2 > 0 && <S.DescriptionPrice isFirst={!!data?.price2}>{data.price2} грн</S.DescriptionPrice>}
-        <S.DescriptionPrice isPrice={!!data?.price2}>{data.price} грн</S.DescriptionPrice>
+        <S.DescriptionPrice isPrice={!!data?.price2}>{data.price} грн
+          <S.DiscountMessage>-10% у кошику</S.DiscountMessage>
+        </S.DescriptionPrice>
       </p>
       <p>
         <S.DescriptionTitle>Матеріал верху: </S.DescriptionTitle>

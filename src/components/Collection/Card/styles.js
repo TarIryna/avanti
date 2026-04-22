@@ -52,7 +52,8 @@ export const DiscountMessage = styled.div`
   font-size: 14px;
   padding: 5px 10px;
   position: absolute;
-  right: -113%;
+  right: -150%;
+  top: -10%;
   width: max-content;
 `
 
