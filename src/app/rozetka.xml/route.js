@@ -96,7 +96,7 @@ const mainImage = Array.isArray(p.images) ? p.images[0] : p.small_image;
         <status>${s.q > 0 ? "available" : "not available"}</status>
         <vendor>${escapeXML(getVendor(p.vendor))}</vendor>
         <name><![CDATA[${getName(p, s.size)}]]></name>
-        <description><![CDATA[${getDescription(p.vendor, "ukr")}.]]></description>
+        <description><![CDATA[${getDescription(p.vendor)}.]]></description>
         <stock_quantity>${escapeXML(s.q ?? 0)}</stock_quantity>
         <active>${escapeXML(s.q > 0 ? "true" : "false")}</active>
         <image>${escapeXML(mainImage)}</image>
