@@ -31,7 +31,7 @@ export const getMaterialInside = (id, language = "ru") => {
 
 export const getSeason = (name) => {
   const data = seasonData.find(item => item.eng === name)
-  return data?.name
+  return data?.rozetka
 }
 
 export const getColor = (ukr, language = "ru") => {
@@ -54,8 +54,13 @@ export const getGender = (name) => {
   return data?.id ?? "all"
 }
 
+export const getGenderName = (id) => {
+  const data = genders.find(i => i.id === Number(id))
+  return data?.ukr ?? "all"
+}
+
 export const getGoogleGender = (id) => {
-  const data = genders.find(i => i.id === id)
+  const data = genders.find(i => i.id === Number(id))
   return data?.google ?? "all"
 }
 
