@@ -39,6 +39,11 @@ export const getColor = (ukr, language = "ru") => {
   return language === "ru" ? data?.name_rozetka : data?.ukr
 }
 
+export const getColorSimple = (ukr, language = "ru") => {
+  const data = colors.find(item => item.ukr === ukr)
+  return language === "ru" ? data?.name_prom : data?.ukr
+}
+
 export const getDescription = (vendor, language = "ru") => {
   const data = vendors.find(item => item.id === vendor)
   return language === "ru" ? data?.description : data?.description_ukr
@@ -46,7 +51,7 @@ export const getDescription = (vendor, language = "ru") => {
 
 export const getSizeLength = (size, type) => {
   const data = sizesLengths.find(i => i.id === type)
-  return `${data?.[size]}см` ?? ""
+  return data && data?.[size] ? `${data?.[size]}см` : ""
 }
 
 export const getGender = (name) => {
@@ -100,5 +105,5 @@ export const getShortName = (id) => {
 }
 
 export const getName = (product, size) => {
-  return `${getShortName(product.rozetka_id)} ${getVendor(product.vendor)} ${product.model} ${product.color} ${size} ${getSizeLength(size, product.size_type)}`
+  return `${getShortName(product.rozetka_id)} ${getVendor(product.vendor)} ${product.model} ${getColorSimple(product.color)} ${size} ${getSizeLength(size, product.size_type)}`
 }
