@@ -36,7 +36,6 @@ export const useAddNewOrder = () => {
         toast.error(error.message);
       }
 
-
       if (!res.ok) {
         const error = await res.text();
         throw new Error(error || "Не вдалося оновити статус замовлення");
@@ -46,6 +45,25 @@ export const useAddNewOrder = () => {
     },
 
     onSuccess: (_, variables) => {
+      if (typeof window !== "undefined" && window.dataLayer) {
+        const total = variables.items.reduce(
+          (sum, item) => sum + item.price * item.quantity,
+          0
+        );
+       window.dataLayer.push({
+          event: "purchase",
+          value: total,
+          currency: "UAH",
+          items: variables.items.map(item => ({
+            item_id: item.code,
+            item_name: item.name,
+            price: item.salePrice,
+            quantity: item.quantity
+          }))
+        });
+
+          }
+
       // например, обновляем список заказов
       queryClient.invalidateQueries(["orders"]);
       queryClient.invalidateQueries(["cart"]);

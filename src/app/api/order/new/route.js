@@ -16,20 +16,33 @@ export const POST = async (request) => {
     // -----------------------------------------------------
     let createdGuest = false;
 
-    if (!userId) {
-      const guestEmail = `guest_${Date.now()}@avanti.local`;
+if (!userId) {
+  const existingUser = await User.findOne({
+    $or: [
+      { email: delivery.email },
+    ],
+  });
 
-      const newGuest = await User.create({
-        email: guestEmail,
-        username: guestEmail,
-        name: "Guest",
-        password: "",
-        isGuest: true,
-      });
+  if (existingUser) {
+    userId = existingUser._id;
+  } else {
+    const guestEmail = `guest_${Date.now()}@avanti.local`;
 
-      userId = newGuest._id;
-      createdGuest = true;
-    }
+    const newGuest = await User.create({
+      email: guestEmail,
+      username: guestEmail,
+      name: delivery.name || "Guest",
+      surname: delivery.surname || "",
+      phone: delivery.phone || "",
+      password: "",
+      isGuest: true,
+    });
+
+    userId = newGuest._id;
+    createdGuest = true;
+  }
+}
+
 
     // -----------------------------------------------------
     // 2️⃣ Проверяем товары и пересчитываем сумму
@@ -41,18 +54,31 @@ export const POST = async (request) => {
       const itemTotal = item.price * (item.quantity || 1);
       total += itemTotal;
 
-      const image = item?.product?.small_image || item?.product.images[0] || "no image"
+    const productId =
+      typeof item.product === "string"
+        ? item.product
+        : item.product?._id;
+
+      const image =
+        item.image ||
+        item?.product?.small_image ||
+        item?.product?.images?.[0] ||
+        "no image";
+
+      const code =
+        item.code ||
+        item?.product?.code;
 
       validatedItems.push({
-        product: item?.product._id,
+        product: productId,
         size: item.size,
         quantity: item.quantity,
         price: item.price,
-        code: item?.product.code,
+        code,
         image,
       });
-    }
 
+    }
     // -----------------------------------------------------
     // 3️⃣ Создаём заказ с валидированными данными
     // -----------------------------------------------------
@@ -67,7 +93,7 @@ export const POST = async (request) => {
     // -----------------------------------------------------
     // 4️⃣ Чистим корзину (если пользователь был авторизован)
     // -----------------------------------------------------
-    if (!createdGuest) {
+    if (userId) {
       await Cart.deleteMany({ creator: userId });
     }
 

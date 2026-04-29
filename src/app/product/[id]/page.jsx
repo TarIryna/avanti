@@ -4,6 +4,7 @@ import { getVendor } from "@/data/getData";
 
 export async function generateMetadata({ params }) {
   const product = await fetchProduct({ id: params.id });
+
   if (!product) {
     return {
       title: "Товар не знайдено",
@@ -24,10 +25,42 @@ export async function generateMetadata({ params }) {
   };
 }
 
-
 export default async function ProductPage({ params }) {
   const { id } = params;
+
   const product = await fetchProduct({ id });
 
-  return <ProductClient product={product} />;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            name: product.name,
+            image: product.images,
+            description: product.shortDescription,
+            sku: product.code,
+            brand: {
+              "@type": "Brand",
+              name: getVendor(product.vendor),
+            },
+            offers: {
+              "@type": "Offer",
+              priceCurrency: "UAH",
+              price: product.price,
+              availability:
+                product.quantity > 0
+                  ? "https://schema.org/InStock"
+                  : "https://schema.org/OutOfStock",
+              url: `https://avanti-shoes.com.ua/product/${product.code}`,
+            },
+          }),
+        }}
+      />
+
+      <ProductClient product={product} />
+    </>
+  );
 }

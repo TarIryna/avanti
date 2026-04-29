@@ -96,7 +96,6 @@ const DeliveryCart = () => {
     if (!isFullInfo.result && isFullInfo.text) toast.error(isFullInfo.text);
     else {
       handleUpdate(orderData);
-      toast.success("Очікуйте підтвердження замовлення!");
       handleOrder(orderData);
         if (typeof window !== "undefined" && window.gtag) {
           window.gtag('event', 'conversion', {

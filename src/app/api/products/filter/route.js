@@ -60,15 +60,18 @@ if (genderQuery === "all") {
 if (query) {
   const words = query
     .toLowerCase()
+    .trim()
     .split(/\s+/)
     .filter(Boolean);
 
   const andConditions = words.map((word) => {
     const safeWord = word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-
+    
+    // Добавляем vendor в условия поиска для каждого слова
     const orConditions = [
       { name: { $regex: safeWord, $options: "i" } },
       { model: { $regex: safeWord, $options: "i" } },
+      { vendor: { $regex: safeWord, $options: "i" } }, // <-- Добавлено
     ];
 
     // если число → ищем по коду
