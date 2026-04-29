@@ -40,6 +40,9 @@ export const getColor = (ukr, language = "ru") => {
 }
 
 export const getColorSimple = (ukr, language = "ru") => {
+  if (!ukr){
+    return ""
+  }
   const data = colors.find(item => item.ukr === ukr)
   return language === "ru" ? data?.name_prom : data?.ukr
 }
