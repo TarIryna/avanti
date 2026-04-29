@@ -100,10 +100,22 @@ export const getTypeId = (type) => {
   return types.find(i => i.eng === type)?.id ?? 1
 }
 
-export const getShortName = (id) => {
-  return categories.find(i => i.category_id === id)?.short ?? ""
-}
+export const getShortName = (id, language) => {
+  const data = categories.find(i => i.category_id === id);
 
-export const getName = (product, size) => {
-  return `${getShortName(product.rozetka_id)} ${getVendor(product.vendor)} ${product.model} ${getColorSimple(product.color)} ${size} ${getSizeLength(size, product.size_type)}`
+  const result =
+    data && language === "ru"
+      ? data.short
+      : data && language === "ua"
+      ? data["name-urk"]
+      : "";
+
+  return result
+    ? result.charAt(0).toUpperCase() + result.slice(1)
+    : "";
+};
+
+
+export const getName = (product, size, language = "ru") => {
+  return `${getShortName(product.rozetka_id, language)} ${getVendor(product.vendor)} ${product.model} ${getColorSimple(product.color, language)} ${size} ${getSizeLength(size, product.size_type)}`
 }
