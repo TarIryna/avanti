@@ -16,7 +16,7 @@ export async function generateMetadata() {
 
 const Home = () => (
   <section className="page">
-    <div className="message">На всі замовлення з сайту знижка -10% з 22.04.2026 до 30.04.2026</div>
+    <div className="message">На всі замовлення з сайту знижка -10% з 01.05.2026 до 31.05.2026</div>
     <h1 className="title">Магазин взуття Аванті в Ужгороді | Avanti - офіційний магазин</h1>
     <p className="description">Магазин взуття <strong>Avanti (Аванті)</strong> — це сучасне жіноче та чоловіче взуття в 
       <strong>Ужгороді</strong>. Ми пропонуємо стильне та якісне взуття з доставкою по Україні.
