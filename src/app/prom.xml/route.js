@@ -7,7 +7,6 @@ import {
   getSeason, 
   getColor, 
   getDescription, 
-  getSizeLength, 
   getStyle, 
   getVendor, 
   getHeels,
@@ -21,12 +20,20 @@ export async function GET() {
     limit: 3000,
     page: 1,
     gender: "all",
+    yearFrom: 36, 
+    season: "summer,autumn"
   }).toString();
 
   const res = await fetch(
     `https://avanti-shoes.com.ua/api/products/filter?${queryString}`,
     { cache: "no-store" }
   );
+
+//   const res = await fetch(
+//   `http://localhost:3000/api/products/filter?${queryString}`,
+//   { cache: "no-store" }
+// );
+
 
   const data = await res.json();
 

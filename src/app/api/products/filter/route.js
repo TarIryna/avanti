@@ -23,6 +23,7 @@ export const GET = async (request) => {
     const limit = Number(searchParams.get("limit") ?? 24);
     const page = Number(searchParams.get("page") ?? 1);
     const isSale = genderQuery === 'sale'
+    const yearFrom = searchParams.get("yearFrom");
 
     // ✅ строим фильтр динамически
 const filterParams = {};
@@ -31,10 +32,15 @@ const filterParams = {};
 filterParams.type = getTypeId(type);
 
 // Фильтры по сезону, виду, цвету, материалу
-if (season && season !== "null") filterParams.season = season;
+if (season && season !== "null") {
+  filterParams.season = {
+    $in: season.split(",")
+  };
+}
 if (view && view !== "null") filterParams.view = view;
 if (color && color !== "null") filterParams.color = color;
 if (material && material !== "null") filterParams.material = material;
+if (yearFrom && yearFrom !== "null") filterParams.year = { $gt: Number(yearFrom) };
 
 // Фильтр по размерам
 if (sizes && sizes !== "null") {
@@ -45,6 +51,7 @@ if (sizes && sizes !== "null") {
     }
   };
 }
+
 
 // Товары на распродаже
 if (isSale) filterParams.price2 = { $exists: true, $ne: null };
@@ -85,25 +92,7 @@ if (query) {
   filterParams.$and = andConditions;
 }
 
-//  if (query) {
-//   const safeQuery = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-
-//   const orConditions = [
-//     { name: { $regex: safeQuery, $options: "i" } },
-//     { vendor: { $regex: safeQuery, $options: "i" } },
-//     { model: { $regex: safeQuery, $options: "i" } },
-//   ];
-
-//   // если число — добавляем code
-//   if (!isNaN(query)) {
-//     orConditions.push({ code: Number(query) });
-//   }
-
-//   filterParams.$or = orConditions;
-// }
-
-
-    const sortParam = getSortParam(sort);
+const sortParam = getSortParam(sort);
 
 const seasonPriority = getSeasonPriorityByDate();
 
