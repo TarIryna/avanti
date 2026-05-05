@@ -110,7 +110,7 @@ export const getShortName = (id, language) => {
     data && language === "ru"
       ? data.short
       : data && language === "ua"
-      ? data["name_ua"]
+      ? data["short_ua"]
       : "";
 
   return result
