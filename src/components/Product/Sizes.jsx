@@ -2,6 +2,7 @@
 import { useCartStore } from "../GeneralProvider/context/CartProvider";
 import * as S from "./styles";
 import { useEffect, useState } from "react";
+import { trackAddToCart } from "@/helpers/pixelTracker";
 
 const Sizes = ({ sizes, item }) => {
   const [size, setSize] = useState(null);
@@ -38,6 +39,11 @@ const Sizes = ({ sizes, item }) => {
     };
 
     await addItem(newItem);
+    trackAddToCart({
+      id: newItem.code,
+      name: item?.name ?? "",
+      price: newItem.price,
+    })
   };
 
   useEffect(() => {
