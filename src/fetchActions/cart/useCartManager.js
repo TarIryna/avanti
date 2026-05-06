@@ -5,12 +5,15 @@ import { useRemoveItemFromCart } from "./useRemoveItemFromCart";
 import { useCart } from "./useCart";
 import { toast } from "react-hot-toast";
 import { useChangeItemQauntityCart } from "./useChangeItemQuantityCart";
+import { set } from "react-hook-form";
 
 export const useCartManager = (initialUserId) => {
   const [userId, setUserId] = useState(initialUserId ?? null);
 
   const { data: serverCart, refetch } = useCart(userId);
   const [localCart, setLocal] = useState(() => getLocalCart());
+  const [isSuccess, setIsSuccess] = useState(false)
+  const [reviewData, setReviewData] = useState(null)
 
   const addMutation = useAddItemToCart();
   const removeMutation = useRemoveItemFromCart(userId);
@@ -28,6 +31,15 @@ export const useCartManager = (initialUserId) => {
       })();
     }
   }, [userId]);
+
+  useEffect(() => {
+    if (isSuccess){
+    setTimeout(() => {
+          setIsSuccess(fasle)
+          setReviewData(null)
+        }, 200);
+    }
+  }, [isSuccess])
 
   const addItem = async (item) => {
     if (userId) {
@@ -96,6 +108,10 @@ const changeItemQuantity = async (item) => {
     changeItemQuantity,
     clearCart,
     setUserId,
+    isSuccess,
+    setIsSuccess,
+    reviewData,
+    setReviewData,
 
     isLoading: addMutation.isPending || removeMutation.isPending,
   };

@@ -31,10 +31,10 @@ const DeliveryCart = () => {
   const { data: user } = useUserSession();
   const isAuth = !!user;
   const userId = user?._id ?? user?.id
-  const { items, isLoading, clearCart } = useCartStore();
+  const { items, isLoading, clearCart, setIsSuccess, setReviewData } = useCartStore();
 
   const { mutate: updateUser, isLoading: isUpdatingUser, isError: isErrorUpdating } = useUpdateUser();
-  const { mutate: confirmOrder, isPending, isError: isErrorConfirmingOrder } = useAddNewOrder();
+  const { mutateAsync: confirmOrder, isPending, isError: isErrorConfirmingOrder } = useAddNewOrder();
 
   const handleUpdate = (orderData) => {
     if (userId){
@@ -42,14 +42,51 @@ const DeliveryCart = () => {
     }
   };
 
-  const handleOrder = (deliveryData) => {
-    confirmOrder({
-        items,
-        delivery: deliveryData,
-        userId
-      })
-    clearCart()
+  const handleOrder = async (deliveryData) => {
+  const orderData = {
+    items,
+    delivery: deliveryData,
+    userId
   };
+
+  try {
+    const res = await confirmOrder(orderData);
+
+  const getDate = () => {
+    const date = new Date();
+    date.setDate(date.getDate());
+    return date
+      .toISOString()
+      .split("T")[0];
+  }
+
+    setIsSuccess(true);
+    setReviewData({
+      orderId: res?.order?._id,
+      email: res?.order?.delivery?.email,
+      date: getDate()
+    });
+
+    clearCart();
+
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+  // const handleOrder = (deliveryData) => {
+  //   const orderData = {
+  //       items,
+  //       delivery: deliveryData,
+  //       userId
+  //     }
+  //   const res = confirmOrder(orderData)
+  //   console.log(res)
+  //   setIsSuccess(true)
+  //   setReviewData(orderData)
+  //   clearCart()
+  // };
 
   const checkInfo = (data) => {
     const isName = data.name?.length > 0 

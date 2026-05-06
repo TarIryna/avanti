@@ -21,7 +21,7 @@ export const useAddNewOrder = () => {
       });
 
       try {
-        const emailResult = await fetch("/api/email", {
+       await fetch("/api/email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -41,7 +41,7 @@ export const useAddNewOrder = () => {
         throw new Error(error || "Не вдалося оновити статус замовлення");
       }
 
-      return res.json();
+      return await res.json();
     },
 
     onSuccess: (_, variables) => {

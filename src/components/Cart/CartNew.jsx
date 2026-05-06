@@ -1,10 +1,7 @@
 'use client'
 import CartList from "./CartList";
-import { useChangeOrderStatus } from "@/helpers/useChangeOrderStatus";
 import { useState } from "react";
 import DeliveryCart from "./DeliveryCart";
-import { useQueryClient } from "@tanstack/react-query";
-import { useUserSession } from "@/fetchActions/user/useUser";
 
 const CartNew = ({ products,  total }) => {
   const [isDeliveryDataShown, setIsDeliveryDataShown] = useState(false);
