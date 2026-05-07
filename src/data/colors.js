@@ -416,7 +416,7 @@ export const colors = [
    "id": 62,
    "name": "салат.",
    "name_rozetka": "Другие: салат.",
-   "name_prom": "",
+   "name_prom": "салатовый",
    "ukr": "салатовий"
  },
  {
@@ -1333,7 +1333,7 @@ export const colors = [
    "id": 198,
    "name": "св.беж",
    "name_rozetka": "Другие: св.беж",
-   "name_prom": "",
+   "name_prom": "светло-бежевый",
    "ukr": "світло-бежевий"
  },
  {
@@ -1466,7 +1466,7 @@ export const colors = [
    "id": 222,
    "name": "молочный",
    "name_rozetka": "Молочный: МолочныйБелый: Белый",
-   "name_prom": "Бежевый",
+   "name_prom": "Молочный",
    "ukr": "молочний"
  },
  {
