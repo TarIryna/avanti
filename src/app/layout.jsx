@@ -6,11 +6,11 @@ import Script from "next/script";
 
 export const metadata = {
   title: {
-    default: "Avanti — взуття та сумки",
+    default: "Avanti — взуття та сумки - купити взуття в Ужгороді - доставка по Україні",
     template: "%s | Avanti",
   },
   description:
-    "Avanti — інтернет-магазин взуття та сумок. Жіноче, чоловіче та дитяче взуття з доставкою по Україні.",
+    "Avanti — інтернет-магазин взуття та сумок. Жіноче, чоловіче та дитяче взуття з доставкою по Україні. Купити взуття у місті Ужгород",
 };
 
 const RootLayout = ({ children }) => {
