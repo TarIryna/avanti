@@ -51,7 +51,7 @@
 }
 
 .message {
-  margin: 10px 0;
+  margin: 5px 0;
   text-align: center;
   color: red;
   font-weight: 700;
@@ -67,7 +67,7 @@
 }
 
 .page {
-  min-height: calc(100svh - 124px);
+  min-height: calc(100svh - 130px);
   padding: 100px 20px 10px;
   justify-content: start;
    @media screen and (max-width: 768px){

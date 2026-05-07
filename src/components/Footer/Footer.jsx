@@ -20,6 +20,13 @@ const Footer = () => {
             </S.ContactItem>
           ))}
       </S.ContactsWrapper>
+        <S.InfoBlock>
+          <S.InfoText>Ми знаходимось у м.Ужгород за адресами: </S.InfoText>
+          <S.InfoText> *  вул.Корзо, 10 </S.InfoText>
+          <S.InfoText> * вул.Заньковецької, 2 </S.InfoText>
+          <S.InfoText> Комфортна примірка в магазині, доставка по Україні </S.InfoText>
+          <S.InfoText> Дзвоніть за телефонами: +380506665992 або +380506927217 </S.InfoText>
+        </S.InfoBlock>
     </S.Footer>
   );
 };

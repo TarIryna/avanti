@@ -10,6 +10,7 @@ export const Footer = styled.footer`
   display: flex;
   gap: 80px;
 `;
+
 export const ContactsWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 200px);
@@ -32,3 +33,12 @@ export const ContactItem = styled(Link)`
   font-size: 14px;
   height: 20px;
 `;
+
+export const InfoText = styled.p`
+  font-weight: 400;
+  font-size: 12px;
+`
+
+export const InfoBlock = styled.div`
+  padding: 5px 0;
+`
