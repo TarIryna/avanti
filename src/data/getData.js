@@ -119,6 +119,6 @@ export const getShortName = (id, language) => {
 };
 
 
-export const getName = (product, size, language = "ru") => {
-  return `${getShortName(product.rozetka_id, language)} ${getVendor(product.vendor)} ${product.model} ${getColorSimple(product.color, language)} ${size} ${getSizeLength(size, product.size_type)}`
+export const getName = (product, size, language = "ru", isCode = false) => {
+  return `${getShortName(product.rozetka_id, language)} ${getVendor(product.vendor)} ${product.model} ${isCode ? product.code : ""} ${getColorSimple(product.color, language)} ${size} ${getSizeLength(size, product.size_type)}`
 }
