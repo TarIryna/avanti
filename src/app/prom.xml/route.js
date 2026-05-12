@@ -102,6 +102,7 @@ const mainImage = Array.isArray(p.images) ? p.images[0] : p.small_image;
         <categoryId>${p.rozetka_id}</categoryId>
         <status>${s.q > 0 ? "available" : "not available"}</status>
         <vendor>${escapeXML(getVendor(p.vendor))}</vendor>
+        <group_id>${p.code}</group_id>
         <name><![CDATA[${getName(p, s.size, 'ru', true)}]]></name>
         <name_ua><![CDATA[${getName(p, s.size, 'ua', true)}]]></name_ua>
         <description><![CDATA[${getDescription(p.vendor)}.]]></description>
