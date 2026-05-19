@@ -8384,8 +8384,8 @@ export const vendors = [
    "material_id": 1,
    "vendor_id": 4,
    "country_id": 1,
-   "description": "",
-   "description_ukr": ""
+   "description": "Как всегда стильная модель в сочетании с натуральной кожей и максимальным удобством!",
+   "description_ukr": "Як завжди стильна модель у поєднанні з натуральною шкірою та максимальною зручністю!"
  },
  {
    "id": 1033,

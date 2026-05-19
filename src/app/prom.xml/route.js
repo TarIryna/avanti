@@ -14,29 +14,16 @@ import {
   getName,
   escapeXML
  } from "../../data/getData";
+import Product from "@/models/product";
 
 export async function GET() {
-  const queryString = new URLSearchParams({
-    limit: 3000,
-    page: 1,
-    gender: "all",
-    yearFrom: 36, 
-    season: "summer,autumn"
-  }).toString();
-
-  const res = await fetch(
-    `https://avanti-shoes.com.ua/api/products/filter?${queryString}`,
-    { cache: "no-store" }
-  );
-
-//   const res = await fetch(
-//   `http://localhost:3000/api/products/filter?${queryString}`,
-//   { cache: "no-store" }
-// );
-
-
-  const data = await res.json();
-
+const season = "summer,autumn"
+ const products = await Product.find({
+   rozetka_id: { $exists: true, $ne: null },
+   type: 1,
+   year: { $gt: 36 },
+   season:  { $in: season.split(",") }
+ }).limit(1000).lean()
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <yml_catalog date="${new Date().toISOString()}">
@@ -58,7 +45,7 @@ export async function GET() {
     </categories>
 
     <offers>
-${data?.products
+${products
   ?.flatMap((p) => {
     if (!p.rozetka_id) return [];
     if (!p.price) return [];

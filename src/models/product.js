@@ -35,7 +35,7 @@ const ProductSchema = new Schema(
     color: String,
     material_top: Number,
     material_inside: Number,
-    type: String,
+    type: Number,
     small_image: String,
     vendor: Number,
     model: String,
