@@ -15,9 +15,12 @@ import {
   escapeXML
  } from "../../data/getData";
 import Product from "@/models/product";
+import { connectToDB } from "@/utils/database";
+export const revalidate = 1800;
 
 export async function GET() {
-const season = "summer,autumn"
+  await connectToDB();
+  const season = "summer,autumn"
  const products = await Product.find({
    rozetka_id: { $exists: true, $ne: null },
    type: 1,

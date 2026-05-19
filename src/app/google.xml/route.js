@@ -1,19 +1,17 @@
 import { getStyle, getDescription, getVendor, getName,getGoogleGender, escapeXML, getColor, getMaterialTop } from "@/data/getData";
+import Product from "@/models/product";
+import { connectToDB } from "@/utils/database";
 import { NextResponse } from "next/server";
+export const dynamic = "force-static";
+export const revalidate = 900;
 
 export async function GET() {
-  const queryString = new URLSearchParams({
-    limit: 3000,
-    page: 1,
-    gender: "all",
-  }).toString();
+await connectToDB();
 
-  const res = await fetch(
-    `https://avanti-shoes.com.ua/api/products/filter?${queryString}`,
-    { cache: "no-store" }
-  );
-
-  const data = await res.json();
+const products = await Product.find({
+  rozetka_id: { $exists: true, $ne: null },
+  type: 1
+}).lean()
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
@@ -22,7 +20,7 @@ export async function GET() {
     <link>https://avanti-shoes.com.ua</link>
     <description>Інтернет-магазин взуття</description>
 
-${data?.products
+${products
   ?.flatMap((p) => {
     if (!p.price || !p.images?.length || !p.sizes?.length) return [];
 
