@@ -35,7 +35,7 @@ export const useCartManager = (initialUserId) => {
   useEffect(() => {
     if (isSuccess){
     setTimeout(() => {
-          setIsSuccess(fasle)
+          setIsSuccess(false)
           setReviewData(null)
         }, 200);
     }

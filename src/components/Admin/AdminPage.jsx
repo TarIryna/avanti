@@ -37,8 +37,7 @@ const AdminPage = () => {
   }
 
   useEffect(() => {
-    const isAdmin = user && adminEmails.some(i => i === user.email)
-    setIsAdmin(isAdmin)
+    setIsAdmin(!!user && adminEmails.includes(user.email))
   }, [user])
 
 

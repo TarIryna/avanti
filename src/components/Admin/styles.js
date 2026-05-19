@@ -9,18 +9,19 @@ export const Title = styled.h4`
 
 export const CartWrapper = styled.div`
     margin: 20px 0;
-    padding: 20px;
+    padding: 10px 20px;
     border-bottom: 1px solid grey;
     border-top: 1px solid grey;
 `
 
 export const Subtitle = styled.div`
     text-align: center;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 500;
     position: relative;
     width: fit-content;
     margin: 0 auto;
+    max-width: calc(100% - 100px);
 `
 
 export const BlockTitle = styled.div`
