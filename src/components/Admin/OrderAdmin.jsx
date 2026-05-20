@@ -4,34 +4,32 @@ import * as S from "./styles";
 import { statuses } from "@/constants/constants"
     
 export const OrderAdmin = ({order}) => {
-    const [ttn, setTtn] = useState("");
-    const [orderData, setOrderData ] = useState(order)
-    const changeOrderStatus = async (order) => {
+    const [ttn, setTtn] = useState(order?.ttn || null);
+
+
+    const createTTN = async (order) => {
+      const data = {...order.delivery, cost: order?.totalPrice, items: order?.items?.length, orderId: order._id}
         try {
-            const response = await fetch(`/api/order/${order.id}`, {
+            const response = await fetch(`/api/shipping/novaposhta/ttn`, {
                 method: "PUT",
                 headers: {
                   "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                  ttn,        
+                  data  
                 }),
               });
               if (response) {
-                const data = await response.json();
-                if (data){
-                    setOrderData(data)
-                }
+               setTtn(response.data)
               }
             } catch (error) {
               console.log(error);
             }
           };
 
-
     return (
         <S.CartWrapper>
-            <S.Subtitle>{`Зaмовлення № :${order._id}`}
+            <S.Subtitle>{`Зaмовлення № :${order.createdAt?.replace("T", " ")?.slice(0, 16)}`}
                 {order?.status && statuses && <S.Status status={order.status}>{`${statuses[order.status]}`}</S.Status>}
                 </S.Subtitle>
                 <S.BlockTitle>Реквізити отримувача:</S.BlockTitle>
@@ -41,13 +39,13 @@ export const OrderAdmin = ({order}) => {
                 <S.Text>{`Адреса: ${order.delivery.addressDescription}`}</S.Text>
                 {order?.delivery?.ttn && <S.Text>{`ТТН: ${order.delivery.ttn}`}</S.Text> }
                 <CartList products={order.items} total={order?.total}/>
-           
-                {!order?.delivery?.ttn &&
-                <S.Form>
-                    <S.Label>Внести ТТН</S.Label>
-                    <S.Input value={ttn} onChange={(e) => setTtn(e.target.value)}/> 
-                    <S.Button onClick={() => changeOrderStatus(order, ttn)}>Оформити відправку</S.Button>
-                </S.Form> }
+                {!order.ttn && <S.Button onClick={() => createTTN(order)}>Згенерувати ТТН</S.Button>}
+                <S.DeliveryData>
+                {!order?.delivery?.ttn && ttn  && 
+                    <S.DeliveryText>ТТН: {ttn?.IntDocNumber}</S.DeliveryText>
+                    }
+                {!!order.deliveryStatus && <S.DeliveryText>{order.deliveryStatus }</S.DeliveryText>}
+                </S.DeliveryData>
             </S.CartWrapper>
         )
       }

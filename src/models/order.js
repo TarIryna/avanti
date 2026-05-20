@@ -50,6 +50,13 @@ const OrderSchema = new Schema(
       type: Object,
       default: {},
     },
+    deliveryStatus: {
+      type: String,
+    },
+    ttn: {
+       type: Object,
+       default: {},
+    }
   },
   {
     timestamps: true, // ✅ это нужно ставить здесь, во втором аргументе

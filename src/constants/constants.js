@@ -10,7 +10,7 @@ export const REGISTRATION = "registration";
 
 export const statuses = {
   new: 'новий',
-  delivered: 'відправлений',
+  delivery: 'в дорозі',
   successfull: 'успішний',
   canceled: 'скасований'
 }

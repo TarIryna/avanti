@@ -36,7 +36,7 @@ export const Text = styled.div`
 export const Status = styled.div`
     padding: 2px 10px;
     ${({ status }) => status && `background: ${statusColors[status]}`};
-    width: fit-content;
+    min-width: max-content;
     position: absolute;
     left: calc(100% + 6px);
     top: 50%;
@@ -66,6 +66,11 @@ export const Button = styled.button`
     border-radius: 10px;
 `
 
-export const Label = styled.div`
-    font-size: 12px;
+export const DeliveryText = styled.span`
+    font-size: 14px;
+`
+
+export const DeliveryData = styled.div`
+    display: flex;
+    gap: 10px;
 `

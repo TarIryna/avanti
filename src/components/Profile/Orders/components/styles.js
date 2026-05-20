@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 
 export const statusColors = {
     new: '#56d956',
-    delivered: 'orange',
+    delivery: 'orange',
     completed: 'blue'
 }
 

@@ -16,6 +16,53 @@ export const GET = async (request) => {
   : {};
 
     const orders = await Order.find(filter).sort({ createdAt: -1 });
+    const ordersWithTTN = await Order.find({
+        "ttn.IntDocNumber": { $exists: true }
+      }).lean();
+
+  const documents = ordersWithTTN.map(order => ({
+      DocumentNumber: order.ttn.IntDocNumber,
+      Phone: order.delivery.phone,
+    }));
+
+    
+    const params = {
+        apiKey: process.env.NOVA_POSHTA_API_KEY,
+        modelName: "TrackingDocument",
+        calledMethod: "getStatusDocuments",
+        methodProperties: {
+          Documents: documents
+        },
+      };
+
+      const response = await fetch(
+            "https://api.novaposhta.ua/v2.0/json/",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(params),
+            }
+          );
+
+          const result = await response.json();
+
+          if (result?.data){
+            for (const item of result.data) {
+              await connectToDB()
+              await Order.updateOne(
+                { "ttn.IntDocNumber": item.Number },
+                {
+                  $set: {
+                    deliveryStatus: item.Status,
+                  },
+                }
+              );
+            }
+          }
+
+       
 
     // возвращаем в нужном формате
     return new Response(JSON.stringify(orders), { status: 200 });
