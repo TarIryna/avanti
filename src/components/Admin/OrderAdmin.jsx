@@ -1,14 +1,21 @@
 import { useState } from "react";
 import CartList from "../Cart/CartList";
 import * as S from "./styles";
-import { statuses } from "@/constants/constants"
+import { MODALS, statuses } from "@/constants/constants"
+import { registerDynamicModal } from "@/helpers/useDynamicModal";
+import { useModal } from "@ebay/nice-modal-react";
+
+registerDynamicModal(
+  MODALS.DELIVERY_TTN,
+  import("@/components/modals/DeliveryTTN/DeliveryTtnModal")
+);
     
 export const OrderAdmin = ({order}) => {
     const [ttn, setTtn] = useState(order?.ttn || null);
+    const {show: showDeliveryModal} = useModal(MODALS.DELIVERY_TTN)
 
-
-    const createTTN = async (order) => {
-      const data = {...order.delivery, cost: order?.totalPrice, items: order?.items?.length, orderId: order._id}
+  const createTTN = async (order, payment) => {
+      const data = {...order.delivery, cost: order?.totalPrice, items: order?.items?.length, orderId: order._id, payment}
         try {
             const response = await fetch(`/api/shipping/novaposhta/ttn`, {
                 method: "PUT",
@@ -39,7 +46,7 @@ export const OrderAdmin = ({order}) => {
                 <S.Text>{`Адреса: ${order.delivery.addressDescription}`}</S.Text>
                 {order?.delivery?.ttn && <S.Text>{`ТТН: ${order.delivery.ttn}`}</S.Text> }
                 <CartList products={order.items} total={order?.total}/>
-                {!order.ttn && <S.Button onClick={() => createTTN(order)}>Згенерувати ТТН</S.Button>}
+                {!order.ttn && <S.Button onClick={() => showDeliveryModal({order, createTTN})}>Згенерувати ТТН</S.Button>}
                 <S.DeliveryData>
                 {!order?.delivery?.ttn && ttn  && 
                     <S.DeliveryText>ТТН: {ttn?.IntDocNumber}</S.DeliveryText>

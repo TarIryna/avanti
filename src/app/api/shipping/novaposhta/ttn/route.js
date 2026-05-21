@@ -105,61 +105,33 @@ export const PUT = async (request) => {
       apiKey: process.env.NOVA_POSHTA_API_KEY,
       modelName: "InternetDocument",
       calledMethod: "save",
-
       methodProperties: {
         PayerType: "Recipient",
-
         PaymentMethod: "Cash",
-
         DateTime: new Date().toLocaleDateString("uk-UA"),
-
         CargoType: "Parcel",
-
         Weight: "2",
-
         ServiceType: "WarehouseWarehouse",
-
         SeatsAmount: String(data.items || 1),
 
-        // =========================
-        // SENDER
-        // =========================
-
         Sender: "3d6a1bb1-5103-11f0-a1d5-48df37b921da",
-
         SenderAddress: "a9f834ab-e9be-11e4-8a92-005056887b8d",
-
         SendersPhone: "380506927217",
-
         ContactSender: "5cf486c6-5103-11f0-a1d5-48df37b921da",
 
-        // =========================
-        // RECIPIENT
-        // =========================
-
         Recipient: recipientRef,
-
         ContactRecipient: contactRecipientRef,
-
         RecipientAddress: data.address,
-
         RecipientsPhone: phone,
 
-        // =========================
-        // CITIES
-        // =========================
-
         CitySender: "e221d627-391c-11dd-90d9-001a92567626",
-
         CityRecipient: data.city,
-
-        // =========================
-        // ORDER INFO
-        // =========================
-
         Description: "Взуття",
-
         Cost: String(data.cost || 0),
+
+        ...(data.payment > 0 && {
+          AfterpaymentOnGoodsCost: String(data.payment),
+        }),
       },
     };
 
