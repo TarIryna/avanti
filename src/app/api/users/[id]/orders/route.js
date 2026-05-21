@@ -9,7 +9,7 @@ export const GET = async (request, { params }) => {
 
     return new Response(JSON.stringify(orders), { status: 200 });
   } catch (error) {
-    return new Response("Failed to fetch prompts created by user", {
+    return new Response("Failed to fetch orders created by user", {
       status: 500,
     });
   }
