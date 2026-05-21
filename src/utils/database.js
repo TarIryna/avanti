@@ -1,26 +1,33 @@
 import mongoose from "mongoose";
 
-let isConnected = false; // track the connection
+let cached = global.mongoose;
+
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
+}
 
 export const connectToDB = async () => {
-  mongoose.set("strictQuery", true);
+  if (cached.conn) {
+    console.log("Using cached connection");
+    return cached.conn;
+  }
 
-  if (isConnected) {
-    console.log("MongoDB is already connected");
-    return;
+  if (!cached.promise) {
+    console.log("Creating new connection...");
+
+    cached.promise = mongoose.connect(process.env.MONGODB_URI, {
+      dbName: "Avanti",
+    }).then((mongoose) => mongoose);
   }
 
   try {
-    await mongoose.connect(process.env.MONGODB_URI, {
-      dbName: "Avanti",
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-
-    isConnected = true;
-
+    cached.conn = await cached.promise;
     console.log("MongoDB connected");
-  } catch (error) {
-    console.log(error);
+  } catch (e) {
+    cached.promise = null;
+    console.log("MongoDB error:", e);
+    throw e;
   }
+
+  return cached.conn;
 };

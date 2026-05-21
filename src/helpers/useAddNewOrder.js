@@ -14,6 +14,8 @@ export const useAddNewOrder = () => {
         userId
       };
 
+      console.log(items)
+
       const res = await fetch("/api/order/new", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

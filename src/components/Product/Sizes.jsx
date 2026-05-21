@@ -4,7 +4,7 @@ import * as S from "./styles";
 import { useEffect, useState } from "react";
 import { trackAddToCart } from "@/helpers/pixelTracker";
 
-const Sizes = ({ sizes, item }) => {
+const Sizes = ({ sizes, item, isShop, onSelect }) => {
   const [size, setSize] = useState(null);
   const [isNotification, setIsNotification] = useState(false);
 
@@ -27,6 +27,11 @@ const Sizes = ({ sizes, item }) => {
   const onButtonClick = async () => {
     const selectedSize = isSelectedSize();
     if (!selectedSize) return;
+
+    if (isShop && typeof onSelect === 'function'){
+      onSelect(selectedSize)
+      return
+    }
 
     const newItem = {
       product: itemId,

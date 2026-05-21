@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 
 export const Title = styled.h2`
-  font-size: 24px;
+  font-size: ${({isSmall}) => (isSmall ? '16px' : '24px')};
   color: black;
   font-weight: 800;
   text-align: center;

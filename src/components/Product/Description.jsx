@@ -1,5 +1,5 @@
 import * as S from "./styles";
-import { getMaterialInside, getMaterialTop, getSeason } from "@/data/getData";
+import { getMaterialInside, getMaterialTop } from "@/data/getData";
 const Description = ({ data }) => {
   return (
     <S.Description>
