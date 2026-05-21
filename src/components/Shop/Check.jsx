@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import {useModal} from "@ebay/nice-modal-react";
 import { MODALS } from '@/constants/constants';
 import { registerDynamicModal } from '@/helpers/useDynamicModal';
+import { useParams } from "next/navigation";
 
 registerDynamicModal(
   MODALS.CHECK,
@@ -12,13 +13,15 @@ registerDynamicModal(
 
 const Check = ({check}) => {
     const {show: showCheck} = useModal(MODALS.CHECK)
+    const params = useParams();
+    const shop = params.shop;
     const total = useMemo(() => 
         check.items.reduce((sum, item) => sum + (item.salePrice * (item.quantity || 1)), 0),
         [check.items]
     ); 
        
     const onClick = () => {
-        const checkData = {...check, total}
+        const checkData = {...check, total, shop}
             showCheck({check: checkData});
     };
 

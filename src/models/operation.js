@@ -41,6 +41,9 @@ const OperationSchema = new Schema(
       type: String,
       enum: ["sale", "return"],
       default: "sale"
+    },
+    shop: {
+      type: Number
     }
   },
   {

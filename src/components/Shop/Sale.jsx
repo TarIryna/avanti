@@ -9,8 +9,11 @@ import Description from './Description';
 import Sizes from '../Product/Sizes'
 import Check from './Check';
 import { toast } from "react-hot-toast";
+import { useParams } from "next/navigation";
 
 const SalePage = () => {
+  const params = useParams();
+  const shop = params.shop;
   const [check, setCheck] = useState({client: null, items: []})
   const [product, setProduct] = useState(null)
   const methods = useForm({
@@ -184,7 +187,7 @@ if (!number) {
                 <S.Price>{product.price} грн</S.Price>
                 </S.PriceContainer> }
              {check?.client && product && <S.SalePrice>{`Ціна продажу: ${salePrice(product, check.client)} грн`}</S.SalePrice>}
-             {product && <Sizes sizes={product.sizes} item={product} isShop onSelect={addToCheck}/>}
+             {product && <Sizes sizes={product.sizes_all[shop]} item={product} isShop onSelect={addToCheck}/>}
             </S.InfoContainer>
             {product && <S.ImageWrapper>
                 <Image src={product.images[0]} fill />

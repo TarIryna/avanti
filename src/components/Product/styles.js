@@ -88,7 +88,7 @@ export const SizesBlock = styled.div`
   ${({ isOne}) =>
     isOne && "border-right: 1px solid grey; border-left: 1px solid grey;"};
   ${({ isDisabled}) =>
-    isDisabled && "color: grey;"};
+    isDisabled && "color: grey; cursor: not-allowed;"};
 
 `;
 

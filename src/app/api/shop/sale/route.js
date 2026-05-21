@@ -3,11 +3,10 @@ import Product from "@/models/product";
 import { connectToDB } from "@/utils/database";
 
 export const POST = async (request) => {
-  const { client, items, total, terminal } = await request.json();
+  const { client, items, total, terminal, shop } = await request.json();
 
   try {
     await connectToDB();
-
     // общий id чека (связывает операции)
     const operationId = `op_${Date.now()}`;
 
@@ -32,6 +31,26 @@ export const POST = async (request) => {
       for (let i = 0; i < (item.quantity || 1); i++) {
         const product = await Product.findOne({ code: item.code });
 
+           if (product) {
+            const sizesAll = product.get("sizes_all");
+
+            const sizes = sizesAll[shop.toString()];
+
+            if (Array.isArray(sizes)) {
+              const sizeObj = sizes.find(
+                (s) => s.size === item.size
+              );
+
+              if (sizeObj) {
+                sizeObj.q = Math.max(0, sizeObj.q - item.quantity);
+              }
+            }
+
+            product.markModified("sizes_all");
+
+            await product.save();
+          }
+
         operations.push({
           clientPhone: client?.phone || null,
           product: product?._id,
@@ -43,6 +62,7 @@ export const POST = async (request) => {
           terminal: terminalPart / (item.quantity || 1),
           operationId,
           type: "sale",
+          shop
         });
       }
     }

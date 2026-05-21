@@ -17,6 +17,9 @@ export const ContactsWrapper = styled.div`
   grid-template-rows: repeat(2, 24px);
   gap: 10px;
   padding: 20px 0;
+  ${media.tablet}{
+    grid-template-columns: repeat(3, 150px);
+  }
   ${media.tabletSm} {
     grid-template-columns: repeat(2, 200px);
     grid-template-rows: repeat(3, 24px);
