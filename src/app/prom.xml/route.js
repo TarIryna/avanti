@@ -85,9 +85,9 @@ const mainImage = Array.isArray(p.images) ? p.images[0] : p.small_image;
 
       return `
       <offer id="${escapeXML(p.code + s.size)}" available="${available}">
-        <price>${escapeXML(getPrice(p.price, 1.15) )}</price>
-        ${p.price2 > 0 ? `<price_old>${getPrice(p.price2, 1.15)}</price_old>` : ""}
-        ${p.price > 0 ? `<promo_price>${getPrice(p.price, 1.11)}</promo_price>` : ""}
+        <price>${escapeXML(getPrice(p.price, 1.18) )}</price>
+        ${p.price2 > 0 ? `<price_old>${getPrice(p.price2, 1.18)}</price_old>` : ""}
+        ${p.price > 0 ? `<promo_price>${getPrice(p.price, 1.12)}</promo_price>` : ""}
         <currencyId>UAH</currencyId>
         <categoryId>${p.rozetka_id}</categoryId>
         <status>${s.q > 0 ? "available" : "not available"}</status>
