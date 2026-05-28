@@ -112,7 +112,7 @@ export const PUT = async (request) => {
         CargoType: "Parcel",
         Weight: "2",
         ServiceType: "WarehouseWarehouse",
-        SeatsAmount: String(data.items || 1),
+        SeatsAmount: "1",
 
         Sender: "3d6a1bb1-5103-11f0-a1d5-48df37b921da",
         SenderAddress: "a9f834ab-e9be-11e4-8a92-005056887b8d",
