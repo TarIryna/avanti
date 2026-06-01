@@ -195,3 +195,218 @@ export const sizesLengths = [
    "39.5": ""
  }
 ]
+
+export const sizesGroup = [
+  {id: 1, name: "36-41 -8- 8,9", default: [{size: "36", q: 1}, {size: "37", q: 1}, {size: "38", q: 2}, {size: "39", q: 2}, {size: "40", q: 1}, {size: "41", q: 1}], quantity: 8},
+  {id: 2, name: "36-40 -8- 7,8,9", default: [{size: "36", q: 1}, {size: "37", q: 2}, {size: "38", q: 2}, {size: "39", q: 2}, {size: "40", q: 1}], quantity: 8},
+  {id: 3, name: "36-40 -6- 8", default: [{size: "36", q: 1}, {size: "37", q: 1}, {size: "38", q: 2}, {size: "39", q: 1}, {size: "40", q: 1}], quantity: 6},
+  {id: 4, name: "35-40 -6", default: [{size: "35", q: 1}, {size: "36", q: 1}, {size: "37", q: 1}, {size: "38", q: 1}, {size: "39", q: 1}, {size: "40", q: 1}], quantity: 6},
+  {id: 5, name: "36-41-12", default: [{size: "36", q: 1}, {size: "37", q: 2}, {size: "38", q: 3}, {size: "39", q: 3}, {size: "40", q: 2}, {size: "41", q: 1}], quantity: 12},
+  {id: 6, name: "39-45-10", default: [{size: "39", q: 1}, {size: "40", q: 1}, {size: "41", q: 2}, {size: "42", q: 2}, {size: "43", q: 2}, {size: "44", q: 1}, {size: "45", q: 1}], quantity: 10},
+  {id: 7, name: "40-45-10", default: [{size: "40", q: 2}, {size: "41", q: 2}, {size: "42", q: 2}, {size: "43", q: 2}, {size: "44", q: 1}, {size: "45", q: 1}], quantity: 10},
+  {id: 8, name: "40-45-8", default: [{size: "40", q: 1}, {size: "41", q: 1}, {size: "42", q: 2}, {size: "43", q: 2}, {size: "44", q: 1}, {size: "45", q: 1}], quantity: 8},
+  {id: 9, name: "40-43-8", default: [{size: "40", q: 2}, {size: "41", q: 2}, {size: "42", q: 2}, {size: "43", q: 2}], quantity: 8},  
+  {id: 10, name: "33-37 -8- 5,6,7", default: [{size: "33", q: 1}, {size: "34", q: 1}, {size: "35", q: 2}, {size: "36", q: 2}, {size: "37", q: 2}], quantity: 8},
+  {id: 11, name: "21-26 -6", default: [{size: "21", q: 1}, {size: "22", q: 1}, {size: "23", q: 1}, {size: "24", q: 1}, {size: "25", q: 1}, {size: "26", q: 1}], quantity: 6},
+  {id: 12, name: "20-25 -8- 22,23", default: [{size: "21", q: 1}, {size: "22", q: 1}, {size: "23",q: 1}, {size: "24", q: 1}, {size: "25", q: 1}, {size: "26", q: 1}], quantity: 8},
+  {id: 13, name: "22-27 -6", default: [{size: "22", q: 1}, {size: "23", q: 1}, {size: "24", q: 1}, {size: "25", q: 1}, {size: "26", q: 1}, {size: "27", q: 1}], quantity: 6},
+  {id: 14, name: "22-27 -8-24,25", default: [{size: "22", q: 1}, {size: "23", q: 1}, {size: "24", q: 2}, {size: "25", q: 2}, {size: "26", q: 1}, {size: "27", q: 1}], quantity: 8},
+  {id: 15, name: "32-37 -8- 4,5", default: [{size: "32", q: 1}, {size: "33", q: 1}, {size: "34", q: 2}, {size: "35", q: 2}, {size: "36", q: 1}, {size: "37", q: 1}], quantity: 8},
+  {id: 16, name: "32-37 -6-", default: [{size: "32", q: 1}, {size: "33", q: 1}, {size: "34", q: 1}, {size: "35", q: 1}, {size: "36", q: 1}, {size: "37", q: 1}], quantity: 6},
+  {id: 17, name: "46-48 -6-", default: [{size: "46", q: 2}, {size: "47", q: 2}, {size: "48", q: 2}], quantity: 6},
+  {id: 18, name: "18-23 -8-20,21", default: [{size: "18", q: 1}, {size: "19", q: 1}, {size: "20", q: 2}, {size: "21", q: 2}, {size: "22", q: 1}, {size: "23", q: 1}], quantity: 8},
+  {id: 19, name: "19-24-8", default: [{size: "19", q: 1}, {size: "20", q: 1}, {size: "21", q: 2}, {size: "22", q: 2}, {size: "23", q: 1}, {size: "24", q: 1}], quantity: 8},
+  {id: 20, name: "без размера", default: []},
+  {id: 21, name: "23-28-8", default: [{size: "23", q: 1}, {size: "24", q: 1}, {size: "25", q: 2}, {size: "26", q: 2}, {size: "27", q: 1}, {size: "28", q: 1}], quantity: 8},
+  {id: 22, name: "21-26-8", default: [{size: "21", q: 1}, {size: "22", q: 1}, {size: "23", q: 2}, {size: "24", q: 2}, {size: "25", q: 1}, {size: "26", q: 1}], quantity: 8},
+  {id: 23, name: "26-31-8", default: [{size: "26", q: 1}, {size: "27", q: 1}, {size: "28", q: 2}, {size: "29", q: 2}, {size: "30", q: 1}, {size: "31", q: 1}], quantity: 8},
+  {id: 24, name: "27-32-8", default: [{size: "27", q: 1}, {size: "28", q: 1}, {size: "29", q: 2}, {size: "30", q: 2}, {size: "31", q: 1}, {size: "32", q: 1}], quantity: 8},
+  {id: 25, name: "25-29-5", default: [{size: "25", q: 1}, {size: "26", q: 1}, {size: "27", q: 1}, {size: "28", q: 1}, {size: "29", q: 1}], quantity: 5},
+{id: 26, name: "24-30-7", default: [
+  {size: "24", q: 1},
+  {size: "25", q: 1},
+  {size: "26", q: 1},
+  {size: "27", q: 1},
+  {size: "28", q: 1},
+  {size: "29", q: 1},
+  {size: "30", q: 1}
+], quantity: 7},
+
+{id: 27, name: "30-35-6", default: [
+  {size: "30", q: 1},
+  {size: "31", q: 1},
+  {size: "32", q: 1},
+  {size: "33", q: 1},
+  {size: "34", q: 1},
+  {size: "35", q: 1}
+], quantity: 6},
+
+{id: 28, name: "27-31-8", default: [
+  {size: "27", q: 1},
+  {size: "28", q: 2},
+  {size: "29", q: 2},
+  {size: "30", q: 2},
+  {size: "31", q: 1}
+], quantity: 8},
+
+{id: 29, name: "28-33-8", default: [
+  {size: "28", q: 1},
+  {size: "29", q: 1},
+  {size: "30", q: 2},
+  {size: "31", q: 2},
+  {size: "32", q: 1},
+  {size: "33", q: 1}
+], quantity: 8},
+
+{id: 30, name: "26-33-8", default: [
+  {size: "26", q: 1},
+  {size: "27", q: 1},
+  {size: "28", q: 1},
+  {size: "29", q: 1},
+  {size: "30", q: 1},
+  {size: "31", q: 1},
+  {size: "32", q: 1},
+  {size: "33", q: 1}
+], quantity: 8},
+
+{id: 31, name: "31-38-8", default: [
+  {size: "31", q: 1},
+  {size: "32", q: 1},
+  {size: "33", q: 1},
+  {size: "34", q: 1},
+  {size: "35", q: 1},
+  {size: "36", q: 1},
+  {size: "37", q: 1},
+  {size: "38", q: 1}
+], quantity: 8},
+
+{id: 32, name: "25-30-8", default: [
+  {size: "25", q: 1},
+  {size: "26", q: 1},
+  {size: "27", q: 2},
+  {size: "28", q: 2},
+  {size: "29", q: 1},
+  {size: "30", q: 1}
+], quantity: 8},
+
+{id: 33, name: "30-37-8", default: [
+  {size: "30", q: 1},
+  {size: "31", q: 1},
+  {size: "32", q: 1},
+  {size: "33", q: 1},
+  {size: "34", q: 1},
+  {size: "35", q: 1},
+  {size: "36", q: 1},
+  {size: "37", q: 1}
+], quantity: 8},
+
+{id: 34, name: "26-30-8", default: [
+  {size: "26", q: 1},
+  {size: "27", q: 2},
+  {size: "28", q: 2},
+  {size: "29", q: 2},
+  {size: "30", q: 1}
+], quantity: 8},
+
+{id: 35, name: "33-38-8", default: [
+  {size: "33", q: 1},
+  {size: "34", q: 1},
+  {size: "35", q: 2},
+  {size: "36", q: 2},
+  {size: "37", q: 1},
+  {size: "38", q: 1}
+], quantity: 8},
+
+{id: 36, name: "31-36-8", default: [
+  {size: "31", q: 1},
+  {size: "32", q: 1},
+  {size: "33", q: 2},
+  {size: "34", q: 2},
+  {size: "35", q: 1},
+  {size: "36", q: 1}
+], quantity: 8},
+
+{id: 37, name: "31-35-8", default: [
+  {size: "31", q: 1},
+  {size: "32", q: 2},
+  {size: "33", q: 2},
+  {size: "34", q: 2},
+  {size: "35", q: 1}
+], quantity: 8},
+
+{id: 38, name: "28-35-8", default: [
+  {size: "28", q: 1},
+  {size: "29", q: 1},
+  {size: "30", q: 1},
+  {size: "31", q: 1},
+  {size: "32", q: 1},
+  {size: "33", q: 1},
+  {size: "34", q: 1},
+  {size: "35", q: 1}
+], quantity: 8},
+
+{id: 39, name: "34-39-8", default: [
+  {size: "34", q: 1},
+  {size: "35", q: 1},
+  {size: "36", q: 2},
+  {size: "37", q: 2},
+  {size: "38", q: 1},
+  {size: "39", q: 1}
+], quantity: 8},
+
+{id: 40, name: "32-40-10", default: [
+  {size: "32", q: 1},
+  {size: "33", q: 1},
+  {size: "34", q: 1},
+  {size: "35", q: 2},
+  {size: "36", q: 1},
+  {size: "37", q: 1},
+  {size: "38", q: 1},
+  {size: "39", q: 1},
+  {size: "40", q: 1}
+], quantity: 10},
+
+{id: 41, name: "32-39-8", default: [
+  {size: "32", q: 1},
+  {size: "33", q: 1},
+  {size: "34", q: 1},
+  {size: "35", q: 1},
+  {size: "36", q: 1},
+  {size: "37", q: 1},
+  {size: "38", q: 1},
+  {size: "39", q: 1}
+], quantity: 8},
+
+{id: 42, name: "29-36-8", default: [
+  {size: "29", q: 1},
+  {size: "30", q: 1},
+  {size: "31", q: 1},
+  {size: "32", q: 1},
+  {size: "33", q: 1},
+  {size: "34", q: 1},
+  {size: "35", q: 1},
+  {size: "36", q: 1}
+], quantity: 8},
+
+{id: 43, name: "31-37-8", default: [
+  {size: "31", q: 1},
+  {size: "32", q: 1},
+  {size: "33", q: 1},
+  {size: "34", q: 2},
+  {size: "35", q: 1},
+  {size: "36", q: 1},
+  {size: "37", q: 1}
+], quantity: 8},
+{id: 45, name: "37-42-8", default: [
+  {size: "37", q: 1},
+  {size: "38", q: 1},
+  {size: "39", q: 2},
+  {size: "40", q: 2},
+  {size: "41", q: 1},
+  {size: "42", q: 1},
+], quantity: 8},
+]
+
+export const getSizesList = (item) => {
+  return sizesGroup.find(i => i.id === item.sizesGroup)?.default
+}

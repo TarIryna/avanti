@@ -73,4 +73,7 @@ export const DeliveryText = styled.span`
 export const DeliveryData = styled.div`
     display: flex;
     gap: 10px;
+    button {
+        margin-top: 10px;
+    }
 `

@@ -129,7 +129,7 @@ const Input = ({
               {...register(name, {
                 ...rules,
                 onBlur: onBlurHandler,
-               oonChange: (e) => {
+               onChange: (e) => {
                   const value = e.target.value;
 
                   if (typeof onValueChange === "function") {

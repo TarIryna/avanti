@@ -45,6 +45,7 @@ const CartItem = ({ data, status }) => {
             )}
           </S.ImageWrapper>
           <S.Content>
+            <S.Text>Код товару: {data?.code ?? ""}</S.Text>
             <S.Text>Розмір: {data?.size?.size ?? data?.size ?? ""}</S.Text>
             <S.Text>
               Кількість:  
@@ -52,8 +53,8 @@ const CartItem = ({ data, status }) => {
               {quantity}
               <S.QuantityButton onClick={increment}>+</S.QuantityButton>
             </S.Text>
-            <S.Text>Ціна: {data.price2}</S.Text>
-            <S.Text isBold>Акційна ціна: {data.price} грн.</S.Text>
+            <S.Text>Ціна продажу: {data.price} грн</S.Text>
+            {/* <S.Text isBold>Акційна ціна: {data.price} грн.</S.Text> */}
 
             {(status === "new" || status === "progress") && (
               <Image

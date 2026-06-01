@@ -49,17 +49,28 @@ export const GET = async (request) => {
           const result = await response.json();
 
           if (result?.data){
-            for (const item of result.data) {
-              await connectToDB()
-              await Order.updateOne(
-                { "ttn.IntDocNumber": item.Number },
-                {
-                  $set: {
-                    deliveryStatus: item.Status,
-                  },
-                }
-              );
+        for (const item of result.data) {
+          const updateData = {
+            deliveryStatus: item.Status,
+          };
+
+          if (item.Status === "Відправлення отримано") {
+            updateData.status = "success";
+          }
+
+           if (item.Status === "Відмова від отримання") {
+            updateData.status = "canceled";
+          }
+
+          await connectToDB();
+
+          await Order.updateOne(
+            { "ttn.IntDocNumber": item.Number },
+            {
+              $set: updateData,
             }
+          );
+        }
           }
 
        

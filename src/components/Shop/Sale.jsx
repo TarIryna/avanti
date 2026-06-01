@@ -124,9 +124,6 @@ if (!number) {
   }));
   return
 }
-
-
-
   try {
     const res = await fetch(`/api/client/${number}`);
     const client = await res.json();
@@ -144,7 +141,6 @@ if (!number) {
 
   }))
 }));
-
 
   } catch (e) {
     console.error(e);

@@ -4,7 +4,7 @@ const Description = ({ data }) => {
   return (
     <S.Description>
       <p>
-        <S.DiscountMessage isSale={!!data.price2}>-10% у кошику</S.DiscountMessage>
+        {/* <S.DiscountMessage isSale={!!data.price2}>-10% у кошику</S.DiscountMessage> */}
         <S.DescriptionTitle>Ціна: </S.DescriptionTitle>
         {data?.price2 && data?.price2 > 0 && <S.DescriptionPrice isFirst={!!data?.price2}>{data.price2} грн</S.DescriptionPrice>}
         <S.DescriptionPrice isPrice={!!data?.price2}>{data.price} грн

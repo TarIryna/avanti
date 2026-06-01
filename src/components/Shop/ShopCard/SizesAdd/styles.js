@@ -55,20 +55,24 @@ export const SizesWrapper = styled.div`
 `;
 
 export const ProductSizes = styled.p`
-  ${({size}) => (size === 'lg' ? 'font-size: 16px;' : 'font-size: 14px;')}
+  font-size: 16px;
   font-weight: 500;
   text-align: center;
 `;
 
-export const SizesContainer = styled.div`
+export const SizesForm = styled.form`
+  margin-top: 10px;
+
+  button {
+    width: 100%;
+    margin-top: 10px;
+  }
+`;
+
+export const List = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 10px;
-  ${({isNotification}) => (isNotification && css`
-    border: 1px solid red;
-    border-radius: 16px;
-    `)}
-`;
+`
 
 export const SizesBlock = styled.div`
   display: flex;
@@ -79,26 +83,17 @@ export const SizesBlock = styled.div`
   padding: 0 5px;
   text-align: center;
   transition: 0.1s linear;
-
-  font-weight: ${({ isActive }) =>
-    isActive ? "900" : "400"};
-
-  ${({ isDisabled}) =>
-    isDisabled && "color: grey; cursor: not-allowed;"};
-  ${({ color}) =>
-    color && `color: ${color};`};
-
-`;
-
-export const SizeContainer = styled.div`
- height: max-content;
-  ${({ isOne}) =>
-    isOne && "border-right: 1px solid grey; border-left: 1px solid grey;"};
-
   &:not(:last-child){
     border-right: 1px solid grey;
     }
-`
+  font-weight: ${({ isActive }) =>
+    isActive ? "900" : "400"};
+  ${({ isOne}) =>
+    isOne && "border-right: 1px solid grey; border-left: 1px solid grey;"};
+  ${({ isDisabled}) =>
+    isDisabled && "color: grey; cursor: not-allowed;"};
+
+`;
 
 export const OneSize = styled(SizesBlock)`
   width: fit-content;
@@ -284,4 +279,20 @@ export const Notification = styled.div`
 
 export const PriceContainer = styled.p`
     position: relative;
+`
+
+export const BlockContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 50px;
+
+    input {
+    padding: 0 2px;
+    text-align: center;
+    }
+`
+
+export const Quantity = styled.input`
+    width: 100%;
+    font-size: 14px;
 `

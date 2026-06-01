@@ -162,3 +162,9 @@ export const CheckTitle = styled.div`
 export const CheckTotal = styled(CheckTitle)`
     text-align: left;
 `
+
+export const List = styled.div`
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+`

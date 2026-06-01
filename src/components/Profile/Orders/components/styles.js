@@ -3,7 +3,8 @@ import styled from "@emotion/styled";
 export const statusColors = {
     new: '#56d956',
     delivery: 'orange',
-    completed: 'blue'
+    success: 'lightblue',
+    canceled: "lightcoral"
 }
 
 export const Wrapper = styled.div`

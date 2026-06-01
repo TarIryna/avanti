@@ -1,6 +1,6 @@
 
-import ReturnPage from "@/components/Shop/Return"
+import ArrivalPage from "@/components/Shop/Arrival"
 
-const Return = () => <ReturnPage />;
+const Arrival = () => <ArrivalPage />;
 
-export default Return;
+export default Arrival;

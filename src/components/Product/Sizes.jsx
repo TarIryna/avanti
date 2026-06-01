@@ -4,7 +4,7 @@ import * as S from "./styles";
 import { useEffect, useState } from "react";
 import { trackAddToCart } from "@/helpers/pixelTracker";
 
-const Sizes = ({ sizes, item, isShop, onSelect }) => {
+const Sizes = ({ sizes, item, isShop, onSelect, info, color='black' }) => {
   const [size, setSize] = useState(null);
   const [isNotification, setIsNotification] = useState(false);
 
@@ -25,6 +25,7 @@ const Sizes = ({ sizes, item, isShop, onSelect }) => {
   };
 
   const onButtonClick = async () => {
+    if (info) return
     const selectedSize = isSelectedSize();
     if (!selectedSize) return;
 
@@ -36,7 +37,7 @@ const Sizes = ({ sizes, item, isShop, onSelect }) => {
     const newItem = {
       product: itemId,
       price2: item.price2 ?? item.price,
-      price: Math.ceil(item.price * 0.9),
+      price: item.price,
       image: item.small_image || item.images?.[0],
       code: item.code,
       size: selectedSize,
@@ -58,7 +59,7 @@ const Sizes = ({ sizes, item, isShop, onSelect }) => {
   return (
     <S.SizesWrapper>
     {!!(item.type === 3 ? item.color : sizes?.length) && (
-          <S.ProductSizes>
+          <S.ProductSizes size={info ? 'sm': 'lg'}>
             {item.type === 3
               ? "Колір в наявності"
               : "Розміри в наявності:"}
@@ -75,24 +76,28 @@ const Sizes = ({ sizes, item, isShop, onSelect }) => {
 
           if (el){
             return (
-            <S.SizesBlock
-              key={`${item.code}${el?.size}`}
-              isActive={el?.size === size?.size}
-              isDisabled={isDisabled}
-              onClick={() => !isDisabled && setSize(el)}
-              isOne={sizes?.length === 1}
-            >
-              {el?.size}
-            </S.SizesBlock>
-          );
-
+              <S.SizeContainer
+                          isOne={sizes?.length === 1}>
+                <S.SizesBlock
+                  key={`${item.code}${el?.size}`}
+                  isActive={el?.size === size?.size}
+                  isDisabled={isDisabled}
+                  onClick={() => !isDisabled && !info && setSize(el)}
+      
+                  color={color}
+                >
+                  {el?.size}
+                </S.SizesBlock>
+                {info && <S.SizesBlock color="grey">{el?.q}</S.SizesBlock>}
+                </S.SizeContainer>
+              );
           } 
         })}
       </S.SizesContainer>
 
-      <S.SizesButton onClick={onButtonClick} disabled={!size && sizes.length > 1}>
+      {!info && <S.SizesButton onClick={onButtonClick} disabled={!size && sizes.length > 1}>
         Додати в кошик
-      </S.SizesButton>
+      </S.SizesButton>}
     </S.SizesWrapper>
   );
 };

@@ -4,6 +4,7 @@ import * as S from "./styles";
 import { MODALS, statuses } from "@/constants/constants"
 import { registerDynamicModal } from "@/helpers/useDynamicModal";
 import { useModal } from "@ebay/nice-modal-react";
+import { useQueryClient } from "@tanstack/react-query";
 
 registerDynamicModal(
   MODALS.DELIVERY_TTN,
@@ -13,6 +14,7 @@ registerDynamicModal(
 export const OrderAdmin = ({order}) => {
     const [ttn, setTtn] = useState(order?.ttn || null);
     const {show: showDeliveryModal} = useModal(MODALS.DELIVERY_TTN)
+    const queryClient = useQueryClient();
 
   const createTTN = async (order, payment) => {
       const data = {...order.delivery, cost: order?.totalPrice, items: order?.items?.length, orderId: order._id, payment}
@@ -28,6 +30,22 @@ export const OrderAdmin = ({order}) => {
               });
               if (response) {
                setTtn(response.data)
+              }
+            } catch (error) {
+              console.log(error);
+            }
+          };
+
+const cancelOrder = async () => {
+        try {
+            const response = await fetch(`/api/order/${order._id}`, {
+                method: "DELETE",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              });
+              if (response) {
+               queryClient.invalidateQueries({ queryKey: ["orders"] });
               }
             } catch (error) {
               console.log(error);
@@ -52,6 +70,7 @@ export const OrderAdmin = ({order}) => {
                     <S.DeliveryText>ТТН: {ttn?.IntDocNumber}</S.DeliveryText>
                     }
                 {!!order.deliveryStatus && <S.DeliveryText>{order.deliveryStatus }</S.DeliveryText>}
+                {order.status === "new" && <S.Button onClick={cancelOrder}>Відмінити</S.Button>}
                 </S.DeliveryData>
             </S.CartWrapper>
         )
