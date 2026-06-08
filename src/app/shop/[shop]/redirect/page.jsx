@@ -1,6 +1,6 @@
 
-import ReturnPage from "@/components/Shop/Return"
+import RedirectPage from "@/components/Shop/Redirect";
 
-const Return = () => <ReturnPage />;
+const Redirect = () => <RedirectPage />;
 
-export default Return;
+export default Redirect;

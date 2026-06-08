@@ -1,15 +1,16 @@
 "use client";
 import * as S from './styles'
 import { Input } from '../ui';
-import { useEffect, useMemo, useState } from 'react';
-import { FormProvider, useForm, Controller } from "react-hook-form";
-import ShopProduct from './ShopProduct';
-import Image from "next/image";
-import Description from './Description';
-import Sizes from '../Product/Sizes'
+import { useEffect, useState } from 'react';
+import { FormProvider, useForm } from "react-hook-form";
+import { salePrice } from '@/utils/salePrice';
+
 import Check from './Check';
 import { toast } from "react-hot-toast";
-import { useParams } from "next/navigation";
+
+import { useParams } from 'next/navigation';
+import SaleCard from './ShopCard/SaleCard';
+import Description from './Description';
 
 const SalePage = () => {
   const params = useParams();
@@ -23,13 +24,6 @@ const SalePage = () => {
 });
 
 
-const salePrice = (product, client) => {
-  const isSale = !!product?.price2 
-  if (!product) {
-    return null
-  }
-  return isSale ? product.price : client?.discount ? Math.ceil(product.price * (100 - client.discount) / 100) : product.price
-}
 
 useEffect(() => {
   if (check.client){
@@ -51,22 +45,10 @@ console.log(data)
 }
 
 const addToCheck = (size) => {
+  const quantity = size.reduce((sum, item) => {
+      return sum + (Number(item.q) || 0);
+    }, 0);
   setCheck((prev) => {
-    const existing = prev.items.find(
-      (item) => item.code === product.code && item.size === size.size
-    );
-
-    if (existing) {
-      return {
-        ...prev,
-        items: prev.items.map((item) =>
-          item.code === product.code && item.size === size.size
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        ),
-      };
-    }
-
     return {
       ...prev,
       items: [
@@ -77,11 +59,11 @@ const addToCheck = (size) => {
           name: product.name,
           vendor: product.vendor,
           model: product.model,
-          size: size.size,
+          size: size,
           price: product.price,
           price2: product.price2,
           salePrice: salePrice(product, check.client),
-          quantity: 1,
+          quantity,
         },
       ],
     };
@@ -165,7 +147,7 @@ if (!number) {
                 isBorder
               {...register("code", { required: true })}
               />
-            {!!product && <ShopProduct product={product}/>}
+            {/* {!!product && <ShopProduct product={product}/>} */}
              {<Input
                 type="text"
                 placeholder="Номер телефона клієнта"
@@ -177,21 +159,13 @@ if (!number) {
                 isBorder
               {...register("client", { required: true })}
               />}
-              {check?.client && <Description label="Клієнт" text={`${check.client.name} ${check.client.discount}% знижки`}/>}
-                {product && <S.PriceContainer>
-                {product.price2 && <S.Price red>{product.price2} грн</S.Price>}
-                <S.Price>{product.price} грн</S.Price>
-                </S.PriceContainer> }
-             {check?.client && product && <S.SalePrice>{`Ціна продажу: ${salePrice(product, check.client)} грн`}</S.SalePrice>}
-             {product && <Sizes sizes={product.sizes_all[shop]} item={product} isShop onSelect={addToCheck}/>}
-            </S.InfoContainer>
-            {product && <S.ImageWrapper>
-                <Image src={product.images[0]} fill />
-            </S.ImageWrapper>}
-            {check.items.length > 0 && <Check check={check}/>}
+            {check?.client && <Description label="Клієнт" text={`${check?.client.name} ${check?.client.discount}% знижки`}/>}
+              </S.InfoContainer>
+             
+            {product &&  <SaleCard client={check?.client} product={product} addToCheck={addToCheck} shop={shop} type="sale"/>}
+            {check.items.length > 0 && <Check check={check} type="sale"/>}
             </S.ProductConatiner>
        
-   
           </S.Form>
         </FormProvider>
     

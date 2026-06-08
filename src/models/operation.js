@@ -13,14 +13,13 @@ const OperationSchema = new Schema(
         },
     salePrice: {
       type: Number,
-      required: [true, "Price is required!"],
         },
     image: {
           type: String,
           required: [true, "Image is required!"],
         },
     size: {
-          type: String
+          type: Object
         },
     code: {
         type: Number,
@@ -33,13 +32,16 @@ const OperationSchema = new Schema(
       type: Number,
       default: 0
     },
+    comment: {
+      type: Number
+    },
 
     operationId: {
       type: String
     },
     type: {
       type: String,
-      enum: ["sale", "return"],
+      enum: ["sale", "return", "arrival", "redirect"],
       default: "sale"
     },
     shop: {

@@ -1,10 +1,10 @@
 import styled from "@emotion/styled";
 
-export const SalePrice = styled.span`
+export const SalePrice = styled.div`
   color: red;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 600;
-  margin-left: 10px;
+  text-align: center;
 `;
 
 export const LastPrice = styled.span`
@@ -33,8 +33,8 @@ export const Title = styled.h3`
 `;
 
 export const ImageWrapper = styled.div`
-  width: 250px;
-  height: 250px;
+  width: 220px;
+  height: 220px;
   position: relative;
   img {
     max-width: 100%;
@@ -43,7 +43,12 @@ export const ImageWrapper = styled.div`
     object-fit: contain;
   }
 `;
-
+export const Flex = styled.div`
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin-top: 10px;
+`
 
 export const DiscountMessage = styled.div`
   border-radius: 50%;
@@ -76,6 +81,21 @@ export const PriceContainer = styled.div`
 
 export const Text = styled.div`
   text-align: center;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 16px;
+  font-weight: 400;
 `
+
+export const SaleCardWrapper = styled.div`
+  // display: flex;
+`
+
+export const Price  =styled.div`
+    font-size: 24px;
+    font-weight: 600;
+    ${({red}) => ( red && css`
+        color: red;
+        text-decoration: line-through;
+        `)}
+`
+
+export const Info = styled.div``

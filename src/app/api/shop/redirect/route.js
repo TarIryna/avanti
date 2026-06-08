@@ -3,7 +3,7 @@ import Product from "@/models/product";
 import { connectToDB } from "@/utils/database";
 
 export const POST = async (request) => {
-  const { item, arrivalSizes, shop } = await request.json();
+  const { item, redirectSizes, shop } = await request.json();
   const quantity = arrivalSizes.reduce((a, b) => a + (+b.q || 0), 0);
 
   try {
@@ -18,7 +18,7 @@ export const POST = async (request) => {
       shop,
       product: item._id,
       code: item.code,
-      size: arrivalSizes,
+      size: redirectSizes,
       createdAt: new Date(),
       image: item.small_image ?? item.images[0],
       quantity

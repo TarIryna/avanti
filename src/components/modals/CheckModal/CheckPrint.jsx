@@ -2,11 +2,10 @@ import { create, useModal } from "@ebay/nice-modal-react";
 
 import React, { useEffect } from "react";
 import ReactModal from "@/components/modals/ReactModal";
-import Head from "../components/Head/Head";
 import CheckProductInfo from "@/components/Shop/CheckProductInfo";
 import * as S from "./styles";
 
-const CheckPrint = create(({ id, data }) => {
+const CheckPrint = create(({ id, data, type }) => {
   const { visible, hide } = useModal(id);
 
 useEffect(() => {
@@ -19,11 +18,12 @@ useEffect(() => {
      hide();
     }, 100); 
 }, [visible]);
+const title = type = "return" ? "Чек повернення" : "Чек продажу" 
 
   return (
     <ReactModal id={id} closeOnClickOutside={false}>
         <S.PrintContainer>
-          <S.CheckTitle>Чек продажу</S.CheckTitle>
+          <S.CheckTitle>{title}</S.CheckTitle>
                 {data.client && <S.TextCheck>{`КЛІЄНТ: ${data.client.phone} ${data.client.discount}%`}</S.TextCheck>}
                 {!!data.items?.length && data.items.map(item => <CheckProductInfo isSmall data={item}/>)}
                 <S.Devider/>

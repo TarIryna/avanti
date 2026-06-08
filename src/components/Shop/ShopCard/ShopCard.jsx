@@ -1,25 +1,42 @@
 "use client";
 
 import ImageWrapper from "@/components/Product/ImageWrapper";
-import { changeProductIdAction } from "@/store/actions/product";
-import { useRouter } from "next/navigation";
 import Sizes from "../../Product/Sizes";
-import SizesAdd from "./SizesAdd/SizesAdd";
+import SizesChange from "./SizesChange/SizesChange";
 import * as S from "./styles";
 
-const ShopCard = ({ item, setProduct, isSelected, isList}) => {
-  const router = useRouter();
-  const sizes = item?.type === 3 ? [{size: item.color ?? "колір", q: 1}] : item?.sizes?.length > 0 ? item.sizes : [{size: "один розмір", q: 1}]
-  const name = item.name.slice(0, 1).toUpperCase() + item.name.slice(1);
-  const image = item.images[0]
+const ShopCard = ({ item, setProduct, isList, shop, type = "arrival"}) => {
+  if (!item){
+    return
+  }
+
+  const sizes = item.sizes_all
+  const name = item.name?.slice(0, 1).toUpperCase() + item.name?.slice(1);
+  const image = item.images?.[0]
   const isSale = item.price > 0 && item.price2 > 0;
+  const text = type === "arrival" ? "Додаємо розміри" : type === "redirect" ?  "Списуємо розміри" : "Повернення розміру:"
+  
+  const onClick = () => {
+    if (isList){
+      setProduct(item)
+      return
+    }
+   
+  }
+
+  const onSetProduct = (data) => {
+    if (setProduct && typeof setProduct === 'function'){
+          setProduct(data)
+        }
+  }
 
   return (
     <>
       {item && image && (
-          <S.CardWrapper>
-          <S.Title onClick={() => setProduct(item)}>{name}</S.Title>
-          <S.ImageWrapper onClick={() => setProduct(item)}>
+          <S.CardWrapper onClick={onClick}>
+          <S.Title >{name}</S.Title>
+          <S.Flex>
+          <S.ImageWrapper>
           <ImageWrapper
               src={image}
               alt={item.code}
@@ -27,17 +44,22 @@ const ShopCard = ({ item, setProduct, isSelected, isList}) => {
             />
             </S.ImageWrapper>
           {!isList && <div> 
-            <Sizes sizes={sizes} item={item} info color="grey"/>
-            <S.Text>Додаємо розміри</S.Text>
-            <SizesAdd item={item}/>
-          </div>}
+            <Sizes sizes={sizes["1"]} item={item} info color="grey" shop="1" isText/>
+            <Sizes sizes={sizes["2"]} item={item} info color="grey" shop="2" />
+             </div>}
+            </S.Flex>
+            {!isList && 
+              <> <S.Text>{text}</S.Text>
+            <SizesChange item={item} setProduct={onSetProduct} type={type} shop={shop}/>
+             </>
+         }
           {isSale ? (
-            <S.PriceWrapper onClick={() => setProduct(item)}>
+            <S.PriceWrapper >
               <S.LastPrice>{item.price2} грн.</S.LastPrice>
               <S.SalePrice>{item.price} грн.</S.SalePrice>
             </S.PriceWrapper>
           ) : (
-            <S.PriceContainer onClick={() => setProduct(item)}>
+            <S.PriceContainer>
               <span className="current-price">{item.price ?? 0} грн.</span>
             </S.PriceContainer>
           )}

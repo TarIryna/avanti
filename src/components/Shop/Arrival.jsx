@@ -3,10 +3,12 @@ import { useState } from 'react';
 import * as S from './styles'
 import { FormProvider, useForm } from 'react-hook-form';
 import { Input } from '../ui';
-import ShopProduct from './ShopProduct';
 import ShopCard from './ShopCard/ShopCard';
+import { useParams } from 'next/navigation';
 
 const ArrivalPage = () => {
+   const params = useParams();
+   const shop = params.shop;
    const [product, setProduct] = useState(null)
    const [list, setList] = useState([])
 
@@ -19,8 +21,6 @@ const ArrivalPage = () => {
      const {
         handleSubmit,
         register,
-        control,
-        setValue,
         watch,
       } = methods;
 
@@ -49,6 +49,7 @@ const ArrivalPage = () => {
 const onChangeModel = async (e) => {
   if (e.key !== "Enter") return;
   e.preventDefault();
+  setProduct(null)
   const model = watch("model");
 
   try {
@@ -66,8 +67,9 @@ const onChangeModel = async (e) => {
   }
 };
 
-const onSetProductFromList = (product) => {
-  setProduct(product)
+const onSetProductFromList = (data) => {
+  console.log(data)
+  setProduct(data)
   setList([])
 }
 
@@ -100,10 +102,10 @@ const onSetProductFromList = (product) => {
                           isBorder
                         {...register("model", { required: true })}
                         />
-                          {!!product && <ShopCard item={product} setProduct={onSetProductFromList} isSelected/>}
+                          {!!product && <ShopCard item={product} setProduct={onSetProductFromList} isSelected shop={shop}/>}
                           {!!list?.length && 
                           <S.List>
-                            {list.map(item => <ShopCard item={item} id={item.code} setProduct={onSetProductFromList} isList/>)}
+                            {list.map(item => <ShopCard item={item} id={item.code} setProduct={onSetProductFromList} isList shop={shop} type="arrival"/>)}
                             </S.List>}
                    </S.InfoContainer>
                 </S.ProductConatiner>

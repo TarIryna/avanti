@@ -4,7 +4,7 @@ import * as S from "./styles";
 import { useEffect, useState } from "react";
 import { trackAddToCart } from "@/helpers/pixelTracker";
 
-const Sizes = ({ sizes, item, isShop, onSelect, info, color='black' }) => {
+const Sizes = ({ sizes, item, isShop, onSelect, info, color='black', shop, isText }) => {
   const [size, setSize] = useState(null);
   const [isNotification, setIsNotification] = useState(false);
 
@@ -58,8 +58,8 @@ const Sizes = ({ sizes, item, isShop, onSelect, info, color='black' }) => {
 
   return (
     <S.SizesWrapper>
-    {!!(item.type === 3 ? item.color : sizes?.length) && (
-          <S.ProductSizes size={info ? 'sm': 'lg'}>
+    {!!(item.type === 3 ? item.color : sizes?.length) &&  isText && (
+        <S.ProductSizes size={info ? 'sm': 'lg'}>
             {item.type === 3
               ? "Колір в наявності"
               : "Розміри в наявності:"}
@@ -71,6 +71,7 @@ const Sizes = ({ sizes, item, isShop, onSelect, info, color='black' }) => {
       )}
 
       <S.SizesContainer isNotification={isNotification}>
+       {!!sizes?.length && <S.SizesBlock color={color}> A{shop} </S.SizesBlock>} 
         {sizes?.map((el) => {
           const isDisabled = el?.q === 0;
 

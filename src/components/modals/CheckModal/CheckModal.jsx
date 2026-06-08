@@ -16,12 +16,14 @@ registerDynamicModal(
   import("@/components/modals/CheckModal/CheckPrint")
 );
 
-const CheckModal = create(({ id, check }) => {
+const CheckModal = create(({ id, check, type }) => {
   const { visible, hide } = useModal(id);
   const [terminal, setTerminal] = useState(0)
   const [cash, setCash] = useState(0)
 
   const {show: showPrint} = useModal(MODALS.CHECK_PRINT)
+  const title = type === "sale" ? "Чек продажу" : "Чек повернення"
+  const buttonText = type === "sale" ? "Провести продаж" : "Провести повернення"
 
 
   const methods = useForm({ mode: "onSubmit" });
@@ -67,28 +69,27 @@ const onChangeCash = (e) => {
 }
 
 const sendOperation = async(params) => {
-      const res = await fetch("/api/shop/sale", {
+      const res = await fetch("/api/shop/operation/new", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(params),
       });
-      const result = res.json();
-      console.log(result)
+      const result = await res.json();
       return result
 }
 
 const onPrint = () => {
   const cashData = cash === 0 && terminal === 0 ? check.total : cash
-  const data = {...check, cash: cashData, terminal}
+  const data = {client: check.client, items: check.items, total: check.total, shop: check.shop, cash: cashData, terminal, type}
   sendOperation(data)
-  showPrint({data})
+  showPrint({data, type})
 }
 
   return (
     <ReactModal id={id} closeOnClickOutside={false}>
       <Wrapper>
         <Container>
-          <Head close={hide} title="Чек продажу" />
+          <Head close={hide} title={title} />
           <Content>
             <FormProvider {...methods}>
               <S.Form autoComplete="off">
@@ -112,7 +113,7 @@ const onPrint = () => {
                   label="Готівка"
                 />
                 <Button onClick={onPrint}>
-                  Провести продаж
+                  {buttonText}
                 </Button>
               </S.Form>
             </FormProvider>

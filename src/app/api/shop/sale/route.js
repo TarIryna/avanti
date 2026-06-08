@@ -56,7 +56,7 @@ export const POST = async (request) => {
           product: product?._id,
           salePrice: item.salePrice,
           image: item.images?.[0] || "",
-          size: item.size,
+          size: [{size: item.size, q: item.quantity}],
           code: item.code,
           quantity: 1,
           terminal: terminalPart / (item.quantity || 1),

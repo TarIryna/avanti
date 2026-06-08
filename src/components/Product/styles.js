@@ -55,7 +55,7 @@ export const SizesWrapper = styled.div`
 `;
 
 export const ProductSizes = styled.p`
-  ${({size}) => (size === 'lg' ? 'font-size: 16px;' : 'font-size: 14px;')}
+  ${({size}) => (size === 'lg' ? 'font-size: 16px;' : 'font-size: 10px;')}
   font-weight: 500;
   text-align: center;
 `;

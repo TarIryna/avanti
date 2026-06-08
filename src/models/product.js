@@ -47,7 +47,21 @@ const ProductSchema = new Schema(
     description: String,
     images: [String],
     year: Number,
-    heel: Number
+    heel: Number,
+    barcodes: {
+      type: Map,
+      of: String
+    }, 
+    sizes_all: {
+      type: Map,
+      of: [
+        {
+          size: String,
+          q: Number,
+        },
+      ],
+      default: {},
+    }
   },
   { versionKey: false, timestamps: true, collection: "products" } // ← обязательно
 );

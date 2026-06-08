@@ -1,3 +1,4 @@
+import { media } from "@/styles/mediaBrakepoints";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import Image from "next/image";
@@ -6,7 +7,7 @@ export const Title = styled.h4`
     text-align: center;
     font-size: 20px;
     font-weight: 700;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 `
 
 export const MenuList = styled.div`
@@ -165,6 +166,13 @@ export const CheckTotal = styled(CheckTitle)`
 
 export const List = styled.div`
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 10px;
+
+    ${media.tablet}{
+     grid-template-columns: repeat(3, 1fr);
+    }
+      ${media.mobile}{
+     grid-template-columns: repeat(2, 1fr);
+    }
 `
