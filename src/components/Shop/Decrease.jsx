@@ -1,22 +1,28 @@
 "use client";
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import * as S from './styles'
 import { FormProvider, useForm } from 'react-hook-form';
 import { Input } from '../ui';
 import ShopCard from './ShopCard/ShopCard';
 import Select from '../ui/Select/Select';
-import { destinations } from '@/data/destination';
+import { destinations, getDestinationName } from '@/data/destination';
 import { useParams } from 'next/navigation';
 
 
-const RedirectPage = () => {
+const DecreasePage = () => {
    const [product, setProduct] = useState(null)
    const [list, setList] = useState([])
    const [destination, setDestination] = useState(null)
    const params = useParams();
    const shop = params.shop;
 
-     const methods = useForm({
+   const destinationName = useMemo(() => {
+    return destination ? getDestinationName(destination) : ""
+   }, [destination])
+
+   console.log(destinationName)
+
+    const methods = useForm({
           defaultValues: {
             code: "",
           },
@@ -87,7 +93,7 @@ const onSetProductFromList = (product) => {
              <S.Form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
                 <S.ProductConatiner>
                    <S.InfoContainer>
-                    <Select options={destinations} label="Куди списуэться" value={destination} onChange={onChangeDestination}/>
+                    <Select options={destinations} label="Куди списується" value={destination} onChange={onChangeDestination}/>
                  
                        <Input
                           type="text"
@@ -111,7 +117,7 @@ const onSetProductFromList = (product) => {
                           isBorder
                         {...register("model")}
                         />
-                          {!!product && <ShopCard item={product} setProduct={onSetProductFromList} isSelected type="redirect" shop={shop}/>}
+                          {!!product && <ShopCard item={product} setProduct={onSetProductFromList} isSelected type="decrease" shop={shop} comment={getDestinationName(destination)}/>}
                           {!!list?.length && 
                           <S.List>
                             {list.map(item => <ShopCard item={item} id={item.code} setProduct={onSetProductFromList} isList/>)}
@@ -124,4 +130,4 @@ const onSetProductFromList = (product) => {
     )
 }
 
-export default RedirectPage 
+export default DecreasePage 

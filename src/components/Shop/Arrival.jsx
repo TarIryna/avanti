@@ -102,7 +102,7 @@ const onSetProductFromList = (data) => {
                           isBorder
                         {...register("model", { required: true })}
                         />
-                          {!!product && <ShopCard item={product} setProduct={onSetProductFromList} isSelected shop={shop}/>}
+                          {!!product && <ShopCard item={product} setProduct={onSetProductFromList} isSelected shop={shop} type="arrival"/>}
                           {!!list?.length && 
                           <S.List>
                             {list.map(item => <ShopCard item={item} id={item.code} setProduct={onSetProductFromList} isList shop={shop} type="arrival"/>)}

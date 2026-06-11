@@ -7,3 +7,8 @@ export const destinations = [
     {id: 6, name: "Інстаграм", value: "5"},   
     {id: 7, name: "Сайт", value: "6"}, 
 ]
+
+export const getDestinationName = (id) => {
+    const result = destinations.find(item => item.id === Number(id))
+    return result?.name ?? ""
+}

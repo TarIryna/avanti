@@ -17,8 +17,10 @@ import {
 import Product from "@/models/product";
 import { connectToDB } from "@/utils/database";
 
-export const dynamic = "force-static";
-export const revalidate = 900;
+export const dynamic = "force-dynamic";
+
+// export const dynamic = "force-static";
+// export const revalidate = 3000;
 
 export async function GET() {
 await connectToDB();
@@ -27,6 +29,7 @@ const products = await Product.find({
   rozetka_id: { $exists: true, $ne: null },
   type: 1
 }).lean()
+console.log("ROZETKA XML BUILD 2026-06-11");
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <yml_catalog date="${new Date().toISOString()}">
@@ -57,6 +60,9 @@ ${products
     }
     if (!Array.isArray(p.images) || p.images.length === 0) {
       return [];
+    }
+    if (p.code === '241301'){
+      console.log('sizes', p.sizes)
     }
     return p.sizes?.map((s) => {
       const available = (s.q ?? 0) > 0;

@@ -33,7 +33,7 @@ const OperationSchema = new Schema(
       default: 0
     },
     comment: {
-      type: Number
+      type: String
     },
 
     operationId: {
@@ -41,10 +41,13 @@ const OperationSchema = new Schema(
     },
     type: {
       type: String,
-      enum: ["sale", "return", "arrival", "redirect"],
+      enum: ["sale", "return", "arrival", "decrease", "inside"],
       default: "sale"
     },
     shop: {
+      type: Number
+    },
+    staff: {
       type: Number
     }
   },

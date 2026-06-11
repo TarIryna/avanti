@@ -5,7 +5,7 @@ import { Controller, useFormContext, FormProvider, useForm  } from "react-hook-f
 import { Button, Input } from "@/components/ui";
 import { toast } from "react-hot-toast";
 
-const SizesChange = ({ item, setProduct, addToCheck, shop, type, comment = "" }) => {
+const SizesChange = ({ item, setProduct, addToCheck, shop, type, comment, staff, isOrder }) => {
   const methods = useForm({ mode: "onSubmit" });
   const { handleSubmit, control, reset } = methods;
   const buttonText = type === "arrival" ? "Оформити прихід" : type === "return" ? "Офрмити повернення" : type === "sale" ? "Оформити продаж" : "Оформити списання"
@@ -13,7 +13,8 @@ const SizesChange = ({ item, setProduct, addToCheck, shop, type, comment = "" })
 
  const onSubmit = async (data) => {
   try {
-    const existingSizes = [...(item.sizes_all?.[shop?.toString()] || [])];
+    const existingSizes = isOrder ? item.sizes : [...(item.sizes_all?.[shop?.toString()] || [])];
+
     // размеры, которые реально участвуют в операции
     const operationSizes = Object.entries(data)
       .filter(([_, qty]) => Number(qty) > 0)
@@ -43,6 +44,7 @@ const SizesChange = ({ item, setProduct, addToCheck, shop, type, comment = "" })
 
         if (!existing) {
            toast.error(`Розмір ${size} відсутній на складі`);
+           reset()
           return;
         }
 
@@ -57,9 +59,9 @@ const SizesChange = ({ item, setProduct, addToCheck, shop, type, comment = "" })
       }
     }
 
-    const updatedSizes = existingSizes
-      // .filter((s) => s.q > 0)
-      .sort((a, b) => Number(a.size) - Number(b.size));
+    // const updatedSizes = existingSizes
+    //   // .filter((s) => s.q > 0)
+    //   .sort((a, b) => Number(a.size) - Number(b.size));
 
   if (type === 'return' || type === "sale" && typeof addToCheck === 'function'){
       addToCheck(operationSizes)
@@ -69,11 +71,30 @@ const SizesChange = ({ item, setProduct, addToCheck, shop, type, comment = "" })
     const newItem = {
       ...item,
         size: operationSizes,
-        comment: Number(comment)
+        comment: comment ? comment : "",
+        staff: staff ? Number(staff) : null
       }
     const items = [newItem]
 
-    const response = await fetch("/api/shop/operation/new", {
+    if (isOrder) {
+       const response = await fetch("/api/shop/change-sizes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        item: newItem
+   }),
+    });
+      const result = await response.json();
+    if (result.success) {
+          setProduct(null);
+          reset();
+        }
+
+    }
+    else {
+      const response = await fetch("/api/shop/operation/new", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -81,16 +102,16 @@ const SizesChange = ({ item, setProduct, addToCheck, shop, type, comment = "" })
       body: JSON.stringify({
         items,
         shop,
-        type,
+        type
       }),
     });
-
-    const result = await response.json();
-
+      const result = await response.json();
     if (result.success) {
-      setProduct(null);
-      reset();
+          setProduct(null);
+          reset();
+        }
     }
+
   } catch (error) {
     console.error(error);
   }

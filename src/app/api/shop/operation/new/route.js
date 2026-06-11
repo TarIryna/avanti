@@ -57,7 +57,7 @@ const operations = await Promise.all(
           }
 
           // Списание товара
-          if (type === "sale" || type === "redirect") {
+          if (type === "sale" || type === "decrease" || type === "inside") {
             if (sizeObj) {
               sizeObj.q = Math.max(0, sizeObj.q - itemSize.q);
             }
@@ -83,7 +83,8 @@ const operations = await Promise.all(
           operationId,
           type,
           shop,
-          comment: item.comment ?? null
+          comment: item.comment ?? null,
+          staff: item.staff ?? null
         };
    
     })

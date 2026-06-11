@@ -5,7 +5,7 @@ import Sizes from "../../Product/Sizes";
 import SizesChange from "./SizesChange/SizesChange";
 import * as S from "./styles";
 
-const ShopCard = ({ item, setProduct, isList, shop, type = "arrival"}) => {
+const ShopCard = ({ item, setProduct, isList, shop, type, comment, staff, isOrder}) => {
   if (!item){
     return
   }
@@ -14,7 +14,7 @@ const ShopCard = ({ item, setProduct, isList, shop, type = "arrival"}) => {
   const name = item.name?.slice(0, 1).toUpperCase() + item.name?.slice(1);
   const image = item.images?.[0]
   const isSale = item.price > 0 && item.price2 > 0;
-  const text = type === "arrival" ? "Додаємо розміри" : type === "redirect" ?  "Списуємо розміри" : "Повернення розміру:"
+  const text = type === "arrival" ? "Додаємо розміри" : type === "decrease" ?  "Списуємо розміри" : "Повернення розміру:"
   
   const onClick = () => {
     if (isList){
@@ -50,7 +50,7 @@ const ShopCard = ({ item, setProduct, isList, shop, type = "arrival"}) => {
             </S.Flex>
             {!isList && 
               <> <S.Text>{text}</S.Text>
-            <SizesChange item={item} setProduct={onSetProduct} type={type} shop={shop}/>
+            <SizesChange item={item} setProduct={onSetProduct} type={type} shop={shop} comment={comment} staff={staff} isOrder={isOrder}/>
              </>
          }
           {isSale ? (

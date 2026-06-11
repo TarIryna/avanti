@@ -26,7 +26,9 @@ const ShopPage = () => {
           {shopsData.map((i) => (
                  <S.MenuShopButton onClick={() => router.push(`/shop/${i.id}`)}>{i.name}</S.MenuShopButton>
                 ))}
+                 <S.MenuShopButton onClick={() => router.push(`/shop/orders`)}>Внести поточні замовлення</S.MenuShopButton>
         </S.MenuList>
+        
       {/* ) : ( */}
         {/* <S.Title>У вас нема доступу до адмін панелі</S.Title> */}
       {/* )} */}
