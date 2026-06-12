@@ -20,8 +20,6 @@ const DecreasePage = () => {
     return destination ? getDestinationName(destination) : ""
    }, [destination])
 
-   console.log(destinationName)
-
     const methods = useForm({
           defaultValues: {
             code: "",

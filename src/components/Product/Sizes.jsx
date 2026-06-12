@@ -71,7 +71,7 @@ const Sizes = ({ sizes, item, isShop, onSelect, info, color='black', shop, isTex
       )}
 
       <S.SizesContainer isNotification={isNotification}>
-       {!!sizes?.length && <S.SizesBlock color={color}> A{shop} </S.SizesBlock>} 
+       {!!sizes?.length && isShop && <S.SizesBlock color={color}> A{shop} </S.SizesBlock>} 
         {sizes?.map((el) => {
           const isDisabled = el?.q === 0;
 

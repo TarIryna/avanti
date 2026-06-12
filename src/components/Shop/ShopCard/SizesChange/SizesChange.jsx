@@ -83,7 +83,8 @@ const SizesChange = ({ item, setProduct, addToCheck, shop, type, comment, staff,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        item: newItem
+        item: newItem,
+        type
    }),
     });
       const result = await response.json();

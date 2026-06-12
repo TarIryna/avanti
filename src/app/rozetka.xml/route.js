@@ -29,7 +29,6 @@ const products = await Product.find({
   rozetka_id: { $exists: true, $ne: null },
   type: 1
 }).lean()
-console.log("ROZETKA XML BUILD 2026-06-11");
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <yml_catalog date="${new Date().toISOString()}">

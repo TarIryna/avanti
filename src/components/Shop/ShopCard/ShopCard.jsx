@@ -43,10 +43,14 @@ const ShopCard = ({ item, setProduct, isList, shop, type, comment, staff, isOrde
               fill
             />
             </S.ImageWrapper>
-          {!isList && <div> 
+          {!isList && !isOrder && <div> 
             <Sizes sizes={sizes["1"]} item={item} info color="grey" shop="1" isText/>
-            <Sizes sizes={sizes["2"]} item={item} info color="grey" shop="2" />
+            <Sizes sizes={sizes["2"]} item={item} info color="grey" shop="2"/>
              </div>}
+           {!isList && isOrder && <div> 
+            <Sizes sizes={item.sizes} item={item} info color="grey" isText/>
+             </div>}
+             
             </S.Flex>
             {!isList && 
               <> <S.Text>{text}</S.Text>

@@ -1,6 +1,6 @@
 
-import ReturnPage from "@/components/Shop/Return"
+import InsideRedirectPage from "@/components/Shop/InsideRedirect";
 
-const Return = () => <ReturnPage />;
+const Return = () => <InsideRedirectPage  />;
 
 export default Return;

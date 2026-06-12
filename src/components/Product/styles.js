@@ -84,7 +84,22 @@ export const SizesBlock = styled.div`
     isActive ? "900" : "400"};
 
   ${({ isDisabled}) =>
-    isDisabled && "color: grey; cursor: not-allowed;"};
+    isDisabled && `
+     color: grey; 
+     cursor: not-allowed;
+     position: relative;
+     &::before{
+      content: "";
+      position: absolute;
+      top: -11px;
+      left: 20px;
+      width: 1px;
+      height: 47px;
+      transform: rotate(122deg);
+      background: grey;
+     }
+     `
+};
   ${({ color}) =>
     color && `color: ${color};`};
 
