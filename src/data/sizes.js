@@ -197,10 +197,10 @@ export const sizesLengths = [
 ]
 
 export const sizesGroup = [
-  {id: 1, name: "36-41 -8- 8,9", default: [{size: "36", q: 1}, {size: "37", q: 1}, {size: "38", q: 2}, {size: "39", q: 2}, {size: "40", q: 1}, {size: "41", q: 1}], quantity: 8},
-  {id: 2, name: "36-40 -8- 7,8,9", default: [{size: "36", q: 1}, {size: "37", q: 2}, {size: "38", q: 2}, {size: "39", q: 2}, {size: "40", q: 1}], quantity: 8},
-  {id: 3, name: "36-40 -6- 8", default: [{size: "36", q: 1}, {size: "37", q: 1}, {size: "38", q: 2}, {size: "39", q: 1}, {size: "40", q: 1}], quantity: 6},
-  {id: 4, name: "35-40 -6", default: [{size: "35", q: 1}, {size: "36", q: 1}, {size: "37", q: 1}, {size: "38", q: 1}, {size: "39", q: 1}, {size: "40", q: 1}], quantity: 6},
+  {id: 1, name: "36-41-8- 8,9", default: [{size: "36", q: 1}, {size: "37", q: 1}, {size: "38", q: 2}, {size: "39", q: 2}, {size: "40", q: 1}, {size: "41", q: 1}], quantity: 8},
+  {id: 2, name: "36-40-8- 7,8,9", default: [{size: "36", q: 1}, {size: "37", q: 2}, {size: "38", q: 2}, {size: "39", q: 2}, {size: "40", q: 1}], quantity: 8},
+  {id: 3, name: "36-40-6- 8", default: [{size: "36", q: 1}, {size: "37", q: 1}, {size: "38", q: 2}, {size: "39", q: 1}, {size: "40", q: 1}], quantity: 6},
+  {id: 4, name: "35-40-6", default: [{size: "35", q: 1}, {size: "36", q: 1}, {size: "37", q: 1}, {size: "38", q: 1}, {size: "39", q: 1}, {size: "40", q: 1}], quantity: 6},
   {id: 5, name: "36-41-12", default: [{size: "36", q: 1}, {size: "37", q: 2}, {size: "38", q: 3}, {size: "39", q: 3}, {size: "40", q: 2}, {size: "41", q: 1}], quantity: 12},
   {id: 6, name: "39-45-10", default: [{size: "39", q: 1}, {size: "40", q: 1}, {size: "41", q: 2}, {size: "42", q: 2}, {size: "43", q: 2}, {size: "44", q: 1}, {size: "45", q: 1}], quantity: 10},
   {id: 7, name: "40-45-10", default: [{size: "40", q: 2}, {size: "41", q: 2}, {size: "42", q: 2}, {size: "43", q: 2}, {size: "44", q: 1}, {size: "45", q: 1}], quantity: 10},

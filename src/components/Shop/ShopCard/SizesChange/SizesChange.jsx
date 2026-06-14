@@ -125,7 +125,7 @@ const SizesChange = ({ item, setProduct, addToCheck, shop, type, comment, staff,
       <S.SizesWrapper>
         <S.SizesForm onSubmit={handleSubmit(onSubmit)}>
           <S.List>
-            <div>A{shop}</div>
+            {shop && <div>A{shop}</div>}
             {sizes?.map((el) => {
               if (!el) return null;
 

@@ -54,12 +54,6 @@ export const Form = styled.form`
     padding: 20px 0;
 `
 
-export const Input = styled.input`
-    border: 0.5px solid grey;
-    border-radius: 10px;
-    padding: 0 10px;
-`
-
 export const Button = styled.button`
     width: 100%;
     border: 0.5px solid grey;
@@ -76,4 +70,21 @@ export const DeliveryData = styled.div`
     button {
         margin-top: 10px;
     }
+`
+
+export const Flex = styled.div`
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+
+    button {
+        width: 200px;
+    }
+`
+
+export const Input = styled.input`
+        width: 300px;
+        border-radius: 16px;
+        border: 0.5px solid grey;
+        padding: 0 10px;
 `

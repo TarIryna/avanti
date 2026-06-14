@@ -56,6 +56,9 @@ const OrderSchema = new Schema(
     ttn: {
        type: Object,
        default: {},
+    },
+    check: {
+      type: String,
     }
   },
   {

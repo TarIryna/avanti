@@ -5,6 +5,9 @@ import { MODALS, statuses } from "@/constants/constants"
 import { registerDynamicModal } from "@/helpers/useDynamicModal";
 import { useModal } from "@ebay/nice-modal-react";
 import { useQueryClient } from "@tanstack/react-query";
+import Image from "next/image";
+import IconCheck from "@/assets/icons/reciept.svg";
+import { Input } from "../ui";
 
 registerDynamicModal(
   MODALS.DELIVERY_TTN,
@@ -13,6 +16,7 @@ registerDynamicModal(
     
 export const OrderAdmin = ({order}) => {
     const [ttn, setTtn] = useState(order?.ttn || null);
+    const [check, setCheck] = useState(null);
     const {show: showDeliveryModal} = useModal(MODALS.DELIVERY_TTN)
     const queryClient = useQueryClient();
 
@@ -52,6 +56,28 @@ const cancelOrder = async () => {
             }
           };
 
+  const addCheck = async () => {
+        try {
+            const response = await fetch(`/api/order/${order._id}`, {
+                method: "PUT",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                 check
+                }),
+              });
+              if (response) {
+               console.log(response.data)
+              }
+            } catch (error) {
+              console.log(error);
+            }
+          };
+
+          console.log(order.status)
+
+
     return (
         <S.CartWrapper>
             <S.Subtitle>{`Зaмовлення № :${order.createdAt?.replace("T", " ")?.slice(0, 16)}`}
@@ -62,6 +88,27 @@ const cancelOrder = async () => {
                 <S.Text>{`Телефон: ${order.delivery.phone}`}</S.Text>
                 <S.Text>{`Місто: ${order.delivery.cityDescription}`}</S.Text>
                 <S.Text>{`Адреса: ${order.delivery.addressDescription}`}</S.Text>
+                <S.Flex>  
+                 {(order.status === 'success' || !!order.check)  && <Image
+                      className="pointer"
+                      src={IconCheck.src}
+                      width={24}
+                      height={24}
+                      alt="delete"
+                    />}
+                    {order.check ? <S.Text>Чек прикріплено</S.Text> 
+                    
+                    : order.status === 'success' ? (
+                      <>
+                        <S.Input
+                           id="check"
+                           onChange={(e) => setCheck(e?.target?.value)}
+                        />
+                        <S.Button onClick={addCheck}>Додати чек</S.Button>
+                      </>
+                    ) 
+                    : null}
+                    </S.Flex> 
                 {order?.delivery?.ttn && <S.Text>{`ТТН: ${order.delivery.ttn}`}</S.Text> }
                 <CartList products={order.items} total={order?.total}/>
                 {!order.ttn && <S.Button onClick={() => showDeliveryModal({order, createTTN})}>Згенерувати ТТН</S.Button>}

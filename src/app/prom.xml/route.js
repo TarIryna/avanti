@@ -16,7 +16,8 @@ import {
  } from "../../data/getData";
 import Product from "@/models/product";
 import { connectToDB } from "@/utils/database";
-export const revalidate = 1800;
+// export const revalidate = 1800;
+export const dynamic = "force-dynamic";
 
 export async function GET() {
   await connectToDB();

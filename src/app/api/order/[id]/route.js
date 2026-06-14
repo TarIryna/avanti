@@ -17,12 +17,26 @@ export const DELETE = async (request, { params }) => {
 export const PUT = async (req, { params }) => {
   await connectToDB();
 
-  const { ttn } = await req.json();
+  const body = await req.json();
   const { id } = params;
+
+  const fieldMap = {
+    ttn: "deliver.ttn",
+    check: "check",
+  };
+
+  const updateData = Object.entries(body)
+    .filter(([_, value]) => value !== undefined)
+    .reduce((acc, [key, value]) => {
+      if (fieldMap[key]) {
+        acc[fieldMap[key]] = value;
+      }
+      return acc;
+    }, {});
 
   const order = await Order.findByIdAndUpdate(
     id,
-    { $set: { "deliver.ttn": ttn } },
+    { $set: updateData },
     { new: true }
   );
 
