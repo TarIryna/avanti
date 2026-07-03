@@ -10,6 +10,7 @@ import { heels } from "./heels"
 import { categories } from "./categories"
 import { years } from "./years"
 import { types } from "./types"
+import { materialData } from "./material"
 
 export const escapeXML = (str = "") =>
   String(str)

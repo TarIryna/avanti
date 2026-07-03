@@ -39,7 +39,7 @@ if (season && season !== "null") {
 }
 if (view && view !== "null") filterParams.view = view;
 if (color && color !== "null") filterParams.color = Number(color);
-if (material && material !== "null") filterParams.material = material;
+if (material && material !== "null") filterParams.material = Number(material);
 if (yearFrom && yearFrom !== "null") filterParams.year = { $gt: Number(yearFrom) };
 
 // Фильтр по размерам

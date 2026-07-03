@@ -325,13 +325,18 @@ export const sizes = () => {
 export const materialList = [
   {
     name: "Натуральна шкіра",
-    query: "natural",
+    query: 1,
     filterName: "Натуральна шкіра",
   },
   {
     name: "Екошкіра",
-    query: "pu",
+    query: 2,
     filterName: "Екошкіра",
+  },
+    {
+    name: "Текстиль",
+    query: 4,
+    filterName: "Текстиль",
   },
 ];
 

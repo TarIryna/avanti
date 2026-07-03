@@ -30,8 +30,8 @@ const ProductSchema = new Schema(
         q: Number,
       }
     ],
-    material: String,
-    color: String,
+    material: Number,
+    color: Number,
     material_top: Number,
     material_inside: Number,
     type: Number,
