@@ -68,7 +68,6 @@ const onChangeModel = async (e) => {
 };
 
 const onSetProductFromList = (data) => {
-  console.log(data)
   setProduct(data)
   setList([])
 }

@@ -1,6 +1,6 @@
 import { vendors } from "./vendors"
 import { seasonData } from "./seasons"
-import { materialInside, materailsTop } from "./material"
+import { materialInside, materialsTop } from "./material"
 import { colors } from "./colors"
 import { sizesLengths } from "./sizes"
 import { genders } from "./gender"
@@ -20,7 +20,7 @@ export const escapeXML = (str = "") =>
     .replace(/'/g, "&apos;");
 
 export const getMaterialTop = (id, language = "ru") => {
-  const data = materailsTop.find(item => item.id === id)
+  const data = materialsTop.find(item => item.id === id)
   return language === "ru" ? data?.name : data?.ukr
 }
 
@@ -39,11 +39,24 @@ export const getColor = (ukr, language = "ru") => {
   return language === "ru" ? data?.name_rozetka : data?.ukr
 }
 
+export const getColorById = (id, language = "ru") => {
+ const data = colors.find(item => item.id === Number(id))
+ return language === "ru" ? data?.name_rozetka : data?.ukr
+}
+
 export const getColorSimple = (ukr, language = "ru") => {
   if (!ukr){
     return ""
   }
   const data = colors.find(item => item.ukr === ukr)
+  return language === "ru" ? data?.name_prom : data?.ukr
+}
+
+export const getColorNameById = (id, language = "ru") => {
+  if (!id){
+    return ""
+  }
+  const data = colors.find(item => item.id === id)
   return language === "ru" ? data?.name_prom : data?.ukr
 }
 
@@ -92,7 +105,7 @@ export const getHeels = (id) => {
 }
 
 export const getCategoryName = (id) => {
-  return categories.find(i => i.category_id === id)?.name
+  return categories.find(i => i.id === id)?.name
 }
 
 export const getYear = (id) => {
@@ -103,8 +116,13 @@ export const getTypeId = (type) => {
   return types.find(i => i.eng === type)?.id ?? 1
 }
 
+export const getMaterial = (id) => {
+  const material = materialsTop.find(i => i.id === Number(id))
+  return  material?.material_id === 1 ? 'шкіряні' : ""
+}
+
 export const getShortName = (id, language) => {
-  const data = categories.find(i => i.category_id === id);
+  const data = categories.find(i => i.id === id);
 
   const result =
     data && language === "ru"
@@ -121,4 +139,9 @@ export const getShortName = (id, language) => {
 
 export const getName = (product, size, language = "ru", isCode = false) => {
   return `${getShortName(product.rozetka_id, language)} ${getVendor(product.vendor)} ${product.model} ${isCode ? product.code : ""} ${getColorSimple(product.color, language)} ${size} ${getSizeLength(size, product.size_type)}`
+}
+
+
+export const getNameTotal = (product, language = "ua") => {
+   return `${getShortName(Number(product.rozetka_id), language)} ${getMaterial(product.material_top)} ${product.code} ${getColorNameById(product.color, language)}`
 }

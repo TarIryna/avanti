@@ -8,13 +8,15 @@ export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   min-height: ${({ hasError }) => (hasError ? 56 : 40)}px;
+  position: relative;
 `;
 
 export const InputWrapper = styled.div`
   position: relative;
   width: 100%;
   height: 40px;
-  ${({isBorder}) => (isBorder && 'border: 1px solid grey; border-radius: 16px;')}
+  ${({isBorder}) => (isBorder && 'border-radius: 16px;')};
+  ${({isBorder, isError}) => ((isBorder && isError) ? 'border: 1px solid red;' : (isBorder && !isError) ? 'border: 1px solid grey;' : "")};
 `;
 
 export const Recommended = styled.h4``;
@@ -138,7 +140,13 @@ export const ButtonShow = styled.button`
   width: 16px;
 `;
 
-export const Error = styled.div``;
+export const Error = styled.div`
+    position: absolute;
+    bottom: -9px;
+    left: 3px;
+    font-size: 8px;
+    color: red;
+`;
 
 export const Label = styled.div`
     position: absolute;

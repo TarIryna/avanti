@@ -1,20 +1,22 @@
 "use client";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as S from './styles'
 import { useParams } from 'next/navigation';
 import { useForm, FormProvider } from 'react-hook-form';
-import { Input } from '../ui';
+import { Button, Input } from '../ui';
+import ShopCard from './ShopCard/ShopCard';
+import toast from 'react-hot-toast';
 
 const InsideRedirectPage = () => {
     const [productFrom, setProductFrom] = useState(null)
     const [productTo, setProductTo] = useState(null)
     const params = useParams();
     const shop = params.shop;
-
     
         const methods = useForm({
               defaultValues: {
-                code: "",
+                codeFrom: "",
+                codeTo: ""
               },
             });
     
@@ -22,33 +24,71 @@ const InsideRedirectPage = () => {
             handleSubmit,
             register,
             watch,
+            reset
           } = methods;
     
-          const onSubmit = async(data) => {
-            console.log(data)
-            }
-
     
-  const onChangeCode = async (e) => {
+  const onChangeCode = async (name, e) => {
     if (e.key !== "Enter") return;
     e.preventDefault();
-    const codeFrom = watch("codeFrom");
-    const codeTo = watch("codeTo");
-
-    console.log(e)
+    const code = watch(name);
+    if (code === ""){
+       if (name === 'codeFrom') {
+      setProductFrom(null) 
+      } else {
+        setProductTo(null);
+      } 
+      return
+    }
 
   try {
-    const res = await fetch(`/api/product/${codeFrom}`);
+    const res = await fetch(`/api/product/${code}`);
     const product = await res.json();
     if (!product){
       toast.error("Товар не знайдено!")
       return;
     }
-    setProduct(product);
+    if (name === 'codeFrom') {
+      setProductFrom(product) 
+    } else {
+      setProductTo(product);
+    } 
   } catch (e) {
     console.error(e);
   }
 };
+
+const onSubmit = async() => {
+  if (!productFrom || !productTo){
+    toast.error("Треба заповнити обивда коди");
+    return
+  } else if (productFrom.code === productTo.code){
+    toast.error("Код вже об'єднаний");
+    return
+  } else {
+    try {
+     const response = await fetch("/api/shop/inside-redirect", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        itemFrom: productFrom.code,
+        itemTo: productTo.code
+   }),
+    });
+      const result = await response.json();
+      if (result?.success){
+        toast.success("Товар успішно перенесено");
+        setProductFrom(null)
+        setProductTo(null)
+        reset()
+      }
+    }catch (e) {
+      console.error(e)
+    }
+  }
+}
 
     return (
          <section className="container page">
@@ -61,11 +101,11 @@ const InsideRedirectPage = () => {
                           type="text"
                           placeholder="Код товару, з якого списуються залишки"
                           tabIndex={1}
-                          onKeyDown={onChangeCode}
+                          onKeyDown={(e) => onChangeCode('codeFrom', e)}
                           enterKeyHint="next"
                           label='Код товару'
-                          on
                           isBorder
+                          onBlurHandler={(e) => onChangeCode('codeFrom', e)}
                         {...register("codeFrom", { required: true })}
                         />
 
@@ -73,15 +113,18 @@ const InsideRedirectPage = () => {
                           type="text"
                           placeholder="Код товару, куди переміщаються залишки"
                           tabIndex={2}
-                          onKeyDown={onChangeCode}
+                          onKeyDown={(e) => onChangeCode('codeTo', e)}
                           enterKeyHint="next"
                           label='Код товару'
-                          on
+                          onBlurHandler={(e) => onChangeCode('codeFrom', e)}
                           isBorder
                         {...register("codeTo", { required: true })}
                         />
-                  
-                          {/* {!!product && <ShopCard item={product} setProduct={onSetProductFromList} isSelected type="decrease" shop={shop} comment={getDestinationName(destination)}/>} */}
+                    <S.Flex>
+                          {!!productFrom && <ShopCard item={productFrom} isSelected type="inside-redirect" shop={shop}/>}
+                          {!!productTo && <ShopCard item={productTo} isSelected type="inside-redirect" shop={shop}/>}
+                    </S.Flex>
+                    <Button type="submit">Об'єднати</Button>
                    </S.InfoContainer>
                 </S.ProductConatiner>
              </S.Form>

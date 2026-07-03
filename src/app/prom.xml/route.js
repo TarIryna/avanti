@@ -5,14 +5,14 @@ import {
   getMaterialInside, 
   getMaterialTop, 
   getSeason, 
-  getColor, 
   getDescription, 
   getStyle, 
   getVendor, 
   getHeels,
   getCountry,
   getName,
-  escapeXML
+  escapeXML,
+  getColorById
  } from "../../data/getData";
 import Product from "@/models/product";
 import { connectToDB } from "@/utils/database";
@@ -43,7 +43,7 @@ export async function GET() {
     <categories>
     ${categories
       .map(
-        (c) => `<category id="${c.category_id}">${escapeXML(c.name)}</category>`
+        (c) => `<category id="${c.id}">${escapeXML(c.name)}</category>`
       )
       .join("\n")}
     </categories>
@@ -111,7 +111,7 @@ const mainImage = Array.isArray(p.images) ? p.images[0] : p.small_image;
         <param name="Материал подкладки">${getMaterialInside(p.material_inside) ?? ""}</param>
         <param name="Сезон">${getSeason(p.season)}</param>
         <param name="Стиль обуви">${getStyle(p.style)}</param>
-        <param name="Цвет">${getColor(p.color)}</param>
+        <param name="Цвет">${getColorById(p.color)}</param>
 
        ${buildParams(p, escapeXML)}
       </offer>

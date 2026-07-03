@@ -5,7 +5,7 @@ import Sizes from "../../Product/Sizes";
 import SizesChange from "./SizesChange/SizesChange";
 import * as S from "./styles";
 
-const ShopCard = ({ item, setProduct, isList, shop, type, comment, staff, isOrder}) => {
+const ShopCard = ({ item, setProduct, isList, info, shop, type, comment, staff, isOrder}) => {
   if (!item){
     return
   }
@@ -44,15 +44,15 @@ const ShopCard = ({ item, setProduct, isList, shop, type, comment, staff, isOrde
             />
             </S.ImageWrapper>
           {!isList && !isOrder && <div> 
-            <Sizes sizes={sizes["1"]} item={item} info color="grey" shop="1" isText/>
-            <Sizes sizes={sizes["2"]} item={item} info color="grey" shop="2"/>
+            <Sizes sizes={sizes["1"]} item={item} info isShop color="grey" shop="1" isText/>
+            <Sizes sizes={sizes["2"]} item={item} info isShop color="grey" shop="2"/>
              </div>}
            {!isList && isOrder && <div> 
             <Sizes sizes={item.sizes} item={item} info color="grey" isText/>
              </div>}
              
             </S.Flex>
-            {!isList && 
+            {!isList && !info &&
               <> <S.Text>{text}</S.Text>
             <SizesChange item={item} setProduct={onSetProduct} type={type} shop={shop} comment={comment} staff={staff} isOrder={isOrder}/>
              </>

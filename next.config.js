@@ -12,6 +12,7 @@ const nextConfig = {
       "lh3.googleusercontent.com",
       "i.ibb.co",
       "pricecreator.rozetka.com.ua",
+      "res.cloudinary.com"
     ],
   },
   webpack(config) {

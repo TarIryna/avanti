@@ -28,6 +28,7 @@ const Input = ({
   defaultValue,
   defaultError,
   fullError,
+  onBlurHandler,
   className,
   isDarken,
   tabIndex,
@@ -45,29 +46,31 @@ const Input = ({
   const { onBlur } = register;
   const [isFocused, setIsFocused] = useState(false);
 
-  const onBlurHandler = (e) => {
-    setIsFocused(false);
-    if (typeof onClickGaEvent === "function") {
-      onClickGaEvent(e);
-    }
-    if (typeof onBlur === "function") {
-      onBlur(e);
-    }
-    if (focusedColor && form[name]) {
-      const amount = (+e.target.value).toFixed(2);
-      setForm({
-        ...form,
-        [name]: label && existlabel ? `${amount} ${label} ` : amount,
-      });
-      setValue(name, amount);
-    }
-  };
+
+
+  // const onBlurHandler = (e) => {
+  //   setIsFocused(false);
+  //   if (typeof onClickGaEvent === "function") {
+  //     onClickGaEvent(e);
+  //   }
+  //   if (typeof onBlur === "function") {
+  //     onBlur(e);
+  //   }
+  //   if (focusedColor && form[name]) {
+  //     const amount = (+e.target.value).toFixed(2);
+  //     setForm({
+  //       ...form,
+  //       [name]: label && existlabel ? `${amount} ${label} ` : amount,
+  //     });
+  //     setValue(name, amount);
+  //   }
+  // };
 
   return (
     <S.Wrapper className={className || "base_input"}>
       <S.InputWrapper
         isDarken={isDarken}
-        error={hasError}
+        isError={hasError}
         doubleIcon={doubleIcon}
         isFocused={isFocused}
         disabled={disabled}
@@ -165,14 +168,11 @@ const Input = ({
         {event}
       </S.InputWrapper>
       {info && <S.LabelInfo hasError={hasError}>{info}</S.LabelInfo>}
-      {/* {hasError && (
-        <S.Error fullError={fullError} className="error-message">
-          {(renderInputError(hasError) || defaultError)?.replace(
-            "NUMBER",
-            rules?.[hasError?.type]
-          )}
+      {hasError && (
+        <S.Error>
+         {hasError.message}
         </S.Error>
-      )} */}
+      )}
     </S.Wrapper>
   );
 };

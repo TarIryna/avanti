@@ -8685,3 +8685,8 @@ export const vendors = [
    "description_ukr": ""
  }
 ]
+
+export const getVendorCountry = (id) => {
+  const vendor = vendors.find(i => i.id === Number(id))
+  return vendor ? vendor.country_id : null
+}

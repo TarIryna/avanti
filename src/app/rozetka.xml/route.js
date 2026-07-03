@@ -5,7 +5,6 @@ import {
   getMaterialInside, 
   getMaterialTop, 
   getSeason, 
-  getColor, 
   getDescription, 
   getStyle, 
   getVendor, 
@@ -13,6 +12,7 @@ import {
   getCountry,
   getName,
   escapeXML,
+  getColorById,
  } from "../../data/getData";
 import Product from "@/models/product";
 import { connectToDB } from "@/utils/database";
@@ -44,7 +44,7 @@ const products = await Product.find({
     <categories>
     ${categories
       .map(
-        (c) => `<category id="${c.category_id}">${escapeXML(c.name)}</category>`
+        (c) => `<category id="${c.id}">${escapeXML(c.name)}</category>`
       )
       .join("\n")}
     </categories>
@@ -97,8 +97,8 @@ const mainImage = Array.isArray(p.images) ? p.images[0] : p.small_image;
         <categoryId>${p.rozetka_id}</categoryId>
         <status>${s.q > 0 ? "available" : "not available"}</status>
         <vendor>${escapeXML(getVendor(p.vendor))}</vendor>
-        <name><![CDATA[${getName(p, s.size)}]]></name>
-        <name_ua><![CDATA[${getName(p, s.size, 'ua')}]]></name_ua>
+        <name><![CDATA[${getName(p, s.size, 'ru', true)}]]></name>
+        <name_ua><![CDATA[${getName(p, s.size, 'ua', true)}]]></name_ua>
         <description><![CDATA[${getDescription(p.vendor)}.]]></description>
         <description_ua><![CDATA[${getDescription(p.vendor, 'ua')}.]]></description_ua>
         <stock_quantity>${escapeXML(s.q ?? 0)}</stock_quantity>
@@ -114,7 +114,7 @@ const mainImage = Array.isArray(p.images) ? p.images[0] : p.small_image;
         <param name="Материал подкладки">${getMaterialInside(p.material_inside) ?? ""}</param>
         <param name="Сезон">${getSeason(p.season)}</param>
         <param name="Стиль обуви">${getStyle(p.style)}</param>
-        <param name="Цвет">${getColor(p.color)}</param>
+        <param name="Цвет">${getColorById(p.color)}</param>
 
        ${buildParams(p, escapeXML)}
       </offer>

@@ -1,6 +1,6 @@
 
-import ReturnPage from "@/components/Shop/Return"
+import AuditPage from "@/components/Shop/Audit";
 
-const Return = () => <ReturnPage />;
+const Return = () => <AuditPage  />;
 
 export default Return;

@@ -1,158 +1,175 @@
 export const years = [
  {
-   "id": 1,
+   "value": 1,
    "name": "2013-1 Весна-лето"
  },
  {
-   "id": 2,
+   "value": 2,
    "name": "2013-2 Осень-зима"
  },
  {
-   "id": 3,
+   "value": 3,
    "name": "2012-2 Осень-зима"
  },
  {
-   "id": 4,
+   "value": 4,
    "name": "2011-2 Осень зима"
  },
  {
-   "id": 5,
+   "value": 5,
    "name": "2012-1 Весна-лето"
  },
  {
-   "id": 6,
+   "value": 6,
    "name": "2010-1 Весна-лето"
  },
  {
-   "id": 7,
+   "value": 7,
    "name": "2010-2 Осень-зима"
  },
  {
-   "id": 8,
+   "value": 8,
    "name": "2011-1 Весна-лето"
  },
  {
-   "id": 9,
+   "value": 9,
    "name": "2009-1 Весна-лето"
  },
  {
-   "id": 10,
+   "value": 10,
    "name": "2009-2 Осень-зима"
  },
  {
-   "id": 11,
+   "value": 11,
    "name": "2008"
  },
  {
-   "id": 12,
+   "value": 12,
    "name": "2007"
  },
  {
-   "id": 13,
+   "value": 13,
    "name": "2006"
  },
  {
-   "id": 14,
+   "value": 14,
    "name": "2004"
  },
  {
-   "id": 15,
+   "value": 15,
    "name": "2014-1 Весна-лето"
  },
  {
-   "id": 16,
+   "value": 16,
    "name": "2014-2 Осень-зима"
  },
  {
-   "id": 17,
+   "value": 17,
    "name": "2015-1 Лето"
  },
  {
-   "id": 18,
+   "value": 18,
    "name": "2015-2 Осень"
  },
  {
-   "id": 19,
+   "value": 19,
    "name": "2016-1 Лето"
  },
  {
-   "id": 20,
+   "value": 20,
    "name": "2016-2 Зима"
  },
  {
-   "id": 21,
+   "value": 21,
    "name": "2017-1 Лето"
  },
  {
-   "id": 22,
+   "value": 22,
    "name": "2017-2 Зима"
  },
  {
-   "id": 23,
+   "value": 23,
    "name": "2018-1 Лето"
  },
  {
-   "id": 24,
+   "value": 24,
    "name": "2018-2 Зима"
  },
  {
-   "id": 25,
+   "value": 25,
    "name": "2019-1 Лето"
  },
  {
-   "id": 26,
+   "value": 26,
    "name": "2019-2 Зима"
  },
  {
-   "id": 27,
+   "value": 27,
    "name": "2020-1 Лето"
  },
  {
-   "id": 28,
+   "value": 28,
    "name": "2020-2 Зима"
  },
  {
-   "id": 29,
+   "value": 29,
    "name": "2021-1 Лето"
  },
  {
-   "id": 30,
+   "value": 30,
    "name": "2021-2 Зима"
  },
  {
-   "id": 31,
+   "value": 31,
    "name": "2022-1 Лето"
  },
  {
-   "id": 32,
+   "value": 32,
    "name": "2022-2 Зима"
  },
  {
-   "id": 33,
+   "value": 33,
    "name": "2023-1 Лето"
  },
  {
-   "id": 34,
+   "value": 34,
    "name": "2023-2 Зима"
  },
  {
-   "id": 35,
+   "value": 35,
    "name": "2024-1 Лето"
  },
  {
-   "id": 36,
+   "value": 36,
    "name": "2024-2 Зима"
  },
  {
-   "id": 37,
+   "value": 37,
    "name": "2025-1 Лето"
  },
  {
-   "id": 38,
+   "value": 38,
    "name": "2025-2 Зима"
  },
  {
-   "id": 39,
+   "value": 39,
    "name": "2026-1 Лето"
+ },
+  {
+   "value": 40,
+   "name": "2026-2 Лето"
  }
 ]
+
+export const getDefaultYear = () => {
+  const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth() + 1;
+  const second = currentMonth <= 5 ? 1 : 2;
+  const query = `${currentYear}-${second}`
+  return years.find(i => i.name.includes(query))
+}
+
+
+export const getYearById = (id) => {
+  return years.find(i => Number(i.value) === Number(id)).name
+}

@@ -19,8 +19,8 @@ const SaleCard = ({client, product, addToCheck, shop, type}) => {
                 <S.Text>{product.color}</S.Text>
          </S.Info>
          </S.Flex>
-             <Sizes sizes={product.sizes_all["1"]} item={product} info onSelect={addToCheck} shop="1"/>
-            <Sizes sizes={product.sizes_all["2"]} item={product} info onSelect={addToCheck} shop="2"/>
+             <Sizes sizes={product.sizes_all["1"]} item={product} info isShop onSelect={addToCheck} shop="1"/>
+            <Sizes sizes={product.sizes_all["2"]} item={product} info isShop onSelect={addToCheck} shop="2"/>
              <SizesChange sizes={product.sizes_all[shop]} shop={shop.toString()} item={product} addToCheck={addToCheck} type={type}/>  
 
                <S.PriceContainer>

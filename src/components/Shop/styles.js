@@ -11,21 +11,25 @@ export const Title = styled.h4`
 `
 
 export const MenuList = styled.div`
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     margin: 0 auto;
     gap: 16px;
-    width: 500px;
+    padding: 0 60px;
+    ${media.mobile}{
+        padding: 0 16px;
+    }
 `
 export const MenuButton = styled.div`
     height: 36px;
-    width: 100%;
     border-radius: 14px;
     cursor: pointer;
     font-size: 20px;
     border: 1px solid grey;
-    width: 100%;
     padding: 0 16px;
+     ${media.mobile}{
+        font-size: 16px;
+    }
 `
 
 export const MenuShopButton = styled.div`
@@ -40,15 +44,15 @@ export const MenuShopButton = styled.div`
     padding: 0 16px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: center; 
     text-align: center;
 `
 
 export const Form = styled.form`
     width: 100%;
     display: flex;
-    flex-direction: column;
     gap: 10px;
+    padding: 20px 0;
 `
 
 export const InfoContainer = styled.div`
@@ -141,7 +145,7 @@ export const CheckList = styled.div`
 `
 
 export const CheckButton = styled.button`
-    height: 50px;
+    min-height: 50px;
     min-width: 200px;
     padding: 5px 40px;
     font-size: 24px;
@@ -149,11 +153,16 @@ export const CheckButton = styled.button`
     text-align: center;
     border-radius: 16px;
     border: 1px solid grey;
-    margin-top: 20px;
 `
 
 export const CheckContainer = styled.div`
 
+`
+
+export const ButtonsConatainer = styled.div`
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
 `
 
 export const CheckTitle = styled.div`
@@ -176,4 +185,29 @@ export const List = styled.div`
       ${media.mobile}{
      grid-template-columns: repeat(2, 1fr);
     }
+`
+
+export const Flex = styled.div`
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: center;
+`
+
+export const Row = styled.div`
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+`
+export const ListRevalue = styled.div`
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;   
+`
+
+export const Input = styled.input`
+    border-radius: 16px;
+    border: 1px solid grey;
+    padding: 0 10px;
 `

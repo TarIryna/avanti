@@ -124,37 +124,3 @@ if (!userId) {
     return new Response("Failed to create a new order", { status: 500 });
   }
 };
-
-
-
-// ======================
-// PATCH /api/order/new
-// ======================
-// export const PATCH = async (request) => {
-//   const { date, status, id, delivery } = await request.json();
-//   const isDelivery =
-//     delivery?.cityDescription?.length > 0 &&
-//     delivery?.addressDescription?.length > 0;
-
-//   try {
-//     await connectToDB();
-
-//     const existingOrder = await Order.findById(id);
-//     if (!existingOrder) {
-//       return new Response("Order not found", { status: 404 });
-//     }
-
-//     existingOrder.date = date;
-//     existingOrder.status = status;
-//     if (isDelivery) {
-//       existingOrder.delivery = delivery;
-//     }
-
-//     await existingOrder.save();
-
-//     return new Response("Successfully updated the order", { status: 200 });
-//   } catch (error) {
-//     console.error("PATCH /api/order/new error:", error);
-//     return new Response("Error Updating Order", { status: 500 });
-//   }
-// };

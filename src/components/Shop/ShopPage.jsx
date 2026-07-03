@@ -27,6 +27,9 @@ const ShopPage = () => {
                  <S.MenuShopButton onClick={() => router.push(`/shop/${i.id}`)}>{i.name}</S.MenuShopButton>
                 ))}
                  <S.MenuShopButton onClick={() => router.push(`/shop/orders`)}>Внести поточні замовлення</S.MenuShopButton>
+                 <S.MenuShopButton onClick={() => router.push(`/shop/new`)}>Новий товар</S.MenuShopButton>
+                 <S.MenuShopButton onClick={() => router.push(`/shop/photo`)}>ФОТО</S.MenuShopButton>
+                 <S.MenuShopButton onClick={() => router.push(`/shop/revalue`)}>ПЕРЕОЦІНКА</S.MenuShopButton>
         </S.MenuList>
         
       {/* ) : ( */}

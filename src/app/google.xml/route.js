@@ -1,4 +1,4 @@
-import { getStyle, getDescription, getVendor, getName,getGoogleGender, escapeXML, getColor, getMaterialTop } from "@/data/getData";
+import { getStyle, getDescription, getVendor, getName,getGoogleGender, escapeXML, getMaterialTop, getColorById } from "@/data/getData";
 import Product from "@/models/product";
 import { connectToDB } from "@/utils/database";
 import { NextResponse } from "next/server";
@@ -60,7 +60,7 @@ ${products
 
         <g:product_type>${escapeXML(getStyle(p.style))}</g:product_type>
 
-        <g:color>${escapeXML(getColor(p.color))}</g:color>
+        <g:color>${escapeXML(getColorById(p.color))}</g:color>
 
         <g:size>${escapeXML(s.size)}</g:size>
 

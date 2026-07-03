@@ -62,6 +62,7 @@ export const menuData = {
         view: "summer-heels",
       },
       Санділії: { gender: "women", season: "summer", view: "sandals" },
+      Мюлі: { gender: "women", season: "summer", view: "mules" },
       "Шльопанці на низькому": {
         gender: "women",
         season: "summer",
@@ -114,8 +115,9 @@ export const menuData = {
   },
   Чоловіки: {
     "Зимове взуття": {
-      "Черевики класичні": { gender: "men", season: "winter", view: "classic" },
-      "Черевики спортивні": { gender: "men", season: "winter", view: "boots" },
+      "Черевики класичні": { gender: "men", season: "winter", view: "boots-classic" },
+      "Черевики спортивні": { gender: "men", season: "winter", view: "boots-sneakers" },
+      "Черевики комфорт": { gender: "men", season: "winter", view: "boots-comfort" },
       Угги: { gender: "men", season: "winter", view: "uggs" },
     },
     "Літнє взуття": {
@@ -127,7 +129,7 @@ export const menuData = {
       "Лофери, мокасини": {
         gender: "men",
         season: "autumn",
-        view: "casual",
+        view: "lofers",
       },
        "Сліпони": {
         gender: "men",
@@ -336,27 +338,27 @@ export const materialList = [
 export const colorsList = [
   {
     name: "білий",
-    query: "білий",
+    query: 2,
     filterName: "білий",
   },
   {
     name: "чорний",
-    query: "чорний",
+    query: 41,
     filterName: "чорний",
   },
   {
     name: "бежевий",
-    query: "бежевий",
+    query: 1,
     filterName: "бежевий",
   },
   {
     name: "коричневий",
-    query: "коричневий",
+    query: 16,
     filterName: "коричневий",
   },
     {
     name: "сірий",
-    query: "сірий",
+    query: 29,
     filterName: "сірий",
   },
 ];

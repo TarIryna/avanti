@@ -27,7 +27,7 @@ export const Select = styled.select`
   width: 100%;
   height: inherit;
   border: 0.8px solid grey;
-  border-radius: 12px;
+  border-radius: 16px;
   background: white;
   padding: 0 10px 0;
 `;

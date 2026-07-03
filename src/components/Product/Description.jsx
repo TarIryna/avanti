@@ -1,5 +1,5 @@
 import * as S from "./styles";
-import { getMaterialInside, getMaterialTop } from "@/data/getData";
+import { getColorById, getMaterialInside, getMaterialTop } from "@/data/getData";
 const Description = ({ data }) => {
   return (
     <S.Description>
@@ -20,7 +20,7 @@ const Description = ({ data }) => {
       </p>
       <p>
         <S.DescriptionTitle>Колір: </S.DescriptionTitle>
-        <S.DescriptionValue>{data.color}</S.DescriptionValue>
+        <S.DescriptionValue>{getColorById(data.color, "ukr")}</S.DescriptionValue>
       </p>
     </S.Description>
   );
