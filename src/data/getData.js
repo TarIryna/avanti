@@ -56,11 +56,11 @@ export const getColorById = (id, language = "ru") => {
  return language === "ru" ? data?.name_rozetka : data?.ukr
 }
 
-export const getColorSimple = (ukr, language = "ru") => {
-  if (!ukr){
+export const getColorSimple = (id, language = "ru") => {
+  if (!id){
     return ""
   }
-  const data = colors.find(item => item.ukr === ukr)
+  const data = colors.find(item => item.id === id)
   return language === "ru" ? data?.name_prom : data?.ukr
 }
 
@@ -150,10 +150,10 @@ export const getShortName = (id, language) => {
 
 
 export const getName = (product, size, language = "ru", isCode = false) => {
-  return `${getShortName(product.rozetka_id, language)} ${getVendor(product.vendor)} ${product.model} ${isCode ? product.code : ""} ${getColorSimple(product.color, language)} ${size} ${getSizeLength(size, product.size_type)}`
+  return `${getShortName(product.rozetka_id, language) ?? ""} ${getVendor(product.vendor) ?? ""} ${product.model ?? ""} ${isCode ? product.code : ""} ${getColorSimple(product.color, language) ?? ""} ${size} ${getSizeLength(size, product.size_type) ?? ""}`
 }
 
 
 export const getNameTotal = (product, language = "ua") => {
-   return `${getShortName(Number(product.rozetka_id), language)} ${getMaterial(product.material_top)} ${product.code} ${getColorNameById(product.color, language)}`
+   return `${getShortName(Number(product.rozetka_id), language) ?? ""} ${getMaterial(product.material_top) ?? ""} ${product.code ?? ""} ${getColorNameById(product.color, language) ?? ""}`
 }
