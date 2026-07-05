@@ -2,7 +2,7 @@ import Product from "@/models/product";
 import { connectToDB } from "@/utils/database";
 import { getSortParam } from "@/helpers/getSortParam";
 import { getSeasonPriorityByDate } from "@/helpers/getSortParam";
-import { getGender, getTypeId } from "@/data/getData";
+import { getGender, getSeasonQuery, getTypeId } from "@/data/getData";
 
 export const dynamic = "force-dynamic";
 
@@ -34,7 +34,7 @@ filterParams.type = getTypeId(type);
 // Фильтры по сезону, виду, цвету, материалу
 if (season && season !== "null") {
   filterParams.season = {
-    $in: season.split(",")
+    $in: getSeasonQuery(season)
   };
 }
 if (view && view !== "null") filterParams.view = view;
