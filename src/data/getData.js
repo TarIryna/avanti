@@ -35,6 +35,11 @@ export const getSeason = (name) => {
   return data?.rozetka
 }
 
+export const getSeasonById = (id) => {
+  const data = seasonData.find(item => item.id === Number(id))
+  return data?.rozetka
+}
+
 export const getColor = (ukr, language = "ru") => {
   const data = colors.find(item => item.ukr === ukr)
   return language === "ru" ? data?.name_rozetka : data?.ukr

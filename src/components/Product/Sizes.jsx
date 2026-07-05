@@ -11,7 +11,6 @@ const Sizes = ({ sizes, item, isShop, onSelect, info, color='black', shop, isTex
   const itemId = item?._id ?? item?.id;
   const { addItem } = useCartStore();
 
-
   const isSelectedSize = () => {
     if (sizes.length === 1){
       setSize(sizes[0])

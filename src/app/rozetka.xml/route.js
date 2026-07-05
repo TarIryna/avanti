@@ -4,7 +4,6 @@ import { categories } from "@/data/categories";
 import { 
   getMaterialInside, 
   getMaterialTop, 
-  getSeason, 
   getDescription, 
   getStyle, 
   getVendor, 
@@ -13,6 +12,7 @@ import {
   getName,
   escapeXML,
   getColorById,
+  getSeasonById,
  } from "../../data/getData";
 import Product from "@/models/product";
 import { connectToDB } from "@/utils/database";
@@ -59,9 +59,6 @@ ${products
     }
     if (!Array.isArray(p.images) || p.images.length === 0) {
       return [];
-    }
-    if (p.code === '241301'){
-      console.log('sizes', p.sizes)
     }
     return p.sizes?.map((s) => {
       const available = (s.q ?? 0) > 0;
@@ -112,7 +109,7 @@ const mainImage = Array.isArray(p.images) ? p.images[0] : p.small_image;
         <param name="Страна-производитель товара">${getCountry(p.country)}</param>
         <param name="Материал верха">${getMaterialTop(p.material_top) ?? ""}</param>
         <param name="Материал подкладки">${getMaterialInside(p.material_inside) ?? ""}</param>
-        <param name="Сезон">${getSeason(p.season)}</param>
+        <param name="Сезон">${getSeasonById(p.season)}</param>
         <param name="Стиль обуви">${getStyle(p.style)}</param>
         <param name="Цвет">${getColorById(p.color)}</param>
 
