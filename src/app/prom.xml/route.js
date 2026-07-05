@@ -4,7 +4,7 @@ import { categories } from "@/data/categories";
 import { 
   getMaterialInside, 
   getMaterialTop, 
-  getSeason, 
+  getSeasonById, 
   getDescription, 
   getStyle, 
   getVendor, 
@@ -21,12 +21,12 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
   await connectToDB();
-  const season = "summer,autumn"
+  const season = [2, 14, 16, 17]
  const products = await Product.find({
    rozetka_id: { $exists: true, $ne: null },
    type: 1,
    year: { $gt: 36 },
-   season:  { $in: season.split(",") }
+   season:  { $in: season }
  }).limit(1000).lean()
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
@@ -109,7 +109,7 @@ const mainImage = Array.isArray(p.images) ? p.images[0] : p.small_image;
         <param name="Страна-производитель товара">${getCountry(p.country)}</param>
         <param name="Материал верха">${getMaterialTop(p.material_top) ?? ""}</param>
         <param name="Материал подкладки">${getMaterialInside(p.material_inside) ?? ""}</param>
-        <param name="Сезон">${getSeason(p.season)}</param>
+        <param name="Сезон">${getSeasonById(p.season)}</param>
         <param name="Стиль обуви">${getStyle(p.style)}</param>
         <param name="Цвет">${getColorById(p.color)}</param>
 

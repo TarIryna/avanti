@@ -16,8 +16,7 @@ const ProductSchema = new Schema(
     },
     view: String,
     season: {
-      type: String,
-      required: [true, "season is required"],
+      type: Number
     },
     quantity: Number,
     price: {
