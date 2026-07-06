@@ -18,20 +18,20 @@ export const getSeasonPriorityByDate = () => {
   const month = new Date().getMonth() + 1;
 
   if ([11, 12, 1].includes(month)) {
-    return ["winter", "demi", "autumn"];
+    return [1, 3, 14];
   }
 
   if ([2, 10].includes(month)) {
-    return ["demi",  "winter", "autumn"];
+    return [3,  1, 14];
   }
 
   if ([5, 6, 7 ].includes(month)) {
-    return ["summer", "autumn"];
+    return [2, 16, 17, 14, 18];
   }
 
    if ([3, 4 ].includes(month)) {
-    return ["autumn", "summer" ];
+    return [14, 16, 17, 2 ];
   }
 
-  return ["autumn", "winter"];
+  return [14, 16, 17, 18, 1];
 };
