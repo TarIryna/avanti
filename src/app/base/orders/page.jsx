@@ -6,8 +6,8 @@ const OrdersPage = () => {
     return (
           <section className="page">
             <S.ButtonsList>
-                <Link href="/shop/orders/decrease">Списати розміри</Link>
-                <Link href="/shop/orders/increase">Додати розміри</Link>
+                <Link href="/base/orders/decrease">Списати розміри</Link>
+                <Link href="/base/orders/increase">Додати розміри</Link>
             </S.ButtonsList>
         </section>
     )

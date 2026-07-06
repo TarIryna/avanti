@@ -1,7 +1,7 @@
 export const seasonData = [
  {
    "id": 1,
-   "value": "winter",
+   "value": 1,
    "name": "Зима",
    "ukr": "Зима",
    "eng": "winter",
@@ -10,7 +10,7 @@ export const seasonData = [
  },
  {
    "id": 2,
-   "value": "summer",
+   "value": 2,
    "name": "Лето",
    "ukr": "Літо",
    "eng": "summer",
@@ -19,7 +19,7 @@ export const seasonData = [
  },
  {
    "id": 3,
-   "value": "demi",
+   "value": 3,
    "name": "Демисезон",
    "ukr": "Демісезон",
    "eng": "demi",
@@ -28,7 +28,7 @@ export const seasonData = [
  },
  {
    "id": 11,
-   "value": "beach",
+   "value": 11,
    "name": "Пляж",
    "ukr": "Пляж",
    "eng": "beach",
@@ -37,7 +37,7 @@ export const seasonData = [
  },
  {
    "id": 12,
-   "value": "flats",
+   "value": 12,
    "name": "Тапочки",
    "ukr": "Тапочки",
    "eng": "flats",
@@ -46,7 +46,7 @@ export const seasonData = [
  },
  {
    "id": 13,
-   "value": "bags",
+   "value": 13,
    "name": "Сумки",
    "ukr": "Сумки",
    "eng": "bags",
@@ -55,7 +55,7 @@ export const seasonData = [
  },
  {
    "id": 14,
-   "value": "autumn",
+   "value": 14,
    "name": "Осень",
    "ukr": "Осінь-Весна",
    "eng": "autumn",
@@ -64,7 +64,7 @@ export const seasonData = [
  },
  {
    "id": 15,
-   "value": "accessories",
+   "value": 15,
    "name": "Мелочь",
    "ukr": "Аксесуари",
    "eng": "accessories",
@@ -73,7 +73,7 @@ export const seasonData = [
  },
  {
    "id": 16,
-   "value": "textile",
+   "value": 16,
    "name": "Текстиль",
    "ukr": "Текстиль",
    "eng": "autumn",
@@ -82,7 +82,7 @@ export const seasonData = [
  },
  {
    "id": 17,
-   "value": "spring",
+   "value": 17,
    "name": "Весна",
    "ukr": "Перфорація",
    "eng": "autumn",
@@ -91,7 +91,7 @@ export const seasonData = [
  },
  {
    "id": 18,
-   "value": "autumn",
+   "value": 18,
    "name": "Туфли классика",
    "ukr": "Осінь-Весна",
    "eng": "autumn",

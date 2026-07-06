@@ -10,7 +10,7 @@ import { heels } from "./heels"
 import { categories } from "./categories"
 import { years } from "./years"
 import { types } from "./types"
-import { materialData } from "./material"
+import { facebookCategories } from "./facebook"
 
 export const escapeXML = (str = "") =>
   String(str)
@@ -156,4 +156,9 @@ export const getName = (product, size, language = "ru", isCode = false) => {
 
 export const getNameTotal = (product, language = "ua") => {
    return `${getShortName(Number(product.rozetka_id), language) ?? ""} ${getMaterial(product.material_top) ?? ""} ${product.code ?? ""} ${getColorNameById(product.color, language) ?? ""}`
+}
+
+export const getFacebook = (id) => {
+  const data = facebookCategories.find(i => i.id === Number(id));
+  return data?.name
 }

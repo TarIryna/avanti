@@ -15,7 +15,6 @@ export const POST = async (request) => {
       gender, 
       material, 
       season, 
-      size_type, 
       type, 
       vendor, 
       view, 
@@ -46,7 +45,6 @@ export const POST = async (request) => {
     }
 
     if (type ?? type !== "null") filterParams.type = Number(type);
-    if (size_type && size_type !== "null") filterParams.size_type = Number(size_type);
     if (view && view !== "null") filterParams.view = view;
     if (material && material !== "null") filterParams.material = Number(material);
     

@@ -21,8 +21,6 @@ export const POST = async (request) => {
 
     await Label.create({
         product: item,
-        firstPrice: item.price2 ?? item.price,
-        newPrice,
     });
 
     const product = await Product.findById(item._id);

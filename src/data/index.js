@@ -15,3 +15,4 @@ export * from './vendors';
 export * from './years';
 export * from './views';
 export * from './facebook';
+export * from './emails';

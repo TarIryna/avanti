@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { fetchProductsByParams } from "@/helpers/useFetchProducts";
+import { getFacebook } from "@/data";
 
 export async function GET() {
   const queryString = new URLSearchParams({
@@ -34,7 +34,7 @@ ${data?.products?.map(
   <g:age_group>${p.gender === 'boys' || p.gender === 'girls'? 'kids' : 'adult'}</g:age_group>
   <g:condition>new</g:condition>
   <g:brand>Avanti</g:brand>
-  <g:google_product_category><![CDATA[${ p.facebook || "Clothing & Accessories > Shoes & Footwear > Shoes"}]]></g:google_product_category>
+  <g:google_product_category><![CDATA[${ getFacebook(p.facebook) || "Clothing & Accessories > Shoes & Footwear > Shoes"}]]></g:google_product_category>
 </item>
 `
   )

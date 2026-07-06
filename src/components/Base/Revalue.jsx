@@ -1,16 +1,28 @@
 "use client";
 import { useEffect, useState } from 'react';
-import * as S from './styles'
+import * as S from '../Shop/styles'
 import { FormProvider, useForm, Controller } from 'react-hook-form';
 import { Input, Select } from '../ui';
 import { colors, years, seasonData, types, genders, vendors, views, sizesLengths, materialData } from '@/data';
 import RevalueCard from './RevalueCard/RevalueCard';
+import toast from 'react-hot-toast';
+import { registerDynamicModal } from '@/helpers/useDynamicModal';
+import { MODALS } from '@/constants/constants';
+import { useModal } from '@ebay/nice-modal-react';
+import IconDelete from "@/assets/icons/delete.svg";
+import Image from 'next/image';
+
+registerDynamicModal(
+  MODALS.LABELS_MODAL,
+  import("@/components/modals/LabelsModal/LabelsModal")
+);
 
 const RevaluePage = () => {
    const [list, setList] = useState([])
    const [percent, setPercent] = useState("")
    const [price, setPrice] = useState("")
    const [filter, setFilter] = useState(null)
+   const {show} = useModal(MODALS.LABELS_MODAL)
 
      const methods = useForm({
       defaultValues: {
@@ -23,7 +35,6 @@ const RevaluePage = () => {
          country: [],     // для isMulti
          material: "",
          view: "",
-         size_type: ""
       },
    });
 
@@ -68,7 +79,7 @@ const RevaluePage = () => {
     }
   }, [price])
 
- const onPercent = async() => {
+ const onRevaluate = async() => {
   if (!filter && (!percent || !price)){
     return
   }
@@ -78,10 +89,26 @@ const RevaluePage = () => {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(filter) 
+        body: JSON.stringify({filter, percent, price}) 
       });
      const result = await res.json();
-     console.log(result)
+     if (result.success){
+      toast.success(`Успішно переоцінено ${result.processedCount ? `${result.processedCount} пар` : ""}!`)
+     }
+  } catch (e) {
+    console.log(e)
+  }
+ }
+
+ const deleteLabels = async () => {
+    try {
+    const res = await fetch('/api/shop/labels', { 
+        method: 'DELETE',
+      });
+     const result = await res.json();
+     if (result.success){
+      toast.success(`Успішно видалені цінники!`)
+     }
   } catch (e) {
     console.log(e)
   }
@@ -144,9 +171,10 @@ const RevaluePage = () => {
                         />
                       )}
                     />
-    
-            
-                    <Controller
+
+                    </S.Row>
+                    <S.Row>
+                        <Controller
                       control={control}
                       name="gender"
                       render={({ field }) => (
@@ -162,10 +190,7 @@ const RevaluePage = () => {
                         />
                       )}
                     />
-          
-                  
-                    </S.Row>
-                    <S.Row>
+
                       <Controller
                         control={control}
                         name="vendor"
@@ -199,8 +224,10 @@ const RevaluePage = () => {
                         />
                       )}
                     />
-          
-                     <Controller
+                      
+          </S.Row>
+          <S.Row>
+                       <Controller
                       control={control}
                       name="country"
                       render={({ field }) => (
@@ -233,9 +260,6 @@ const RevaluePage = () => {
                         />
                       )}
                     />
-                      
-          </S.Row>
-          <S.Row>
 
             <Controller
                       control={control}
@@ -251,24 +275,7 @@ const RevaluePage = () => {
                           tabIndex={15}
                         />
                       )}
-                    />
-                
-                    <Controller
-                      control={control}
-                      name="size_type"
-                      render={({ field }) => (
-                        <Select 
-                          options={sizesLengths} 
-                          label="Розміровка"
-                          placeholder="Пошук із списку..."
-                          isInput={true}
-                          value={field.value} 
-                          onChange={field.onChange}
-                          tabIndex={19}
-                        />
-                      )}
-                    />
-          
+                    />        
           
                 </S.Row>
                  <S.CheckButton type="submit">
@@ -287,7 +294,7 @@ const RevaluePage = () => {
               value={percent}
               onChange={(e) => setPercent(e.target.value)}
               />
-            <S.CheckButton>Уцінка на %</S.CheckButton>
+            <S.CheckButton onClick={onRevaluate}>Уцінка на %</S.CheckButton>
            <S.Input     
               type="number"
               placeholder="Нова ціна"
@@ -295,7 +302,16 @@ const RevaluePage = () => {
               value={price}
               onChange={(e) => setPrice(e.target.value)}
               />
-            <S.CheckButton>Уцінка фіксовану ціну</S.CheckButton>
+            <S.CheckButton onClick={() => show()}>Відкрити цінники</S.CheckButton>
+            <S.CheckButton onClick={deleteLabels}>     
+              <Image
+                className="pointer"
+                src={IconDelete.src}
+                width={24}
+                height={24}
+                alt="delete"
+              />
+              Видалити цінники</S.CheckButton>
           </S.ButtonsConatainer>
       </section>
     )

@@ -36,8 +36,6 @@ export const POST = async (request) => {
        const operationId = `op_${Date.now()}`;
        const total = newSizes.reduce((sum, el) => sum + (el.q || 0), 0);
 
-      console.log(store, newSizes, total)
-
        operations.push({
           clientPhone: null,
           product: product?._id,

@@ -3,7 +3,7 @@ import { model, models, Schema } from "mongoose";
 const ProductSchema = new Schema(
   {
     code: {
-      type: String,
+      type: Number,
       required: [true, "code is required"],
       unique: true,
     },
@@ -11,7 +11,7 @@ const ProductSchema = new Schema(
       type: String,
     },
     gender: {
-      type: String,
+      type: Number,
       required: [true, "gender is required"],
     },
     view: String,
@@ -38,7 +38,7 @@ const ProductSchema = new Schema(
     vendor: Number,
     model: String,
     size_type: Number,
-    facebook: String,
+    facebook: Number,
     style: Number,
     country: Number,
     rozetka_id: Number,
@@ -46,7 +46,17 @@ const ProductSchema = new Schema(
     images: [String],
     year: Number,
     heel: Number,
-    total: Number,
+    totalCount: Number,
+    total: {
+      type: Map,
+      of: [
+        {
+          shop: Number,
+          q: Number,
+        },
+      ],
+      default: {},
+    },
     barcodes: {
       type: [String],
     }, 

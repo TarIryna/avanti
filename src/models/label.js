@@ -7,12 +7,6 @@ const LabelSchema = new Schema(
       ref: "Product",
       required: [true, "Product is required!"],
         },
-    newPrice: {
-        type: Number,
-    },
-    firstPrice: {
-        type: Number,
-    }
   },
   {
     timestamps: true, // ✅ это нужно ставить здесь, во втором аргументе

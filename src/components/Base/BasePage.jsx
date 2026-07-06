@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { useUserSession } from "@/fetchActions/user/useUser";
 import { shopEmails } from "@/data";
-import { shopsData } from "./data";
 import * as S from "./styles";
 import { useRouter } from "next/navigation";
 
@@ -21,16 +20,13 @@ const ShopPage = () => {
   return (
      <section className="container page">
       {/* {isAdmin ? ( */}
-        <S.Title>МАГАЗИН ОНЛАЙН</S.Title>
+        <S.Title>ОПЕРАЦІЇ З ТОВАРАМИ</S.Title>
         <S.MenuList>
-          {shopsData.map((i) => (
-                 <S.MenuShopButton onClick={() => router.push(`/shop/${i.id}`)}>{i.name}</S.MenuShopButton>
-                ))}
-                 <S.MenuShopButton onClick={() => router.push(`/shop/orders`)}>Внести поточні замовлення</S.MenuShopButton>
+                 <S.MenuShopButton onClick={() => router.push(`/base/orders`)}>Внести поточні замовлення</S.MenuShopButton>
                  <S.MenuShopButton onClick={() => router.push(`/shop/new`)}>Новий товар</S.MenuShopButton>
                  <S.MenuShopButton onClick={() => router.push(`/shop/photo`)}>ФОТО</S.MenuShopButton>
-                 <S.MenuShopButton onClick={() => router.push(`/shop/revalue`)}>ПЕРЕОЦІНКА</S.MenuShopButton>
-                 <S.MenuShopButton onClick={() => router.push(`/shop/catalog`)}>КАТАЛОГИ</S.MenuShopButton>
+                 <S.MenuShopButton onClick={() => router.push(`/base/revalue`)}>ПЕРЕОЦІНКА</S.MenuShopButton>
+                 <S.MenuShopButton onClick={() => router.push(`/base/catalog`)}>КАТАЛОГИ</S.MenuShopButton>
         </S.MenuList>
         
       {/* ) : ( */}

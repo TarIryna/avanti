@@ -153,6 +153,8 @@ export const CheckButton = styled.button`
     text-align: center;
     border-radius: 16px;
     border: 1px solid grey;
+    display: flex;
+    gap: 10px;
 `
 
 export const CheckContainer = styled.div`

@@ -2,24 +2,18 @@ import Price from "@/models/price";
 import Label from "@/models/label";
 import Product from "@/models/product";
 import { connectToDB } from "@/utils/database";
-// Импортируйте вашу функцию округления из правильного файла утилит
-// import { getRoundPrice } from "@/utils/helpers"; 
+import { getRoundPrice } from "@/helpers/getRoundPrice";
 
-// Локальный дубликат функции на случай, если импорт настроен иначе
-const getRoundPrice = (price, percent) => {
-   return Math.round(Number(price) / 10 * (100 - Number(percent)) / 100) * 10;
-};
 
 export const POST = async (request) => {
   try {
-    const { filter, persent, price } = await request.json();
+    const { filter, percent, price } = await request.json();
 
     const { 
       color, 
       gender, 
       material, 
       season, 
-      size_type, 
       type, 
       vendor, 
       view, 
@@ -52,7 +46,6 @@ export const POST = async (request) => {
     if (type !== undefined && type !== null && type !== "null" && type !== "") {
       filterParams.type = Number(type);
     }
-    if (size_type && size_type !== "null") filterParams.size_type = Number(size_type);
     if (view && view !== "null") filterParams.view = view;
     if (material && material !== "null") filterParams.material = Number(material);
     
@@ -93,8 +86,8 @@ export const POST = async (request) => {
       
       // 2. Рассчитываем новую цену (строго или по проценту, или фиксированную)
       let newPrice = null;
-      if (persent) {
-        newPrice = getRoundPrice(firstPrice, persent);
+      if (percent) {
+        newPrice = getRoundPrice(firstPrice, percent);
       } else if (price) {
         newPrice = Number(price);
       }
@@ -116,8 +109,6 @@ export const POST = async (request) => {
 
         labelsToInsert.push({
           product: item._id,
-          firstPrice: item.price2 ?? item.price,
-          newPrice: newPrice,
         });
 
         productBulkOperations.push({
