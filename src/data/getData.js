@@ -22,12 +22,12 @@ export const escapeXML = (str = "") =>
 
 export const getMaterialTop = (id, language = "ru") => {
   const data = materialsTop.find(item => item.id === id)
-  return language === "ru" ? data?.name : data?.ukr
+  return language === "ru" ? data?.ru : data?.ukr
 }
 
 export const getMaterialInside = (id, language = "ru") => {
   const data = materialInside.find(item => item.id === id)
-  return language === "ru" ? data?.name : data?.ukr 
+  return language === "ru" ? data?.ru : data?.ukr 
 }
 
 export const getSeason = (name) => {
