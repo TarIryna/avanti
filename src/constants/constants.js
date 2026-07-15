@@ -18,5 +18,6 @@ export const statuses = {
   new: 'новий',
   delivery: 'в дорозі',
   success: 'успішний',
-  canceled: 'скасований'
+  canceled: 'скасований',
+  returned: "повернутий"
 }

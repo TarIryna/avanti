@@ -1,10 +1,9 @@
 "use client";
-import { useEffect, useState } from 'react';
-import * as S from '../Shop/styles'
+import { useState } from 'react';
+import * as S from './styles'
 import { FormProvider, useForm, Controller } from 'react-hook-form';
-import { Input, Select } from '../ui';
-import { colors, years, seasonData, types, genders, vendors, views, sizesLengths, materialData } from '@/data';
-import RevalueCard from './RevalueCard/RevalueCard';
+import { Select } from '../ui';
+import { colors, years, seasonData, types, genders, vendors, views, materialData } from '@/data';
 import toast from 'react-hot-toast';
 import { registerDynamicModal } from '@/helpers/useDynamicModal';
 import { MODALS } from '@/constants/constants';
@@ -25,6 +24,7 @@ const CatalogPage = () => {
          type: 1,
          season: [],      // для isMulti
          year: "",
+         yearFrom: "",
          gender: [],      // для isMulti
          vendor: [],      // для isMulti
          color: [],       // для isMulti
@@ -121,6 +121,22 @@ const CatalogPage = () => {
                       )}
                     />
 
+                   <Controller
+                      control={control}
+                      name="yearFrom"
+                      render={({ field }) => (
+                        <Select 
+                          options={years} 
+                          label="Рік-сезон перыод з обраного і старше"
+                          placeholder="Пошук періоду з обраного і старше..."
+                          isInput={true}
+                          value={field.value} 
+                          onChange={field.onChange}
+                          tabIndex={4}
+                        />
+                      )}
+                    />
+
                     </S.Row>
                     <S.Row>
                         <Controller
@@ -168,7 +184,7 @@ const CatalogPage = () => {
                           isInput={true}
                           value={field.value} 
                           onChange={field.onChange}
-                          tabIndex={8}
+                          tabIndex={7}
                           isMulti
                         />
                       )}
@@ -187,7 +203,7 @@ const CatalogPage = () => {
                           isInput={true}
                           value={field.value} 
                           onChange={field.onChange}
-                          tabIndex={9}
+                          tabIndex={8}
                           isMulti
                         />
                       )}
@@ -205,7 +221,7 @@ const CatalogPage = () => {
                           isInput={true}
                           value={field.value} 
                           onChange={field.onChange}
-                          tabIndex={14}
+                          tabIndex={9}
                         />
                       )}
                     />
@@ -221,7 +237,7 @@ const CatalogPage = () => {
                           isInput={true}
                           value={field.value} 
                           onChange={field.onChange}
-                          tabIndex={15}
+                          tabIndex={10}
                         />
                       )}
                     />        
@@ -236,7 +252,7 @@ const CatalogPage = () => {
               {list && list.map(item => <CatalogCard item={item} />)}
           </S.ListRevalue>
           <S.ButtonsConatainer>
-            <S.CheckButton onClick={() => show({ items: list})}>Відкрити каталог</S.CheckButton>
+            <S.CheckButton onClick={() => list?.length > 0 ? show({ items: list}) : toast.error('Додайте вибірку товарів')}>Відкрити каталог</S.CheckButton>
           </S.ButtonsConatainer>
       </section>
     )

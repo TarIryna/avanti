@@ -54,8 +54,12 @@ export const GET = async (request) => {
             deliveryStatus: item.Status,
           };
 
-          if (item.Status === "Відправлення отримано") {
+          if (item.Status === "Відправлення отримано" && !item.LightReturnNumber) {
             updateData.status = "success";
+          }
+
+          if (!!item.LightReturnNumber) {
+            updateData.status = "returned";
           }
 
            if (item.Status === "Відмова від отримання") {

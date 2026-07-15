@@ -2,10 +2,11 @@ import * as S from './styles'
 import SizesChange from './SizesChange/SizesChange';
 import Image from "next/image";
 import Sizes from '@/components/Product/Sizes';
-import { getGenderName, getVendor } from '@/data/getData';
+import { getGenderName, getVendor, getColorNameById  } from '@/data/getData';
 import { salePrice } from '@/utils/salePrice';
 
 const SaleCard = ({client, product, addToCheck, shop, type}) => {
+    // const total = product?.total?.find(item => item.shop === Number(shop))?.q
     return (
         <S.SaleCardWrapper>
             <S.Flex>
@@ -16,10 +17,11 @@ const SaleCard = ({client, product, addToCheck, shop, type}) => {
                 <S.Text>{getGenderName(product.gender)}</S.Text>
                 <S.Text>{getVendor(product.vendor)}</S.Text>
                 <S.Text>{product.model}</S.Text>
-                <S.Text>{product.color}</S.Text>
+                <S.Text>{getColorNameById(product.color, "ukr")}</S.Text>
+                {/* <S.Text>{`Кількість ${total}`}</S.Text> */}
          </S.Info>
          </S.Flex>
-             <Sizes sizes={product.sizes_all["1"]} item={product} info isShop onSelect={addToCheck} shop="1"/>
+            <Sizes sizes={product.sizes_all["1"]} item={product} info isShop onSelect={addToCheck} shop="1"/>
             <Sizes sizes={product.sizes_all["2"]} item={product} info isShop onSelect={addToCheck} shop="2"/>
              <SizesChange sizes={product.sizes_all[shop]} shop={shop.toString()} item={product} addToCheck={addToCheck} type={type}/>  
 

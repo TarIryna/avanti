@@ -4,7 +4,8 @@ export const statusColors = {
     new: '#56d956',
     delivery: 'orange',
     success: 'lightblue',
-    canceled: "lightcoral"
+    canceled: "lightcoral",
+    returned: "lightcoral"
 }
 
 export const Wrapper = styled.div`

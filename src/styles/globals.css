@@ -313,3 +313,58 @@
 .MuiPagination-root {
   max-width: 100%;
 }
+
+@media print {
+  /* 1. Прячем абсолютно всё на сайте, кроме самой модалки */
+  body * {
+    visibility: hidden;
+    height: auto !important;
+    overflow: visible !important;
+  }
+  
+  /* 2. Показываем только контент внутри ReactModal */
+  .ReactModal__Overlay,
+  .ReactModal__Overlay *,
+  .my-modal-overlay,
+  .my-modal-content {
+    visibility: visible !important;
+  }
+
+  /* 3. КРИТИЧЕСКИЙ ШАГ: Сбрасываем фиксированное позиционирование модалки для принтера */
+  .ReactModal__Overlay,
+  .my-modal-overlay {
+    position: absolute !important; /* Меняем fixed на absolute, чтобы убрать привязку к экрану */
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: auto !important;     /* Разрешаем растягиваться на много страниц */
+    overflow: visible !important; /* Убираем внутренний скролл, отдавая его принтеру */
+    background: transparent !important; /* Убираем темный фон модалки при печати */
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .ReactModal__Content,
+  .my-modal-content {
+    position: relative !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 210mm !important;      /* Физическая ширина А4 */
+    height: auto !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* 4. Настройки самого печатного листа */
+  @page {
+    size: A4 portrait; /* книжная ориентация */
+    margin: 10mm;      /* отступы по краям страниц в PDF */
+  }
+
+  /* Скрываем кнопки печати или закрытия, чтобы они не попали в PDF */
+  .no-print, button {
+    display: none !important;
+  }
+}

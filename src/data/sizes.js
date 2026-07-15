@@ -405,7 +405,55 @@ export const sizesGroup = [
   {size: "41", q: 1},
   {size: "42", q: 1},
 ], quantity: 8},
+{id: 46, name: "37-41-8", default: [
+  {size: "37", q: 1},
+  {size: "38", q: 2},
+  {size: "39", q: 2},
+  {size: "40", q: 2},
+  {size: "41", q: 1},
+], quantity: 8},
+{id: 47, name: "34-37-6", default: [
+  {size: "34", q: 2},
+  {size: "35", q: 2},
+  {size: "36", q: 1},
+  {size: "37", q: 1},
+], quantity: 6},
+{id: 48, name: "35-39-6", default: [
+  {size: "35", q: 1},
+  {size: "36", q: 1},
+  {size: "37", q: 1},
+  {size: "38", q: 2},
+  {size: "39", q: 1},
+], quantity: 6},
+{id: 49, name: "36-41-6", default: [
+  {size: "36", q: 1},
+  {size: "37", q: 1},
+  {size: "38", q: 1},
+  {size: "39", q: 1},
+  {size: "40", q: 1},
+  {size: "41", q: 1},
+], quantity: 6},
+{id: 50, name: "35-40-8", default: [
+  {size: "35", q: 1},
+  {size: "36", q: 1},
+  {size: "37", q: 2},
+  {size: "38", q: 2},
+  {size: "39", q: 1},
+  {size: "40", q: 1},
+], quantity: 8},
+{id: 51, name: "33-40-8", default: [
+  {size: "33", q: 1},
+  {size: "34", q: 1},
+  {size: "35", q: 1},
+  {size: "36", q: 1},
+  {size: "37", q: 1},
+  {size: "38", q: 1},
+  {size: "39", q: 1},
+  {size: "40", q: 1},
+], quantity: 8},
 ]
+
+
 
 export const getSizesList = (item) => {
   return sizesGroup.find(i => i.id === item.sizesGroup)?.default

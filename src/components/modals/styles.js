@@ -4,7 +4,6 @@ import { media } from "@/styles/mediaBrakepoints";
 export const Wrapper = styled.div`
   display: flex;
   border-radius: 16px;
-  overflow: hidden;
   ${media.mobile} {
     border-radius: 0;
   }

@@ -1,5 +1,4 @@
 import { media } from "@/styles/mediaBrakepoints";
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import Image from "next/image";
 
@@ -51,8 +50,10 @@ export const MenuShopButton = styled.div`
 export const Form = styled.form`
     width: 100%;
     display: flex;
+    flex-direction: column;
     gap: 10px;
     padding: 20px 0;
+    width: 600px;
 `
 
 export const InfoContainer = styled.div`
@@ -88,10 +89,7 @@ export const PriceContainer = styled.div`
 export const Price  =styled.div`
     font-size: 30px;
     font-weight: 600;
-    ${({red}) => ( red && css`
-        color: red;
-        text-decoration: line-through;
-        `)}
+    ${({red}) => ( red && 'color: red; text-decoration: line-through;')}
 `
 
 export const SalePrice = styled.div`
@@ -212,4 +210,5 @@ export const Input = styled.input`
     border-radius: 16px;
     border: 1px solid grey;
     padding: 0 10px;
+    height: 40px;
 `

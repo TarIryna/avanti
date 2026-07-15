@@ -19,6 +19,7 @@ export const POST = async (request) => {
       vendor, 
       view, 
       year, 
+      yearFrom,
       limit = 2000, 
       page = 1 
     } = body;
@@ -48,12 +49,13 @@ export const POST = async (request) => {
     if (view && view !== "null") filterParams.view = view;
     if (material && material !== "null") filterParams.material = Number(material);
     
-    // Исправлено: заменена несуществующая переменная yearFrom на приходящий year
     if (year && year !== "null") {
-      filterParams.year = { $lte: Number(year) };
+      filterParams.year =  Number(year);
     }
 
-    console.log('filter', filterParams)
+    if (yearFrom && yearFrom !== "null") {
+      filterParams.year = { $lte: Number(yearFrom) };
+    }
 
     const pipeline = [
       { $match: filterParams },
@@ -61,7 +63,7 @@ export const POST = async (request) => {
         $facet: {
           data: [
             // Сортировка по vendor (1 - от А до Я). Заменили несуществующий finalSort
-            { $sort: { vendor: 1 } }, 
+            { $sort: { code: 1 } }, 
             { $skip: (Number(page) - 1) * Number(limit) },
             { $limit: Number(limit) },
           ],
