@@ -3,7 +3,12 @@ import { sizesGroup } from "@/data"
 export const getSizesObject = (item) => {
     const sizesType = sizesGroup.find(i => i.id === item.sizesGroup)?.default
     const allSizes = item.sizes_all
-    sizesType.map(i => i.q = 0)
+    if (!sizesType){
+      return allSizes
+    }
+   if (Array.isArray(sizesType)) {
+    sizesType.map(i => i.q = 0);
+  }
     return  Object.fromEntries(
       Object.entries(allSizes).map(([key, currentSizes]) => {
       

@@ -31,7 +31,7 @@ const Card = ({ item }) => {
             />
             </S.ImageWrapper>
           <div> 
-            <Sizes sizes={sizes} item={item} />
+            <Sizes sizes={sizes} item={item} isText/>
           </div>
           {isSale ? (
             <S.PriceWrapper onClick={() => handleClick(item.code)}>

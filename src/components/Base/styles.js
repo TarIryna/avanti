@@ -43,11 +43,14 @@ export const Form = styled.form`
     padding: 20px 0;
     width: 600px;
 
-    ${media.tablet}{
+    ${media.desktopMd}{
      grid-template-columns: repeat(3, 1fr);
     }
-      ${media.mobile}{
+     ${media.tablet}{
      grid-template-columns: repeat(2, 1fr);
+    }
+      ${media.mobile}{
+     grid-template-columns: repeat(1, 1fr);
     }
 `
 
@@ -89,22 +92,14 @@ export const ButtonsConatainer = styled.div`
 
 export const ListRevalue = styled.div`
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 6px;   
 `
 
 
 //  SizesInfo
 
-export const SizesWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  position: relative;
-`;
-
 export const ProductSizes = styled.p`
-  font-size: 16px;
-  font-weight: 500;
   text-align: center;
 `;
 
@@ -124,11 +119,12 @@ export const SizesBlock = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  min-width: 40px;
   padding: 0 5px;
   text-align: center;
   transition: 0.1s linear;
   font-weight: 400;
+
+  min-width: ${({isSmall}) => (isSmall ? ' 16px' : ' 40px')};
 `;
 
 export const SizeContainer = styled.div`
@@ -155,27 +151,41 @@ export const SizesButton = styled.button`
 
 export const ShopSizesList = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 6px;
 `;
 
 export const ShopTitle = styled.div`
-  font-size: 16px;
-  font-weight: bold;
   color: #2d3748;
   margin-top: 2px;
-  min-width: 150px;
   text-align: left;
-  width: 165px;
+  width: ${({isSmall}) => (isSmall ? '11px' : '165px')};
 `;
 
 export const ShopGroupBlock = styled.div`
   display: flex;
   gap: 8px;
   border-bottom: 1px dashed #e2e8f0;
-  padding-bottom: 12px;
+  padding-bottom: 8px;
   &:last-child {
     border-bottom: none;
     padding-bottom: 0;
   }
+`;
+
+export const SizesWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  p, div {
+      ${({isSmall}) => ( isSmall ? `
+      font-size: 7px;
+      font-weight: 500;
+    `: 
+  `  font-size: 16px;
+     font-weight: 500;
+  `)}
+  }
+  
 `;

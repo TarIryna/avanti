@@ -2,7 +2,7 @@
 import { getSizesObject } from "@/helpers/sizesPrepare";
 import * as S from "./styles";
 
-const SizesInfo = ({ item }) => {
+const SizesInfo = ({ item, isSmall }) => {
   // Получаем объект с размерами по магазинам
   const sizes = getSizesObject(item)
 
@@ -10,14 +10,14 @@ const SizesInfo = ({ item }) => {
   // Проверка на наличие данных, чтобы избежать ошибок рендеринга
   if (!sizes || Object.keys(sizes).length === 0) {
     return (
-      <S.SizesWrapper>
+      <S.SizesWrapper isSmall={isSmall}>
         <S.ProductSizes>Розміри відсутні</S.ProductSizes>
       </S.SizesWrapper>
     );
   }
 
   return (
-    <S.SizesWrapper>
+    <S.SizesWrapper isSmall={isSmall}>
       <S.ProductSizes>Розміри в наявності:</S.ProductSizes>
 
       <S.SizesContainer>
@@ -30,7 +30,7 @@ const SizesInfo = ({ item }) => {
           return (
             <S.ShopGroupBlock key={`shop-${shop}`}>
               {/* Бейдж или заголовок с номером магазина */}
-              <S.ShopTitle>{shop === "1" ? "вул. Корзо, 10" : shop === "2" ? "вул.Заньковецької, 2" : "на складі"}</S.ShopTitle>
+              <S.ShopTitle isSmall={isSmall}>{!isSmall ? (shop === "1" ? "вул. Корзо, 10" : shop === "2" ? "вул.Заньковецької, 2" : "на складі") : `A${shop}`}</S.ShopTitle>
 
               <S.ShopSizesList>
                 {/* 2. Обходим массив размеров внутри конкретного магазина */}
@@ -42,7 +42,7 @@ const SizesInfo = ({ item }) => {
                       key={`${item.code}-${shop}-${el?.size}`}
                     >
                       {/* Кнопка с размером */}
-                      <S.SizesBlock>
+                      <S.SizesBlock isSmall={isSmall}>
                         {!isDisabled ? el?.size : ""}
                       </S.SizesBlock>
                     </S.SizeContainer>

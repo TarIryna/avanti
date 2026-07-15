@@ -3,6 +3,7 @@ import { useCartStore } from "../GeneralProvider/context/CartProvider";
 import * as S from "./styles";
 import { useEffect, useState } from "react";
 import { trackAddToCart } from "@/helpers/pixelTracker";
+import { getColorById } from "@/data";
 
 const Sizes = ({ sizes, item, isShop, onSelect, info, color='black', shop, isText }) => {
   const [size, setSize] = useState(null);
@@ -83,10 +84,9 @@ const Sizes = ({ sizes, item, isShop, onSelect, info, color='black', shop, isTex
                   isActive={el?.size === size?.size}
                   isDisabled={isDisabled}
                   onClick={() => !isDisabled && !info && setSize(el)}
-      
                   color={color}
                 >
-                  {el?.size}
+                  {item.type ===  3 ? getColorById(el?.size, 'ukr') : el?.size}
                 </S.SizesBlock>
                 {info && <S.SizesBlock color="grey">{el?.q}</S.SizesBlock>}
                 </S.SizeContainer>

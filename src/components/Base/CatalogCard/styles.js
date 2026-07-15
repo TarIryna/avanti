@@ -22,6 +22,7 @@ export const ImageWrapper = styled.div`
 
 export const Info = styled.div`
     font-size: 10px;
+    padding: 0 10px;
 `
 
 export const Text = styled.div`

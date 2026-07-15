@@ -1,3 +1,4 @@
+import { vendors } from "@/data";
 import Product from "@/models/product";
 import { connectToDB } from "@/utils/database";
 
@@ -31,6 +32,8 @@ export const POST = async (request) => {
     if (season && season !== "null" && season?.length > 0) {
       filterParams.season = Array.isArray(season) ? { $in: season } : { $in: season.split(",") };
     }
+
+    console.log('vendor', vendor)
 
     if (vendor && vendor !== "null" && vendor?.length > 0) {
       filterParams.vendor = Array.isArray(vendor) ? { $in: vendor } : vendor;

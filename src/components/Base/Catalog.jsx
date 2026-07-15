@@ -44,6 +44,7 @@ const CatalogPage = () => {
   } = methods;
 
   const onSubmit = async(data) => {
+    console.log(data)
    try {
       const res = await fetch('/api/products/list', { 
         method: 'POST', // Переключаем на POST
@@ -65,7 +66,7 @@ const CatalogPage = () => {
 
     return (
       <section className="container page">
-        <S.Title>ПЕРЕОЦІНКА</S.Title>
+        <S.Title>КАТАЛОГ</S.Title>
           <FormProvider {...methods}>
              <S.Form onSubmit={(e) => {
                   e.preventDefault(); // Блокируем стандартную отправку браузера при Enter
@@ -194,7 +195,7 @@ const CatalogPage = () => {
           <S.Row>
                        <Controller
                       control={control}
-                      name="country"
+                      name="vendor"
                       render={({ field }) => (
                         <Select 
                           options={vendors} 
