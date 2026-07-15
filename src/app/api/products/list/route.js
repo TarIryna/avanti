@@ -33,7 +33,6 @@ export const POST = async (request) => {
       filterParams.season = Array.isArray(season) ? { $in: season } : { $in: season.split(",") };
     }
 
-    console.log('vendor', vendor)
 
     if (vendor && vendor !== "null" && vendor?.length > 0) {
       filterParams.vendor = Array.isArray(vendor) ? { $in: vendor } : vendor;

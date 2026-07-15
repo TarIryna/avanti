@@ -3,7 +3,7 @@ import { useState } from 'react';
 import * as S from './styles'
 import { FormProvider, useForm, Controller } from 'react-hook-form';
 import { Select } from '../ui';
-import { colors, years, seasonData, types, genders, vendors, views, materialData } from '@/data';
+import { colors, years, seasonData, types, genders, vendors, views, materialData, countries } from '@/data';
 import toast from 'react-hot-toast';
 import { registerDynamicModal } from '@/helpers/useDynamicModal';
 import { MODALS } from '@/constants/constants';
@@ -195,10 +195,10 @@ const CatalogPage = () => {
           <S.Row>
                        <Controller
                       control={control}
-                      name="vendor"
+                      name="country"
                       render={({ field }) => (
                         <Select 
-                          options={vendors} 
+                          options={countries} 
                           label="Виробник"
                           placeholder="Пошук із списку..."
                           isInput={true}
