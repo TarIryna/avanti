@@ -1,4 +1,6 @@
+import { Message } from "./styles";
+
 const CartEmpty = () => {
-  return <div>Ваш кошик пустий, перейдіть на головну для вибору товару</div>;
+  return <Message>Ваш кошик пустий, перейдіть на головну для вибору товару</Message>;
 };
 export default CartEmpty;

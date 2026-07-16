@@ -5,7 +5,6 @@ import { useRemoveItemFromCart } from "./useRemoveItemFromCart";
 import { useCart } from "./useCart";
 import { toast } from "react-hot-toast";
 import { useChangeItemQauntityCart } from "./useChangeItemQuantityCart";
-import { set } from "react-hook-form";
 
 export const useCartManager = (initialUserId) => {
   const [userId, setUserId] = useState(initialUserId ?? null);
@@ -37,7 +36,7 @@ export const useCartManager = (initialUserId) => {
     setTimeout(() => {
           setIsSuccess(false)
           setReviewData(null)
-        }, 200);
+        }, 15000);
     }
   }, [isSuccess])
 

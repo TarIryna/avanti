@@ -2,6 +2,7 @@
 import Loading from "@/app/loading";
 import CartNew from "@/components/Cart/CartNew";
 import CartEmpty from "@/components/Cart/CartEmpty";
+import CartSuccess from "@/components/Cart/CartSuccess";
 import { PageContainer } from "@/components";
 import { useCartStore } from "../GeneralProvider/context/CartProvider";
 import GoogleReviewsOptIn from "../Google/GoogleReviewsOptIn";
@@ -17,7 +18,10 @@ const CartPage = () => {
         <Loading />
       ) : !!items?.length ? (
         <CartNew products={items} total={total}/>
-      ) : (
+      ) : isSuccess ? (
+          <CartSuccess/>
+      ) 
+      : (
         <CartEmpty />
       )}
       {isSuccess && reviewData && <GoogleReviewsOptIn data={reviewData}/>}

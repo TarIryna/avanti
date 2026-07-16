@@ -76,3 +76,7 @@ export const CartListProducts = styled.div`
 export const Text = styled.div`
   font-size: 14px;
 `
+
+export const Message = styled.div`
+  font-size: 18px;
+`
