@@ -30,14 +30,35 @@ const CatalogItem = ({ item }) => {
             <SizesInfo item={item}  />
         
           {isSale ? (
-            <S.PriceWrapper >
-              <S.LastPrice>{item.price2} грн.</S.LastPrice>
-              <S.SalePrice>{item.price} грн.</S.SalePrice>
-            </S.PriceWrapper>
+            <S.InfoContainer>
+              <S.PriceWrapper >
+                <S.LastPrice>{item.price2} грн.</S.LastPrice>
+                <S.SalePrice>{item.price} грн.</S.SalePrice>
+              </S.PriceWrapper>
+
+                         {item.material === 1 && <S.LabelWrapper>
+              <p>Матеріал верху - натуральна шкіра</p>
+              <div>
+              <Image src="/leather2.png" width="80" height="100" alt="leather"/>
+              </div>
+            </S.LabelWrapper>}
+            <S.Code>{item.code}</S.Code>
+            
+            </S.InfoContainer>
           ) : (
+            <S.InfoContainer>
             <S.PriceContainer>
               <span className="current-price">{item.price ?? 0} грн.</span>
             </S.PriceContainer>
+            {item.material === 1 && <S.LabelWrapper>
+              <p>Матеріал верху - натуральна шкіра</p>
+              <div>
+              <Image src="/leather2.png" width="80" height="100" alt="leather"/>
+              </div>
+            </S.LabelWrapper>}
+            <S.Code>{`код: ${item.code}`}</S.Code>
+
+            </S.InfoContainer>
           )}
         </S.CardWrapper>
       )}

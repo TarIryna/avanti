@@ -30,6 +30,37 @@ const operations = await Promise.all(
 
       if (product) {
         const sizesAll = product.get("sizes_all");
+        const sizes = product.get("sizes");
+
+        for (const itemSize of item.size) {
+          let sizeObj = sizes.find(
+            (s) => s.size === itemSize.size
+          );
+
+          // Добавление товара
+          if (type === "return" || type === "arrival") {
+            if (sizeObj) {
+              sizeObj.q += itemSize.q;
+            } else {
+              sizes.push({
+                size: itemSize.size,
+                q: itemSize.q,
+              })
+            }
+          }
+
+          // Списание товара
+          if (type === "sale" || type === "decrease" || type === "inside") {
+            if (sizeObj) {
+              sizeObj.q = Math.max(0, sizeObj.q - itemSize.q);
+            }
+            // если размера нет — ничего не делаем
+            // либо можно залогировать ошибку
+          }
+          
+        }
+
+     
 
         const shopKey = shop.toString();
 
@@ -66,11 +97,13 @@ const operations = await Promise.all(
           }
           
         }
+        sizes.sort((a, b) => Number(a.size) - Number(b.size));
         shopSizes.sort((a, b) => Number(a.size) - Number(b.size));
         product.markModified("sizes_all");
+        product.markModified("sizes");
         await product.save();
       }
-
+ 
       return {
           clientPhone: client?.phone || null,
           product: product?._id,

@@ -18,7 +18,12 @@ export const ImageWrapper = styled.div`
     object-position: center;
     object-fit: contain;
   }
+    p {
+    font-size: 12px;
+    }
 `;
+
+
 
 export const Info = styled.div`
     font-size: 10px;

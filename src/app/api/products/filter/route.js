@@ -2,7 +2,7 @@ import Product from "@/models/product";
 import { connectToDB } from "@/utils/database";
 import { getSortParam } from "@/helpers/getSortParam";
 import { getSeasonPriorityByDate } from "@/helpers/getSortParam";
-import { getGender, getSeasonQuery, getTypeId } from "@/data/getData";
+import { getGender, getSeasonQuery, getTypeId, getVendorId } from "@/data/getData";
 
 export const dynamic = "force-dynamic";
 
@@ -78,7 +78,7 @@ if (query) {
     const orConditions = [
       { name: { $regex: safeWord, $options: "i" } },
       { model: { $regex: safeWord, $options: "i" } },
-      { vendor: { $regex: safeWord, $options: "i" } }, // <-- Добавлено
+      {vendor: getVendorId(safeWord)}
     ];
 
     // если число → ищем по коду
