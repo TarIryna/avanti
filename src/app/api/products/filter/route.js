@@ -73,12 +73,14 @@ if (query) {
 
   const andConditions = words.map((word) => {
     const safeWord = word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    console.log(safeWord)
     
     // Добавляем vendor в условия поиска для каждого слова
     const orConditions = [
       { name: { $regex: safeWord, $options: "i" } },
       { model: { $regex: safeWord, $options: "i" } },
-      {vendor: getVendorId(safeWord)}
+      {vendor: getVendorId(safeWord)},
+      {code: Number(safeWord)}
     ];
 
     // если число → ищем по коду

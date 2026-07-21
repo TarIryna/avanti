@@ -114,7 +114,7 @@ export const getVendor = (id) => {
 
 export const getVendorId = (query) => {
   const data = vendors.find(item => item.name?.toLowerCase().includes(query?.toLowerCase()))
-  return data.id ?? null
+  return data?.id ?? null
 }
 
 export const getHeels = (id) => {

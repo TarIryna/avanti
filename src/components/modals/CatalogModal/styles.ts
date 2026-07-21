@@ -173,7 +173,7 @@ export const SalePrice = styled.div`
   text-align: center;
 
   @media print {
-    font-size: 50pt; /* Пропорционально крупный шрифт для формата А4 */
+    font-size: 46pt; /* Пропорционально крупный шрифт для формата А4 */
   }
 `;
 
@@ -184,7 +184,7 @@ export const LastPrice = styled.span`
   font-weight: 600;
 
   @media print {
-    font-size: 50pt;
+    font-size: 46pt;
   }
 `;
 
