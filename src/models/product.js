@@ -23,6 +23,8 @@ const ProductSchema = new Schema(
       type: Number,
     },
     price2: Number,
+    pop: Number,
+    res: Number,
     sizes: [
       {
         size: String,

@@ -1,5 +1,6 @@
 import Operation from "@/models/operation";
 import Product from "@/models/product";
+import Rate from "@/models/rate";
 import { connectToDB } from "@/utils/database";
 
 export const POST = async (request) => {
@@ -7,6 +8,8 @@ export const POST = async (request) => {
   const isSalePrice = type === "sale" || type === "return"
   try {
     await connectToDB();
+    const lastRate = await Rate.findOne().sort({ timestamp: -1 });
+    const rate = lastRate?.rate ?? 45;
     // общий id чека (связывает операции)
     const operationId = `op_${Date.now()}`;
 
@@ -56,8 +59,9 @@ const operations = await Promise.all(
             }
             // если размера нет — ничего не делаем
             // либо можно залогировать ошибку
+
           }
-          
+
         }
 
      
@@ -97,6 +101,16 @@ const operations = await Promise.all(
           }
           
         }
+
+      if (type === "sale" || type === "inside"){
+        product.pop = (product.pop || 0) + item.quantity ?? 1;
+        product.res = (product.res || 0) + Math.round(item.salePrice / rate)
+      }
+      if (type === "return"){
+        product.pop = (product.pop || 0) - item.quantity ?? 1;
+        product.res = (product.res || 0) - Math.round(item.salePrice / rate)
+      }
+
         sizes.sort((a, b) => Number(a.size) - Number(b.size));
         shopSizes.sort((a, b) => Number(a.size) - Number(b.size));
         product.markModified("sizes_all");
