@@ -20,9 +20,15 @@ const ImageWrapper = ({
 
   if (!src) return null;
 
-  const isBlockedHost = BLOCKED_HOSTS.some((host) =>
-    src.includes(host)
-  );
+  //   const isBlockedHost = BLOCKED_HOSTS.some((host) =>
+  //   src.includes(host)
+  // );
+
+  const isBlockedHost = BLOCKED_HOSTS.some((host) => {
+    return typeof src === 'string' ? src?.includes(host) : false
+  })
+   
+
 
   // если источник проблемный — сразу img
   if (isBlockedHost || useImg) {

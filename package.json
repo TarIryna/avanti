@@ -43,6 +43,7 @@
     "react-redux": "^9.1.0",
     "react-responsive": "^10.0.0",
     "resend": "^6.4.2",
+    "sortablejs": "^1.15.7",
     "spinner": "^0.3.4",
     "tailwindcss": "3.3.2"
   },

@@ -46,9 +46,6 @@ export async function POST(req) {
       secure: true,        // обязательно https
     });
 
-    console.log('Поле 1 (Оригинал):', originalUrl);
-    console.log('Поле 2 (Сжатая):', lowQualityUrl);
-
     await connectToDB();
     const product = await Product.findOne({
           barcodes: { $in: [code] }
@@ -56,7 +53,7 @@ export async function POST(req) {
 
     const allImages = Array.from(new Set([...product.images, originalUrl]));
     product.images = allImages;
-    if (lowQualityUrl){
+    if (lowQualityUrl && !product.small_image){
       product.small_image = lowQualityUrl; 
       product.markModified("small_image");
     }

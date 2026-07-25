@@ -3,7 +3,7 @@ import { model, models, Schema } from "mongoose";
 const ProductSchema = new Schema(
   {
     code: {
-      type: Number,
+      type: String,
       required: [true, "code is required"],
       unique: true,
     },
@@ -46,6 +46,7 @@ const ProductSchema = new Schema(
     rozetka_id: Number,
     description: String,
     images: [String],
+    video: String,
     year: Number,
     heel: Number,
     totalCount: Number,

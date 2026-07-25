@@ -5,7 +5,7 @@ import Sizes from "../../Product/Sizes";
 import SizesChange from "./SizesChange/SizesChange";
 import * as S from "./styles";
 
-const ShopCard = ({ item, setProduct, isList, info, shop, type, comment, staff, isOrder}) => {
+const ShopCard = ({ item, setProduct, isList, info, shop, type, comment, staff, isOrder, hideImage}) => {
   if (!item){
     return
   }
@@ -31,18 +31,16 @@ const ShopCard = ({ item, setProduct, isList, info, shop, type, comment, staff, 
   }
 
   return (
-    <>
-      {item && image && (
-          <S.CardWrapper onClick={onClick}>
-          <S.Title >{name}</S.Title>
+      <S.CardWrapper onClick={onClick}>
+        <S.Title >{name}</S.Title>
           <S.Flex>
-          <S.ImageWrapper>
+          {!!image && !hideImage && <S.ImageWrapper>
           <ImageWrapper
               src={image}
               alt={item.code}
               fill
             />
-            </S.ImageWrapper>
+            </S.ImageWrapper>}
           {!isList && !isOrder && <div> 
             <Sizes sizes={sizes["1"]} item={item} info isShop color="grey" shop="1" isText/>
             <Sizes sizes={sizes["2"]} item={item} info isShop color="grey" shop="2"/>
@@ -68,8 +66,6 @@ const ShopCard = ({ item, setProduct, isList, info, shop, type, comment, staff, 
             </S.PriceContainer>
           )}
         </S.CardWrapper>
-      )}
-    </>
   );
 };
 

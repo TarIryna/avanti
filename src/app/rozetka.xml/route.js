@@ -108,7 +108,7 @@ const mainImage = Array.isArray(p.images) ? p.images[0] : p.small_image;
         <param name="Высота каблука">${getHeels(p.heel)}</param>
         <param name="Страна-производитель товара">${getCountry(p.country)}</param>
         <param name="Материал верха">${getMaterialTop(p.material_top) ?? ""}</param>
-        <param name="Материал подкладки">${getMaterialInside(p.material_inside) ?? ""}</param>
+        <param name="Материал подкладки" param_id="38630">${getMaterialInside(p.material_inside) ?? ""}</param>
         <param name="Сезон">${getSeasonById(p.season)}</param>
         <param name="Стиль обуви">${getStyle(p.style)}</param>
         <param name="Цвет">${getColorById(p.color)}</param>

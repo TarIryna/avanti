@@ -16,7 +16,7 @@ export const LastPrice = styled.span`
 `;
 
 export const CardWrapper = styled.div`
-  min-height: 300px;
+  // min-height: 300px;
   border: 1px solid grey;
   border-radius: 12px;
   display: flex;

@@ -212,3 +212,68 @@ export const Input = styled.input`
     padding: 0 10px;
     height: 40px;
 `
+
+export const ImagesList = styled.div`
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    padding: 12px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px; 
+    background-color: #f9fafb;
+
+    .imageCard {  
+        width: 250px;
+        height: 300px;       
+        border: 2px solid #d1d5db;  
+        border-radius: 8px;
+        overflow: hidden;
+        cursor: grab; 
+        background-color: #ffffff;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 
+                    0 1px 2px -1px rgba(0, 0, 0, 0.1); /* shadow-sm */
+        transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1); /* transition-transform */
+        position: relative;
+
+            img {
+                object-position: center;
+                object-fit: contain;
+            }
+
+        .deleteButton {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 24px;
+            height: 24px;
+            background-color: rgba(239, 68, 68, 0.9); /* Красный цвет */
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 16px;
+            line-height: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            transition: background-color 0.2s;
+            padding-bottom: 3px;
+            }
+        }
+
+        /* active:cursor-grabbing */
+        .imageCard:active {
+        cursor: grabbing;
+        }
+
+        /* hover:scale-105 */
+        .imageCard:hover {
+        transform: scale(1.05);
+        }
+`
+
+export const VideoContainer = styled.div`
+    display: flex;
+    gap: 10px;
+`

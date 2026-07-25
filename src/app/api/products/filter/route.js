@@ -79,7 +79,7 @@ if (query) {
       { name: { $regex: safeWord, $options: "i" } },
       { model: { $regex: safeWord, $options: "i" } },
       {vendor: getVendorId(safeWord)},
-      {code: Number(safeWord)}
+      { code: { $regex: safeWord, $options: "i" } },
     ];
 
     // если число → ищем по коду

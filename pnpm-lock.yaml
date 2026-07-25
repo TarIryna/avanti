@@ -110,6 +110,9 @@ importers:
       resend:
         specifier: ^6.4.2
         version: 6.4.2(@react-email/render@2.0.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0))
+      sortablejs:
+        specifier: ^1.15.7
+        version: 1.15.7
       spinner:
         specifier: ^0.3.4
         version: 0.3.4
@@ -1925,6 +1928,9 @@ packages:
   socks@2.8.4:
     resolution: {integrity: sha512-D3YaD0aRxR3mEcqnidIs7ReYJFVzWdd6fXJYUM8ixcQcJRGTka/b3saV0KflYhyVJXKhb947GndU35SxYNResQ==}
     engines: {node: '>= 10.0.0', npm: '>= 3.0.0'}
+
+  sortablejs@1.15.7:
+    resolution: {integrity: sha512-Kk8wLQPlS+yi1ZEf48a4+fzHa4yxjC30M/Sr2AnQu+f/MPwvvX9XjZ6OWejiz8crBsLwSq8GHqaxaET7u6ux0A==}
 
   source-map-js@1.2.1:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
@@ -3809,6 +3815,8 @@ snapshots:
     dependencies:
       ip-address: 9.0.5
       smart-buffer: 4.2.0
+
+  sortablejs@1.15.7: {}
 
   source-map-js@1.2.1: {}
 

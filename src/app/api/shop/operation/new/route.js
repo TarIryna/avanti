@@ -104,11 +104,11 @@ const operations = await Promise.all(
 
       if (type === "sale" || type === "inside"){
         product.pop = (product.pop || 0) + item.quantity ?? 1;
-        product.res = (product.res || 0) + Math.round(item.salePrice / rate)
+        product.res = (product.res || 0) + (item.salePrice / rate).toFixed(2)
       }
       if (type === "return"){
         product.pop = (product.pop || 0) - item.quantity ?? 1;
-        product.res = (product.res || 0) - Math.round(item.salePrice / rate)
+        product.res = (product.res || 0) - (item.salePrice / rate).toFixed(2)
       }
 
         sizes.sort((a, b) => Number(a.size) - Number(b.size));

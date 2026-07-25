@@ -85,7 +85,7 @@ export const vendors = [
    "name": "Respect",
    "material_id": 1,
    "vendor_id": 83,
-   "country_id": 2,
+   "country_id": 1,
    "description": "Бренд Respect заработал себе хорошую репутацию благодаря отличному качеству и стильным моделям.",
    "description_ukr": "Бренд Respect заробив собі гарну репутацію завдяки чудовій якості та стильним моделям."
  },

@@ -255,7 +255,7 @@ export const firms= [
    "city": "Киев (Чистяковская)",
    "телефон": "",
    "manager": "Биневский Александр Сергеевич",
-   "country_id": "",
+   "country_id": 1,
    "site": "",
    "e-mail": ""
  },
