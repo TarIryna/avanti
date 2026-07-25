@@ -1,9 +1,10 @@
 "use client";
 import * as S from './styles'
-import { Button, Input } from '../ui';
+import { Input } from '../ui';
 import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from "react-hook-form";
 import { salePrice } from '@/utils/salePrice';
+import Reports from './Reports/Reports';
 
 import Check from './Check';
 import { toast } from "react-hot-toast";
@@ -17,7 +18,7 @@ const SalePage = () => {
   const shop = params.shop;
   const [check, setCheck] = useState({client: null, items: []})
   const [product, setProduct] = useState(null)
-  const [report, setReport] = useState(null)
+
   const methods = useForm({
   defaultValues: {
     code: "",
@@ -45,20 +46,7 @@ const onSubmit = async(data) => {
 console.log(data)
 }
 
-const onDayReport = async() => {
-   try {
-    const res = await fetch(`/api/shop/day/${shop}`);
-    const result = await res.json();
-    if (!result){
-      toast.error("Сталась помилка! Даних не знайдено")
-      return;
-    }
-    console.log(result)
-    setReport(result);
-  } catch (e) {
-    console.error(e);
-  }
-}
+
 
 const addToCheck = (size) => {
   const quantity = size.reduce((sum, item) => {
@@ -148,7 +136,7 @@ if (!number) {
     return (
       <section className="container page">
         <S.Title>ПРОДАЖ</S.Title>
-        <Button onClick={onDayReport}>Звіт за день</Button>
+        <Reports shop={shop}/>
         <FormProvider {...methods}>
           <S.Form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
            <S.ProductConatiner>

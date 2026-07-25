@@ -5,138 +5,130 @@ import { connectToDB } from "@/utils/database";
 
 export const POST = async (request) => {
   const { client, items, total, terminal, shop, type } = await request.json();
-  const isSalePrice = type === "sale" || type === "return"
+  const isSalePrice = type === "sale" || type === "return";
+  
   try {
     await connectToDB();
     const lastRate = await Rate.findOne().sort({ timestamp: -1 });
     const rate = lastRate?.rate ?? 45;
-    // общий id чека (связывает операции)
+    
+    // Общий id чека (связывает операции)
     const operationId = `op_${Date.now()}`;
 
-    // считаем общий total по товарам (на всякий случай)
+    // Считаем общий total по товарам
     const totalSum = isSalePrice ? items.reduce(
       (sum, item) => sum + item.salePrice * (item.quantity || 1),
       0
     ) : 0;
 
-    // создаём операции
-const operations = await Promise.all(
-  items.map(async (item) => {
-      const itemTotal = isSalePrice ? item.salePrice * (item.quantity || 1) : 0;
+    // Создаём операции
+    const operations = await Promise.all(
+      items.map(async (item) => {
+        const itemTotal = isSalePrice ? item.salePrice * (item.quantity || 1) : 0;
 
-      // доля терминала
-      const terminalPart = isSalePrice && terminal
-        ? Math.round((itemTotal / totalSum) * terminal)
-        : 0;
+        // Доля терминала
+        const terminalPart = isSalePrice && terminal && totalSum > 0
+          ? Math.round((itemTotal / totalSum) * terminal)
+          : 0;
 
-    const product = await Product.findOne({ code: item.code });
+        const product = await Product.findOne({ code: item.code });
 
-      if (product) {
-        const sizesAll = product.get("sizes_all");
-        const sizes = product.get("sizes");
+        // Безопасное определение количества (защита от undefined/null)
+        const currentQuantity = Number(item.quantity ?? 1);
 
-        for (const itemSize of item.size) {
-          let sizeObj = sizes.find(
-            (s) => s.size === itemSize.size
-          );
+        if (product) {
+          const sizesAll = product.get("sizes_all");
+          const sizes = product.get("sizes");
 
-          // Добавление товара
-          if (type === "return" || type === "arrival") {
-            if (sizeObj) {
-              sizeObj.q += itemSize.q;
-            } else {
-              sizes.push({
-                size: itemSize.size,
-                q: itemSize.q,
-              })
+          for (const itemSize of item.size) {
+            let sizeObj = sizes.find((s) => s.size === itemSize.size);
+
+            // Добавление товара (Возврат / Приход)
+            if (type === "return" || type === "arrival") {
+              if (sizeObj) {
+                sizeObj.q += itemSize.q;
+              } else {
+                sizes.push({ size: itemSize.size, q: itemSize.q });
+              }
+            }
+
+            // Списание товара (Продажа / Списание / Перемещение)
+            if (type === "sale" || type === "decrease" || type === "inside") {
+              if (sizeObj) {
+                sizeObj.q = Math.max(0, sizeObj.q - itemSize.q);
+              }
             }
           }
 
-          // Списание товара
-          if (type === "sale" || type === "decrease" || type === "inside") {
-            if (sizeObj) {
-              sizeObj.q = Math.max(0, sizeObj.q - itemSize.q);
-            }
-            // если размера нет — ничего не делаем
-            // либо можно залогировать ошибку
+          const shopKey = shop.toString();
 
+          if (!sizesAll.get(shopKey)) {
+            sizesAll.set(shopKey, []);
           }
 
-        }
+          const shopSizes = sizesAll.get(shopKey);
 
-     
+          for (const itemSize of item.size) {
+            let sizeObj = shopSizes.find((s) => s.size === itemSize.size);
 
-        const shopKey = shop.toString();
+            // Добавление товара по конкретному магазину
+            if (type === "return" || type === "arrival") {
+              if (sizeObj) {
+                sizeObj.q += itemSize.q;
+              } else {
+                shopSizes.push({ size: itemSize.size, q: itemSize.q });
+              }
+            }
 
-        if (!sizesAll.get(shopKey)) {
-          sizesAll.set(shopKey, []);
-        }
-
-        const shopSizes = sizesAll.get(shopKey);
-
-        for (const itemSize of item.size) {
-          let sizeObj = shopSizes.find(
-            (s) => s.size === itemSize.size
-          );
-
-          // Добавление товара
-          if (type === "return" || type === "arrival") {
-            if (sizeObj) {
-              sizeObj.q += itemSize.q;
-            } else {
-              shopSizes.push({
-                size: itemSize.size,
-                q: itemSize.q,
-              })
+            // Списание товара по конкретному магазину
+            if (type === "sale" || type === "decrease" || type === "inside") {
+              if (sizeObj) {
+                sizeObj.q = Math.max(0, sizeObj.q - itemSize.q);
+              }
             }
           }
 
-          // Списание товара
-          if (type === "sale" || type === "decrease" || type === "inside") {
-            if (sizeObj) {
-              sizeObj.q = Math.max(0, sizeObj.q - itemSize.q);
-            }
-            // если размера нет — ничего не делаем
-            // либо можно залогировать ошибку
+          // ИСПРАВЛЕНО: Корректный приоритет скобок для вычисления pop и res
+          if (type === "sale" || type === "inside") {
+            product.pop = (product.pop || 0) + currentQuantity;
+            product.res = Number((product.res || 0) + (item.salePrice / rate)).toFixed(2);
           }
           
+          if (type === "return") {
+            product.pop = Math.max(0, (product.pop || 0) - currentQuantity);
+            product.res = Number((product.res || 0) - (item.salePrice / rate)).toFixed(2);
+          }
+
+          sizes.sort((a, b) => Number(a.size) - Number(b.size));
+          shopSizes.sort((a, b) => Number(a.size) - Number(b.size));
+          
+          product.markModified("sizes_all");
+          product.markModified("sizes");
+          await product.save();
+        } else {
+          // Залогируем критический пропуск, если товара со штрихкодом нет в базе
+          console.warn(`ВНИМАНИЕ: Товар с кодом ${item.code} не найден при создании операции ${type}`);
         }
-
-      if (type === "sale" || type === "inside"){
-        product.pop = (product.pop || 0) + item.quantity ?? 1;
-        product.res = (product.res || 0) + (item.salePrice / rate).toFixed(2)
-      }
-      if (type === "return"){
-        product.pop = (product.pop || 0) - item.quantity ?? 1;
-        product.res = (product.res || 0) - (item.salePrice / rate).toFixed(2)
-      }
-
-        sizes.sort((a, b) => Number(a.size) - Number(b.size));
-        shopSizes.sort((a, b) => Number(a.size) - Number(b.size));
-        product.markModified("sizes_all");
-        product.markModified("sizes");
-        await product.save();
-      }
- 
-      return {
+   
+        return {
           clientPhone: client?.phone || null,
-          product: product?._id,
+          product: product ? product._id : null, // Запишет ObjectId, если товар найден
           salePrice: item.salePrice,
           image: item.images?.[0] || "",
           size: item.size,
           code: item.code,
-          quantity: item.quantity,
-          terminal: terminalPart / (item.quantity || 1),
+          quantity: currentQuantity,
+          terminal: terminalPart / (currentQuantity || 1),
           operationId,
           type,
           shop,
           comment: item.comment ?? null,
           staff: item.staff ?? null
         };
-   
-    })
-  )
+      })
+    );
 
+    // Сохраняем все сформированные операции пакетным запросом
     await Operation.insertMany(operations);
 
     return new Response(JSON.stringify({ success: true }), { status: 201 });
