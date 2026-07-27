@@ -71,7 +71,8 @@ const CatalogPage = () => {
              <S.Form onSubmit={(e) => {
                   e.preventDefault(); // Блокируем стандартную отправку браузера при Enter
                   handleSubmit(onSubmit)(e);
-                }}>
+                }}
+                style={{width: '600px'}}>
               <S.Row>
             <Controller
                       control={control}

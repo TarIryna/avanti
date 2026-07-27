@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as S from './styles'
 import { Button } from '@/components/ui';
 import { registerDynamicModal } from '@/helpers/useDynamicModal';
 import { MODALS } from '@/constants/constants';
+import { useModal } from '@ebay/nice-modal-react';
 
 registerDynamicModal(
   MODALS.REPORTS,
@@ -11,6 +12,13 @@ registerDynamicModal(
 
 const Reports = ({shop}) => {
     const [report, setReport] = useState(null)
+    const {show} = useModal(MODALS.REPORTS)
+
+    useEffect(() => {
+        if (report) {
+           show({report, shop})
+        }
+    }, [report])
 
 
     const onDayReport = async() => {

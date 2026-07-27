@@ -133,6 +133,30 @@ if (!number) {
   }
 };
 
+const setDiscountToProduct = (discount, index) => {
+  setCheck(prev => ({
+    ...prev,
+    items: prev.items.map((item, idx) => {
+      // Если это не тот товар, который мы выбрали — возвращаем его без изменений
+      if (idx !== index) return item;
+
+      // Рассчитываем базовую цену (с учетом скидки клиента, если нет фиксированной price2)
+      const basePrice = item.price2 
+        ? Number(item.price) 
+        : Number(item.price) * (100 - (client?.discount || 0)) / 100;
+
+      // Уменьшаем базовую цену на сумму дополнительной скидки товара и округляем в большую сторону
+      const finalSalePrice = Math.ceil(basePrice - Number(discount || 0));
+
+      return {
+        ...item,
+        salePrice: Math.max(0, finalSalePrice) // Защита: цена не может быть меньше 0
+      };
+    })
+  }));
+};
+
+
     return (
       <section className="container page">
         <S.Title>ПРОДАЖ</S.Title>
@@ -156,7 +180,7 @@ if (!number) {
              {<Input
                 type="text"
                 placeholder="Номер телефона клієнта"
-                tabIndex={1}
+                tabIndex={2}
                 onKeyDown={onChangeClient}
                 enterKeyHint="next"
                 label='Телефон'
@@ -168,7 +192,7 @@ if (!number) {
               </S.InfoContainer>
              
             {product &&  <SaleCard client={check?.client} product={product} addToCheck={addToCheck} shop={shop} type="sale"/>}
-            {check.items.length > 0 && <Check check={check} type="sale"/>}
+            {check.items.length > 0 && <Check check={check} type="sale" setDiscount={setDiscountToProduct}/>}
             </S.ProductConatiner>
        
           </S.Form>

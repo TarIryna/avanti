@@ -11,7 +11,7 @@ registerDynamicModal(
   import("../modals/CheckModal/CheckModal")
 );
 
-const Check = ({check, type="sale"}) => {
+const Check = ({check, type="sale", setDiscount}) => {
     const {show: showCheck} = useModal(MODALS.CHECK)
     const params = useParams();
     const shop = params.shop;
@@ -31,7 +31,7 @@ const Check = ({check, type="sale"}) => {
     <S.CheckContainer>
         <S.CheckTitle>Товари у чеку:</S.CheckTitle>
             <S.CheckList>
-                {check.items.map(item => <CheckProductInfo isImage data={item}/>)}
+                {check.items.map((item, index) => <CheckProductInfo isImage data={item} setDiscount={setDiscount} index={index}/>)}
             </S.CheckList>
         <S.CheckTotal>Загальна сума: {total} грн</S.CheckTotal>
         <S.CheckButton onClick={onClick}>{buttonText}</S.CheckButton>

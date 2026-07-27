@@ -52,6 +52,16 @@ if (sizes && sizes !== "null") {
   };
 }
 
+// ✅ 1. Инициализируем массив $and, если его еще нет
+if (!filterParams.$and) filterParams.$and = [];
+
+// ✅ 2. Добавляем проверку наличия размеров для обуви (type = 1)
+filterParams.$and.push({
+  $or: [
+    { type: { $ne: 1 } },
+    { type: 1, sizes: { $elemMatch: { q: { $gt: 0 } } } }
+  ]
+});
 
 // Товары на распродаже
 if (isSale) filterParams.price2 = { $exists: true, $ne: null };
@@ -64,6 +74,8 @@ if (genderQuery === "all") {
 } else if (gender && genderQuery !== "bags" && genderQuery !== "sale") {
   filterParams.gender = gender;
 }
+
+
 if (query) {
   const words = query
     .toLowerCase()

@@ -53,7 +53,8 @@ export const getColor = (ukr, language = "ru") => {
 
 export const getColorById = (id, language = "ru") => {
  const data = colors.find(item => item.id === Number(id))
- return language === "ru" ? data?.name_rozetka : data?.ukr
+ const result = language === "ru" ? data?.name_rozetka : data?.ukr
+ return result ?? ""
 }
 
 export const getColorSimple = (id, language = "ru") => {

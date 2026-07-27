@@ -53,7 +53,7 @@ export const Form = styled.form`
     flex-direction: column;
     gap: 10px;
     padding: 20px 0;
-    width: 600px;
+    // width: 600px;
 `
 
 export const InfoContainer = styled.div`
@@ -206,11 +206,27 @@ export const ListRevalue = styled.div`
     gap: 6px;   
 `
 
+export const InputWrapper = styled.div`
+    position: relative;
+    display: flex; 
+    gap: 10px;
+    button {
+        font-size: 10px;
+    }
+`
+
 export const Input = styled.input`
     border-radius: 16px;
     border: 1px solid grey;
     padding: 0 10px;
     height: 40px;
+`
+
+export const Placeholder = styled.div`
+    position: absolute;
+    top: 2px;
+    left: 10px;
+    font-size:8px;
 `
 
 export const ImagesList = styled.div`

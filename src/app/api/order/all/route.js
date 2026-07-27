@@ -1,6 +1,7 @@
 import Order from "@/models/order";
 import { connectToDB } from "@/utils/database";
 import mongoose from "mongoose";
+export const dynamic = 'force-dynamic'; 
 
 export const GET = async (request) => {
   try {
