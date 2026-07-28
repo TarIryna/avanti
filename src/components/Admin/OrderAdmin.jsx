@@ -8,6 +8,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import IconCheck from "@/assets/icons/reciept.svg";
 import { Input } from "../ui";
+import toast from "react-hot-toast";
 
 registerDynamicModal(
   MODALS.DELIVERY_TTN,
@@ -40,7 +41,7 @@ export const OrderAdmin = ({order}) => {
             }
           };
 
-const cancelOrder = async () => {
+const deleteOrder = async () => {
         try {
             const response = await fetch(`/api/order/${order._id}`, {
                 method: "DELETE",
@@ -56,6 +57,27 @@ const cancelOrder = async () => {
             }
           };
 
+const cancelOrder = async () => {
+  try {
+    const response = await fetch(`/api/order/${order._id}`, { // Укажите ваш правильный путь к API
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        status: "canceled" // 🌟 Передаем поле статуса
+      }),
+    });
+
+    if (!response.ok) throw new Error("Failed to cancel order");
+    toast.success("Заказ успешно отменен");
+  } catch (error) {
+    console.log(error)
+    toast.error("Ошибка при отмене заказа:");
+  }
+};
+
+
   const addCheck = async () => {
         try {
             const response = await fetch(`/api/order/${order._id}`, {
@@ -68,14 +90,12 @@ const cancelOrder = async () => {
                 }),
               });
               if (response) {
-               console.log(response.data)
+              //  console.log(response.data)
               }
             } catch (error) {
               console.log(error);
             }
           };
-
-          console.log(order.status)
 
 
     return (
@@ -118,6 +138,7 @@ const cancelOrder = async () => {
                     }
                 {!!order.deliveryStatus && <S.DeliveryText>{order.deliveryStatus }</S.DeliveryText>}
                 {order.status === "new" && <S.Button onClick={cancelOrder}>Відмінити</S.Button>}
+                {order.status === "new" && <S.Button onClick={deleteOrder}>Видалити</S.Button>}
                 </S.DeliveryData>
             </S.CartWrapper>
         )

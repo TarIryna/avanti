@@ -23,6 +23,7 @@ export const PUT = async (req, { params }) => {
   const fieldMap = {
     ttn: "deliver.ttn",
     check: "check",
+    status: "status",
   };
 
   const updateData = Object.entries(body)
