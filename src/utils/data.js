@@ -62,11 +62,11 @@ export const menuData = {
         view: "summer-heels",
       },
       Санділії: { gender: "women", season: "summer", view: "sandals" },
-      Мюлі: { gender: "women", season: "summer", view: "mules" },
+      Мюлі: { gender: "women", season: "summer", view: "muli-heels" },
       "Шльопанці на низькому": {
         gender: "women",
         season: "summer",
-        view: "flats",
+        view: "muli",
       },
       "Пляжне взуття": { gender: "women", season: "summer", view: "beach" },
     },
@@ -96,6 +96,11 @@ export const menuData = {
         gender: "women",
         season: "autumn",
         view: "comfort",
+      },
+        "Кімнатне взуття": {
+        gender: "women",
+        season: "autumn",
+        view: "home",
       },
     },
     "Демісезонне взуття": {
@@ -139,6 +144,11 @@ export const menuData = {
       "Кросівки і кеди": { gender: "men", season: "autumn", view: "sneakers" },
       "Туфлі класичні": { gender: "men", season: "autumn", view: "shoes" },
       "Туфлі комфорт": { gender: "men", season: "autumn", view: "comfort" },
+      "Кімнатне взуття": {
+        gender: "men",
+        season: "autumn",
+        view: "home",
+      },
     },
     "Демісезонне взуття": {
       "Черевики класичні": { gender: "men", season: "demi", view: "classic" },
@@ -180,6 +190,11 @@ export const menuData = {
         season: "autumn",
         view: "sneakers",
       },
+        "Кімнатне взуття": {
+        gender: "girls",
+        season: "autumn",
+        view: "home",
+      },
       Туфлі: { gender: "girls", season: "autumn", view: "shoes" },
     },
     "Демісезонне взуття": {
@@ -201,6 +216,11 @@ export const menuData = {
       Туфлі: { gender: "boys", season: "autumn", view: "shoes" },
       Сліпони: { gender: "boys", season: "autumn", view: "slippers" },
       Лофери: { gender: "boys", season: "autumn", view: "lofers" },
+      "Кімнатне взуття": {
+        gender: "boys",
+        season: "autumn",
+        view: "home",
+      },
     },
     "Демісезонне взуття": {
       Черевики: { gender: "boys", season: "demi", view: "boots" },

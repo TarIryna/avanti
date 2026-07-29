@@ -2,8 +2,8 @@ export const views = [
     {id: 1, ukr: "Сандалії", ru: "Сандалии", value: "sandals"},
     {id: 2, ukr: "Босоніжки на каблуках", ru: "Босоножки на каблуках", value: "summer-heels"},
     {id: 3, ukr: "Пляжне взуття", ru: "Пляжная обувь", value: "beach"},
-    {id: 4, ukr: "Мюлі", ru: "Мюли", value: "mules"},
-    {id: 5, ukr: "Шльопанці", ru: "Шлепанцы", value: "flats"},
+    {id: 4, ukr: "Мюлі", ru: "Мюли", value: "muli-heels"},
+    {id: 5, ukr: "Шльопанці", ru: "Шлепанцы", value: "muli"},
     {id: 6, ukr: "Зимові кросівки", ru: "Зимние кроссовки", value: "winter-sneakers"},
     {id: 7, ukr: "Зимові кеди", ru: "Зимние кеды", value: "winter-sneakers"},
     {id: 8, ukr: "Ботильйони", ru: "Ботильоны", value: "boots-heels"},
@@ -21,4 +21,5 @@ export const views = [
     {id: 20, ukr: "Туфлі класичні", ru: "Туфли классические", value: "classic"},
     {id: 21, ukr: "Черевики класичні", ru: "Ботинки классические", value: "boots-classic"},
     {id: 22, ukr: "Лофери, мокасини", ru: " Лоферы, мокасины", value: "lofers"},
+    {id: 23, ukr: "Кімнатне взуття", ru: "Комнатные тапочки", value: "home"},
 ]
