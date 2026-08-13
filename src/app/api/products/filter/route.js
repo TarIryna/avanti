@@ -55,6 +55,14 @@ if (sizes && sizes !== "null") {
 // ✅ 1. Инициализируем массив $and, если его еще нет
 if (!filterParams.$and) filterParams.$and = [];
 
+// Только товары, у которых есть изображение
+filterParams.$and.push({
+  $or: [
+    { small_image: { $exists: true, $nin: [null, ""] } },
+    { "images.0": { $exists: true } }
+  ]
+});
+
 // ✅ 2. Добавляем проверку наличия размеров для обуви (type = 1)
 filterParams.$and.push({
   $or: [
@@ -102,7 +110,7 @@ if (query) {
     return { $or: orConditions };
   });
 
-  filterParams.$and = andConditions;
+ filterParams.$and.push(...andConditions);
 }
 
 const sortParam = getSortParam(sort);

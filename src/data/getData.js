@@ -11,6 +11,23 @@ import { categories } from "./categories"
 import { years } from "./years"
 import { types } from "./types"
 import { facebookCategories } from "./facebook"
+import { currencies } from "./currencies"
+
+export const getCurrencyName = (id) => {
+  const data = currencies.find(i => i.id === Number(id))
+  return data ? data.name : ""
+
+}
+
+export const getRate = (data, currency) => {
+  if (Number(currency) === 2){
+    return 1
+  } else {
+    return data ? data.find(i => i.currency === Number(currency)) : 0
+  }
+}
+
+export const lastSeasonValue = Math.max(...years.map(i => i.value));
 
 export const escapeXML = (str = "") =>
   String(str)

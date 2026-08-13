@@ -21,11 +21,11 @@ export const MenuList = styled.div`
 `
 
 export const MenuShopButton = styled.div`
-    height: 150px;
+    height: 90px;
     width: 100%;
     border-radius: 14px;
     cursor: pointer;
-    font-size: 40px;
+    font-size: 30px;
     font-weight: 600;
     border: 1px solid grey;
     width: 100%;

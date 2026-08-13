@@ -245,6 +245,10 @@
   color: black;
   font-size: 25px;
   font-weight: 600;
+
+   @media print {
+    font-size: 50pt;
+  }
 }
 .flex-center{
   display: flex;

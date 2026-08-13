@@ -27,7 +27,8 @@ const CatalogItem = ({ item }) => {
               fill
             />
             </S.ImageWrapper>
-            <SizesInfo item={item}  />
+            <S.Code>{`код: ${item.code}`}</S.Code>
+            <SizesInfo item={item} isTextHidden />
         
           {isSale ? (
             <S.InfoContainer>
@@ -42,21 +43,19 @@ const CatalogItem = ({ item }) => {
               <Image src="/leather2.png" width="80" height="100" alt="leather"/>
               </div>
             </S.LabelWrapper>}
-            <S.Code>{item.code}</S.Code>
             
             </S.InfoContainer>
           ) : (
             <S.InfoContainer>
             <S.PriceContainer>
-              <span className="current-price">{item.price ?? 0} грн.</span>
+              <S.Price>{item.price ?? 0} грн.</S.Price>
             </S.PriceContainer>
             {item.material === 1 && <S.LabelWrapper>
               <p>Матеріал верху - натуральна шкіра</p>
               <div>
-              <Image src="/leather2.png" width="80" height="100" alt="leather"/>
+              <Image src="/leather2.png" width="50" height="50" alt="leather"/>
               </div>
             </S.LabelWrapper>}
-            <S.Code>{`код: ${item.code}`}</S.Code>
 
             </S.InfoContainer>
           )}

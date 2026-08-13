@@ -44,7 +44,6 @@ const CatalogPage = () => {
   } = methods;
 
   const onSubmit = async(data) => {
-    console.log(data)
    try {
       const res = await fetch('/api/products/list', { 
         method: 'POST', // Переключаем на POST

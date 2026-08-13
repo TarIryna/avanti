@@ -32,6 +32,7 @@ const ProductSchema = new Schema(
       }
     ],
     material: Number,
+    sizesGroup: Number,
     color: Number,
     material_top: Number,
     material_inside: Number,

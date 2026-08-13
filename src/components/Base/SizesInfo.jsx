@@ -2,7 +2,7 @@
 import { getSizesObject } from "@/helpers/sizesPrepare";
 import * as S from "./styles";
 
-const SizesInfo = ({ item, isSmall }) => {
+const SizesInfo = ({ item, isSmall, isTextHidden }) => {
   // Получаем объект с размерами по магазинам
   const sizes = getSizesObject(item)
 
@@ -18,7 +18,7 @@ const SizesInfo = ({ item, isSmall }) => {
 
   return (
     <S.SizesWrapper isSmall={isSmall}>
-      <S.ProductSizes>Розміри в наявності:</S.ProductSizes>
+      {!isTextHidden && <S.ProductSizes>Розміри в наявності:</S.ProductSizes>}
 
       <S.SizesContainer>
         {/* 1. Обходим объект по магазинам (превращаем в массив пар [shopId, массив_размеров]) */}

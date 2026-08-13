@@ -34,37 +34,54 @@ const Input = ({
   tabIndex,
   enterKeyHint = "enter",
   onKeyDown,
-  isBorder
+  isBorder,
+  // Добавили стандартное значение для использования без react-hook-form
+  value,
 }) => {
-  const {
-    setValue,
-    register,
-    formState: { errors },
-  } = useFormContext();
-  const hasError = lget(errors, name);
+  // 1. Безопасно получаем контекст формы. Если его нет, деструктуризация не упадет.
+  const context = useFormContext();
+  const { register, formState } = context || {};
+  const errors = formState?.errors;
+
+  // 2. Ошибка берется либо из react-hook-form, либо из переданного пропса defaultError
+  const hasError = errors && name ? lget(errors, name) : defaultError;
+  
   const [show, setShow] = useState(event || false);
-  const { onBlur } = register;
   const [isFocused, setIsFocused] = useState(false);
 
+  // 3. Безопасная инициализация методов регистрации react-hook-form
+  const inputRegister = register && name 
+    ? register(name, {
+        ...rules,
+        onBlur: onBlurHandler,
+        onChange: (e) => {
+          if (typeof onValueChange === "function") {
+            onValueChange(e);
+          }
+        },
+      }) 
+    : {};
 
+  // 4. Единый обработчик изменений для поддержки обоих режимов
+  const handleChange = (e) => {
+    if (typeof onValueChange === "function") {
+      onValueChange(e);
+    }
+    if (typeof inputRegister.onChange === "function") {
+      inputRegister.onChange(e);
+    }
+  };
 
-  // const onBlurHandler = (e) => {
-  //   setIsFocused(false);
-  //   if (typeof onClickGaEvent === "function") {
-  //     onClickGaEvent(e);
-  //   }
-  //   if (typeof onBlur === "function") {
-  //     onBlur(e);
-  //   }
-  //   if (focusedColor && form[name]) {
-  //     const amount = (+e.target.value).toFixed(2);
-  //     setForm({
-  //       ...form,
-  //       [name]: label && existlabel ? `${amount} ${label} ` : amount,
-  //     });
-  //     setValue(name, amount);
-  //   }
-  // };
+  // 5. Единый обработчик разфокусировки
+  const handleBlur = (e) => {
+    setIsFocused(false);
+    if (typeof onBlurHandler === "function") {
+      onBlurHandler(e);
+    }
+    if (typeof inputRegister.onBlur === "function") {
+      inputRegister.onBlur(e);
+    }
+  };
 
   return (
     <S.Wrapper className={className || "base_input"}>
@@ -81,6 +98,7 @@ const Input = ({
         {form ? (
           <>
             <S.Input
+              name={name} 
               disabled={disabled}
               doubleIcon={doubleIcon}
               step={step}
@@ -91,33 +109,25 @@ const Input = ({
               autoComplete={autocomplete}
               type={show ? "text" : type}
               defaultValue={defaultValue}
-              {...register(name, {
-                ...rules,
-                onBlur: onBlurHandler,
-                onChange: (e) => {
-                  const value = e.target.value;
-
-                  if (typeof onValueChange === "function") {
-                    onValueChange(e); // ⚠️ без ручного setState
-                  }
-                },
-              })}
+              value={value}
               onFocus={() => setIsFocused(true)}
-              onBlur={onBlurHandler}
               tabIndex={tabIndex}
               id={idInput}
-               onKeyDown={(event) => {
+              onKeyDown={(event) => {
                 if (typeof onKeyDown === "function") {
                   onKeyDown(event);
                 }
               }}
+              {...inputRegister}
+              onChange={handleChange}
+              onBlur={handleBlur}
             />
-
             <b>{doubleIcon}</b>
           </>
         ) : (
           <>
             <S.Input
+              name={name} 
               autocomplete={autocomplete}
               step={step}
               error={hasError}
@@ -125,21 +135,10 @@ const Input = ({
               label={label}
               maxLength={max}
               disabled={disabled}
-              onBlur={onBlurHandler}
               show={show}
               type={show ? "text" : type}
               defaultValue={defaultValue}
-              {...register(name, {
-                ...rules,
-                onBlur: onBlurHandler,
-               onChange: (e) => {
-                  const value = e.target.value;
-
-                  if (typeof onValueChange === "function") {
-                    onValueChange(e); // ⚠️ без ручного setState
-                  }
-                },
-              })}
+              value={value}
               onWheel={(e) => e.target.blur()}
               onFocus={() => setIsFocused(true)}
               tabIndex={tabIndex}
@@ -150,6 +149,9 @@ const Input = ({
                   onKeyDown(event);
                 }
               }}
+              {...inputRegister}
+              onChange={handleChange}
+              onBlur={handleBlur}
             />
             <b>{doubleIcon}</b>
           </>
@@ -170,7 +172,7 @@ const Input = ({
       {info && <S.LabelInfo hasError={hasError}>{info}</S.LabelInfo>}
       {hasError && (
         <S.Error>
-         {hasError.message}
+         {hasError.message || (typeof hasError === 'string' ? hasError : '')}
         </S.Error>
       )}
     </S.Wrapper>

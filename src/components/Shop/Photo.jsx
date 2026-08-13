@@ -31,22 +31,23 @@ const PhotoPage = () => {
   }
 
   const onChangeCode = async (e) => {
-  if (e.key !== "Enter") return;
-  e.preventDefault();
-  const code = watch("code");
+    if (!e) return;
+    if (e.key !== "Enter") return;
+    e.preventDefault();
+    const code = watch("code");
 
-  try {
-    const res = await fetch(`/api/product/${code}`);
-    const product = await res.json();
-    if (!product){
-      toast.error("Товар не знайдено!")
-      return;
+    try {
+      const res = await fetch(`/api/product/${code}`);
+      const product = await res.json();
+      if (!product){
+        toast.error("Товар не знайдено!")
+        return;
+      }
+      setProduct(product);
+      setImages(product.images)
+    } catch (e) {
+      console.error(e);
     }
-    setProduct(product);
-    setImages(product.images)
-  } catch (e) {
-    console.error(e);
-  }
 };
 
 const onUpload = (images) => {

@@ -11,51 +11,20 @@ export const POST = async (request) => {
     // Безопасно парсим тело запроса
     const body = await request.json();
     const { 
-      color, 
-      gender, 
-      material, 
-      season, 
-      type, 
-      vendor, 
-      view, 
       year, 
-      yearFrom,
+      company,
       limit = 2000, 
       page = 1 
     } = body;
 
     // ✅ Строим фильтр динамически
     const filterParams = {};
-
-    // Обработка сезона (если с фронта прилетает массив, используем напрямую, если строка — через split)
-    if (season && season !== "null" && season?.length > 0) {
-      filterParams.season = Array.isArray(season) ? { $in: season } : { $in: season.split(",") };
-    }
-
-
-    if (vendor && vendor !== "null" && vendor?.length > 0) {
-      filterParams.vendor = Array.isArray(vendor) ? { $in: vendor } : vendor;
-    }
-
-    // Обработка гендера (проверяем массив или одиночное значение)
-    if (gender && gender !== "null" && gender?.length > 0) {
-      filterParams.gender = Array.isArray(gender) ? { $in: gender.map(g => Number(g)) } : Number(gender);
-    }
-
-    if (color && color !== "null" && color?.length > 0) { 
-      filterParams.color = Array.isArray(color) ? { $in: color } : color;
-    }
-
-    if (type ?? type !== "null") filterParams.type = Number(type);
-    if (view && view !== "null") filterParams.view = view;
-    if (material && material !== "null") filterParams.material = Number(material);
     
     if (year && year !== "null") {
       filterParams.year =  Number(year);
     }
-
-    if (yearFrom && yearFrom !== "null") {
-      filterParams.year = { $lte: Number(yearFrom) };
+    if (company && company !== "null") {
+       filterParams.company =  Number(company); 
     }
 
     const pipeline = [
@@ -88,7 +57,7 @@ export const POST = async (request) => {
     });
 
   } catch (error) {
-    console.error("❌ API filter error:", error);
+    console.error("❌ API products/company error:", error);
     // Исправлено: возвращаем JSON даже в случае ошибки, чтобы фронтенд не ломался
     return new Response(JSON.stringify({ error: "Failed to fetch products", message: error.message }), { 
       status: 500,

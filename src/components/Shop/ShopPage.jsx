@@ -28,6 +28,7 @@ const ShopPage = () => {
                 ))}
                  <S.MenuShopButton onClick={() => router.push(`/shop/new`)}>Новий товар</S.MenuShopButton>
                  <S.MenuShopButton onClick={() => router.push(`/shop/photo`)}>ФОТО</S.MenuShopButton>
+                 <S.MenuShopButton onClick={() => router.push(`/shop/catalog`)}>КАТАЛОГИ</S.MenuShopButton>
         </S.MenuList>
         
       {/* ) : ( */}

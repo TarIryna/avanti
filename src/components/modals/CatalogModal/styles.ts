@@ -23,8 +23,8 @@ export const LabelWrapper = styled.div`
   }
 
   div {
-      width: 80px;
-     height: 80px;
+      width: 50px;
+     height: 50px;
 
     img {
 
@@ -166,38 +166,28 @@ export const InfoContainer = styled.div`
   }
 `;
 
-export const SalePrice = styled.div`
-  color: red;
-  font-size: 60px;
+export const Price = styled.div`
+  font-size: 70px;
   font-weight: 600;
   text-align: center;
+  color: black;
 
   @media print {
-    font-size: 46pt; /* Пропорционально крупный шрифт для формата А4 */
+    font-size: 60pt; /* Пропорционально крупный шрифт для формата А4 */
   }
 `;
 
-export const LastPrice = styled.span`
-  text-decoration: line-through;
-  color: black;
-  font-size: 60px;
-  font-weight: 600;
+export const SalePrice = styled(Price)`
+  color: red;
+`;
 
-  @media print {
-    font-size: 46pt;
-  }
+export const LastPrice = styled(Price)`
+  text-decoration: line-through;
 `;
 
 export const Code = styled.p`
-  position: absolute;
-  top: -105px;
-  right: 50px;
 
   @media print {
-    /* Абсолютное позиционирование ломает логику страниц. */
-    /* Возвращаем код в обычный поток и ставим в самый низ карточки. */
-    position: static; 
-    font-size: 16pt;
-    margin-top: auto;
+    font-size: 14pt;
   }
 `;

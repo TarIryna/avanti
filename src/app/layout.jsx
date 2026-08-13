@@ -4,6 +4,9 @@ import { ClientProvider } from "@/components/GeneralProvider/ClientProvider";
 import Footer from "@/components/Footer/Footer";
 import Script from "next/script";
 
+import { connectToDB } from "@/utils/database";
+import Rate from "@/models/rate";
+
 export const metadata = {
   title: {
     default: "Avanti — взуття та сумки - купити взуття в Ужгороді - доставка по Україні",
@@ -13,7 +16,24 @@ export const metadata = {
     "Avanti — інтернет-магазин взуття та сумок. Жіноче, чоловіче та дитяче взуття з доставкою по Україні. Купити взуття у місті Ужгород",
 };
 
-const RootLayout = ({ children }) => {
+const RootLayout = async ({ children }) => {
+  let initialRate = [{currency: 1, rate: 45}, {currency: 3, rate: 52}]; 
+
+   try {
+    // 🌟 ПОДКЛЮЧАЕМСЯ К БАЗЕ И ЗАПРАШИВАЕМ КУРС СТРОГО НА СЕРВЕРЕ
+    await connectToDB();
+    const lastRateUsd = await Rate.findOne({currency: 2}).sort({ timestamp: -1 }).lean();
+    const lastRateEur = await Rate.findOne({currency: 3}).sort({ timestamp: -1 }).lean();
+    if (lastRateUsd && lastRateUsd.rate && lastRateEur && lastRateEur.rate) {
+      const initialRateUsd = JSON.parse(JSON.stringify(lastRateUsd));
+      const initialRateEur = JSON.parse(JSON.stringify(lastRateEur));
+      initialRate = [initialRateUsd, initialRateEur]; 
+    }
+  
+  } catch (error) {
+    console.error("Помилка завантаження курсу в RootLayout:", error);
+  }
+
   return (
     <html lang="uk">
       <head>
@@ -129,7 +149,7 @@ const RootLayout = ({ children }) => {
           }}
         />
 
-        <ClientProvider>
+        <ClientProvider initialRate={initialRate}>
           <div className="main">
             <div className="gradient" />
           </div>

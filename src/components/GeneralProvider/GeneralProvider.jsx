@@ -11,8 +11,14 @@ import { MenuProvider } from "./context/MenuProvider";
 import { Toaster } from "react-hot-toast";
 import { useState } from "react";
 
-export const GeneralProvider = ({ children, session }) => {
+export const GeneralProvider = ({ children, session, initialRate }) => {
   const [queryClient] = useState(() => new QueryClient());
+
+  useState(() => {
+    if (initialRate) {
+      queryClient.setQueryData(["rate"], initialRate);
+    }
+  });
 
   return (
     <QueryClientProvider client={queryClient}>

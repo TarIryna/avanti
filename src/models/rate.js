@@ -2,9 +2,8 @@ import { Schema, model, models } from "mongoose";
 
 const RateSchema = new Schema(
   {
-    rate: {
-      type: Number,
-        },
+    rate: Number,
+    currency: Number
   },
   {
     timestamps: true, // ✅ это нужно ставить здесь, во втором аргументе

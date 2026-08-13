@@ -1,4 +1,4 @@
-export const firms= [
+export const companies = [
  {
    "id": 1,
    "name": "4 сезона",

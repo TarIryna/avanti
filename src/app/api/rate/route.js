@@ -25,15 +25,13 @@ export const GET = async () => {
 export const POST = async (request) => {
   try {
     // Получаем данные из фронтенда (номер магазина, название полки и объект отсканированных штрихкодов)
-    const { rate } = await request.json(); 
+    const { rate, currency } = await request.json(); 
 
     await connectToDB();
 
-    const newRate = await Rate.create({rate});
-    console.log(newRate)
+    const newRate = await Rate.create({rate, currency});
 
-
-    return new Response(JSON.stringify({ success: true, rate }), { 
+    return new Response(JSON.stringify({ success: true, newRate }), { 
       status: 200,
       headers: { "Content-Type": "application/json" }
     });
