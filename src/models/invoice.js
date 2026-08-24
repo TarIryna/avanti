@@ -1,9 +1,11 @@
 import { Schema, model, models } from "mongoose";
 
 const ItemSchema = new Schema({
-  product: { type: Schema.Types.ObjectId, ref: "Product", required: true },
+  productCode: { type: String, required: true },
   price: { type: Number, required: true },
   quantity: { type: Number, required: true, default: 1 },
+  sizes: {size: String, q: Number},
+  total: Number,
 });
 
 const InvoiceSchema = new Schema(

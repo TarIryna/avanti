@@ -152,7 +152,8 @@ export const Button = styled.button`
   font-size: 16px;
   font-weight: 600;
   height: 44px;
-  width: 200px;
+  width: max-width;
+  padding: 0 12px;
   margin-top: 36px;
 `
 

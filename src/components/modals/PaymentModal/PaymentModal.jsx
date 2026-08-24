@@ -10,11 +10,12 @@ import * as S from "./styles";
 import { getRate, lastSeasonValue, years } from "@/data";
 import { companies } from "@/data/companies";
 import { currencies } from "@/data/currencies";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
 const PaymentModal = create(({ id, company }) => {
   const { remove } = useModal(id);
+  const queryClient = useQueryClient();
 
     const { data: rate } = useQuery({ 
     queryKey: ["rate"],
@@ -48,12 +49,13 @@ const PaymentModal = create(({ id, company }) => {
 
 const currency = watch('currency');
 const amount = watch('amount');
+const companyData = watch('company');
 
 useEffect(() => {
   // Получаем чистый ID валюты (поддерживает и объект от Селекта, и просто число)
   const currencyValue = typeof currency === 'object' ? currency?.value : currency ? Number(currency) : null;
   const currentAmount = Number(amount || 0);
-  const currentRate = Number(getRate(rate, currencyValue)?.rate) || 45; // Защита: дефолтный курс, если кэш пуст
+  const currentRate = Number(getRate(rate, currencyValue)?.rate) || 1; // Защита: дефолтный курс, если кэш пуст
 
   // 🌟 Если сумма не введена — очищаем поле USD
   if (!currentAmount) {
@@ -62,7 +64,7 @@ useEffect(() => {
   }
 
   // 🌟 Если выбраны USD (ID равен 2) — сумма дублируется 1 в 1
-  if (currencyValue === 2) {
+  if (currencyValue === 1) {
     setValue('amountUSD', currentAmount);
   } 
   // 🌟 Если выбрана грн (ID равен 1) — делим на курс и округляем до 2 знаков
@@ -72,23 +74,44 @@ useEffect(() => {
   }
 }, [currency, amount, rate, setValue]);
 
-
-
-  const onSubmit = async (data) => {
-    data.rate = (data.amount / data.amountUSD).toFixed(2);
-      try {
+const addPaymentMutation = useMutation({
+  mutationFn: async (paymentData) => {
     const res = await fetch('/api/company/payment', { 
-        method: 'POST', // Переключаем на POST
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data) 
-      });
-     const result = await res.json();
-     if (result.success){
-      toast.success(`Успішно додано оплату!`)
-      reset()
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(paymentData) 
+    });
+
+    if (!res.ok) {
+      throw new Error('Помилка при додаванні оплати');
     }
+
+    return res.json();
+  },
+  onSuccess: (result) => {
+    if (result.success) {
+      toast.success(`Успішно додано оплату!`);
+      
+      // 🔥 Сбрасываем кэш компании, чтобы React Query сам перезапросил свежие данные
+      // Замените 'id', на реальную переменную айдишника этой компании
+      queryClient.invalidateQueries({ queryKey: ['company', companyData] }); 
+    }
+  },
+  onError: (error) => {
+    console.error(error);
+    toast.error('Не вдалося додати оплату');
+  }
+});
+
+
+
+  const onSubmit = async (formData) => {
+    formData.rate = (formData.amount / formData.amountUSD).toFixed(2);
+    try {
+     await addPaymentMutation.mutateAsync(formData);
+     reset()
   } catch (e) {
     console.log(e)
   }

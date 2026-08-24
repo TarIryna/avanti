@@ -28,7 +28,6 @@ const ReportsModal = create(({ id, report, shop }) => {
 
  const totalBefore = report.total + totalOperations
 
- console.log(totalSum, totalTerminal)
 
   //  useEffect(() => {
   //   const handleKeyDown = (e) => {

@@ -40,7 +40,6 @@ export const PUT = async (request) => {
     const resultRecipient = await responseRecipient.json();
 
     if (!resultRecipient.success) {
-      console.log(resultRecipient);
 
       return new Response(
         JSON.stringify({
@@ -84,7 +83,6 @@ export const PUT = async (request) => {
     const resultContact = await responseContact.json();
 
     if (!resultContact.success) {
-      console.log(resultContact);
 
       return new Response(
         JSON.stringify({

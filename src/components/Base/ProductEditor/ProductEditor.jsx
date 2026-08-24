@@ -1,98 +1,141 @@
 "use client";
-import { Input, Select } from '../ui';
+import { Input, Select } from '../../ui';
 import * as S from './styles';
+import { Title, Row, Flex } from '../styles';
 import { useForm, FormProvider, Controller } from 'react-hook-form';
 import { colors, years, seasonData, getDefaultYear, getCodePart, getYearById, types, genders, vendors, views, sizesLengths, getVendorCountry, countries, materialInside, materialsTop, getMaterialId, materialData, styles, heels, sizesGroup, facebookCategories, getNameTotal, categories } from '@/data';
-import { useEffect, useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { accessoires } from '@/data/accesoires';
 import toast from 'react-hot-toast';
+import ShopCard from '../../Shop/ShopCard/ShopCard';
+import Image from 'next/image';
 import { companies } from '@/data/companies';
 
-const NewProductPage = () => {
+const ProductEditorPage = () => {
+  const [list, setList ] = useState([]);
+  const [image, setImage] = useState("");
+
   const defaultYear = getDefaultYear();
-  const methods = useForm({
-    defaultValues: {
-      code: "",
-      year: defaultYear?.value || "",
-      season: "", // Добавили дефолтное значение для контролируемого инпута
-      type: 1
-    },
-  });
-     
-  const {
+
+  const methods = useForm();
+    const {
     handleSubmit,
     register,
     control,
     watch,
     reset,
-    setValue // Нужен для динамической записи кода в инпут
   } = methods;
 
-  const season = watch('season');
-  const year = watch('year');
-  const vendor = watch('vendor');
-  const materialTop = watch('material_top');
-  const type = watch('type');
+const onChangeCode = async (e) => {
+  if (e.key !== "Enter") return;
+  e.preventDefault();
+  
+  // Берем текущее значение кода прямо из хука формы
+  const code = watch("code");
 
-  const isVisibleAccessoires = useMemo(() => type === 9, [type])
-
-  // Перенесли функцию внутрь или обернули бы в useCallback, но для useEffect можно оставить так
-  const generateAndCheckCode = async () => {
-    if (!year || !season) return;
-
-    const yearLabel = getYearById(year); // Получаем строку (например, "2026")
-    if (!yearLabel) return;
-
-    const yearPart = yearLabel.slice(2, 4); // Вырезаем последние 2 цифры
-    const seasonPart = getCodePart(season);
-    const firstPart = `${yearPart}${seasonPart}`; 
-
-    if (firstPart?.length === 3) {
-      try {
-        const response = await fetch(`/api/products/code?query=${firstPart}`);
-        if (!response.ok) throw new Error("Ошибка при запросе к API");
-        
-        const existingProducts = await response.json();
-        if (existingProducts?.maxCode){
-          setValue('code', Number(existingProducts?.maxCode) + 1, { shouldValidate: true })
-        }
-
-      } catch (e) {
-        console.error("Ошибка при генерации кода:", e);
-      }
+  try {
+    const res = await fetch(`/api/product/${code}`);
+    
+    // Если бэкенд возвращает 404 или null
+    if (!res.ok) {
+      toast.error("Товар не знайдено!");
+      return;
     }
-  };
 
-  useEffect(() => {
-    if (season && year) {
-      generateAndCheckCode();
+    const foundProduct = await res.json();
+    
+    if (!foundProduct) {
+      toast.error("Товар не знайдено!");
+      return;
     }
-  }, [season, year]); // Срабатывает каждый раз при изменении сезона или года
 
-   useEffect(() => {
-    if (vendor) {
-      console.log(vendor)
-      const conuntryId = getVendorCountry(vendor);
-      console.log(conuntryId)
-      if (conuntryId){
-        setValue('country', conuntryId, { shouldValidate: true })
-      }
-    }
-  }, [vendor]); 
+    setImage(foundProduct.small_image ?? foundProduct.images?.[0] ?? "")
 
-  useEffect(() => {
-    if (materialTop) {
-      const material = getMaterialId(materialTop);
-      if (material){
-        setValue('material', material, { shouldValidate: true })
-      }
+    // Магическая строчка: обновляет ВСЕ поля формы значениями из объекта товара
+    reset({
+      code: foundProduct.code || "",
+      year: foundProduct.year || defaultYear?.value || "",
+      season: foundProduct.season || "", 
+      type: foundProduct.type ?? 1,
+      gender: foundProduct.gender || "",
+      vendor: foundProduct.vendor || "",
+      model: foundProduct.model || "",
+      color: foundProduct.color || "",
+      country: foundProduct.country || "",
+      accessoires: foundProduct.accessoires || "",
+      material_top: foundProduct.material_top || "",
+      material_inside: foundProduct.material_inside || "",
+      material: foundProduct.material || "",
+      view: foundProduct.view || "",
+      style: foundProduct.style || "",
+      rozetka_id: foundProduct.rozetka_id || "",
+      heel: foundProduct.heel || "",
+      size_type: foundProduct.size_type || "",
+      sizesGroup: foundProduct.sizesGroup || "",
+      facebook: foundProduct.facebook || ""
+    });
+
+    toast.success("Товар успішно завантажено!");
+  } catch (e) {
+    console.error(e);
+    toast.error("Помилка при завантаженні товару");
+  }
+};
+
+
+const onChangeModel = async (e) => {
+  if (e.key !== "Enter") return;
+  e.preventDefault();
+  const model = watch("modelQuery");
+
+  try {
+    const params = { gender: "all", limit: 50, page: 1, query: model };
+    const queryString = new URLSearchParams(params).toString();
+    const res = await fetch(`/api/products/filter?${queryString}`);
+    const result = await res.json();
+    if (!result){
+      toast.error("Товар не знайдено!")
+      return;
     }
-  }, [materialTop]); 
+    setList(result.products);
+  } catch (e) {
+    console.error(e);
+  }
+};
+     
+const type = watch('type');
+
+const isVisibleAccessoires = useMemo(() => type === 9, [type])
+
+const onSetProductFromList = (product) => {
+   setImage(product.small_image ?? product.images?.[0] ?? "")
+      reset({
+      code: product.code || "",
+      year: product.year || defaultYear?.value || "",
+      season: product.season || "", 
+      type: product.type ?? 1,
+      gender: product.gender || "",
+      vendor: product.vendor || "",
+      model: product.model || "",
+      color: product.color || "",
+      country: product.country || "",
+      accessoires: product.accessoires || "",
+      material_top: product.material_top || "",
+      material_inside: product.material_inside || "",
+      material: product.material || "",
+      view: product.view || "",
+      style: product.style || "",
+      rozetka_id: product.rozetka_id || "",
+      heel: product.heel || "",
+      size_type: product.size_type || "",
+      sizesGroup: product.sizesGroup || "",
+      facebook: product.facebook || ""
+    });
+  setList([])
+}
 
   const onSubmit = async(data) => {
-    const name = getNameTotal(data)
-    const code = Number(data.code)
-    const product = {...data, name, code, barcodes: [code]}
+    const product = {...data}
 
     Object.keys(product).forEach(key => {
       if (product[key] === undefined) {
@@ -101,8 +144,8 @@ const NewProductPage = () => {
     });
 
     try{
-      const response = await fetch("/api/product/new", {
-          method: "POST",
+      const response = await fetch(`/api/product/${product.code}`, {
+          method: "PUT",
           headers: {
                       "Content-Type": "application/json",
                     },
@@ -122,27 +165,58 @@ const NewProductPage = () => {
 
   return (
     <section className="container page">
-      <S.Title>НОВИЙ ТОВАР</S.Title>
+      <Title>РЕДАКТИРОВАНИЕ ТОВАРА</Title>
+      {!!list?.length && 
+        <S.List>
+         {list.map(item => <ShopCard item={item} id={item.code} setProduct={onSetProductFromList} isList/>)}
+        </S.List>}
+      <Flex>
       <FormProvider {...methods}>
         <S.Form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
           <S.Flex>
-            <S.Row>
-          <Controller
-            control={control}
-            name="company"
-            render={({ field }) => (
-              <Select 
-                options={companies} 
-                label="Поставщик"
-                placeholder="Поиск поставщика..."
-                isInput={true}
-                value={field.value} 
-                onChange={field.onChange} 
-                tabIndex={1}
+                <Input
+                          type="text"
+                          placeholder="Поиск по коду товара"
+                          tabIndex={2}
+                          onKeyDown={onChangeCode}
+                          enterKeyHint="next"
+                          label='Поиск по коду'
+                          on
+                          isBorder
+                        {...register("code", { required: true })}
+                        />
+                         <Input
+                          type="text"
+                          placeholder="Поиск по модели"
+                          tabIndex={3}
+                          onKeyDown={onChangeModel}
+                          enterKeyHint="next"
+                          label='поиск по модели'
+                          on
+                          isBorder
+                        {...register("modelQuery")}
+                        />
+                        </S.Flex>
+          <Flex>
+            <Row>
+
+               <Controller
+                  control={control}
+                  name="company"
+                  render={({ field }) => (
+                    <Select 
+                      options={companies} 
+                      label="Поставщик"
+                      placeholder="Поиск поставщика..."
+                      isInput={true}
+                      value={field.value} 
+                      onChange={field.onChange} 
+                      tabIndex={1}
+                    />
+                  )}
               />
-            )}
-          />
-        <Controller
+
+          <Controller
             control={control}
             name="type"
             render={({ field }) => (
@@ -190,18 +264,6 @@ const NewProductPage = () => {
             )}
           />
 
-          <Input
-            type="number"
-            placeholder="Введіть код товару"
-            tabIndex={4}
-            label='Код товару'
-            isBorder
-            {...register("code", { 
-              required: "Це поле є обов'язковим для заповнення" 
-            })}
-          />
-
-  
           <Controller
             control={control}
             name="gender"
@@ -235,14 +297,12 @@ const NewProductPage = () => {
           />
 
           <Input
+            name="model"
             type="text"
             placeholder="Введіть номер моделі"
             tabIndex={7}
             label='Модель'
             isBorder
-            {...register("model", { 
-              required: "Це поле є обов'язковим для заповнення" 
-            })}
           />
 
 
@@ -277,8 +337,25 @@ const NewProductPage = () => {
               />
             )}
           />
-          </S.Row>
-          <S.Row>       
+
+      <Controller
+            control={control}
+            name="rozetka_id"
+            render={({ field }) => (
+              <Select 
+                options={categories} 
+                label="Категорія для розетки"
+                placeholder="Пошук періоду..."
+                isInput={true}
+                value={field.value} 
+                onChange={field.onChange}
+                tabIndex={16}
+              />
+            )}
+          />
+
+          </Row>
+          <Row>       
         {isVisibleAccessoires && <Controller
             control={control}
             name="accessoires"
@@ -359,21 +436,7 @@ const NewProductPage = () => {
             )}
           />
 
-          <Controller
-            control={control}
-            name="rozetka_id"
-            render={({ field }) => (
-              <Select 
-                options={categories} 
-                label="Категорія для розетки"
-                placeholder="Пошук періоду..."
-                isInput={true}
-                value={field.value} 
-                onChange={field.onChange}
-                tabIndex={16}
-              />
-            )}
-          />
+   
 
           <Controller
             control={control}
@@ -456,14 +519,18 @@ const NewProductPage = () => {
           />
     
     
-</S.Row>
-</S.Flex>
-          <button type="submit">Создать товар</button>
+</Row>
+</Flex>
+          <button type="submit">Изменить товар</button>
 
         </S.Form>
       </FormProvider>
+      {image && <S.ImageWrapper>
+        <Image src={image} alt="image" fill/>
+      </S.ImageWrapper>}
+      </Flex>
     </section>
   );
 };
 
-export default NewProductPage;
+export default ProductEditorPage;

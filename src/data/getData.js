@@ -20,10 +20,11 @@ export const getCurrencyName = (id) => {
 }
 
 export const getRate = (data, currency) => {
-  if (Number(currency) === 2){
+  if (Number(currency) === 1){
     return 1
   } else {
-    return data ? data.find(i => i.currency === Number(currency)) : 0
+    const result = data ? data.find(i => i.currency === Number(currency)) : 0
+    return result
   }
 }
 

@@ -10,9 +10,10 @@ import * as S from "./styles";
 import { getRate, lastSeasonValue, years } from "@/data";
 import { companies } from "@/data/companies";
 import { currencies } from "@/data/currencies";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { getVendor, getColorSimple } from "@/data";
+import { getDate } from "@/helpers/getDate";
 import InvoiceProduct from "./Product";
 import InvoiceList from "./InvoiceList";
 
@@ -23,6 +24,8 @@ const InvoiceModal = create(({ id, company }) => {
   const [list, setList] = useState([])
   const [rateValue, setRateValue] = useState(null)
   const [selectedProductId, setSelectedProductId] = useState(""); 
+
+    const queryClient = useQueryClient();
 
   const { data: rate } = useQuery({ 
     queryKey: ["rate"],
@@ -38,11 +41,8 @@ const InvoiceModal = create(({ id, company }) => {
       {currency: "EUR", rate: 0.88},
       {currency: "USD", rate: 1}
     ],
-    amount: null,
-    amountUSD: null,
     comment: "",
     company,
-    items: [],
     date: new Date().toLocaleDateString('ru-RU')
   },
 });
@@ -57,7 +57,6 @@ const InvoiceModal = create(({ id, company }) => {
 } = methods;
 
 const currency = watch('currency');
-const amount = watch('amount');
 const year = watch("season");
 const companyData = watch("company");
 
@@ -89,9 +88,64 @@ const handleUpdateProduct = (updatedProduct) => {
   );
 };
 
+const addInvoiceMutation = useMutation({
+  mutationFn: async (invoiceData) => {
+    const res = await fetch('/api/company/invoice/new', { 
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(invoiceData) 
+    });
+
+    if (!res.ok) {
+      throw new Error('Ошибка при создании накладной');
+    }
+
+    return res.json();
+  },
+  onSuccess: (result) => {
+    if (result.status === "success") {
+      toast.success(`Успешно добавлена накладная!`);
+      setItems([])
+      setList([])  
+      setSelectedProductId("")
+      setProductState(null)
+      
+      // 🔥 Сбрасываем кэш компании, чтобы React Query сам перезапросил свежие данные
+      // Замените 'id', на реальную переменную айдишника этой компании
+      queryClient.invalidateQueries({ queryKey: ['company', companyData] }); 
+    }
+  },
+  onError: (error) => {
+    console.error(error);
+    toast.error('Не получилось добавить накладную');
+  }
+});
+
 
 const onSubmit = async (data) => {
-  console.log('on submit', data)
+  if (!rateValue || typeof currency !== "number"){
+    toast.error("Необхідно проставити курс валюти!")
+    return
+  }
+  if (!items?.length){
+    toast.error("Необхідно додати хоч один товар!")
+    return
+  }
+
+   const date = getDate(data.date);
+   data.rate = rateValue;
+   data.items = items;
+   data.total = items.reduce((sum, item) => sum + item.total, 0);
+   data.totalUSD = Number((data.total / rateValue).toFixed(2));
+   data.date = date
+   
+    try {
+      await addInvoiceMutation.mutateAsync(data);
+    } catch (e){
+      console.log(e)
+    }
 
 };
 
@@ -131,8 +185,9 @@ const setProductToItems = (id) => {
 }
 
 const addItemToInvoice = ({quantity, sizes, price, id}) => {
+  console.log(sizes)
   const itemData = list.find(item => item._id === id)
-  const item = {quantity, sizes, price, total: price * quantity, itemData}
+  const item = {quantity, sizes, price, total: price * quantity, product: itemData, productCode: itemData.code}
   setItems(prevItems => [...prevItems, item]);
   setProductState(null)
   setSelectedProductId(""); 
@@ -142,8 +197,6 @@ const deleteItem = (id) => {
   const filteredArray = items.filter(item => item._id !== id)
   setItems(filteredArray)
 }
-
-console.log('items', items)
 
   return (
     <ReactModal id={id} closeOnClickOutside={false}>

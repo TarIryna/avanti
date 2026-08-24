@@ -51,29 +51,23 @@ const ProductSchema = new Schema(
     year: Number,
     heel: Number,
     totalCount: Number,
+    company: Number,
     total: {
-      type: Map,
-      of: [
-        {
-          shop: Number,
-          q: Number,
-        },
-      ],
-      default: {},
+    type: [
+      {
+        shop: Number,
+        q: Number,
+      },
+    ],
+      default: [], // Для массивов дефолтное значение лучше делать пустой массив
     },
     barcodes: {
       type: [String],
     }, 
-    sizes_all: {
-      type: Map,
-      of: [
-        {
-          size: String,
-          q: Number,
-        },
-      ],
-      default: {},
-    }
+   sizes_all: {
+    type: Object,
+    default: {},
+  },
   },
   { versionKey: false, timestamps: true, collection: "products" } // ← обязательно
 );

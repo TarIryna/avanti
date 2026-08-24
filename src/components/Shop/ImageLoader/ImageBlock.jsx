@@ -2,7 +2,6 @@ import * as S from './styles'
 import Image from 'next/image'
 
 const ImageBlock = ({ image }) => {
-    console.log(image)
     return (
         <S.ImageContainer>
             

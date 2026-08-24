@@ -21,8 +21,6 @@ export const GET = async () => {
       { $match: { "labelInfo.0": { $exists: true } } }
     ]);
 
-      console.log(labels)
-
             return new Response(JSON.stringify(labels), {
             status: 200,
             headers: { "Content-Type": "application/json" }

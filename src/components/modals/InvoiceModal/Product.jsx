@@ -9,10 +9,12 @@ import toast from "react-hot-toast";
 
 
 const InvoiceProduct = ({ product, addToInvoice, setProduct }) => {
-    const image = product.small_image ?? product.images[0] ?? null;
+    const image = product.small_image ?? product.images[0] ?? "";
     const [sizes, setSizes] = useState(() => getSizesList(product));
     const [quantity, setQuantity] = useState(0);
     const [price, setPrice] = useState(null);
+
+    console.log(sizes)
 
     const handleAddToInvoice = () => {
         if (!price || !quantity){
@@ -89,9 +91,9 @@ const InvoiceProduct = ({ product, addToInvoice, setProduct }) => {
               className="invoice-select"
             />
             <S.Flex>
-                <S.ImageCard>
+                {image && <S.ImageCard>
                    <Image src={image} alt={image} fill/>
-                </S.ImageCard>
+                </S.ImageCard>}
                 <S.Quantity>{quantity}</S.Quantity>
                 <Input
                     type="number"

@@ -8688,5 +8688,6 @@ export const vendors = [
 
 export const getVendorCountry = (id) => {
   const vendor = vendors.find(i => i.id === Number(id))
+  console.log(id, vendor)
   return vendor ? vendor.country_id : null
 }

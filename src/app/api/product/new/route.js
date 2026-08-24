@@ -1,6 +1,5 @@
 import Product from "@/models/product";
 import { connectToDB } from "@/utils/database";
-import { sendTelegramMessage } from "@/fetchActions/orders/sendTelegramMessage";
 
 export const POST = async (request) => {
   let { product } = await request.json();
@@ -8,7 +7,7 @@ export const POST = async (request) => {
   try {
     await connectToDB();
 
-    const newProduct = await Product.create(product);
+    await Product.create(product);
 
     return new Response(
       JSON.stringify('success'),

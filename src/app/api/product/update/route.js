@@ -53,7 +53,6 @@ export const PUT = async (request) => {
     }
 
     if (sizesGroup !== undefined) {
-      console.log(sizesGroup)
       product.sizesGroup = Number(sizesGroup);
       product.markModified("sizesGroup");
     }

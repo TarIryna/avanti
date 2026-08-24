@@ -29,7 +29,6 @@ const Reports = ({shop}) => {
         toast.error("Сталась помилка! Даних не знайдено")
         return;
         }
-        console.log(result)
         setReport(result);
     } catch (e) {
         console.error(e);

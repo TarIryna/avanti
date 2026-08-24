@@ -27,8 +27,6 @@ const LabelsModal = create(({ id }) => {
     getLabels()
   }, [])
 
-  console.log(labels)
-
   return (
     <ReactModal id={id} closeOnClickOutside={false}>
       <Wrapper>

@@ -451,11 +451,19 @@ export const sizesGroup = [
   {size: "39", q: 1},
   {size: "40", q: 1},
 ], quantity: 8},
+{id: 52, name: "36-40-8 (8.9.0)", default: [
+  {size: "36", q: 1},
+  {size: "37", q: 1},
+  {size: "38", q: 2},
+  {size: "39", q: 2},
+  {size: "40", q: 2},
+], quantity: 8},
 ]
 
 
 
 export const getSizesList = (item) => {
+  console.log(item.sizesGroup, item)
   if (!item.sizesGroup) return null
   return sizesGroup.find(i => i.id === item.sizesGroup)?.default
 }

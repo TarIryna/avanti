@@ -55,11 +55,7 @@ const onUpload = (images) => {
 }
 
 const onSetVideo = async() => {
-  console.log('onSetVideo')
-  // if (e.key !== "Enter") return;
-  // e.preventDefault();
   const video = watch("video")
-  console.log(video)
   if (!video || !product) return
   try {
           const response = await fetch(`/api/product/update`, {
@@ -75,9 +71,8 @@ const onSetVideo = async() => {
 
           if (!response.ok) throw new Error("Server error");
 
-          const data = await response.json();
-          console.log(data)
-            toast.success("Відео успішно додано");
+          await response.json();
+          toast.success("Відео успішно додано");
           
           // if (data && data.images) {
           //   setImages(data.images);

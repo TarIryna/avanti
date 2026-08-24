@@ -6,7 +6,6 @@ import { connectToDB } from "@/utils/database";
 export const POST = async (request) => {
   const { client, items, total, terminal, shop, type } = await request.json();
   const isSalePrice = type === "sale" || type === "return";
-  console.log(terminal)
   
   try {
     await connectToDB();
@@ -31,7 +30,7 @@ export const POST = async (request) => {
         const terminalPart = isSalePrice && terminal && totalSum > 0
           ? Math.round((itemTotal / totalSum) * terminal)
           : 0;
-console.log('terminal', terminalPart)
+
         const product = await Product.findOne({ code: item.code });
 
         const multiplier = ["sale", "decrease", "inside"].includes(type) ? -1 : 1;

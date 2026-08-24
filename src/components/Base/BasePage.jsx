@@ -22,10 +22,10 @@ const BasePage = () => {
         <>
         <S.Title>ОПЕРАЦІЇ З ТОВАРАМИ</S.Title>
         <S.MenuList>
-                 <S.MenuShopButton onClick={() => router.push(`/base/orders`)}>Внести поточні замовлення</S.MenuShopButton>
-                 <S.MenuShopButton onClick={() => router.push(`/shop/new`)}>Новий товар</S.MenuShopButton>
+                 <S.MenuShopButton onClick={() => router.push(`/base/orders`)}>Внести заказы</S.MenuShopButton>
                  <S.MenuShopButton onClick={() => router.push(`/shop/photo`)}>ФОТО</S.MenuShopButton>
-                 <S.MenuShopButton onClick={() => router.push(`/base/revalue`)}>ПЕРЕОЦІНКА</S.MenuShopButton>
+                 <S.MenuShopButton onClick={() => router.push(`/base/product`)}>ТОВАРЫ</S.MenuShopButton>
+                 <S.MenuShopButton onClick={() => router.push(`/base/revalue`)}>ПЕРЕОЦЕНКА</S.MenuShopButton>
                  <S.MenuShopButton onClick={() => router.push(`/shop/catalog`)}>КАТАЛОГИ</S.MenuShopButton>
                  <S.MenuShopButton onClick={() => router.push(`/base/companies`)}>ПОСТАВЩИКИ</S.MenuShopButton>
                  <S.MenuShopButton onClick={() => router.push(`/base/rate`)}>КУРС</S.MenuShopButton>

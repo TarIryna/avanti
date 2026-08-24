@@ -44,6 +44,7 @@ const ShopCard = ({ item, setProduct, isList, info, shop, type, comment, staff, 
           {!isList && !isOrder && <div> 
             <Sizes sizes={sizes["1"]} item={item} info isShop color="grey" shop="1" isText/>
             <Sizes sizes={sizes["2"]} item={item} info isShop color="grey" shop="2"/>
+            {sizes["3"] && <Sizes sizes={sizes["3"]} item={item} info isShop color="grey" shop="3"/>}
              </div>}
            {!isList && isOrder && <div> 
             <Sizes sizes={item.sizes} item={item} info color="grey" isText/>

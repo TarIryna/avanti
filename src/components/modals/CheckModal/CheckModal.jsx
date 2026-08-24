@@ -62,7 +62,6 @@ const onChangeCash = (e) => {
 
   // 🌟 Читаем значение НАПРЯМУЮ из инпута, минуя watch()
   const inputValue = e.target.value;
-  console.log('Введено в наличку:', inputValue);
 
   const cashValue = Number(inputValue || 0);
   const terminalValue = Math.max(0, Number(check.total) - cashValue);

@@ -2410,3 +2410,8 @@ export const companies = [
    "e-mail": ""
  }
 ]
+
+export const getCompanyName = (id) => {
+  const data = companies.find(i => i.id === Number(id))
+  return data ? data.name : ""
+}
