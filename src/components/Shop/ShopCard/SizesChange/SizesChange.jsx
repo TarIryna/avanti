@@ -122,8 +122,6 @@ const SizesChange = ({ item, setProduct, addToCheck, shop, type, comment, staff,
 
   const sizes = getSizesList(item);
 
-  console.log('sizes', sizes)
-
   return (
     <FormProvider {...methods}>
       <S.SizesWrapper>
