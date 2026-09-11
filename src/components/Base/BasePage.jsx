@@ -23,7 +23,6 @@ const BasePage = () => {
         <S.Title>ОПЕРАЦІЇ З ТОВАРАМИ</S.Title>
         <S.MenuList>
                  <S.MenuShopButton onClick={() => router.push(`/base/orders`)}>Внести заказы</S.MenuShopButton>
-                 <S.MenuShopButton onClick={() => router.push(`/shop/photo`)}>ФОТО</S.MenuShopButton>
                  <S.MenuShopButton onClick={() => router.push(`/base/product`)}>ТОВАРЫ</S.MenuShopButton>
                  <S.MenuShopButton onClick={() => router.push(`/base/revalue`)}>ПЕРЕОЦЕНКА</S.MenuShopButton>
                  <S.MenuShopButton onClick={() => router.push(`/shop/catalog`)}>КАТАЛОГИ</S.MenuShopButton>

@@ -7,3 +7,8 @@ export const staffList = [
     {id: 6, name: "Маша", value: "5"},   
     {id: 7, name: "Лена", value: "6"}, 
 ]
+
+export const getStaffName = (id) => {
+    if (!id) return ""
+    return staffList.find(i => i.id === Number(id))?.name ?? ""
+}

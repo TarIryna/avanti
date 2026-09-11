@@ -23,6 +23,7 @@ const ProductPage = () => {
         <S.Title>ОПЕРАЦІЇ З ТОВАРАМИ</S.Title>
         <S.MenuList>
                  <S.MenuShopButton onClick={() => router.push(`/shop/new`)}>Новый товар</S.MenuShopButton>
+                 <S.MenuShopButton onClick={() => router.push(`/shop/photo`)}>ФОТО</S.MenuShopButton>
                  <S.MenuShopButton onClick={() => router.push(`/base/product/editor`)}>ТОВАРЫ РЕДАКТИРОВАНИЕ</S.MenuShopButton>
                  <S.MenuShopButton onClick={() => router.push(`/base/product/view`)}>ТОВАРЫ ПРОСМОТР</S.MenuShopButton>
         </S.MenuList>

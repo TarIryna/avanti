@@ -4,6 +4,10 @@ import { useState } from 'react';
 import { Input } from '@/components/ui';
 import ShopCard from '@/components/Shop/ShopCard/ShopCard';
 import { useForm, FormProvider } from 'react-hook-form';
+import ProductInfo from './ProductInfo/ProductInfo';
+import ProductOperations from './ProductOperations/ProductOperations';
+import ProductInvoices from './ProductInvoices/ProductInvoices';
+import ProductResult from './ProductResult/ProductResult';
 
 const ProductViewPage = () => {
     const [productData, setProductData] = useState(null)
@@ -67,8 +71,53 @@ const onSetProductFromList = (data) => {
   setList([])
 }
 
-console.log(productData)
-  
+    const getTotalOperations = (operations) => {
+      if (!operations) return { totalUAH: 0, totalUSD: 0, totalCount: 0 }
+      return operations.reduce((acc, operation) => {
+      const isSalePrice = !!operation.salePrice
+      const totalLocal = isSalePrice ? operation.salePrice : 0;
+      const rate = operation.rate || 45;
+      const totalUSD = isSalePrice ? (totalLocal / rate) : 0;
+      const totalCount = isSalePrice ? operation.quantity : 0;
+      acc.totalUAH += totalLocal;
+      acc.totalUSD += totalUSD;
+      acc.totalCount += totalCount;
+      return acc;
+  }, { totalUAH: 0, totalUSD: 0, totalCount: 0 });
+}
+
+  const getTotalInvoices = (invoices) => {
+    if (!invoices) return { byCurrency: {}, totalUSD: 0, totalCount: 0 }
+    return invoices.reduce((acc, invoice) => {
+      const currency = invoice.currency;
+      const rate = invoice.rate || 1;
+
+      let localItemTotal = 0;
+      let localItemCount = 0;
+      
+      if (invoice.items && Array.isArray(invoice.items)) {
+        invoice.items.forEach(item => {
+          localItemTotal += item.total || 0;
+          localItemCount += item.quantity || 0; // или item.totalCount, в зависимости от имени поля в item
+        });
+      }
+      // Считаем сумму в USD для текущего инвойса
+      const totalUSD = localItemTotal / rate;
+
+      // Инициализируем валюту в аккумуляторе, если её еще нет
+      if (!acc.byCurrency[currency]) {
+        acc.byCurrency[currency] = 0;
+      }
+
+      // Суммируем в локальной валюте и общую сумму в USD
+      acc.byCurrency[currency] += localItemTotal;
+      acc.totalUSD += totalUSD;
+      acc.totalCount += localItemCount;
+
+      return acc;
+  }, { byCurrency: {}, totalUSD: 0, totalCount: 0 });
+}
+
     return (
              <section className="container page">
                <Title>ПРОСМОТР ТОВАРА</Title>
@@ -96,11 +145,20 @@ console.log(productData)
                     />
                </S.Form>
                </FormProvider>
-            {!!productData && <ShopCard item={productData.product} setProduct={onSetProductFromList} isSelected info/>}
+             {!!productData?.product &&  <S.Wrapper>
+                <ShopCard item={productData.product} setProduct={onSetProductFromList} isSelected info/>
+                <ProductInfo product={productData.product}/>
+              </S.Wrapper>}
+              {!!productData?.operations && !!productData?.invoices && <ProductResult operations={getTotalOperations(productData.operations)} invoices={getTotalInvoices(productData.invoices)}/>}
+              {!!productData && <S.Grid>
+                  <ProductOperations operations={productData.operations ?? []} total={getTotalOperations(productData.operations)}/>
+                  <ProductInvoices invoices={productData.invoices ?? []} code={productData?.product?.code} total={getTotalInvoices(productData.invoices)}/>
+              </S.Grid>}
             {!!list?.length && 
             <S.List>
                 {list.map(item => <ShopCard item={item} id={item.code} setProduct={onSetProductFromList} isList shop={shop} type="arrival"/>)}
              </S.List>}
+
             </section>
     )
 }

@@ -54,6 +54,17 @@ const onUpload = (images) => {
   setImages(prevImages => [...prevImages, ...images]);
 }
 
+const onUploadFromServer = async() => {
+  try {
+     const res = await fetch(`/api/upload`);
+      const result = await res.json();
+      toast.success("Успішно загружено фото у /tmp")
+  } catch (e){
+    toast.error("Помилка при загрузці фото")
+  }
+ 
+}
+
 const onSetVideo = async() => {
   const video = watch("video")
   if (!video || !product) return
@@ -196,6 +207,9 @@ const getImagesData = (data) => {
           </FormProvider>
            <Button onClick={downloadProducts} disabled={isDownloading} style={{marginTop: "50px"}}>
             {isDownloading ? 'Формирование файла...' : 'Скачать JSON за сегодня'}
+          </Button>
+             <Button onClick={onUploadFromServer} style={{marginTop: "50px"}}>
+             Скачать данные с сервера
           </Button>
       </section>
     )

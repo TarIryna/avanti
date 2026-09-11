@@ -27,16 +27,22 @@ export const GET = async (request, { params }) => {
     const productAccessCode = product.code; 
 
     // 2. Запускаем параллельный поиск в других коллекциях для скорости (через Promise.all)
-    const [invoices, operations] = await Promise.all([
-      // Ищем все инвойсы, где в массиве items есть элемент с нашим productCode
-      Invoice.find({ "items.productCode": String(productAccessCode) })
-        .sort({ date: -1 }), // Сортируем: сначала новые получения
+const [invoicesData, operations] = await Promise.all([
+  Invoice.find({ "items.productCode": String(productAccessCode) })
+    .sort({ date: -1 })
+    .lean(), // 1. Добавляем .lean(), чтобы получить чистые JS-объекты
 
-      // Ищем все операции по стабильному коду товара
-      Operation.find({ code: Number(productAccessCode) })
-        .sort({ createdAt: -1 }) // Сортируем: сначала свежие операции
-    ]);
+  Operation.find({ code: Number(productAccessCode) })
+    .sort({ createdAt: -1 })
+]);
 
+// 2. Фильтруем массив items в каждом инвойсе
+const invoices = invoicesData.map(invoice => ({
+  ...invoice,
+  items: invoice.items.filter(item => item.productCode === String(productAccessCode))
+}));
+
+console.log('operations', operations)
     // 3. Формируем единый упорядоченный ответ
     const responseData = {
       product,

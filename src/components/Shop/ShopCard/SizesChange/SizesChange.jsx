@@ -11,8 +11,6 @@ const SizesChange = ({ item, setProduct, addToCheck, shop, type, comment, staff,
   const buttonText = type === "arrival" ? "Оформити прихід" : type === "return" ? "Офрмити повернення" : type === "sale" ? "Оформити продаж" : "Оформити списання"
   const isAddFunction = type === "return" || type === "arrival"
 
-  console.log(item)
-
  const onSubmit = async (data) => {
   try {
     const existingSizes = isOrder ? item.sizes : [...(item.sizes_all?.[shop?.toString()] || [])];

@@ -7,7 +7,7 @@ import { shopsData } from "./data";
 import * as S from "./styles";
 import { useRouter } from "next/navigation";
 
-const ShopPage = () => {
+const ProductPage = () => {
       const router = useRouter();
       const shops = shopsData.filter(i => i.isShop === true)
   // const { data: user, isLoading, isError } = useUserSession();
@@ -22,13 +22,10 @@ const ShopPage = () => {
   return (
      <section className="container page">
       {/* {isAdmin ? ( */}
-        <S.Title>МАГАЗИН ОНЛАЙН</S.Title>
+        <S.Title>ТОВАРИ</S.Title>
         <S.MenuList>
-          {shops.map((i) => (
-                 <S.MenuShopButton onClick={() => router.push(`/shop/${i.id}`)}>{i.name}</S.MenuShopButton>
-                ))}
-                 <S.MenuShopButton onClick={() => router.push(`/shop/product`)}>ТОВАРИ</S.MenuShopButton>
-                 <S.MenuShopButton onClick={() => router.push(`/shop/catalog`)}>КАТАЛОГИ</S.MenuShopButton>
+                 <S.MenuShopButton onClick={() => router.push(`/shop/new`)}>НОВИЙ ТОВАР</S.MenuShopButton>
+                 <S.MenuShopButton onClick={() => router.push(`/shop/catalog`)}>ФОТО</S.MenuShopButton>
         </S.MenuList>
         
       {/* ) : ( */}
@@ -42,4 +39,4 @@ const ShopPage = () => {
   );
 };
 
-export default ShopPage;
+export default ProductPage;

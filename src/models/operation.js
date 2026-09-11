@@ -16,7 +16,6 @@ const OperationSchema = new Schema(
         },
     image: {
           type: String,
-          required: [true, "Image is required!"],
         },
     size: {
           type: Object
@@ -49,7 +48,13 @@ const OperationSchema = new Schema(
     },
     staff: {
       type: Number
-    }
+    },
+    destination: {
+      type: Number
+    },
+    rate: {
+      type: Number
+    },
   },
   {
     timestamps: true, // ✅ это нужно ставить здесь, во втором аргументе

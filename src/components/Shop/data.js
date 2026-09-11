@@ -10,7 +10,15 @@ export const shopMenuData = [
 ]
 
 export const shopsData = [
-    {id: 1, name: "Аванті 1"},
-    {id: 2, name: "Аванті 2"},
-    // {id: 3, name: "Склад"}
+    {id: 1, short: "А1", name: "Аванті 1", isShop: true},
+    {id: 2, short: "А2", name: "Аванті 2", isShop: true},
+    {id: 3, short: "СКЛ", name: "Склад", isShop: false },
 ]
+
+export const getOperationName = (value) => {
+    return shopMenuData.find(i => i.value === value)?.name
+}
+
+export const getShortShopName = (id) => {
+    return shopsData.find(i => i.id === Number(id))?.short
+}

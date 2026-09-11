@@ -38,7 +38,9 @@ export const POST = async (request) => {
 
 
         if (product) {
+          console.log('product', product)
           const sizesAll = product.get("sizes_all");
+          console.log("sizesAll", sizesAll)
           const sizes = product.get("sizes");
 
           for (const itemSize of item.size) {
@@ -63,12 +65,11 @@ export const POST = async (request) => {
 
           const shopKey = shop.toString();
 
-          if (!sizesAll.get(shopKey)) {
-            sizesAll.set(shopKey, []);
+         if (!sizesAll[shopKey]) {
+            sizesAll[shopKey] = [];
           }
-
-          const shopSizes = sizesAll.get(shopKey);
-
+          const shopSizes = sizesAll[shopKey];
+          
           for (const itemSize of item.size) {
             let sizeObj = shopSizes.find((s) => s.size === itemSize.size);
 

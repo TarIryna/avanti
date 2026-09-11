@@ -9,6 +9,7 @@ export const destinations = [
 ]
 
 export const getDestinationName = (id) => {
+    if (!id) return ""
     const result = destinations.find(item => item.id === Number(id))
     return result?.name ?? ""
 }

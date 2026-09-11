@@ -9,6 +9,7 @@ export const getSizesObject = (item) => {
    if (Array.isArray(sizesType)) {
     sizesType.map(i => i.q = 0);
   }
+  if (!allSizes) return {}
     return  Object.fromEntries(
       Object.entries(allSizes).map(([key, currentSizes]) => {
       

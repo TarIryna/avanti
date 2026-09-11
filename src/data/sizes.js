@@ -463,7 +463,6 @@ export const sizesGroup = [
 
 
 export const getSizesList = (item) => {
-  console.log(item.sizesGroup, item)
   if (!item.sizesGroup) return null
   return sizesGroup.find(i => i.id === item.sizesGroup)?.default
 }
@@ -472,3 +471,10 @@ export const getSizesDefaultQuantity = (item) => {
   return sizesGroup.find(i => i.id === item.sizesGroup)?.quantity
 }
 
+export const getSizesName = (id) => {
+  return sizesGroup.find(i => i.id === Number(id))?.name ?? ""
+}
+
+export const getSizesTypeName = (id) => {
+  return sizesLengths.find(i => i.id === Number(id))?.name ?? ""
+}
