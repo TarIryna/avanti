@@ -194,6 +194,11 @@ export const Flex = styled.div`
     justify-content: center;
 `
 
+export const FlexLeft = styled.div`
+    display: flex;
+    gap: 10px;
+`
+
 export const Row = styled.div`
     width: 400px;
     display: flex;

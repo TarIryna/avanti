@@ -11,7 +11,8 @@ import ImageSorter from './ImageSortable';
 const PhotoPage = () => {
    const [product, setProduct] = useState(null)
    const [images, setImages] = useState([])
-   const [isDownloading, setIsDownloading] = useState(false);
+   const [isDownloadingFirst, setIsDownloadingFirst] = useState(false);
+   const [isDownloadingSecond, setIsDownloadingSecond] = useState(false);
    const methods = useForm({
       defaultValues: {
         code: "",
@@ -54,16 +55,44 @@ const onUpload = (images) => {
   setImages(prevImages => [...prevImages, ...images]);
 }
 
-const onUploadFromServer = async() => {
+const onUploadFromServer = async () => {
+   setIsDownloadingSecond(true);
   try {
-     const res = await fetch(`/api/upload`);
-      const result = await res.json();
-      toast.success("Успішно загружено фото у /tmp")
-  } catch (e){
-    toast.error("Помилка при загрузці фото")
-  }
- 
-}
+    const res = await fetch(`/api/upload`);
+    
+    if (!res.ok) {
+      throw new Error(`Ошибка сервера: ${res.status}`);
+    }
+
+    // Читаем ответ как обычный текст (CSV), а не JSON!
+    const csvContent = await res.text();
+    
+    // Создаем Blob из полученной CSV-строки
+    const blob = new Blob([csvContent], { type: 'text/csv; charset=utf-8' });
+    const url = window.URL.createObjectURL(blob);
+    
+    // Автоматически скачиваем файл пользователю
+    const link = document.createElement('a');
+    link.href = url;
+    
+    // Имя файла можно достать из заголовков или задать вручную
+    const dateStr = new Date().toISOString().split('T')[0];
+    link.download = `cloudinary_report_${dateStr}.csv`;
+    
+    document.body.appendChild(link);
+    link.click();
+    
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+
+    toast.success("Успішно завантажено та збережено файл!");
+  } catch (e) {
+    console.error("Помилка завантажения:", e);
+    toast.error("Помилка при загрузці фото");
+  } finally {
+      setIsDownloadingSecond(false);
+    }
+};
 
 const onSetVideo = async() => {
   const video = watch("video")
@@ -121,7 +150,7 @@ const getImagesData = (data) => {
 };
 
  const downloadProducts = async () => {
-    setIsDownloading(true);
+    setIsDownloadingFirst(true);
     try {
       // 1. Получаем данные с бэкенда
       const response = await fetch('/api/products/updated');
@@ -153,10 +182,10 @@ const getImagesData = (data) => {
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
     } catch (error) {
-      console.error('Не удалось скачать файл:', error);
-      alert('Ошибка при выгрузке данных');
+      console.error('Не вдалося скачати файл:', error);
+      alert('Помилка при вигрузці даних');
     } finally {
-      setIsDownloading(false);
+      setIsDownloadingFirst(false);
     }
   };
 
@@ -205,12 +234,14 @@ const getImagesData = (data) => {
                 </S.VideoContainer>}
              </S.Form>
           </FormProvider>
-           <Button onClick={downloadProducts} disabled={isDownloading} style={{marginTop: "50px"}}>
-            {isDownloading ? 'Формирование файла...' : 'Скачать JSON за сегодня'}
+          <S.FlexLeft>
+           <Button onClick={downloadProducts} disabled={isDownloadingFirst} style={{marginTop: "50px"}}>
+            {isDownloadingFirst ? 'Формирование файла...' : 'Скачати JSON за сьогодні'}
           </Button>
-             <Button onClick={onUploadFromServer} style={{marginTop: "50px"}}>
-             Скачать данные с сервера
+             <Button onClick={onUploadFromServer} disabled={isDownloadingSecond} style={{marginTop: "50px"}}>
+             {isDownloadingSecond ? 'Формирование файла...' : 'Скачати дані з Cloudinary'}
           </Button>
+          </S.FlexLeft>
       </section>
     )
 }

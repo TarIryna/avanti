@@ -74,8 +74,17 @@ export async function POST(req) {
 
 
 export async function GET() {
-  const startDate = '2026-08-26';
-  const endDate = '2026-08-31';
+  // const startDate = '2026-08-26';
+  // const endDate = '2026-08-31';
+  const now = new Date();
+
+  // Сегодня
+  const endDate = now.toISOString().split('T')[0];
+
+  // Вчера
+  const yesterday = new Date(now);
+  yesterday.setDate(now.getDate() - 1);
+  const startDate = yesterday.toISOString().split('T')[0];
 
   try {
     console.log(`Поиск файлов за период с ${startDate} по ${endDate}...`);
@@ -143,11 +152,11 @@ export async function GET() {
       csvContent += rowParts.join(';') + '\n';
     });
 
-    // 6. Сохранение файла на сервере
-    const filePath = path.join('/tmp', 'cloudinary_report.csv');
-    fs.writeFileSync(filePath, csvContent, 'utf-8');
+    // // 6. Сохранение файла на сервере
+    // const filePath = path.join('/tmp', 'cloudinary_report.csv');
+    // fs.writeFileSync(filePath, csvContent, 'utf-8');
 
-    console.log("Файл сохранен в D://tmp//cloudinary_report.csv")
+    // console.log("Файл сохранен в D://tmp//cloudinary_report.csv")
 
     // 7. Отдача файла пользователю в браузер
     return new Response(csvContent, {
