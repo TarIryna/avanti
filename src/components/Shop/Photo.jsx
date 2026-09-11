@@ -149,30 +149,56 @@ const getImagesData = (data) => {
   });
 };
 
- const downloadProducts = async () => {
+const downloadProducts = async () => {
     setIsDownloadingFirst(true);
     try {
-      // 1. Получаем данные с бэкенда
+      // 1. Получаем JSON-данные с бэкенда
       const response = await fetch('/api/products/updated');
-      const data = await response.json();
-      const transformedData = getImagesData(data)
-
-      // 2. Переводим данные в строку JSON с форматированием в 2 пробела
-      const jsonString = JSON.stringify(transformedData, null, 2);
+      if (!response.ok) throw new Error(`Ошибка сервера: ${response.status}`);
       
-      // 3. Создаем Blob-объект с типом application/json
-      const blob = new Blob([jsonString], { type: 'application/json' });
+      const data = await response.json();
+      
+      // Трансформируем данные (получаем массив объектов)
+      const transformedData = getImagesData(data);
+
+      // Проверяем, есть ли данные для записи
+      if (!Array.isArray(transformedData) || transformedData.length === 0) {
+        alert('Нет измененных товаров для выгрузки');
+        return;
+      }
+
+      // 2. ТРАНСФОРМИРУЕМ JSON В СТРОКУ CSV
+      // Определяем заголовки на основе ключей первого объекта (например: code, name, price)
+      const headers = Object.keys(transformedData[0]);
+      let csvContent = headers.join(';') + '\n';
+
+      // Заполняем строки данными
+      transformedData.forEach((item) => {
+        const row = headers.map(key => {
+          const value = item[key] ?? '';
+          // Если значение — строка, экранируем кавычки и оборачиваем в кавычки для безопасности CSV
+          if (typeof value === 'string') {
+            return `"${value.replace(/"/g, '""')}"`;
+          }
+          return value;
+        });
+        csvContent += row.join(';') + '\n';
+      });
+      
+      // 3. Создаем Blob-объект с типом text/csv (с поддержкой кириллицы BOM)
+      // '\uFEFF' в начале строки нужен для того, чтобы Excel сразу правильно читал UTF-8 (кириллицу)
+      const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv; charset=utf-8' });
       
       // 4. Генерируем временную URL-ссылку для Blob
       const url = window.URL.createObjectURL(blob);
       
-      // 5. Создаем невидимый элемент ссылки для скачивания
+      // 5. Создаем невидимый элемент ссылки для скачивания (теперь .csv)
       const link = document.createElement('a');
       link.href = url;
       
-      // Формируем имя файла с текущей датой (например, products_2026-07-22.json)
-      const dateStr = new Date().toISOString().split('T')[0];
-      link.download = `products_changed_${dateStr}.json`;
+      // Формируем имя файла с расширением .csv
+      // const dateStr = new Date().toISOString().split('T')[0];
+      link.download = `products_changed.csv`;
       
       // 6. Программно имитируем клик по ссылке для запуска скачивания
       document.body.appendChild(link);
@@ -188,6 +214,7 @@ const getImagesData = (data) => {
       setIsDownloadingFirst(false);
     }
   };
+
 
     return (
       <section className="container page">
