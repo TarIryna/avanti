@@ -6,6 +6,8 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { Button, Input } from '../ui';
 import ShopCard from './ShopCard/ShopCard';
 import toast from 'react-hot-toast';
+import HeadButtons from './HeadButtons';
+import { OPERATION_TYPE } from '@/constants/constants';
 
 const InsideRedirectPage = () => {
     const [productFrom, setProductFrom] = useState(null)
@@ -93,6 +95,7 @@ const onSubmit = async() => {
     return (
          <section className="container page">
         <S.Title>ПЕРЕКИДУВАННЯ МІЖ КОДАМИ</S.Title>
+        <HeadButtons/>
           <FormProvider {...methods}>
              <S.Form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
                 <S.ProductConatiner>
@@ -121,8 +124,8 @@ const onSubmit = async() => {
                         {...register("codeTo", { required: true })}
                         />
                     <S.Flex>
-                          {!!productFrom && <ShopCard item={productFrom} isSelected type="inside-redirect" shop={shop}/>}
-                          {!!productTo && <ShopCard item={productTo} isSelected type="inside-redirect" shop={shop}/>}
+                          {!!productFrom && <ShopCard item={productFrom} isSelected type={OPERATION_TYPE.REDIRECT} shop={shop}/>}
+                          {!!productTo && <ShopCard item={productTo} isSelected type={OPERATION_TYPE.REDIRECT} shop={shop}/>}
                     </S.Flex>
                     <Button type="submit">Об'єднати</Button>
                    </S.InfoContainer>

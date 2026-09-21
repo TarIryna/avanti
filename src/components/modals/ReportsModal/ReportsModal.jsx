@@ -2,15 +2,15 @@ import { create, useModal } from "@ebay/nice-modal-react";
 import ReactModal from "react-modal";
 import { Wrapper } from "../styles";
 import * as S from "./styles";
-import { useEffect } from "react";
+import Operations from "./Operations";
 
 const ReportsModal = create(({ id, report, shop }) => {
  const modal = useModal(id);
 
  const today = new Date();
  const formattedDate = today.toLocaleDateString('ru-RU');
- const totalOperations = report.operations.reduce((sum, op) => sum + Number(op.quantity || 0), 0);
-  const totalSum = report.operations.reduce((sum, op) => {
+ const totalOperations = report?.operations?.reduce((sum, op) => sum + Number(op.quantity || 0), 0);
+ const totalSum = report?.operations?.reduce((sum, op) => {
     // Умножаем на -quantity, так как при продаже (quantity < 0) деньги в кассу ПРИХОДЯТ (+), 
     // а при возврате (quantity > 0) деньги из кассы УХОДЯТ (-)
     const qty = Number(op.quantity || 0);
@@ -19,14 +19,14 @@ const ReportsModal = create(({ id, report, shop }) => {
     return sum + (-qty * price);
   }, 0);
     // 2. Общая сумма по терминалу
-  const totalTerminal = report.operations.reduce((sum, op) => {
+  const totalTerminal = report?.operations?.reduce((sum, op) => {
     const qty = Number(op.quantity || 0);
     const terminal = Number(op.terminal || 0);
     
     return sum + (-qty * terminal);
   }, 0);
 
- const totalBefore = report.total + totalOperations
+ const totalBefore = report.total - totalOperations
 
 
   //  useEffect(() => {
@@ -87,17 +87,21 @@ const ReportsModal = create(({ id, report, shop }) => {
         <S.ModalContainer>
           <S.TitleBlock>
             <S.Date>{formattedDate}</S.Date>
+            <S.Date>A{shop}</S.Date>
             <S.RightBlock>
               <S.TitleText>{totalSum}</S.TitleText>
               <S.TitleText>{totalTerminal}</S.TitleText>
-              <S.TitleText></S.TitleText>
+              <S.TitleText>{totalSum - totalTerminal}</S.TitleText>
             </S.RightBlock>
             <S.RightBlock>
               <S.TitleText>{totalBefore}</S.TitleText>
-              <S.TitleText>A{shop}</S.TitleText>
+              <S.TitleText>{totalOperations}</S.TitleText>
               <S.TitleText>{report.total}</S.TitleText>
             </S.RightBlock>
           </S.TitleBlock>
+          {!!report.operations?.length && <S.Operations>
+               <Operations operations={report.operations}/>
+          </S.Operations>}
         </S.ModalContainer>
       </Wrapper>
     </ReactModal>

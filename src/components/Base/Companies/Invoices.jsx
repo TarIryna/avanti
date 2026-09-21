@@ -41,9 +41,9 @@ const Invoices = ({invoices}) => {
        {invoices.map((item) => (
          <tr key={item._id} className="cursor" onClick={() => openInvoice(item)}>
            <td>{parseDate(item.date)}</td>
-           <td>{`${item.total} ${getCurrencySymbol(item.currency)}`}</td>
+           <td>{`${item.total?.toFixed(2)} ${getCurrencySymbol(item.currency)}`}</td>
            <td>{item.rate}</td>
-           <td>{item.totalUSD}</td>
+           <td>{item.totalUSD?.toFixed(2)}</td>
            <td>{getYearById(item.season)}</td>
            <td>{item.comment}</td>
          </tr>

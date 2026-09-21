@@ -14,8 +14,6 @@ const InvoiceProduct = ({ product, addToInvoice, setProduct }) => {
     const [quantity, setQuantity] = useState(0);
     const [price, setPrice] = useState(null);
 
-    console.log(sizes)
-
     const handleAddToInvoice = () => {
         if (!price || !quantity){
             toast.error("Обов'язкові поля ціна та кількість!");

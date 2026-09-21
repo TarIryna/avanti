@@ -107,6 +107,7 @@ export const SizesBlock = styled.div`
 
 export const SizeContainer = styled.div`
  height: max-content;
+ position: relative;
   ${({ isOne}) =>
     isOne && "border-right: 1px solid grey; border-left: 1px solid grey;"};
 
@@ -299,4 +300,37 @@ export const Notification = styled.div`
 
 export const PriceContainer = styled.p`
     position: relative;
+`
+
+export const Icon = styled.div`
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: -54%;
+    right: -26%;
+
+    svg {
+      max-width: 100%;
+      max-height: 100%;
+    }
+`
+
+export const Info = styled.div`
+    width: max-content;
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    padding: 1px 3px;
+    font-size: 10px;
+    z-index: 1;
+    background: white;
+    border: 1px solid grey;
+    border-radius: 16px;
+    ${media.mobile}{
+      max-width: 50vw;
+      padding: 1px 6px;
+      text-align: center;
+      top: -15px;
+    }
 `

@@ -1,3 +1,4 @@
+import { OPERATION_TYPE } from "@/constants/constants";
 import Operation from "@/models/operation";
 import Product from "@/models/product";
 import { connectToDB } from "@/utils/database";
@@ -18,7 +19,7 @@ export const POST = async (request) => {
           );
 
           // Добавление товара
-          if (type === "return" || type === "arrival") {
+          if (type === OPERATION_TYPE.RETURN || type === OPERATION_TYPE.ARRIVAL) {
             if (sizeObj) {
               sizeObj.q += itemSize.q;
             } else {
@@ -30,7 +31,7 @@ export const POST = async (request) => {
           }
 
           // Списание товара
-          if (type === "sale" || type === "decrease" || type === "inside") {
+          if (type === OPERATION_TYPE.SALE || type === OPERATION_TYPE.DECREASE || type === OPERATION_TYPE.INSIDE) {
             if (sizeObj) {
               sizeObj.q = Math.max(0, sizeObj.q - itemSize.q);
             }

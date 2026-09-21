@@ -6,9 +6,10 @@ export const operations = [
     {id: 4, value: "decrease", ru: "Списание", ukr: "Списання"},
     {id: 5, value: "inside", ru: "Внутренняя продажа", ukr: "Внутрішній продаж"},
     {id: 6, value: "redirect", ru: "Перемещение между кодами", ukr: "Переміщення між кодами"},
+    {id: 7, value: "audit", ru: "Ревизия", ukr: "Ревізія"},
 ]
 
 export const getOperationName = (value, lang = "ru") => {
     const operation = operations.find(op => op.value === value)
-    return lang === "ru" ? operation.ru : operation.ukr
+    return operation && lang === "ru" ? operation.ru : operation ? operation.ukr : ""
 }

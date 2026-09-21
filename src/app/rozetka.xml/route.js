@@ -18,8 +18,6 @@ import Product from "@/models/product";
 import { connectToDB } from "@/utils/database";
 
 export const dynamic = "force-dynamic";
-
-// export const dynamic = "force-static";
 // export const revalidate = 3000;
 
 export async function GET() {

@@ -4,7 +4,6 @@ import { Input } from '../ui';
 import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from "react-hook-form";
 import { salePrice } from '@/utils/salePrice';
-import Reports from './Reports/Reports';
 
 import Check from './Check';
 import { toast } from "react-hot-toast";
@@ -12,6 +11,8 @@ import { toast } from "react-hot-toast";
 import { useParams } from 'next/navigation';
 import SaleCard from './ShopCard/SaleCard';
 import Description from './Description';
+import { OPERATION_TYPE } from '@/constants/constants';
+import HeadButtons from './HeadButtons';
 
 const SalePage = () => {
   const params = useParams();
@@ -52,6 +53,10 @@ const addToCheck = (size) => {
   const quantity = size.reduce((sum, item) => {
       return sum + (Number(item.q) || 0);
     }, 0);
+    if (!salePrice(product, check.client)){
+      toast.error("Відсутня ціна товару!")
+      return
+    }
   setCheck((prev) => {
     return {
       ...prev,
@@ -160,7 +165,7 @@ const setDiscountToProduct = (discount, index) => {
     return (
       <section className="container page">
         <S.Title>ПРОДАЖ</S.Title>
-        <Reports shop={shop}/>
+        <HeadButtons shop={shop} isSale/>
         <FormProvider {...methods}>
           <S.Form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
            <S.ProductConatiner>
@@ -191,8 +196,8 @@ const setDiscountToProduct = (discount, index) => {
             {check?.client && <Description label="Клієнт" text={`${check?.client.name} ${check?.client.discount}% знижки`}/>}
               </S.InfoContainer>
              
-            {product &&  <SaleCard client={check?.client} product={product} addToCheck={addToCheck} shop={shop} type="sale"/>}
-            {check.items.length > 0 && <Check check={check} type="sale" setDiscount={setDiscountToProduct}/>}
+            {product &&  <SaleCard client={check?.client} product={product} addToCheck={addToCheck} shop={shop} type={OPERATION_TYPE.SALE}/>}
+            {check.items.length > 0 && <Check check={check} type={OPERATION_TYPE.SALE} setDiscount={setDiscountToProduct}/>}
             </S.ProductConatiner>
        
           </S.Form>

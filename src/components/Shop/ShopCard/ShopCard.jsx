@@ -4,18 +4,19 @@ import ImageWrapper from "@/components/Product/ImageWrapper";
 import Sizes from "../../Product/Sizes";
 import SizesChange from "./SizesChange/SizesChange";
 import * as S from "./styles";
+import { OPERATION_TYPE } from "@/constants/constants";
 
 const ShopCard = ({ item, setProduct, isList, info, shop, type, comment, staff, isOrder, hideImage}) => {
   if (!item){
     return
   }
-
+console.log(item)
   const sizes = item.sizes_all
   const name = item.name?.slice(0, 1).toUpperCase() + item.name?.slice(1);
   const image = item.images?.[0]
   const isSale = item.price > 0 && item.price2 > 0;
-  const text = type === "arrival" ? "Додаємо розміри" : type === "decrease" ?  "Списуємо розміри" : "Повернення розміру:"
-  
+  const text = type === OPERATION_TYPE.ARRIVAL ? "Додаємо розміри" : type === OPERATION_TYPE.DECREASE ?  "Списуємо розміри" : "Повернення розміру:"
+
   const onClick = () => {
     if (isList){
       setProduct(item)
@@ -42,9 +43,9 @@ const ShopCard = ({ item, setProduct, isList, info, shop, type, comment, staff, 
             />
             </S.ImageWrapper>}
           {!isList && !isOrder && <div> 
-            <Sizes sizes={sizes["1"]} item={item} info isShop color="grey" shop="1" isText/>
-            <Sizes sizes={sizes["2"]} item={item} info isShop color="grey" shop="2"/>
-            {sizes["3"] && <Sizes sizes={sizes["3"]} item={item} info isShop color="grey" shop="3"/>}
+            {sizes?.["1"] && <Sizes sizes={sizes["1"]} item={item} info isShop color="grey" shop="1" isText/>}
+            {sizes?.["2"] &&<Sizes sizes={sizes["2"]} item={item} info isShop color="grey" shop="2"/>}
+            {sizes?.["3"] && <Sizes sizes={sizes["3"]} item={item} info isShop color="grey" shop="3"/>}
              </div>}
            {!isList && isOrder && <div> 
             <Sizes sizes={item.sizes} item={item} info color="grey" isText/>

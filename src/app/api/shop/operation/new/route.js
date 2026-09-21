@@ -1,12 +1,15 @@
+import { OPERATION_TYPE } from "@/constants/constants";
 import Operation from "@/models/operation";
 import Product from "@/models/product";
 import Rate from "@/models/rate";
 import { connectToDB } from "@/utils/database";
 
 export const POST = async (request) => {
-  const { client, items, total, terminal, shop, type } = await request.json();
-  const isSalePrice = type === "sale" || type === "return";
-  
+  const { client, items, terminal, shop, type } = await request.json();
+  const isSalePrice = type === OPERATION_TYPE.SALE || type === OPERATION_TYPE.RETURN;
+  const decreaseType = type === OPERATION_TYPE.SALE || type === OPERATION_TYPE.DECREASE;
+  const increaseType = type === OPERATION_TYPE.RETURN || type === OPERATION_TYPE.ARRIVAL;
+
   try {
     await connectToDB();
     const lastRate = await Rate.findOne().sort({ timestamp: -1 });
@@ -33,21 +36,19 @@ export const POST = async (request) => {
 
         const product = await Product.findOne({ code: item.code });
 
-        const multiplier = ["sale", "decrease", "inside"].includes(type) ? -1 : 1;
-        const currentQuantity = Number(item.quantity ?? 1) * multiplier;
+        const multiplier = [OPERATION_TYPE.SALE, OPERATION_TYPE.DECREASE, OPERATION_TYPE.INSIDE].includes(type) ? -1 : 1;
+        const currentQuantity = (item.quantity ?? 1) * multiplier;
 
 
         if (product) {
-          console.log('product', product)
           const sizesAll = product.get("sizes_all");
-          console.log("sizesAll", sizesAll)
           const sizes = product.get("sizes");
 
           for (const itemSize of item.size) {
             let sizeObj = sizes.find((s) => s.size === itemSize.size);
 
             // Добавление товара (Возврат / Приход)
-            if (type === "return" || type === "arrival") {
+            if (increaseType) {
               if (sizeObj) {
                 sizeObj.q += itemSize.q;
               } else {
@@ -56,7 +57,7 @@ export const POST = async (request) => {
             }
 
             // Списание товара (Продажа / Списание / Перемещение)
-            if (type === "sale" || type === "decrease" || type === "inside") {
+            if (decreaseType) {
               if (sizeObj) {
                 sizeObj.q = Math.max(0, sizeObj.q - itemSize.q);
               }
@@ -74,7 +75,7 @@ export const POST = async (request) => {
             let sizeObj = shopSizes.find((s) => s.size === itemSize.size);
 
             // Добавление товара по конкретному магазину
-            if (type === "return" || type === "arrival") {
+            if (increaseType) {
               if (sizeObj) {
                 sizeObj.q += itemSize.q;
               } else {
@@ -83,7 +84,7 @@ export const POST = async (request) => {
             }
 
             // Списание товара по конкретному магазину
-            if (type === "sale" || type === "decrease" || type === "inside") {
+            if (decreaseType) {
               if (sizeObj) {
                 sizeObj.q = Math.max(0, sizeObj.q - itemSize.q);
               }
@@ -91,19 +92,18 @@ export const POST = async (request) => {
           }
 
           // ИСПРАВЛЕНО: Корректный приоритет скобок для вычисления pop и res
-          if (type === "sale" || type === "inside") {
+          if (type === OPERATION_TYPE.SALE) {
             product.pop = (product.pop || 0) + currentQuantity;
             product.res = Number((product.res || 0) + (item.salePrice / rate)).toFixed(2);
           }
           
-          if (type === "return") {
+          if (type === OPERATION_TYPE.RETURN) {
             product.pop = Math.max(0, (product.pop || 0) - currentQuantity);
             product.res = Number((product.res || 0) - (item.salePrice / rate)).toFixed(2);
           }
 
           sizes.sort((a, b) => Number(a.size) - Number(b.size));
           shopSizes.sort((a, b) => Number(a.size) - Number(b.size));
-          
           product.markModified("sizes_all");
           product.markModified("sizes");
           await product.save();

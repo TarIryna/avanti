@@ -1,23 +1,22 @@
 "use client";
 import * as S from './styles'
 import { Input } from '../ui';
-import { useEffect, useMemo, useState } from 'react';
-import { FormProvider, useForm, Controller } from "react-hook-form";
-import ShopProduct from './ShopProduct';
-import Image from "next/image";
+import { useEffect, useState } from 'react';
+import { FormProvider, useForm } from "react-hook-form";
 import Description from './Description';
-import Sizes from '../Product/Sizes'
 import Check from './Check';
 import { toast } from "react-hot-toast";
 import { useParams } from "next/navigation";
-import SizesChange from './ShopCard/SizesChange/SizesChange';
 import SaleCard from './ShopCard/SaleCard';
+import HeadButtons from './HeadButtons';
+import { OPERATION_TYPE } from '@/constants/constants';
 
 const ReturnPage = () => {
   const params = useParams();
   const shop = params.shop;
   const [check, setCheck] = useState({client: null, items: []})
   const [product, setProduct] = useState(null)
+  
   const methods = useForm({
   defaultValues: {
     code: "",
@@ -50,6 +49,11 @@ useEffect(() => {
 
 const onSubmit = async(data) => {
 console.log(data)
+}
+
+const onReset = () => {
+  setProduct(null)
+  setCheck(null)
 }
 
 const addToCheck =  (size) => {
@@ -141,6 +145,7 @@ if (!number) {
     return (
       <section className="container page">
         <S.Title>ПОВЕРНЕННЯ</S.Title>
+        <HeadButtons/>
         <FormProvider {...methods}>
           <S.Form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
            <S.ProductConatiner>
@@ -169,8 +174,8 @@ if (!number) {
               />}
              {check?.client && <Description label="Клієнт" text={`${check?.client.name} ${check?.client.discount}% знижки`}/>}
             </S.InfoContainer>
-              {product &&  <SaleCard client={check?.client} product={product} addToCheck={addToCheck} shop={shop} type="return"/>}
-            {check.items.length > 0 && <Check check={check} type="return"/>}
+              {product &&  <SaleCard client={check?.client} product={product} addToCheck={addToCheck} shop={shop} type={OPERATION_TYPE.RETURN}/>}
+            {check.items.length > 0 && <Check check={check} type={OPERATION_TYPE.RETURN} reset={onReset}/>}
             </S.ProductConatiner>
        
    

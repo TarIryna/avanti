@@ -2,6 +2,7 @@ import { parseDate } from '@/helpers/getDate'
 import * as S from './styles'
 import { getDestinationName, getOperationName, getStaffName } from '@/data'
 import { getShortShopName } from '@/components/Shop/data'
+import { OPERATION_TYPE } from '@/constants/constants'
 
 const ProductOperations = ({operations, total}) => {
     const sizes = (sizesArray) => {
@@ -41,7 +42,7 @@ const ProductOperations = ({operations, total}) => {
                        <td>{item.quantity}</td>
                        <td>{sizes(item.size)}</td>
                        <td>{item.salePrice ?? ""}</td>
-                       <td>{item.type === "sale" || item.type === "return" ? item.terminal : ""}</td>
+                       <td>{item.type === OPERATION_TYPE.SALE || item.type === OPERATION_TYPE.RETURN ? item.terminal : ""}</td>
                        <td>{getStaffName(item.staff)}</td>
                        <td>{getDestinationName(item.destination)}</td>
                        <td>{item.comment}</td>

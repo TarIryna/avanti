@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import ReactModal from "@/components/modals/ReactModal";
 import CheckProductInfo from "@/components/Shop/CheckProductInfo";
 import * as S from "./styles";
+import { OPERATION_TYPE } from "@/constants/constants";
 
 // const CheckPrint = create(({ id, data, type }) => {
 //   const { visible, hide } = useModal(id);
@@ -53,7 +54,7 @@ const CheckPrint = create(({ id, data, type }) => {
     }
   }, [visible, hide]);
 
-  const title = type === "return" ? "Чек повернення" : "Чек продажу"; 
+  const title = type === OPERATION_TYPE.RETURN ? "Чек повернення" : "Чек продажу"; 
 
   return (
     <ReactModal id={id} closeOnClickOutside={false}>

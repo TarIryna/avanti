@@ -8,7 +8,7 @@ import { Input, Button } from "@/components/ui";
 import CheckProductInfo from "@/components/Shop/CheckProductInfo";
 import * as S from "./styles";
 import { registerDynamicModal } from "@/helpers/useDynamicModal";
-import { MODALS } from "@/constants/constants";
+import { MODALS, OPERATION_TYPE } from "@/constants/constants";
 
 registerDynamicModal(
   MODALS.CHECK_PRINT,
@@ -21,8 +21,8 @@ const CheckModal = create(({ id, check, type }) => {
   const [cash, setCash] = useState(0);
 
   const { show: showPrint } = useModal(MODALS.CHECK_PRINT);
-  const title = type === "sale" ? "Чек продажу" : "Чек повернення";
-  const buttonText = type === "sale" ? "Провести продаж" : "Провести повернення";
+  const title = type === OPERATION_TYPE.SALE ? "Чек продажу" : "Чек повернення";
+  const buttonText = type === OPERATION_TYPE.SALE ? "Провести продаж" : "Провести повернення";
 
   const methods = useForm({ 
     mode: "onSubmit",

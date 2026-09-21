@@ -2,7 +2,7 @@ export const seasonData = [
  {
    "id": 1,
    "value": 1,
-   "name": "Зима",
+   "ru": "Зима",
    "ukr": "Зима",
    "eng": "winter",
    "rozetka": "Зимняя",
@@ -11,7 +11,7 @@ export const seasonData = [
  {
    "id": 2,
    "value": 2,
-   "name": "Лето",
+   "ru": "Лето",
    "ukr": "Літо",
    "eng": "summer",
    "rozetka": "Летняя; Весенне-летняя",
@@ -20,7 +20,7 @@ export const seasonData = [
  {
    "id": 3,
    "value": 3,
-   "name": "Демисезон",
+   "ru": "Демисезон",
    "ukr": "Демісезон",
    "eng": "demi",
    "rozetka": "Осенне-зимняя; Осенняя",
@@ -29,7 +29,7 @@ export const seasonData = [
  {
    "id": 11,
    "value": 11,
-   "name": "Пляж",
+   "ru": "Пляж",
    "ukr": "Пляж",
    "eng": "beach",
    "rozetka": "Летняя",
@@ -38,7 +38,7 @@ export const seasonData = [
  {
    "id": 12,
    "value": 12,
-   "name": "Тапочки",
+   "ru": "Тапочки",
    "ukr": "Тапочки",
    "eng": "flats",
    "rozetka": "",
@@ -47,7 +47,7 @@ export const seasonData = [
  {
    "id": 13,
    "value": 13,
-   "name": "Сумки",
+   "ru": "Сумки",
    "ukr": "Сумки",
    "eng": "bags",
    "rozetka": "",
@@ -56,7 +56,7 @@ export const seasonData = [
  {
    "id": 14,
    "value": 14,
-   "name": "Осень",
+   "ru": "Осень",
    "ukr": "Осінь-Весна",
    "eng": "autumn",
    "rozetka": "Весенне-летняя; Весенняя; Осенняя; Осенне-весенняя",
@@ -65,7 +65,7 @@ export const seasonData = [
  {
    "id": 15,
    "value": 15,
-   "name": "Мелочь",
+   "ru": "Мелочь",
    "ukr": "Аксесуари",
    "eng": "accessories",
    "rozetka": "",
@@ -74,7 +74,7 @@ export const seasonData = [
  {
    "id": 16,
    "value": 16,
-   "name": "Текстиль",
+   "ru": "Текстиль",
    "ukr": "Текстиль",
    "eng": "autumn",
    "rozetka": "Весенняя; Весенне-летняя; Летняя",
@@ -83,7 +83,7 @@ export const seasonData = [
  {
    "id": 17,
    "value": 17,
-   "name": "Весна",
+   "ru": "Весна",
    "ukr": "Перфорація",
    "eng": "autumn",
    "rozetka": "Весенняя; Весенне-летняя; Летняя",
@@ -92,7 +92,7 @@ export const seasonData = [
  {
    "id": 18,
    "value": 18,
-   "name": "Туфли классика",
+   "ru": "Туфли классика",
    "ukr": "Осінь-Весна",
    "eng": "autumn",
    "rozetka": "",

@@ -12,7 +12,7 @@ export const Title = styled.h4`
 export const MenuList = styled.div`
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    margin: 0 auto;
+    margin: 20px auto 10px;
     gap: 16px;
     padding: 0 60px;
     ${media.mobile}{

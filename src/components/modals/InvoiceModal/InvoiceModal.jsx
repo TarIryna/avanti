@@ -133,6 +133,10 @@ const onSubmit = async (data) => {
     toast.error("Необхідно додати хоч один товар!")
     return
   }
+  if (!data.date){
+    toast.error("Необхідно додати дату!")
+    return
+  }
 
    const date = getDate(data.date);
    data.rate = rateValue;
@@ -185,7 +189,6 @@ const setProductToItems = (id) => {
 }
 
 const addItemToInvoice = ({quantity, sizes, price, id}) => {
-  console.log(sizes)
   const itemData = list.find(item => item._id === id)
   const item = {quantity, sizes, price, total: price * quantity, product: itemData, productCode: itemData.code}
   setItems(prevItems => [...prevItems, item]);

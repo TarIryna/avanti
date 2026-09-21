@@ -3,6 +3,7 @@ import { useState, useEffect, useMemo, useRef } from 'react';
 import { useParams } from 'next/navigation'; // Добавили хук для получения [shop]
 import * as S from './styles';
 import toast from 'react-hot-toast';
+import HeadButtons from './HeadButtons';
 
 const AuditPage = () => {
   const params = useParams();
@@ -128,6 +129,7 @@ const AuditPage = () => {
   return (
     <section className="container page">
       <S.Title>РЕВІЗІЯ — АВАНТІ {shopId}</S.Title>
+      <HeadButtons/>
       <div style={{ padding: '20px', display: 'flex', gap: '20px' }}>
         
         {/* Левая колонка — сканирование */}

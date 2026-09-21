@@ -10,9 +10,9 @@ export const shopMenuData = [
 ]
 
 export const shopsData = [
-    {id: 1, short: "А1", name: "Аванті 1", isShop: true},
-    {id: 2, short: "А2", name: "Аванті 2", isShop: true},
-    {id: 3, short: "СКЛ", name: "Склад", isShop: false },
+    {id: 1, short: "А1", name: "Аванті 1", isShop: true, adress: "вул.Корзо, 10"},
+    {id: 2, short: "А2", name: "Аванті 2", isShop: true, adress: "вул.Заньковецької, 2"},
+    {id: 3, short: "СКЛ", name: "Склад", isShop: false, adress: "Склад" },
 ]
 
 export const getOperationName = (value) => {
@@ -21,4 +21,8 @@ export const getOperationName = (value) => {
 
 export const getShortShopName = (id) => {
     return shopsData.find(i => i.id === Number(id))?.short
+}
+
+export const getShopAdress = (id) => {
+    return shopsData.find(i => i.id === Number(id))?.adress ?? ""
 }

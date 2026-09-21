@@ -65,44 +65,14 @@ export const facebookCategories = [
     "fb_id_category": "421"
   },
   {
-    "id": 15,
-    "name": "clothing & accessories > shoes & footwear > men's shoes",
-    "fb_id_category": "422"
-  },
-  {
     "id": 16,
     "name": "clothing & accessories > shoes & footwear > kids' shoes > boys' baby shoes",
     "fb_id_category": "423"
   },
   {
-    "id": 17,
-    "name": "clothing & accessories > shoes & footwear > baby shoes > boys' baby shoes",
-    "fb_id_category": "424"
-  },
-  {
     "id": 18,
     "name": "clothing & accessories > shoes & footwear > kids' shoes > girls' baby shoes",
     "fb_id_category": "425"
-  },
-  {
-    "id": 19,
-    "name": "clothing & accessories > shoes & footwear > baby shoes > girls' baby shoes",
-    "fb_id_category": "426"
-  },
-  {
-    "id": 20,
-    "name": "clothing & accessories > shoes & footwear > kids' shoes",
-    "fb_id_category": "427"
-  },
-  {
-    "id": 21,
-    "name": "clothing & accessories > shoes & footwear > baby shoes",
-    "fb_id_category": "428"
-  },
-  {
-    "id": 22,
-    "name": "clothing & accessories > shoes & footwear",
-    "fb_id_category": "429"
   },
   {
     "id": 23,

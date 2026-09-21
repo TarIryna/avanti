@@ -22,8 +22,13 @@ const Reports = ({shop}) => {
 
 
     const onDayReport = async() => {
+      const now = new Date();
+        const end = now.toISOString().split('T')[0]; // "2026-09-12"
+        const yesterday = new Date();
+        yesterday.setDate(now.getDate() - 1);
+        const start = yesterday.toISOString().split('T')[0]; // "2026-09-11"
     try {
-        const res = await fetch(`/api/shop/day/${shop}`);
+        const res = await fetch(`/api/shop/day/${shop}/?start=${start}&end=${end}`);
         const result = await res.json();
         if (!result){
         toast.error("Сталась помилка! Даних не знайдено")

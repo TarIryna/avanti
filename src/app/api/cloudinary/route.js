@@ -2,8 +2,6 @@ import { v2 as cloudinary } from "cloudinary";
 import Product from "@/models/product";
 import { connectToDB } from "@/utils/database";
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
 
 
 cloudinary.config({
@@ -74,8 +72,8 @@ export async function POST(req) {
 
 
 export async function GET() {
-  // const startDate = '2026-08-26';
-  // const endDate = '2026-08-31';
+  // const startDate = '2026-08-05';
+  // const endDate = '2026-08-06';
   const now = new Date();
 
   // Сегодня

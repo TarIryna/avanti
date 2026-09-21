@@ -1,28 +1,26 @@
 "use client";
 import { useMemo, useState } from 'react';
 import * as S from './styles'
-import { FormProvider, useForm } from 'react-hook-form';
+import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { Input } from '../ui';
 import ShopCard from './ShopCard/ShopCard';
 import Select from '../ui/Select/Select';
 import { destinations, getDestinationName } from '@/data/destination';
 import { useParams } from 'next/navigation';
+import HeadButtons from './HeadButtons';
+import { OPERATION_TYPE } from '@/constants/constants';
 
 
 const DecreasePage = () => {
    const [product, setProduct] = useState(null)
    const [list, setList] = useState([])
-   const [destination, setDestination] = useState(null)
    const params = useParams();
    const shop = params.shop;
-
-   const destinationName = useMemo(() => {
-    return destination ? getDestinationName(destination) : ""
-   }, [destination])
 
     const methods = useForm({
           defaultValues: {
             code: "",
+            destination: ""
           },
         });
 
@@ -30,6 +28,7 @@ const DecreasePage = () => {
         handleSubmit,
         register,
         watch,
+        control,
       } = methods;
 
       const onSubmit = async(data) => {
@@ -75,23 +74,36 @@ const onChangeModel = async (e) => {
   }
 };
 
-const onChangeDestination = (e) => {
-  setDestination(e.target?.value)
-}
-
 const onSetProductFromList = (product) => {
   setProduct(product)
   setList([])
 }
 
+const destination = watch('destination')
+
     return (
       <section className="container page">
         <S.Title>СПИСАННЯ</S.Title>
+        <HeadButtons/>
           <FormProvider {...methods}>
              <S.Form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
                 <S.ProductConatiner>
                    <S.InfoContainer>
-                    <Select options={destinations} label="Куди списується" value={destination} onChange={onChangeDestination}/>
+                    <Controller
+                      control={control}
+                      name="destination"
+                      render={({ field }) => (
+                        <Select 
+                          options={destinations} 
+                          label="Куди списується"
+                          placeholder="Пошук варіантів..."
+                          isInput={true}
+                          value={field.value} 
+                          onChange={field.onChange}
+                          tabIndex={1}
+                        />
+                      )}
+                    />
                  
                        <Input
                           type="text"
@@ -115,7 +127,7 @@ const onSetProductFromList = (product) => {
                           isBorder
                         {...register("model")}
                         />
-                          {!!product && <ShopCard item={product} setProduct={onSetProductFromList} isSelected type="decrease" shop={shop} comment={getDestinationName(destination)}/>}
+                          {!!product && <ShopCard item={product} setProduct={onSetProductFromList} isSelected type={OPERATION_TYPE.DECREASE} shop={shop} comment={getDestinationName(destination)}/>}
                           {!!list?.length && 
                           <S.List>
                             {list.map(item => <ShopCard item={item} id={item.code} setProduct={onSetProductFromList} isList/>)}

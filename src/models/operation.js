@@ -39,9 +39,8 @@ const OperationSchema = new Schema(
       type: String
     },
     type: {
-      type: String,
-      enum: ["sale", "return", "arrival", "decrease", "inside", "redirect"],
-      default: "sale"
+      type: Number,
+      default: 1
     },
     shop: {
       type: Number

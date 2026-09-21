@@ -11,7 +11,8 @@ const Select = ({
   isInput, 
   tabIndex,
   className,
-  isMulti = false 
+  isMulti = false,
+  lang = "ukr"
 }) => {
   // 1. Создаем внутренний стейт, который инициализируется из defaultValue или пустой структуры
   const [internalValue, setInternalValue] = useState(() => {
@@ -39,13 +40,17 @@ const Select = ({
   };
 
   // Нормализация опций
-  const normalizedOptions = useMemo(() => {
-    return options.map(item => ({
+const normalizedOptions = useMemo(() => {
+  return options
+    .map(item => ({
       ...item,
-      name:  item.name || item.ukr || "",
+      name: item.name || (lang === "ukr" ? item.ukr : item.ru) || "",
       value: item.value || item.id || ""
-    }));
-  }, [options]);
+    }))
+    // Правильно: сортировка по алфавиту от А до Я (или от меньшего года к большему)
+    .sort((a, b) => a.name.localeCompare(b.name)); 
+}, [options, lang]); // Добавили lang в зависимости, чтобы сортировка обновлялась при смене языка
+
 
   // Находим выбранные опции
   const selectedOptions = useMemo(() => {
@@ -70,7 +75,7 @@ const Select = ({
     let list = normalizedOptions;
     if (!isMulti && !isInput && selectedOptions) return list;
     if (query) {
-      list = list.filter(i => i?.name?.toLowerCase().includes(query.toLowerCase()));
+      list = list.filter(i => i?.name?.toLowerCase().startsWith(query.toLowerCase()));
     }
     return list;
   }, [normalizedOptions, query, isMulti, isInput, selectedOptions]);

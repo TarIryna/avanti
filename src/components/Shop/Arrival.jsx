@@ -5,6 +5,8 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { Input } from '../ui';
 import ShopCard from './ShopCard/ShopCard';
 import { useParams } from 'next/navigation';
+import HeadButtons from './HeadButtons';
+import { OPERATION_TYPE } from '@/constants/constants';
 
 const ArrivalPage = () => {
    const params = useParams();
@@ -75,6 +77,7 @@ const onSetProductFromList = (data) => {
     return (
       <section className="container page">
         <S.Title>ПРИХІД</S.Title>
+        <HeadButtons/>
           <FormProvider {...methods}>
              <S.Form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
                 <S.ProductConatiner>
@@ -101,10 +104,10 @@ const onSetProductFromList = (data) => {
                           isBorder
                         {...register("model", { required: true })}
                         />
-                          {!!product && <ShopCard item={product} setProduct={onSetProductFromList} isSelected shop={shop} type="arrival"/>}
+                          {!!product && <ShopCard item={product} setProduct={onSetProductFromList} isSelected shop={shop} type={OPERATION_TYPE.ARRIVAL}/>}
                           {!!list?.length && 
                           <S.List>
-                            {list.map(item => <ShopCard item={item} id={item.code} setProduct={onSetProductFromList} isList shop={shop} type="arrival"/>)}
+                            {list.map(item => <ShopCard item={item} id={item.code} setProduct={onSetProductFromList} isList shop={shop} type={OPERATION_TYPE.ARRIVAL}/>)}
                             </S.List>}
                    </S.InfoContainer>
                 </S.ProductConatiner>

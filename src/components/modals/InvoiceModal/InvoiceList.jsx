@@ -11,7 +11,7 @@ const InvoiceList = ({list, deleteItem}) => {
                 <S.ItemImageCard>
                     <Image src={item.product.small_image ?? item.product.images?.[0]} alt={item.product.code} fill/>
                 </S.ItemImageCard>
-                <S.Text>{`${item.product.code} ${item.product.name} ${item.price} * ${item.quantity} = ${item.total}`}</S.Text>
+                <S.Text>{`${item.product.code} ${item.product.name} ${item.price} * ${item.quantity} = ${item.total.toFixed(2)}`}</S.Text>
                 <S.Button type="button" onClick={() => deleteItem(item._id)}>
                     <Image
                         className="pointer"

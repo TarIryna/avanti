@@ -2,7 +2,7 @@
 import { Input, Select } from '../ui';
 import * as S from './styles';
 import { useForm, FormProvider, Controller } from 'react-hook-form';
-import { colors, years, seasonData, getDefaultYear, getCodePart, getYearById, types, genders, vendors, views, sizesLengths, getVendorCountry, countries, materialInside, materialsTop, getMaterialId, materialData, styles, heels, sizesGroup, facebookCategories, getNameTotal, categories } from '@/data';
+import { colors, years, seasonData, getDefaultYear, getCodePart, getYearById, types, genders, vendors, views, sizesLengths, getVendorCountry, countries, materialInside, materialsTop, getMaterialId, materialData, styles, heels, sizesGroup, facebookCategories, getNameTotal, categories, getVendorCompany, getCategoryFacebookId } from '@/data';
 import { useEffect, useMemo } from 'react';
 import { accessoires } from '@/data/accesoires';
 import toast from 'react-hot-toast';
@@ -15,7 +15,18 @@ const NewProductPage = () => {
       code: "",
       year: defaultYear?.value || "",
       season: "", // Добавили дефолтное значение для контролируемого инпута
-      type: 1
+      type: 1,
+      gender: 1,
+      vendor: null,
+      color: null,
+      material_top: null,
+      material_inside: null,
+      rozetka_id: null,
+      style: null,
+      sizesGroup: null,
+      size_type: null,
+      heel: null,
+      view: null
     },
   });
      
@@ -33,6 +44,7 @@ const NewProductPage = () => {
   const vendor = watch('vendor');
   const materialTop = watch('material_top');
   const type = watch('type');
+  const category = watch('rozetka_id'); 
 
   const isVisibleAccessoires = useMemo(() => type === 9, [type])
 
@@ -71,11 +83,13 @@ const NewProductPage = () => {
 
    useEffect(() => {
     if (vendor) {
-      console.log(vendor)
       const conuntryId = getVendorCountry(vendor);
-      console.log(conuntryId)
+      const companyId = getVendorCompany(vendor);
       if (conuntryId){
         setValue('country', conuntryId, { shouldValidate: true })
+      }
+      if (companyId){
+        setValue('company', companyId, { shouldValidate: true })
       }
     }
   }, [vendor]); 
@@ -88,6 +102,47 @@ const NewProductPage = () => {
       }
     }
   }, [materialTop]); 
+
+  useEffect(() => {
+    if (category){
+      const facebookId = getCategoryFacebookId(category)
+      if (facebookId){
+        setValue('facebook', facebookId)
+      }
+    }
+  }, [category])
+
+  const handleKeyDown = (e) => {
+  // Проверяем, что нажат именно Enter
+  if (e.key === "Enter") {
+    // Предотвращаем стандартную отправку формы по Enter
+    e.preventDefault(); 
+
+    // Находим все элементы на странице, которые могут принимать фокус и имеют tabIndex > 0
+    const focusableElements = Array.from(
+      document.querySelectorAll("input, select, textarea, button, [tabindex]")
+    )
+      .filter((el) => !el.disabled && el.tabIndex > 0) // Убираем отключенные и элементы без явного tabIndex
+      .sort((a, b) => a.tabIndex - b.tabIndex); // Сортируем строго по порядку: 1, 2, 3...
+
+    // Находим индекс текущего инпута в этом массиве
+    const currentIndex = focusableElements.indexOf(e.target);
+
+    // Если нашли текущий и за ним есть следующий элемент — переносим на него фокус
+    if (currentIndex !== -1 && focusableElements[currentIndex + 1]) {
+      focusableElements[currentIndex + 1].focus();
+    } else {
+      // Если это было последнее поле с табиндексом, опционально можно вызвать отправку формы
+      // или просто убрать фокус: e.target.blur();
+    }
+  }
+
+  // Не забываем вызвать внешний onKeyDown, если он был передан пропсом
+  if (typeof onKeyDown === "function") {
+    onKeyDown(e);
+  }
+};
+
 
   const onSubmit = async(data) => {
     const name = getNameTotal(data)
@@ -127,21 +182,6 @@ const NewProductPage = () => {
         <S.Form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
           <S.Flex>
             <S.Row>
-          <Controller
-            control={control}
-            name="company"
-            render={({ field }) => (
-              <Select 
-                options={companies} 
-                label="Поставщик"
-                placeholder="Поиск поставщика..."
-                isInput={true}
-                value={field.value} 
-                onChange={field.onChange} 
-                tabIndex={1}
-              />
-            )}
-          />
         <Controller
             control={control}
             name="type"
@@ -154,6 +194,8 @@ const NewProductPage = () => {
                 value={field.value} 
                 onChange={field.onChange} 
                 tabIndex={1}
+                onKeyDown={handleKeyDown}
+                lang="ru"
               />
             )}
           />
@@ -170,6 +212,8 @@ const NewProductPage = () => {
                 value={field.value} 
                 onChange={field.onChange} 
                 tabIndex={2}
+                onKeyDown={handleKeyDown}
+                lang="ru"
               />
             )}
           />
@@ -186,6 +230,8 @@ const NewProductPage = () => {
                 value={field.value} 
                 onChange={field.onChange}
                 tabIndex={3}
+                onKeyDown={handleKeyDown}
+                lang="ru"
               />
             )}
           />
@@ -196,9 +242,8 @@ const NewProductPage = () => {
             tabIndex={4}
             label='Код товару'
             isBorder
-            {...register("code", { 
-              required: "Це поле є обов'язковим для заповнення" 
-            })}
+            name="code"
+            onKeyDown={handleKeyDown}
           />
 
   
@@ -214,6 +259,8 @@ const NewProductPage = () => {
                 value={field.value} 
                 onChange={field.onChange}
                 tabIndex={5}
+                onKeyDown={handleKeyDown}
+                lang="ru"
               />
             )}
           />
@@ -230,6 +277,26 @@ const NewProductPage = () => {
                 value={field.value} 
                 onChange={field.onChange}
                 tabIndex={6}
+                onKeyDown={handleKeyDown}
+                lang="ru"
+              />
+            )}
+          />
+
+       <Controller
+            control={control}
+            name="company"
+            render={({ field }) => (
+              <Select 
+                options={companies} 
+                label="Поставщик"
+                placeholder="Поиск поставщика..."
+                isInput={true}
+                value={field.value} 
+                onChange={field.onChange} 
+                tabIndex={7}
+                onKeyDown={handleKeyDown}
+                lang="ru"
               />
             )}
           />
@@ -237,12 +304,11 @@ const NewProductPage = () => {
           <Input
             type="text"
             placeholder="Введіть номер моделі"
-            tabIndex={7}
+            tabIndex={8}
             label='Модель'
             isBorder
-            {...register("model", { 
-              required: "Це поле є обов'язковим для заповнення" 
-            })}
+            name="model"
+            onKeyDown={handleKeyDown}
           />
 
 
@@ -257,7 +323,9 @@ const NewProductPage = () => {
                 isInput={true}
                 value={field.value} 
                 onChange={field.onChange}
-                tabIndex={8}
+                tabIndex={9}
+                onKeyDown={handleKeyDown}
+                lang="ru"
               />
             )}
           />
@@ -274,6 +342,8 @@ const NewProductPage = () => {
                 value={field.value} 
                 onChange={field.onChange}
                 tabIndex={10}
+                onKeyDown={handleKeyDown}
+                lang="ru"
               />
             )}
           />
@@ -291,6 +361,8 @@ const NewProductPage = () => {
                 value={field.value} 
                 onChange={field.onChange}
                 tabIndex={11}
+                onKeyDown={handleKeyDown}
+                lang="ru"
               />
             )}
           />}
@@ -307,6 +379,8 @@ const NewProductPage = () => {
                 value={field.value} 
                 onChange={field.onChange}
                 tabIndex={12}
+                onKeyDown={handleKeyDown}
+                lang="ru"
               />
             )}
           />
@@ -323,6 +397,8 @@ const NewProductPage = () => {
                 value={field.value} 
                 onChange={field.onChange}
                 tabIndex={13}
+                onKeyDown={handleKeyDown}
+                lang="ru"
               />
             )}
           />
@@ -339,6 +415,8 @@ const NewProductPage = () => {
                 value={field.value} 
                 onChange={field.onChange}
                 tabIndex={14}
+                onKeyDown={handleKeyDown}
+                lang="ru"
               />
             )}
           />
@@ -355,6 +433,8 @@ const NewProductPage = () => {
                 value={field.value} 
                 onChange={field.onChange}
                 tabIndex={15}
+                onKeyDown={handleKeyDown}
+                lang="ru"
               />
             )}
           />
@@ -371,6 +451,7 @@ const NewProductPage = () => {
                 value={field.value} 
                 onChange={field.onChange}
                 tabIndex={16}
+                onKeyDown={handleKeyDown}
               />
             )}
           />
@@ -387,6 +468,8 @@ const NewProductPage = () => {
                 value={field.value} 
                 onChange={field.onChange}
                 tabIndex={17}
+                onKeyDown={handleKeyDown}
+                lang="ru"
               />
             )}
           />
@@ -403,6 +486,8 @@ const NewProductPage = () => {
                 value={field.value} 
                 onChange={field.onChange}
                 tabIndex={18}
+                onKeyDown={handleKeyDown}
+                lang="ru"
               />
             )}
           />
@@ -419,6 +504,8 @@ const NewProductPage = () => {
                 value={field.value} 
                 onChange={field.onChange}
                 tabIndex={19}
+                onKeyDown={handleKeyDown}
+                lang="ru"
               />
             )}
           />
@@ -435,6 +522,8 @@ const NewProductPage = () => {
                 value={field.value} 
                 onChange={field.onChange}
                 tabIndex={20}
+                onKeyDown={handleKeyDown}
+                lang="ru"
               />
             )}
           />
@@ -451,6 +540,7 @@ const NewProductPage = () => {
                 value={field.value} 
                 onChange={field.onChange}
                 tabIndex={21}
+                onKeyDown={handleKeyDown}
               />
             )}
           />

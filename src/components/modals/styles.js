@@ -16,6 +16,7 @@ export const Container = styled.div`
   width: 400px;
   min-height: 500px;
   background: rgb(229, 229, 229);
+  border-radius: 16px;
   ${media.mobile} {
     height: 100dvh;
     width: 100vw;

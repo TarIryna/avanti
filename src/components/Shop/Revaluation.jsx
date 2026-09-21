@@ -6,6 +6,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import ShopCard from './ShopCard/ShopCard';
 import { Button, Input } from '../ui';
+import HeadButtons from './HeadButtons';
 
 const RevaluationPage = () => {
      const params = useParams();
@@ -82,6 +83,7 @@ const RevaluationPage = () => {
     return (
       <section className="container page">
         <S.Title>ПЕРЕОЦІНКА</S.Title>
+        <HeadButtons/>
           <FormProvider {...methods}>
              <S.Form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
                 <S.ProductConatiner>

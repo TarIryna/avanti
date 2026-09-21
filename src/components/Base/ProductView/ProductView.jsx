@@ -8,6 +8,7 @@ import ProductInfo from './ProductInfo/ProductInfo';
 import ProductOperations from './ProductOperations/ProductOperations';
 import ProductInvoices from './ProductInvoices/ProductInvoices';
 import ProductResult from './ProductResult/ProductResult';
+import { OPERATION_TYPE } from '@/constants/constants';
 
 const ProductViewPage = () => {
     const [productData, setProductData] = useState(null)
@@ -156,7 +157,7 @@ const onSetProductFromList = (data) => {
               </S.Grid>}
             {!!list?.length && 
             <S.List>
-                {list.map(item => <ShopCard item={item} id={item.code} setProduct={onSetProductFromList} isList shop={shop} type="arrival"/>)}
+                {list.map(item => <ShopCard item={item} id={item.code} setProduct={onSetProductFromList} isList shop={shop} type={OPERATION_TYPE.ARRIVAL}/>)}
              </S.List>}
 
             </section>

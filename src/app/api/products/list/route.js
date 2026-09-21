@@ -19,7 +19,8 @@ export const POST = async (request) => {
       vendor, 
       view, 
       year, 
-      yearFrom,
+      yearMinus,
+      yearPlus,
       limit = 2000, 
       page = 1 
     } = body;
@@ -54,26 +55,75 @@ export const POST = async (request) => {
       filterParams.year =  Number(year);
     }
 
-    if (yearFrom && yearFrom !== "null") {
-      filterParams.year = { $lte: Number(yearFrom) };
+    if (yearPlus && yearPlus !== "null") {
+      filterParams.year = { $gte: Number(yearPlus) };
     }
 
+    if (yearMinus && yearMinus !== "null") {
+      filterParams.year = { $lte: Number(yearMinus) };
+    }
+
+
     const pipeline = [
-      { $match: filterParams },
-      {
-        $facet: {
-          data: [
-            // Сортировка по vendor (1 - от А до Я). Заменили несуществующий finalSort
-            { $sort: { code: 1 } }, 
-            { $skip: (Number(page) - 1) * Number(limit) },
-            { $limit: Number(limit) },
-          ],
-          meta: [
-            { $count: "total" }, 
-          ],
+  { $match: filterParams },
+  {
+    $facet: {
+      data: [
+        { $sort: { code: 1 } }, 
+        { $skip: (Number(page) - 1) * Number(limit) },
+        { $limit: Number(limit) },
+      ],
+      meta: [
+        { $count: "total" }, 
+      ],
+      // --- ДОБАВЛЯЕМ НОВУЮ СЕКЦИЮ ДЛЯ ПОДСЧЕТА СУММЫ Q ---
+      shopTotals: [
+        { $unwind: "$total" }, // Разворачиваем массив total
+        {
+          $match: {
+            "total.shop": { $in: ["1", "2"] }, // Только нужные магазины
+            "total.q": { $exists: true, $nin: ["", "0", 0, null] } // Исключаем пустые строки, нули и null
+          }
         },
-      },
-    ];
+        {
+          $group: {
+            _id: null,
+            totalQ: {
+              $sum: {
+                $convert: {
+                  input: "$total.q",
+                  to: "int",
+                  onError: 0, // Защита: если что-то пойдет не так, вернет 0
+                  onNull: 0
+                }
+              }
+            }
+          }
+        }
+      ]
+
+
+    },
+  },
+];
+
+
+    // const pipeline = [
+    //   { $match: filterParams },
+    //   {
+    //     $facet: {
+    //       data: [
+    //         // Сортировка по vendor (1 - от А до Я). Заменили несуществующий finalSort
+    //         { $sort: { code: 1 } }, 
+    //         { $skip: (Number(page) - 1) * Number(limit) },
+    //         { $limit: Number(limit) },
+    //       ],
+    //       meta: [
+    //         { $count: "total" }, 
+    //       ],
+    //     },
+    //   },
+    // ];
 
     const result = await Product.aggregate(pipeline);
 

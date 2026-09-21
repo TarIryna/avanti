@@ -4,12 +4,14 @@ import * as S from './styles'
 import { Controller, useFormContext, FormProvider, useForm  } from "react-hook-form";
 import { Button, Input } from "@/components/ui";
 import { toast } from "react-hot-toast";
+import { OPERATION_TYPE } from "@/constants/constants";
 
 const SizesChange = ({ item, setProduct, addToCheck, shop, type, comment, staff, isOrder }) => {
   const methods = useForm({ mode: "onSubmit" });
   const { handleSubmit, control, reset } = methods;
-  const buttonText = type === "arrival" ? "Оформити прихід" : type === "return" ? "Офрмити повернення" : type === "sale" ? "Оформити продаж" : "Оформити списання"
-  const isAddFunction = type === "return" || type === "arrival"
+  const buttonText = type === OPERATION_TYPE.ARRIVAL ? "Оформити прихід" : type === OPERATION_TYPE.RETURN ? "Оформити повернення" : type === OPERATION_TYPE.SALE ? "Оформити продаж" : "Оформити списання"
+  const isAddFunction = type === OPERATION_TYPE.RETURN || type === OPERATION_TYPE.ARRIVAL 
+  const isBags = item.type === 3
 
  const onSubmit = async (data) => {
   try {
@@ -63,7 +65,7 @@ const SizesChange = ({ item, setProduct, addToCheck, shop, type, comment, staff,
     //   // .filter((s) => s.q > 0)
     //   .sort((a, b) => Number(a.size) - Number(b.size));
 
-  if (type === 'return' || type === "sale" && typeof addToCheck === 'function'){
+  if (type === OPERATION_TYPE.RETURN || type === OPERATION_TYPE.SALE && typeof addToCheck === 'function'){
       addToCheck(operationSizes)
       return
       }
@@ -72,8 +74,10 @@ const SizesChange = ({ item, setProduct, addToCheck, shop, type, comment, staff,
       ...item,
         size: operationSizes,
         comment: comment ? comment : "",
-        staff: staff ? Number(staff) : null
+        staff: staff ? Number(staff) : null,
+        quantity: operationSizes.reduce((sum, el) => sum + (el.q || 0), 0)
       }
+
     const items = [newItem]
 
     if (isOrder) {
@@ -126,6 +130,30 @@ const SizesChange = ({ item, setProduct, addToCheck, shop, type, comment, staff,
         <S.SizesForm onSubmit={handleSubmit(onSubmit)}>
           <S.List>
             {shop && <div>A{shop}</div>}
+            {isBags && 
+              <>
+              {item.total.map(shop => <div>{` - ${shop.q} шт`}</div>)}
+                
+                <S.BlockContainer>
+                  <S.SizesBlock isOne>
+                    штук
+                  </S.SizesBlock>
+
+                  <Controller
+                    name="oneSize"
+                    control={control}
+                    defaultValue=""
+                    render={({ field }) => (
+                      <Input
+                        {...field}
+                        type="number"
+                        isBorder
+                      />
+                    )}
+                  />
+                </S.BlockContainer>
+               </>
+                }
             {sizes?.map((el) => {
               if (!el) return null;
 

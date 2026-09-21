@@ -7,6 +7,8 @@ import ShopCard from './ShopCard/ShopCard';
 import Select from '../ui/Select/Select';
 import { staffList } from '@/data/staff';
 import { useParams } from 'next/navigation';
+import HeadButtons from './HeadButtons';
+import { OPERATION_TYPE } from '@/constants/constants';
 
 
 const InsideSalePage = () => {
@@ -82,7 +84,8 @@ const onSetProductFromList = (product) => {
 
     return (
       <section className="container page">
-        <S.Title>СПИСАННЯ</S.Title>
+        <S.Title>ВНУТРІШНІЙ ПРОДАЖ</S.Title>
+        <HeadButtons/>
           <FormProvider {...methods}>
              <S.Form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
                 <S.ProductConatiner>
@@ -111,7 +114,7 @@ const onSetProductFromList = (product) => {
                           isBorder
                         {...register("model")}
                         />
-                          {!!product && <ShopCard item={product} setProduct={onSetProductFromList} isSelected type="inside" shop={shop} staff={staff}/>}
+                          {!!product && <ShopCard item={product} setProduct={onSetProductFromList} isSelected type={OPERATION_TYPE.INSIDE} shop={shop} staff={staff}/>}
                           {!!list?.length && 
                           <S.List>
                             {list.map(item => <ShopCard item={item} id={item.code} setProduct={onSetProductFromList} isList/>)}

@@ -139,7 +139,6 @@ const Input = ({
               type={show ? "text" : type}
               defaultValue={defaultValue}
               value={value}
-              onWheel={(e) => e.target.blur()}
               onFocus={() => setIsFocused(true)}
               tabIndex={tabIndex}
               enterKeyHint={enterKeyHint}

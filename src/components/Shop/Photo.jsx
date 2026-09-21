@@ -13,6 +13,7 @@ const PhotoPage = () => {
    const [images, setImages] = useState([])
    const [isDownloadingFirst, setIsDownloadingFirst] = useState(false);
    const [isDownloadingSecond, setIsDownloadingSecond] = useState(false);
+   const [isDownloadingThird, setIsDownloadingThird] = useState(false);
    const methods = useForm({
       defaultValues: {
         code: "",
@@ -58,7 +59,7 @@ const onUpload = (images) => {
 const onUploadFromServer = async () => {
    setIsDownloadingSecond(true);
   try {
-    const res = await fetch(`/api/upload`);
+    const res = await fetch(`/api/cloudinary`);
     
     if (!res.ok) {
       throw new Error(`Ошибка сервера: ${res.status}`);
@@ -215,6 +216,44 @@ const downloadProducts = async () => {
     }
   };
 
+  const downloadVideoList = async () => {
+    setIsDownloadingThird(true)
+    try {
+      const res = await fetch('/api/products/video');
+      // if (!response.ok) throw new Error(`Ошибка сервера: ${response.status}`);
+      
+       const csvContent = await res.text();
+    
+    // Создаем Blob из полученной CSV-строки
+    const blob = new Blob(
+  ['\uFEFF', csvContent],
+  {
+    type: 'text/csv;charset=utf-8',
+  }
+);
+
+    const url = window.URL.createObjectURL(blob);
+    
+    // Автоматически скачиваем файл пользователю
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `video.csv`;
+    
+    document.body.appendChild(link);
+    link.click();
+    
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+
+    toast.success("Успішно завантажено та збережено файл!");
+    } catch (e) {
+      console.log(e)
+      toast.error("Виникла помилка!")
+    }finally {
+      setIsDownloadingThird(false)
+    }
+  }
+
 
     return (
       <section className="container page">
@@ -265,8 +304,11 @@ const downloadProducts = async () => {
            <Button onClick={downloadProducts} disabled={isDownloadingFirst} style={{marginTop: "50px"}}>
             {isDownloadingFirst ? 'Формирование файла...' : 'Скачати JSON за сьогодні'}
           </Button>
-             <Button onClick={onUploadFromServer} disabled={isDownloadingSecond} style={{marginTop: "50px"}}>
+         <Button onClick={onUploadFromServer} disabled={isDownloadingSecond} style={{marginTop: "50px"}}>
              {isDownloadingSecond ? 'Формирование файла...' : 'Скачати дані з Cloudinary'}
+          </Button>
+          <Button onClick={downloadVideoList} disabled={isDownloadingThird} style={{marginTop: "50px"}}>
+             {isDownloadingThird? 'Формирование файла...' : 'Скачати список відео'}
           </Button>
           </S.FlexLeft>
       </section>

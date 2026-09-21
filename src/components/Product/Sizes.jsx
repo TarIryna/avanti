@@ -3,7 +3,7 @@ import { useCartStore } from "../GeneralProvider/context/CartProvider";
 import * as S from "./styles";
 import { useEffect, useState } from "react";
 import { trackAddToCart } from "@/helpers/pixelTracker";
-import { getColorById } from "@/data";
+import Size from "./SizeOne";
 
 const Sizes = ({ sizes, item, isShop, onSelect, info, color='black', shop, isText }) => {
   const [size, setSize] = useState(null);
@@ -56,6 +56,7 @@ const Sizes = ({ sizes, item, isShop, onSelect, info, color='black', shop, isTex
     if (isNotification) setIsNotification(false);
   }, [size]);
 
+
   return (
     <S.SizesWrapper>
     {!!(item.type === 3 ? item.color : sizes?.length) &&  isText && (
@@ -72,27 +73,7 @@ const Sizes = ({ sizes, item, isShop, onSelect, info, color='black', shop, isTex
 
       <S.SizesContainer isNotification={isNotification}>
        {!!sizes?.length && isShop && <S.SizesBlock color={color}> A{shop} </S.SizesBlock>} 
-        {sizes?.map((el) => {
-          const isDisabled = el?.q === 0;
-
-          if (el){
-            return (
-              <S.SizeContainer
-                          isOne={sizes?.length === 1}>
-                <S.SizesBlock
-                  key={`${item.code}${el?.size}`}
-                  isActive={el?.size === size?.size}
-                  isDisabled={isDisabled}
-                  onClick={() => !isDisabled && !info && setSize(el)}
-                  color={color}
-                >
-                  {item.type ===  3 ? getColorById(el?.size, 'ukr') : el?.size}
-                </S.SizesBlock>
-                {info && <S.SizesBlock color="grey">{el?.q}</S.SizesBlock>}
-                </S.SizeContainer>
-              );
-          } 
-        })}
+        {sizes?.map((el) => <Size isInfo={info} sizes={sizes} item={el} size={size} sizesAll={item.sizes_all} setSize={setSize} color={color}/>)}
       </S.SizesContainer>
 
       {!info && <S.SizesButton onClick={onButtonClick} disabled={!size && sizes.length > 1}>

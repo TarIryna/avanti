@@ -27,8 +27,6 @@ const ShopPage = () => {
           {shops.map((i) => (
                  <S.MenuShopButton onClick={() => router.push(`/shop/${i.id}`)}>{i.name}</S.MenuShopButton>
                 ))}
-                 <S.MenuShopButton onClick={() => router.push(`/shop/product`)}>ТОВАРИ</S.MenuShopButton>
-                 <S.MenuShopButton onClick={() => router.push(`/shop/catalog`)}>КАТАЛОГИ</S.MenuShopButton>
         </S.MenuList>
         
       {/* ) : ( */}

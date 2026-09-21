@@ -33,6 +33,7 @@ export const Container = styled.div`
   width: calc(100vw - 120px);
   height: calc(100vh - 120px);
   background: rgb(229, 229, 229);
+  border-radius: 16px;
   ${media.mobile} {
     height: 100dvh;
     width: 100vw;

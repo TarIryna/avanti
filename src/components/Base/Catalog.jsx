@@ -24,7 +24,8 @@ const CatalogPage = () => {
          type: 1,
          season: [],      // для isMulti
          year: "",
-         yearFrom: "",
+         yearMinus: "",
+         yearPlus: "",
          gender: [],      // для isMulti
          vendor: [],      // для isMulti
          color: [],       // для isMulti
@@ -102,45 +103,12 @@ const CatalogPage = () => {
                           onChange={field.onChange} 
                           tabIndex={2}
                           isMulti
-                        />
-                      )}
-                    />
-          
-                    <Controller
-                      control={control}
-                      name="year"
-                      render={({ field }) => (
-                        <Select 
-                          options={years} 
-                          label="Рік-сезон"
-                          placeholder="Пошук періоду..."
-                          isInput={true}
-                          value={field.value} 
-                          onChange={field.onChange}
-                          tabIndex={3}
+                          lang="ru"
                         />
                       )}
                     />
 
-                   <Controller
-                      control={control}
-                      name="yearFrom"
-                      render={({ field }) => (
-                        <Select 
-                          options={years} 
-                          label="Рік-сезон перыод з обраного і старше"
-                          placeholder="Пошук періоду з обраного і старше..."
-                          isInput={true}
-                          value={field.value} 
-                          onChange={field.onChange}
-                          tabIndex={4}
-                        />
-                      )}
-                    />
-
-                    </S.Row>
-                    <S.Row>
-                        <Controller
+                 <Controller
                       control={control}
                       name="gender"
                       render={({ field }) => (
@@ -156,6 +124,27 @@ const CatalogPage = () => {
                         />
                       )}
                     />
+
+                  <Controller
+                      control={control}
+                      name="view"
+                      render={({ field }) => (
+                        <Select 
+                          options={views} 
+                          label="Вигляд товару"
+                          placeholder="Пошук із списку..."
+                          isInput={true}
+                          value={field.value} 
+                          onChange={field.onChange}
+                          tabIndex={10}
+                        />
+                      )}
+                    />   
+          
+
+                    </S.Row>
+                    <S.Row>
+                
 
                       <Controller
                         control={control}
@@ -190,10 +179,8 @@ const CatalogPage = () => {
                         />
                       )}
                     />
-                      
-          </S.Row>
-          <S.Row>
-                       <Controller
+
+                                   <Controller
                       control={control}
                       name="country"
                       render={({ field }) => (
@@ -226,23 +213,59 @@ const CatalogPage = () => {
                         />
                       )}
                     />
+                      
+          </S.Row>
+          <S.Row>
 
-            <Controller
+            
+                    <Controller
                       control={control}
-                      name="view"
+                      name="year"
                       render={({ field }) => (
                         <Select 
-                          options={views} 
-                          label="Вигляд товару"
-                          placeholder="Пошук із списку..."
+                          options={years} 
+                          label="Рік-сезон"
+                          placeholder="Пошук періоду..."
                           isInput={true}
                           value={field.value} 
                           onChange={field.onChange}
-                          tabIndex={10}
+                          tabIndex={3}
                         />
                       )}
-                    />        
-          
+                    />
+
+                   <Controller
+                      control={control}
+                      name="yearMinus"
+                      render={({ field }) => (
+                        <Select 
+                          options={years} 
+                          label="Рік-сезон перыод з обраного і старше"
+                          placeholder="Пошук періоду з обраного і старше..."
+                          isInput={true}
+                          value={field.value} 
+                          onChange={field.onChange}
+                          tabIndex={4}
+                        />
+                      )}
+                    />
+
+                  <Controller
+                      control={control}
+                      name="yearPlus"
+                      render={({ field }) => (
+                        <Select 
+                          options={years} 
+                          label="Рік-сезон перыод з обраного і новіше"
+                          placeholder="Пошук періоду з обраного і новіше..."
+                          isInput={true}
+                          value={field.value} 
+                          onChange={field.onChange}
+                          tabIndex={4}
+                        />
+                      )}
+                    />
+   
                 </S.Row>
                  <S.CheckButton type="submit">
                   Подивитись результат

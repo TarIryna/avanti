@@ -4,6 +4,7 @@ import * as S from './styles'
 import { FormProvider, useForm } from 'react-hook-form';
 import { Input } from '../ui';
 import ShopCard from './ShopCard/ShopCard';
+import { OPERATION_TYPE } from '@/constants/constants';
 
 
 const OrdersDecreasePage = () => {
@@ -61,7 +62,7 @@ const OrdersDecreasePage = () => {
                           isBorder
                         {...register("code", { required: true })}
                         />
-                          {!!product && <ShopCard item={product} setProduct={() => {}} isSelected type="decrease" isOrder/>}
+                          {!!product && <ShopCard item={product} setProduct={() => {}} isSelected type={OPERATION_TYPE.DECREASE} isOrder/>}
                    </S.InfoContainer>
               </S.ProductConatiner>
              </S.Form>

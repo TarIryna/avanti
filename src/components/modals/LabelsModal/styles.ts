@@ -19,4 +19,5 @@ export const ModalContainer = styled.div`
   width: 2480px;
   height: 3508px;
   background: rgb(229, 229, 229);
+  border-radius: 16px;
 `;
