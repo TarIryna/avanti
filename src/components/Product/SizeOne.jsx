@@ -30,7 +30,7 @@ const Size = ({sizes, item, size, sizesAll, isInfo, setSize, color}) => {
 
     const isDisabled = item?.q === 0;
     const isActive = item?.size === size?.size
-    let text = "Даний розмір можна знайти за адресою: "
+    let text = "Даний розмір можна приміряти за адресою: "
     Object.entries(sizesAll).forEach(([index, data]) => {
         const size = data.find(i => i.size === item.size)
         const infoText = `${!!size ? getShopAdress(index): ""}`
