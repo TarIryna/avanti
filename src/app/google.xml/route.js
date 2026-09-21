@@ -72,7 +72,8 @@ ${products
         <g:age_group>${s.gender === 1 || s.gender === 2 ? 'adult' : 'kids'}</g:age_group>
 
         <g:google_product_category>187</g:google_product_category>
-
+        <g:custom_label_0>${p.year}</g:custom_label_0>
+        <g:custom_label_1>${p.season}</g:custom_label_1>
       </item>
       `;
     });
