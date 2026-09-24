@@ -1,14 +1,15 @@
 "use client";
 import { useState } from 'react';
-import * as S from './styles'
 import { FormProvider, useForm, Controller } from 'react-hook-form';
-import { Select } from '../ui';
+import { Select } from '../../ui';
 import { colors, years, seasonData, types, genders, vendors, views, materialData, countries } from '@/data';
 import toast from 'react-hot-toast';
 import { registerDynamicModal } from '@/helpers/useDynamicModal';
 import { MODALS } from '@/constants/constants';
 import { useModal } from '@ebay/nice-modal-react';
-import CatalogCard from './CatalogCard/CatalogCard';
+import CatalogCard from '../CatalogCard/CatalogCard';
+import { Form, Row, ListRevalue } from './styles';
+import { Title, ButtonsConatainer, CheckButton } from '../styles';
 
 registerDynamicModal(
   MODALS.CATALOG_MODAL,
@@ -66,14 +67,13 @@ const CatalogPage = () => {
 
     return (
       <section className="container page">
-        <S.Title>КАТАЛОГ</S.Title>
+        <Title>КАТАЛОГ</Title>
           <FormProvider {...methods}>
-             <S.Form onSubmit={(e) => {
+             <Form onSubmit={(e) => {
                   e.preventDefault(); // Блокируем стандартную отправку браузера при Enter
                   handleSubmit(onSubmit)(e);
-                }}
-                style={{width: '600px'}}>
-              <S.Row>
+                }}>
+              <Row>
             <Controller
                       control={control}
                       name="type"
@@ -142,8 +142,8 @@ const CatalogPage = () => {
                     />   
           
 
-                    </S.Row>
-                    <S.Row>
+                    </Row>
+                    <Row>
                 
 
                       <Controller
@@ -214,8 +214,8 @@ const CatalogPage = () => {
                       )}
                     />
                       
-          </S.Row>
-          <S.Row>
+          </Row>
+          <Row>
 
             
                     <Controller
@@ -266,18 +266,18 @@ const CatalogPage = () => {
                       )}
                     />
    
-                </S.Row>
-                 <S.CheckButton type="submit">
+                </Row>
+                 <CheckButton type="submit">
                   Подивитись результат
-                </S.CheckButton>
-             </S.Form>
+                </CheckButton>
+             </Form>
           </FormProvider>
-          <S.ListRevalue>
+          <ListRevalue>
               {list && list.map(item => <CatalogCard item={item} />)}
-          </S.ListRevalue>
-          <S.ButtonsConatainer>
-            <S.CheckButton onClick={() => list?.length > 0 ? show({ items: list}) : toast.error('Додайте вибірку товарів')}>Відкрити каталог</S.CheckButton>
-          </S.ButtonsConatainer>
+          </ListRevalue>
+          <ButtonsConatainer>
+            <CheckButton onClick={() => list?.length > 0 ? show({ items: list}) : toast.error('Додайте вибірку товарів')}>Відкрити каталог</CheckButton>
+          </ButtonsConatainer>
       </section>
     )
 }

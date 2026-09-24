@@ -1,6 +1,6 @@
 "use client";
 
-import CatalogPage from "@/components/Base/Catalog";
+import CatalogPage from "@/components/Base/Catalog/Catalog";
 
 const Catalog = () => <CatalogPage />;
 
