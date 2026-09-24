@@ -1,3 +1,4 @@
+import { media } from "@/styles/mediaBrakepoints";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
@@ -42,6 +43,10 @@ export const ImageWrapper = styled.div`
     max-height: 100%;
     object-position: center;
     object-fit: contain;
+  }
+  ${media.mobile}{
+    width: 150px;
+    height: 150px;
   }
 `;
 export const Flex = styled.div`
