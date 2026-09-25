@@ -17,6 +17,7 @@ export const MenuList = styled.div`
     padding: 0 60px;
     ${media.mobile}{
         padding: 0 16px;
+        grid-template-columns: repeat(1, 1fr);
     }
 `
 
