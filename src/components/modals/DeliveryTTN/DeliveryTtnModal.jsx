@@ -32,7 +32,7 @@ const DeliveryTtn = create(({ id, order, createTTN }) => {
           <Head close={remove} title="Формування ТТН" />
           <Content>
             <S.Title>
-              Оберіть суму, яка буде накладеним платежем (по замовченню встановлюється сума замовлення - 100грн!).
+              Оберіть суму, яка буде накладеним платежем (по замовченню встановлюється сума замовлення - 200грн!).
               <br/>Якщо нема, то треба поставити 0
             </S.Title>
             <FormProvider {...methods}>
@@ -42,7 +42,7 @@ const DeliveryTtn = create(({ id, order, createTTN }) => {
                   {...register("payment", { required: true })}
                   tabIndex={1}
                   enterKeyHint="done"
-                  defaultValue={order.totalPrice - 100}
+                  defaultValue={order.totalPrice - 200}
                   type="number"
                 />
                 <Button type="submit" fullWidth={true}>
