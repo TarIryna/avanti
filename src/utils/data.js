@@ -1,33 +1,33 @@
 export const tabsData = [
   {
-    name: "Для жінок",
+    name: "Жінки",
     link: "/women",
     image: "https://i.ibb.co/9j0mFhN/women.jpg",
-    query: "women",
+    value: "women",
     menu: "Жінки",
     filterName: "Жінки",
   },
   {
-    name: "Для чоловіків",
+    name: "Чоловіки",
     link: "/men",
     image: "https://i.ibb.co/SDQmrfXj/men.jpg",
-    query: "men",
+    value: "men",
     menu: "Чоловіки",
     filterName: "Чоловіки",
   },
   {
-    name: "Для дівчат",
+    name: "Дівчата",
     link: "/girls",
     image: "https://i.ibb.co/TqbYcghL/girls.jpg",
-    query: "girls",
+    value: "girls",
     menu: "Дівчата",
     filterName: "Дівчата",
   },
   {
-    name: "Для хлопчиків",
+    name: "Хлопці",
     link: "/boys",
     image: "https://i.ibb.co/HDn9KfjC/boys.jpg",
-    query: "boys",
+    value: "boys",
     menu: "Хлопці",
     filterName: "Хлопці",
   },
@@ -229,33 +229,33 @@ export const menuData = {
 };
 
 export const bagsData = [
-  {name: "Кроссбоді", query: "bags-crossbody"},
-  {name: "Сумки класичні жіночі", query: "bags-classic"},
-  {name:"Дорожні сумки", query: "bags-travel"},
-  {name: "Вечірні клатчі", query: "bags-clatch"},
-  {name: "Гаманці", query: "bags-wallet"},
-  {name: "Рюкзаки", query: "bags-backpack"},
-  {name: "Сумки для ноутбуків", query: "bags-notebook"},
+  {name: "Кроссбоді", value: "bags-crossbody"},
+  {name: "Сумки класичні жіночі", value: "bags-classic"},
+  {name:"Дорожні сумки", value: "bags-travel"},
+  {name: "Вечірні клатчі", value: "bags-clatch"},
+  {name: "Гаманці", value: "bags-wallet"},
+  {name: "Рюкзаки", value: "bags-backpack"},
+  {name: "Сумки для ноутбуків", value: "bags-notebook"},
   ]
 
 export const seasons = [
   {
     link: "winter",
     name: "Зимове взуття",
-    query: "winter",
+    value: "winter",
     filterName: "зима",
   },
-  { link: "summer", name: "Літнє взуття", query: "summer", filterName: "літо" },
+  { link: "summer", name: "Літнє взуття", value: "summer", filterName: "літо" },
   {
     link: "autumn",
     name: "Весна-осінь",
-    query: "autumn",
+    value: "autumn",
     filterName: "весна/осінь",
   },
   {
     link: "demi",
     name: "Демісезонне взуття",
-    query: "demi",
+    value: "demi",
     filterName: "демісезон",
   },
 ];
@@ -283,7 +283,7 @@ export const views = (season, gender, type) => {
   if (type === "bags") return bagsData;
   let data = [];
   const filterByGender = gender
-    ? tabsData.find((item) => item.query === gender)?.menu
+    ? tabsData.find((item) => item.value === gender)?.menu
     : null;
   const filterBySeason = season
     ? seasons.find((item) => item.link === season).name
@@ -292,8 +292,8 @@ export const views = (season, gender, type) => {
     const elements = menuData[filterByGender][filterBySeason];
     for (let i in elements) {
       data.push({
-        name: i,
-        query: getNameView(menuData[filterByGender][filterBySeason][i]),
+        name: i?.toString(),
+        value: getNameView(menuData[filterByGender][filterBySeason][i]),
       });
     }
   }
@@ -304,7 +304,7 @@ export const views = (season, gender, type) => {
       for (let j in elements) {
              data.push({
           name: j,
-          query: getNameView(menuData[filterByGender][i][j]),
+          value: getNameView(menuData[filterByGender][i][j]),
         });
       }
     }
@@ -315,7 +315,7 @@ export const views = (season, gender, type) => {
       for (let i in elementsOfSeason) {
         data.push({
           name: i,
-          query: getNameView(menuData[item][filterBySeason][i]),
+          value: getNameView(menuData[item][filterBySeason][i]),
         });
       }
     }
@@ -326,7 +326,7 @@ export const views = (season, gender, type) => {
       for (let i in elementsOfGender) {
         const elementsOfSeason = menuData[item][i];
         for (let j in elementsOfSeason) {
-          data.push({ name: j, query: getNameView(menuData[item][i][j]) });
+          data.push({ name: j, value: getNameView(menuData[item][i][j]) });
         }
       }
     }
@@ -335,27 +335,30 @@ export const views = (season, gender, type) => {
 };
 
 export const sizes = () => {
-  const array = [];
-  for (let i = 16; i < 50; i++) {
-    array.push(i.toString());
-  }
-  return array;
+  // Генерируем массив из 34 элементов (от 16 до 49 включительно)
+  return Array.from({ length: 50 - 16 }, (_, index) => {
+    const sizeValue = (16 + index).toString();
+    return {
+      id: sizeValue,
+      name: sizeValue
+    };
+  });
 };
 
 export const materialList = [
   {
     name: "Натуральна шкіра",
-    query: 1,
+    value: "1",
     filterName: "Натуральна шкіра",
   },
   {
     name: "Екошкіра",
-    query: 2,
+    value: "2",
     filterName: "Екошкіра",
   },
     {
     name: "Текстиль",
-    query: 4,
+    value: "4",
     filterName: "Текстиль",
   },
 ];
@@ -363,27 +366,27 @@ export const materialList = [
 export const colorsList = [
   {
     name: "білий",
-    query: 2,
+    value: "2",
     filterName: "білий",
   },
   {
     name: "чорний",
-    query: 41,
+    value: "41",
     filterName: "чорний",
   },
   {
     name: "бежевий",
-    query: 1,
+    value: "1",
     filterName: "бежевий",
   },
   {
     name: "коричневий",
-    query: 16,
+    value: "16",
     filterName: "коричневий",
   },
     {
     name: "сірий",
-    query: 29,
+    value: "29",
     filterName: "сірий",
   },
 ];
@@ -391,32 +394,30 @@ export const colorsList = [
 export const sortList = [
   {
     name: "ціною з найменшої",
-    query: "priceUp",
-    filterName: "ціною з найменшої",
+    value: "priceUp",
   },
   {
     name: "ціною з навищої",
-    query: "priceDown",
-    filterName: "ціною з найвищої",
+    value: "priceDown",
   },
-  { name: "популярністю", query: "popular", filterName: "популярністю" },
-  { name: "новинки", query: "new", filterName: "новинки" },
+  { name: "популярністю", value: "popular"},
+  { name: "новинки", value: "new" },
 ];
 
 export const limits = [
   {
     name: "24",
-    query: "24",
+    value: "24",
     filterName: "24",
   },
   {
     name: "48",
-    query: "48",
+    value: "48",
     filterName: "48",
   },
   {
     name: "72",
-    query: "72",
+    value: "72",
     filterName: "72",
   },
 ];

@@ -43,10 +43,13 @@ if (material && material !== "null") filterParams.material = Number(material);
 if (yearFrom && yearFrom !== "null") filterParams.year = { $gt: Number(yearFrom) };
 
 // Фильтр по размерам
-if (sizes && sizes !== "null") {
+if (sizes && sizes !== "null" && sizes.trim() !== "") {
+  const sizesArray = sizes.split(',');
+
   filterParams.sizes = {
     $elemMatch: {
-      size: sizes,
+      // Ищем совпадение с любым из размеров в массиве sizesArray
+      size: { $in: sizesArray },
       q: { $gt: 0 } // только в наличии
     }
   };

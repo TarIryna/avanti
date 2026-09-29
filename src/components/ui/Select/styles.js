@@ -1,4 +1,5 @@
 import { styles } from "@/data";
+import { media } from "@/styles/mediaBrakepoints";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
@@ -83,6 +84,10 @@ export const SelectButton = styled.button`
   z-index: 1;
    ${({isOpenList}) => ( isOpenList ? 'border-radius: 16px 16px 0 0;' : 'border-radius: 16px;')}
   border: 1px solid grey;
+
+  ${media.mobile}{
+    padding: 4px 16px 0; 
+  }
 `
 
 export const CheckIcon = styled.div``
@@ -113,3 +118,17 @@ export const Selected = styled.div`
   font-size: 12px;
   padding: 0 2px;
 `
+
+export const Reset = styled.div`
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translate3d(0, -50%, 0);
+  background: white;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 2;
+  img {
+    cursor: pointer;
+  }
+`;

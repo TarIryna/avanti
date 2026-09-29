@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import * as S from './styles';
+import Image from "next/image";
+import CloseIcon from "@/assets/icons/close2.svg";
 
 const Select = ({ 
   options = [], 
@@ -12,13 +14,17 @@ const Select = ({
   tabIndex,
   className,
   isMulti = false,
-  lang = "ukr"
+  lang = "ukr",
+  isResetButton
 }) => {
   // 1. Создаем внутренний стейт, который инициализируется из defaultValue или пустой структуры
   const [internalValue, setInternalValue] = useState(() => {
     if (defaultValue !== undefined) return defaultValue;
     return isMulti ? [] : "";
   });
+
+  console.log(externalValue, label)
+  const isNullValue = externalValue === "all" || externalValue === null || externalValue?.length === 0 
 
   // Определяем, какое значение сейчас главное (внешнее или внутреннее)
   const isControlled = externalValue !== undefined;
@@ -156,11 +162,24 @@ const normalizedOptions = useMemo(() => {
     triggerChange(currentValues.filter(v => v !== itemValue)); // Используем единый триггер
   };
 
+  const onReset = (e) => {
+    e.stopPropagation(); // Чтобы при клике на крестик не открывался/закрывался выпадающий список
+    
+    // Если это мультиселект — сбрасываем в пустой массив, иначе — в пустую строку
+    const resetValue = isMulti ? [] : null; 
+    
+    triggerChange(resetValue);
+    setQuery(""); // Очищаем текст в инпуте, если он был
+  }
+
   return (
     <S.SelectContainer ref={containerRef} className={className}>
       {label && <S.Label>{label}</S.Label>}
       
       <S.SelectWrapper onClick={() => isInput && inputRef.current?.focus()}>
+        {isResetButton && !isNullValue && <S.Reset onClick={(e) => onReset(e)}>
+            <Image src={CloseIcon} alt="close" width="20" height="20" />
+          </S.Reset>}
         {isMulti && selectedOptions?.length > 0 && (
           <S.TagsContainer>
             {selectedOptions?.map(item => (
