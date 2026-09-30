@@ -26,8 +26,8 @@ const ProductResult = ({operations, invoices}) => {
                        <td>{invoices.totalCount}</td>
                        <td>{Math.abs(operations.totalCount)}</td>
                        <td>{(operations.totalUSD - invoices.totalUSD).toFixed(2)}</td>
-                       <td>{((Math.abs(operations.totalCount) / invoices.totalCount) ?? 0  * 100).toFixed(2)}%</td>
-                       <td>{((Math.abs(operations.totalUSD) / invoices.totalUSD ?? 0) * 100).toFixed(2)}%</td>
+                       <td>{((Math.abs(operations.totalCount) ?? 0 / (invoices.totalCount ?? 1)) ?? 0  * 100).toFixed(2)}%</td>
+                       <td>{((Math.abs(operations.totalUSD) ?? 0 / (invoices.totalUSD ?? 1) ?? 0) * 100).toFixed(2)}%</td>
                      </tr>
                  </tbody>
                </S.Table>
