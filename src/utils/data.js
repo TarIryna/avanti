@@ -151,8 +151,9 @@ export const menuData = {
       },
     },
     "Демісезонне взуття": {
-      "Черевики класичні": { gender: "men", season: "demi", view: "classic" },
-      "Черевики спортивні": { gender: "men", season: "demi", view: "boots" },
+      "Черевики класичні": { gender: "men", season: "demi", view: "boots-classic" },
+      "Черевики спортивні": { gender: "men", season: "demi", view: "boots-sneakers" },
+      "Черевики комфорт": { gender: "men", season: "demi", view: "boots-comfort" },
     },
   },
   Дівчата: {
