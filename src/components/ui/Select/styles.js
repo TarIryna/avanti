@@ -77,17 +77,13 @@ export const SelectButton = styled.button`
   display: flex;
   width: 100%;
   height: calc(100% - 2px);
-  padding: 0 16px;
+   padding: 4px 16px 0;
   top: 50%;
   left: 2px;
   transform: translate3d(0, -50%, 0);
   z-index: 1;
    ${({isOpenList}) => ( isOpenList ? 'border-radius: 16px 16px 0 0;' : 'border-radius: 16px;')}
   border: 1px solid grey;
-
-  ${media.mobile}{
-    padding: 4px 16px 0; 
-  }
 `
 
 export const CheckIcon = styled.div``
