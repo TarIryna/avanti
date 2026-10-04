@@ -1,3 +1,4 @@
+import { media } from "@/styles/mediaBrakepoints";
 import styled from "@emotion/styled";
 
 export const List = styled.div`
@@ -15,12 +16,16 @@ export const Form = styled.form`
 export const Flex = styled.div`
     display: flex;
     gap: 16px;
-    align-items: center;
     justify-content: center;
     margin-bottom: 20px;
 
     div {
     max-width: 400px;
+    }
+
+    ${media.mobile}{
+        gap: 8px;
+        margin-bottom: 10px;
     }
 `
 

@@ -12,6 +12,10 @@ export const Form = styled.form`
   div {
     width: 100%;
   }
+
+  ${media.tablet}{
+    grid-template-columns: repeat(2, 1fr);
+  }
 `;
 
 export const Flex = styled.div`
@@ -34,13 +38,16 @@ export const Container = styled.div`
   height: calc(100vh - 120px);
   background: rgb(229, 229, 229);
   border-radius: 16px;
+  overflow: auto;
+  ${media.tablet}{
+    width: calc(100vw - 30px);
+    height: calc(100vh - 30px);
+  }
   ${media.mobile} {
     height: 100dvh;
     width: 100vw;
     min-height: auto;
     border-radius: 0;
-    overflow: hidden;
-    overflow-y: auto;
   }
 `;
 

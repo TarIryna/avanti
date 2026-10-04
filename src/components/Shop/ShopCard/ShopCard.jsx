@@ -10,7 +10,7 @@ const ShopCard = ({ item, setProduct, isList, info, shop, type, comment, staff, 
   if (!item){
     return
   }
-console.log(item)
+
   const sizes = item.sizes_all
   const name = item.name?.slice(0, 1).toUpperCase() + item.name?.slice(1);
   const image = item.images?.[0]

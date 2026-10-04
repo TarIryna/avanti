@@ -3,7 +3,7 @@ import { Input, Select } from '../../ui';
 import * as S from './styles';
 import { Title, Row, Flex } from '../styles';
 import { useForm, FormProvider, Controller } from 'react-hook-form';
-import { colors, years, seasonData, getDefaultYear, getCodePart, getYearById, types, genders, vendors, views, sizesLengths, getVendorCountry, countries, materialInside, materialsTop, getMaterialId, materialData, styles, heels, sizesGroup, facebookCategories, getNameTotal, categories } from '@/data';
+import { colors, years, seasonData, getDefaultYear, types, genders, vendors, views, sizesLengths, countries, materialInside, materialsTop, materialData, styles, heels, sizesGroup, facebookCategories, categories } from '@/data';
 import { useMemo, useState } from 'react';
 import { accessoires } from '@/data/accesoires';
 import toast from 'react-hot-toast';
@@ -25,6 +25,31 @@ const ProductEditorPage = () => {
     watch,
     reset,
   } = methods;
+
+  const setForm = (product) => {
+   reset({
+      code: product.code || "",
+      year: product.year || defaultYear?.value || "",
+      season: product.season || "", 
+      type: product.type ?? 1,
+      gender: product.gender || "",
+      vendor: product.vendor || "",
+      model: product.model || "",
+      color: product.color || "",
+      country: product.country || "",
+      accessoires: product.accessoires || "",
+      material_top: product.material_top || "",
+      material_inside: product.material_inside || "",
+      material: product.material || "",
+      view: product.view || "",
+      style: product.style || "",
+      rozetka_id: product.rozetka_id || "",
+      heel: product.heel || "",
+      size_type: product.size_type || "",
+      sizesGroup: product.sizesGroup || "",
+      facebook: product.facebook || ""
+    });
+  }
 
 const onChangeCode = async (e) => {
   if (e.key !== "Enter") return;
@@ -50,30 +75,7 @@ const onChangeCode = async (e) => {
     }
 
     setImage(foundProduct.small_image ?? foundProduct.images?.[0] ?? "")
-
-    // Магическая строчка: обновляет ВСЕ поля формы значениями из объекта товара
-    reset({
-      code: foundProduct.code || "",
-      year: foundProduct.year || defaultYear?.value || "",
-      season: foundProduct.season || "", 
-      type: foundProduct.type ?? 1,
-      gender: foundProduct.gender || "",
-      vendor: foundProduct.vendor || "",
-      model: foundProduct.model || "",
-      color: foundProduct.color || "",
-      country: foundProduct.country || "",
-      accessoires: foundProduct.accessoires || "",
-      material_top: foundProduct.material_top || "",
-      material_inside: foundProduct.material_inside || "",
-      material: foundProduct.material || "",
-      view: foundProduct.view || "",
-      style: foundProduct.style || "",
-      rozetka_id: foundProduct.rozetka_id || "",
-      heel: foundProduct.heel || "",
-      size_type: foundProduct.size_type || "",
-      sizesGroup: foundProduct.sizesGroup || "",
-      facebook: foundProduct.facebook || ""
-    });
+    setForm(foundProduct)
 
     toast.success("Товар успішно завантажено!");
   } catch (e) {
@@ -109,28 +111,7 @@ const isVisibleAccessoires = useMemo(() => type === 9, [type])
 
 const onSetProductFromList = (product) => {
    setImage(product.small_image ?? product.images?.[0] ?? "")
-      reset({
-      code: product.code || "",
-      year: product.year || defaultYear?.value || "",
-      season: product.season || "", 
-      type: product.type ?? 1,
-      gender: product.gender || "",
-      vendor: product.vendor || "",
-      model: product.model || "",
-      color: product.color || "",
-      country: product.country || "",
-      accessoires: product.accessoires || "",
-      material_top: product.material_top || "",
-      material_inside: product.material_inside || "",
-      material: product.material || "",
-      view: product.view || "",
-      style: product.style || "",
-      rozetka_id: product.rozetka_id || "",
-      heel: product.heel || "",
-      size_type: product.size_type || "",
-      sizesGroup: product.sizesGroup || "",
-      facebook: product.facebook || ""
-    });
+   
   setList([])
 }
 
@@ -153,11 +134,10 @@ const onSetProductFromList = (product) => {
                       product,
                 }),
                   });
-        const result = await response.json();
-        if (result === 'success'){
-          toast.success("Успішно додано товар")
-          reset()
-        }
+        await response.json();
+        toast.success("Успешно изменен товар")
+        setForm({});
+        setImage("")
     }catch(e){
          console.error(e)
       }

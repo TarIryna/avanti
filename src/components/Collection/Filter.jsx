@@ -154,7 +154,7 @@ const renderSizes = (sizes = []) => {
           {colorsList && <Select options={colorsList} label="Колір" value={watchedValues.color} onChange={(nextValues) => updateParam("color", nextValues)} isResetButton />}
           {materialList && <Select options={materialList} label="Матеріал" value={watchedValues.material} onChange={(nextValues) => updateParam("material", nextValues)} isResetButton /> }
           {sortList && <Select options={sortList} label="Сортування" value={watchedValues.sort} onChange={(nextValues) => updateParam("sort", nextValues)} />}
-          {limits &&  <Select options={limits} label="Ліміт" value={watchedValues.limit} onChange={(nextValues) => updateParam("limit", nextValues)}/> }
+          {limits &&  <Select options={limits} label="Кількість на сторінці" value={watchedValues.limit} onChange={(nextValues) => updateParam("limit", nextValues)}/> }
         </S.FilterGrid>
       </form>
       </FormProvider>

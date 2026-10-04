@@ -40,11 +40,21 @@ useEffect(() => {
   control,
   setValue,
   watch,
+  reset
 } = methods;
 
 
 const onSubmit = async(data) => {
 console.log(data)
+}
+
+const onReset = () => {
+  setProduct(null)
+  reset()
+} 
+
+const onResetCheck = () => {
+  setCheck(null)
 }
 
 
@@ -179,7 +189,7 @@ const setDiscountToProduct = (discount, index) => {
                 label='Код товару'
                 on
                 isBorder
-              {...register("code", { required: true })}
+                name="code"
               />
             {/* {!!product && <ShopProduct product={product}/>} */}
              {<Input
@@ -191,13 +201,13 @@ const setDiscountToProduct = (discount, index) => {
                 label='Телефон'
                 on
                 isBorder
-              {...register("client", { required: true })}
+                name="client"
               />}
             {check?.client && <Description label="Клієнт" text={`${check?.client.name} ${check?.client.discount}% знижки`}/>}
-              </S.InfoContainer>
-             
             {product &&  <SaleCard client={check?.client} product={product} addToCheck={addToCheck} shop={shop} type={OPERATION_TYPE.SALE}/>}
-            {check.items.length > 0 && <Check check={check} type={OPERATION_TYPE.SALE} setDiscount={setDiscountToProduct}/>}
+           </S.InfoContainer>
+             
+            {check.items.length > 0 && <Check check={check} type={OPERATION_TYPE.SALE} setDiscount={setDiscountToProduct} reset={onReset} resetCheck={onResetCheck}/>}
             </S.ProductConatiner>
        
           </S.Form>

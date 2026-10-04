@@ -13,16 +13,17 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 400px;
-  min-height: 500px;
+  width: calc(100vw - 32px);
+  height: calc(100vh - 32px);
   background: rgb(229, 229, 229);
   border-radius: 16px;
+  overflow-y: auto;
   ${media.mobile} {
     height: 100dvh;
     width: 100vw;
     min-height: auto;
     border-radius: 0;
-    overflow: hidden;
+    overflow-x: hidden;
     overflow-y: auto;
   }
 `;

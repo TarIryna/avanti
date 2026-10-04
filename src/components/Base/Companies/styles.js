@@ -16,7 +16,11 @@ export const Form = styled.form`
     gap: 10px;
     width: 100%;
 
-      ${media.mobile}{
+    ${media.desktopSm}{
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+      ${media.tablet}{
      grid-template-columns: repeat(2, 1fr);
     }
 

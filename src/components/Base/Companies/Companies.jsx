@@ -17,6 +17,7 @@ import { useQuery } from '@tanstack/react-query';
 registerDynamicModal(MODALS.PAYMENT, import("@/components/modals/PaymentModal/PaymentModal"));
 registerDynamicModal(MODALS.INVOICE, import("@/components/modals/InvoiceModal/InvoiceModal"));
 registerDynamicModal(MODALS.CURRENCY, import("@/components/modals/CurrencyModal/CurrencyModal"));
+registerDynamicModal(MODALS.PREORDER_MODAL, import("@/components/modals/PreorderModal/PreorderModal"));
 
 // 1. Выносим чистую функцию запроса ЗА ПРЕДЕЛЫ компонента
 // Теперь она не пересоздается при ререндерах и не образует лишних замыканий
@@ -36,6 +37,7 @@ const CompaniesPage = () => {
   const { show: showPaymentModal } = useModal(MODALS.PAYMENT);
   const { show: showInvoiceModal } = useModal(MODALS.INVOICE);
   const { show: showCurrency } = useModal(MODALS.CURRENCY);
+  const { show: showPreorder } = useModal(MODALS.PREORDER_MODAL);
 
   const methods = useForm({
     defaultValues: { company: null },
@@ -110,8 +112,9 @@ const CompaniesPage = () => {
                         />
                       )}
                     />
-                <Button type="button" onClick={() => showPaymentModal({company: currentCompany})}>Новий платіж</Button>
-                <Button type="button" onClick={() => showInvoiceModal({company: currentCompany})}>Нова накладна</Button>
+                <Button type="button" onClick={() => showPaymentModal({company: currentCompany})}>Новый платеж</Button>
+                <Button type="button" onClick={() => showInvoiceModal({company: currentCompany})}>Новая накладная</Button>
+                <Button type="button" onClick={() => showPreorder({company: currentCompany})}>Новый заказ</Button>
                 <Button type="button" onClick={() => showCurrency()}>Внести новий курс</Button>
             </S.Form>
       </FormProvider>

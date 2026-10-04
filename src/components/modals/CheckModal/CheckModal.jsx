@@ -9,16 +9,15 @@ import CheckProductInfo from "@/components/Shop/CheckProductInfo";
 import * as S from "./styles";
 import { registerDynamicModal } from "@/helpers/useDynamicModal";
 import { MODALS, OPERATION_TYPE } from "@/constants/constants";
+import toast from "react-hot-toast";
 
 registerDynamicModal(
   MODALS.CHECK_PRINT,
   import("@/components/modals/CheckModal/CheckPrint")
 );
 
-const CheckModal = create(({ id, check, type }) => {
+const CheckModal = create(({ id, check, type, resetCheck }) => {
   const { visible, hide } = useModal(id);
-  const [terminal, setTerminal] = useState(0);
-  const [cash, setCash] = useState(0);
 
   const { show: showPrint } = useModal(MODALS.CHECK_PRINT);
   const title = type === OPERATION_TYPE.SALE ? "Чек продажу" : "Чек повернення";
@@ -37,41 +36,50 @@ const CheckModal = create(({ id, check, type }) => {
     setValue
   } = methods;
 
-// Изменение терминала меняет наличку
-const onChangeTerminal = (e) => {
-  if (e.key !== "Enter") return;
-  e.preventDefault();
+  const terminal = watch('terminal')
+  const cash = watch('cash')
 
-  // 🌟 Читаем значение НАПРЯМУЮ из инпута, минуя watch()
-  const inputValue = e.target.value; 
-
-  const terminalValue = Number(inputValue || 0);
-  const cashValue = Math.max(0, Number(check.total) - terminalValue);
-
-  setTerminal(terminalValue);
-  setCash(cashValue);
+  useEffect(() => {
+    const terminalValue = Math.max(0, Number(check.total) - Number(cash))
+    setValue('terminal', terminalValue, { shouldValidate: true, shouldDirty: true });
+  }, [cash])
   
-  // Принудительно прописываем значение во второй инпут и обновляем состояние формы
-  setValue('cash', cashValue, { shouldValidate: true, shouldDirty: true });
-};
+  useEffect(() => {
+    const cashValue = Math.max(0, Number(check.total) - Number(terminal))
+    setValue('cash', cashValue, { shouldValidate: true, shouldDirty: true })
+  }, [terminal])
 
-// Изменение налички меняет терминал
-const onChangeCash = (e) => {
-  if (e.key !== "Enter") return;
-  e.preventDefault();
+// // Изменение терминала меняет наличку
+// const onChangeTerminal = (e) => {
+//   if (e.key !== "Enter") return;
+//   e.preventDefault();
 
-  // 🌟 Читаем значение НАПРЯМУЮ из инпута, минуя watch()
-  const inputValue = e.target.value;
+//   // 🌟 Читаем значение НАПРЯМУЮ из инпута, минуя watch()
+//   const inputValue = e.target.value; 
 
-  const cashValue = Number(inputValue || 0);
-  const terminalValue = Math.max(0, Number(check.total) - cashValue);
-
-  setCash(cashValue);
-  setTerminal(terminalValue);
+//   const terminalValue = Number(inputValue || 0);
+//   const cashValue = Math.max(0, Number(check.total) - terminalValue);
+//   setCash(cashValue);
   
-  // Принудительно прописываем значение в первый инпут и обновляем состояние формы
-  setValue('terminal', terminalValue, { shouldValidate: true, shouldDirty: true });
-};
+//   // Принудительно прописываем значение во второй инпут и обновляем состояние формы
+//   setValue('cash', cashValue, { shouldValidate: true, shouldDirty: true });
+// };
+
+
+// // Изменение налички меняет терминал
+// const onChangeCash = (e) => {
+//   if (e.key !== "Enter") return;
+//   e.preventDefault();
+
+//   // 🌟 Читаем значение НАПРЯМУЮ из инпута, минуя watch()
+//   const inputValue = e.target.value;
+
+//   const cashValue = Number(inputValue || 0);
+//   const terminalValue = Math.max(0, Number(check.total) - cashValue);
+  
+//   // Принудительно прописываем значение в первый инпут и обновляем состояние формы
+//   setValue('terminal', terminalValue, { shouldValidate: true, shouldDirty: true });
+// };
 
 
   const sendOperation = async (params) => {
@@ -102,9 +110,12 @@ const onChangeCash = (e) => {
     };
     
     sendOperation(data);
-    showPrint({ data, type });
+    showPrint({ data, type, resetCheck });
     hide(); // Закрываем модальное окно после проведения операции
   };
+
+
+  console.log(term)
 
   return (
     <ReactModal id={id} closeOnClickOutside={false}>

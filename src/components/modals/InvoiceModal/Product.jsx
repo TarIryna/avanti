@@ -91,8 +91,17 @@ const InvoiceProduct = ({ product, addToInvoice, setProduct }) => {
             <S.Flex>
                 {image && <S.ImageCard>
                    <Image src={image} alt={image} fill/>
-                </S.ImageCard>}
-                <S.Quantity>{quantity}</S.Quantity>
+                 </S.ImageCard>}
+                {product.type === 1 ? <S.Quantity>{quantity}</S.Quantity> : 
+                      <Input
+                        type="number"
+                        value={quantity}
+                        label="Кількість"
+                        className="invoice"
+                        isBorder
+                        onValueChange={(e) => setQuantity(e.target.value)}
+                    />
+                }
                 <Input
                     type="number"
                     value={price}

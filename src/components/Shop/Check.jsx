@@ -11,7 +11,7 @@ registerDynamicModal(
   import("../modals/CheckModal/CheckModal")
 );
 
-const Check = ({check, type=OPERATION_TYPE.SALE, setDiscount, reset}) => {
+const Check = ({check, type=OPERATION_TYPE.SALE, setDiscount, reset, resetCheck}) => {
     const {show: showCheck} = useModal(MODALS.CHECK)
     const params = useParams();
     const shop = params.shop;
@@ -24,7 +24,7 @@ const Check = ({check, type=OPERATION_TYPE.SALE, setDiscount, reset}) => {
        
     const onClick = () => {
         const checkData = {...check, total, shop}
-            showCheck({check: checkData, type});
+            showCheck({check: checkData, type, resetCheck});
             reset()
     };
 

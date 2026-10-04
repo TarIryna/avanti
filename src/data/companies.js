@@ -2408,6 +2408,16 @@ export const companies = [
    "country_id": "",
    "site": "",
    "e-mail": ""
+ },
+  {
+   "id": 321,
+   "name": "CHARM BAGS Сумки",
+   "city": "",
+   "телефон": "",
+   "manager": "",
+   "country_id": "",
+   "site": "",
+   "e-mail": ""
  }
 ]
 

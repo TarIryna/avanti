@@ -32,6 +32,9 @@ export const Input = styled.input`
   &:focus {
     outline: none;
   }
+    ${media.mobile}{
+      ${({isOpenList}) => ( isOpenList ? 'border-radius: 12px 12px 0 0;' : 'border-radius: 12px;')}
+    }
 `;
 
 export const Label = styled.div`
@@ -40,6 +43,11 @@ export const Label = styled.div`
     left: 18px;
     font-size: 8px;
     z-index: 2;
+
+    ${media.mobile}{
+      font-size: 7px;
+      left: 14px;
+    }
 `
 
 export const Select = styled.div`
@@ -84,6 +92,18 @@ export const SelectButton = styled.button`
   z-index: 1;
    ${({isOpenList}) => ( isOpenList ? 'border-radius: 16px 16px 0 0;' : 'border-radius: 16px;')}
   border: 1px solid grey;
+
+  ${media.mobile}{
+    padding: 7px;
+      > div { 
+    font-size: 12px;
+    line-height: 0.8;
+    height: 100%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+  }
+}
 `
 
 export const CheckIcon = styled.div``
@@ -124,6 +144,7 @@ export const Reset = styled.div`
   border-radius: 50%;
   cursor: pointer;
   z-index: 2;
+  width: 20px !important;
   img {
     cursor: pointer;
   }

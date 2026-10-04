@@ -16,3 +16,14 @@ export const getDate = (date) => {
 export const parseDate = (date) => {
   return new Date(date).toLocaleDateString("uk-UA");
 }
+
+export const getDateLocal = (dateInput) => {
+  if (!dateInput) return new Date();
+  
+  if (typeof dateInput === 'string' && dateInput.includes('.')) {
+    const [day, month, year] = dateInput.split('.');
+    return new Date(`${year}-${month}-${day}`);
+  }
+  
+  return new Date(dateInput);
+};

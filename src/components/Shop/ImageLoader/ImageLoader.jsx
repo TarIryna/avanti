@@ -31,7 +31,7 @@ const uploadFiles = async (files) => {
         type="button"
         onClick={() => inputRef.current.click()}
       >
-        Выбрать фотографии
+        Обрати фото
       </button>
 
       <input

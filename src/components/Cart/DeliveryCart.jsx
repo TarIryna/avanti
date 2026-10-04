@@ -107,49 +107,63 @@ const DeliveryCart = () => {
     return {result, text};
   };
 
-  const onSubmit = (e) => {
-    const name = e.name ?? user?.name;
-    const surname = e.surname ?? user?.surname;
-    const phone = e.phone ?? user?.phone;
-    const isViber = e.viber ?? user?.viber;
-    const cityDescription = e.cityDescription ?? user?.cityDescription;
-    const city = e.city ?? user?.city
-    const addressDescription = e.addressDescription ?? user?.addressDescription;
-    const address = e.address ?? user?.address
-    const email = e.email ?? user?.email
+const onSubmit = async (e) => { // Добавляем async, если handleOrder отправляет запрос на сервер
+  const name = e.name ?? user?.name;
+  const surname = e.surname ?? user?.surname;
+  const phone = e.phone ?? user?.phone;
+  const isViber = e.viber ?? user?.viber;
+  const cityDescription = e.cityDescription ?? user?.cityDescription;
+  const city = e.city ?? user?.city
+  const addressDescription = e.addressDescription ?? user?.addressDescription;
+  const address = e.address ?? user?.address
+  const email = e.email ?? user?.email
 
-    const orderData = {
-      name,
-      surname,
-      phone,
-      isViber,
-      city,
-      email,
-      address,
-      cityDescription,
-      addressDescription
-    };
-    const isFullInfo = checkInfo(orderData);
-    if (!isFullInfo.result && isFullInfo.text) toast.error(isFullInfo.text);
-    else {
-      handleUpdate(orderData);
-      handleOrder(orderData);
-        if (typeof window !== "undefined" && window.gtag) {
-          window.gtag('event', 'conversion', {
-            send_to: 'AW-18067191476/3Kr-CN2_h6AcELTtjadD',
-            value: items.reduce((sum, item) => sum + item.salePrice * item.quantity, 0),
-            currency: 'UAH',
-            items: items.map(item => ({
-              id: item.code,
-              name: item.name,
-              quantity: item.quantity,
-              price: item.salePrice
-            }))
-          });
-        }
-    }
-    // else handleOrder("new");
+  const orderData = {
+    name,
+    surname,
+    phone,
+    isViber,
+    city,
+    email,
+    address,
+    cityDescription,
+    addressDescription
   };
+  
+  const isFullInfo = checkInfo(orderData);
+  if (!isFullInfo.result && isFullInfo.text) {
+    toast.error(isFullInfo.text);
+  } else {
+    handleUpdate(orderData);
+    
+    // Предположим, handleOrder отправляет данные на бэкенд и возвращает созданный заказ
+    const orderResult = await handleOrder(orderData); 
+    const orderId = orderResult?.id || `order_${Date.now()}`; // Запасной вариант для transaction_id
+
+    if (typeof window !== "undefined" && window.gtag) {
+      // Считаем общую сумму, принудительно приводя к числу
+      const totalValue = items.reduce((sum, item) => {
+        const price = Number(item.salePrice) || 0;
+        const qty = Number(item.quantity) || 1;
+        return sum + (price * qty);
+      }, 0);
+
+      window.gtag('event', 'conversion', {
+        send_to: 'AW-18067191476/3Kr-CN2_h6AcELTtjadD',
+        value: totalValue,
+        currency: 'UAH',
+        transaction_id: orderId, // ОБЯЗАТЕЛЬНО для ecommerce-конверсий
+        items: items.map(item => ({
+          item_id: String(item.code),   // ИСПРАВЛЕНО: item_id вместо id
+          item_name: item.name,         // ИСПРАВЛЕНО: item_name вместо name
+          quantity: Number(item.quantity) || 1,
+          price: Number(item.salePrice) || 0
+        }))
+      });
+    }
+  }
+};
+
 
   return (
     <div>

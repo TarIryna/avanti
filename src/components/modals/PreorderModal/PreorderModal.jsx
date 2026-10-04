@@ -12,15 +12,15 @@ import { currencies } from "@/data/currencies";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { getVendor, getColorSimple } from "@/data";
+import InvoiceProduct from "../InvoiceModal/Product";
+import PreorderList from "./PreorderList";
 import { getDateLocal } from "@/helpers/getDate";
-import InvoiceProduct from "./Product";
-import InvoiceList from "./InvoiceList";
 import { MODALS } from "@/constants/constants";
 import { registerDynamicModal } from "@/helpers/useDynamicModal";
 
 registerDynamicModal(MODALS.CURRENCY, import("@/components/modals/CurrencyModal/CurrencyModal"));
 
-const InvoiceModal = create(({ id, company }) => {
+const PreorderModal = create(({ id, company }) => {
   const { remove } = useModal(id);
   const [items, setItems] = useState([])
   const [product, setProductState] = useState(null);
@@ -28,7 +28,7 @@ const InvoiceModal = create(({ id, company }) => {
   const [rateValue, setRateValue] = useState(null)
   const [selectedProductId, setSelectedProductId] = useState(""); 
   const {show: showRate} = useModal(MODALS.CURRENCY)
-    const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
   const { data: rate } = useQuery({ 
     queryKey: ["rate"],
@@ -91,9 +91,9 @@ const handleUpdateProduct = (updatedProduct) => {
   );
 };
 
-const addInvoiceMutation = useMutation({
+const addPreorderMutation = useMutation({
   mutationFn: async (invoiceData) => {
-    const res = await fetch('/api/company/invoice/new', { 
+    const res = await fetch('/api/company/preorder/new', { 
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -109,7 +109,7 @@ const addInvoiceMutation = useMutation({
   },
   onSuccess: (result) => {
     if (result.status === "success") {
-      toast.success(`Успешно добавлена накладная!`);
+      toast.success(`Успешно добавлен заказ!`);
       setItems([])
       setList([])  
       setSelectedProductId("")
@@ -122,9 +122,12 @@ const addInvoiceMutation = useMutation({
   },
   onError: (error) => {
     console.error(error);
-    toast.error('Не получилось добавить накладную');
+    toast.error('Не получилось добавить заказ');
   }
 });
+
+
+
 
 
 const onSubmit = async (data) => {
@@ -141,16 +144,19 @@ const onSubmit = async (data) => {
     return
   }
 
-   
-     let dateToParse = data.date;
-   
-     // Если дата пришла строкой и содержит точки (формат 30.09.2026)
-     if (typeof data.date === 'string' && data.date.includes('.')) {
-       const [day, month, year] = data.date.split('.');
-       dateToParse = `${year}-${month}-${day}`; // Конвертируем в "2026-09-30"
-     }
-   
-    const date = getDateLocal(dateToParse);
+
+  let dateToParse = data.date;
+
+  // Если дата пришла строкой и содержит точки (формат 30.09.2026)
+  if (typeof data.date === 'string' && data.date.includes('.')) {
+    const [day, month, year] = data.date.split('.');
+    dateToParse = `${year}-${month}-${day}`; // Конвертируем в "2026-09-30"
+  }
+
+  const date = getDateLocal(dateToParse);
+
+  //  const date = getDate(data.date);
+  //  console.log(data)
    data.rate = rateValue;
    data.items = items;
    data.total = items.reduce((sum, item) => sum + item.total, 0);
@@ -158,7 +164,7 @@ const onSubmit = async (data) => {
    data.date = date
    
     try {
-      await addInvoiceMutation.mutateAsync(data);
+      await addPreorderMutation.mutateAsync(data);
     } catch (e){
       console.log(e)
     }
@@ -212,16 +218,16 @@ const deleteItem = (id) => {
   const filteredArray = items.filter(item => item._id !== id)
   setItems(filteredArray)
 }
-
+console.log(rate)
   return (
     <ReactModal id={id} closeOnClickOutside={false}>
       <Wrapper>
         <S.Container>
-          <Head close={remove} title="Нова накладна" />
+          <Head close={remove} title="Нове замовлення" />
           <Content>
             {rateValue && <S.Rate>Курс: {rateValue}
               <Button type="button" onClick={() => showRate()}>Змінити курс</Button>
-           </S.Rate>}
+              </S.Rate>}
             <FormProvider {...methods}>
               <S.Form onSubmit={handleSubmit(onSubmit)} autoComplete="on">
                     <Controller
@@ -236,6 +242,7 @@ const deleteItem = (id) => {
                           value={field.value} 
                           onChange={field.onChange} 
                           tabIndex={1}
+                          isResetButton
                         />
                       )}
                     />
@@ -266,6 +273,7 @@ const deleteItem = (id) => {
                           value={field.value} 
                           onChange={field.onChange} 
                           tabIndex={3}
+                          isResetButton
                         />
                       )}
                     />
@@ -303,8 +311,9 @@ const deleteItem = (id) => {
                 <Button type="submit">Провести</Button>
               </S.Form>
             </FormProvider>
-            {!!items?.length && <InvoiceList list={items} deleteItem={deleteItem}/>}
             {product && <InvoiceProduct product={product} addToInvoice={addItemToInvoice} setProduct={handleUpdateProduct}/>}
+            {!!items?.length && <PreorderList list={items} deleteItem={deleteItem}/>}
+
           </Content>
         </S.Container>
       </Wrapper>
@@ -312,4 +321,4 @@ const deleteItem = (id) => {
   );
 });
 
-export default InvoiceModal;
+export default PreorderModal;

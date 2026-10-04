@@ -14,8 +14,7 @@ const Select = ({
   tabIndex,
   className,
   isMulti = false,
-  lang = "ukr",
-  isResetButton
+  lang = "ukr"
 }) => {
   // 1. Создаем внутренний стейт, который инициализируется из defaultValue или пустой структуры
   const [internalValue, setInternalValue] = useState(() => {
@@ -23,8 +22,7 @@ const Select = ({
     return isMulti ? [] : "";
   });
 
-  console.log(externalValue, label)
-  const isNullValue = externalValue === "all" || externalValue === null || externalValue?.length === 0 
+  const isNullValue = externalValue === "all" || externalValue === null || externalValue?.length === 0 || !externalValue 
 
   // Определяем, какое значение сейчас главное (внешнее или внутреннее)
   const isControlled = externalValue !== undefined;
@@ -177,7 +175,7 @@ const normalizedOptions = useMemo(() => {
       {label && <S.Label>{label}</S.Label>}
       
       <S.SelectWrapper onClick={() => isInput && inputRef.current?.focus()}>
-        {isResetButton && !isNullValue && <S.Reset onClick={(e) => onReset(e)}>
+        {!isNullValue && <S.Reset onClick={(e) => onReset(e)}>
             <Image src={CloseIcon} alt="close" width="20" height="20" />
           </S.Reset>}
         {isMulti && selectedOptions?.length > 0 && (
@@ -204,10 +202,12 @@ const normalizedOptions = useMemo(() => {
           />
         ) : (
           <S.SelectButton isOpenList={isOpen} onClick={() => setIsOpen(!isOpen)}>
+            <div>
             {isMulti 
               ? (selectedOptions?.length > 5 ? `Обрано: ${selectedOptions.length}` : "")
               : (!selectedOptions ? placeholder : selectedOptions.name) // Исправили отображение текста кнопки при одиночном выборе
             }
+            </div>
           </S.SelectButton>
         )}
       </S.SelectWrapper>
