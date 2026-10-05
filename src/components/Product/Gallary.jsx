@@ -9,13 +9,13 @@ registerDynamicModal(
   import("@/components/modals/ProductModal/ProductModal")
 );
 
-const Gallary = ({ images }) => {
+const Gallary = ({ images, video }) => {
   const imagesToDisplay = images.filter(Boolean);
 
 
   return (
     <S.GalleryWrapper isGrid={imagesToDisplay?.length > 1}>
-      <Slider imagesToDisplay={imagesToDisplay}/>
+      <Slider imagesToDisplay={imagesToDisplay} video={video}/>
     </S.GalleryWrapper>
   );
 };

@@ -8,7 +8,7 @@ import Image from "next/image";
 import toast from "react-hot-toast";
 
 
-const InvoiceProduct = ({ product, addToInvoice, setProduct }) => {
+const InvoiceProduct = ({ product, addToInvoice, setProduct, isOrder }) => {
     const image = product.small_image ?? product.images[0] ?? "";
     const [sizes, setSizes] = useState(() => getSizesList(product));
     const [quantity, setQuantity] = useState(0);
@@ -112,7 +112,7 @@ const InvoiceProduct = ({ product, addToInvoice, setProduct }) => {
                 />
                 <Sizes sizes={sizes} item={product} setSizes={setSizes}/>
                <S.Button onClick={handleAddToInvoice}>
-                Додати в накладну
+                {isOrder ? "Добавить в заказ" : "Добавить в накладную"}
                </S.Button>
             </S.Flex>
         </S.Wrapper>

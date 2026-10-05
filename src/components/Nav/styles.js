@@ -27,10 +27,10 @@ export const Navigation = styled.nav`
   align-items: center;
   background: black;
   padding: 10px 40px;
+  // ${media.tabletLg} {
+  //   padding: 10px 20px;
+  // }
   ${media.tabletLg} {
-    padding: 10px 20px;
-  }
-  ${media.tabletSm} {
     height: unset;
     padding: 10px 16px !important;
   }

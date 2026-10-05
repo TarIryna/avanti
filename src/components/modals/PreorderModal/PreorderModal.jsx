@@ -311,7 +311,7 @@ console.log(rate)
                 <Button type="submit">Провести</Button>
               </S.Form>
             </FormProvider>
-            {product && <InvoiceProduct product={product} addToInvoice={addItemToInvoice} setProduct={handleUpdateProduct}/>}
+            {product && <InvoiceProduct product={product} addToInvoice={addItemToInvoice} setProduct={handleUpdateProduct} isOrder/>}
             {!!items?.length && <PreorderList list={items} deleteItem={deleteItem}/>}
 
           </Content>

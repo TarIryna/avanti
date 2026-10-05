@@ -58,6 +58,8 @@ const CompaniesPage = () => {
     enabled: !!currentCompany,
   });
 
+  console.log(data)
+
   // Пересчет данных через useMemo (остается без изменений, так как зависит только от data)
   const results = useMemo(() => {
     if (!data || !Array.isArray(data.payments) || !Array.isArray(data.invoices)) {

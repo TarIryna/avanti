@@ -55,7 +55,7 @@ const PhotoPage = () => {
 const onUpload = (images) => {
   setImages(prevImages => [...prevImages, ...images]);
 }
-console.log(images)
+
 const onUploadFromServer = async () => {
    setIsDownloadingSecond(true);
   try {

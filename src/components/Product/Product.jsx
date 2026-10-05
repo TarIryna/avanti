@@ -4,6 +4,7 @@ import Description from "./Description";
 import { capitalize } from "@/helpers/capitalize";
 import * as S from "./styles";
 import { getVendor } from "@/data/getData";
+import YoutubePlayer from "../Shop/VideoPlayer/VideoPlayer";
 
 
 const Product = ({ product }) => {
@@ -17,7 +18,8 @@ const Product = ({ product }) => {
           <h1>
             {product.name} {getVendor(product.vendor)} {product.model}
           </h1>
-          {!!images.length && <Gallary images={images} />}
+          {!!images.length && <Gallary images={images} video={product.video}/>}
+          {product.video && <YoutubePlayer url={product.video}/>}
           <S.Content>
             <S.Name>{`${capitalize(product.name)} ${getVendor(product.vendor)} ${product.model ?? ""}`}</S.Name>
             <Description data={product} />

@@ -75,10 +75,7 @@
   min-height: calc(100svh - 130px);
   padding: 100px 20px 10px;
   justify-content: start;
-   @media screen and (max-width: 768px){
-      padding: 110px 20px 20px;
-  }
-   @media screen and (max-width: 767px){
+   @media screen and (max-width: 900px){
       padding: 77px 16px 16px;
   }
 }

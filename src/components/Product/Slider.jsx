@@ -7,7 +7,7 @@ import { useModal } from "@ebay/nice-modal-react";
 import { MODALS } from "@/constants/constants";
 
 
-export const Slider = ({ imagesToDisplay }) => {
+export const Slider = ({ imagesToDisplay, video }) => {
   const [index, setIndex] = useState(0);
   const sliderRef = useRef(null);
   const touchStartX = useRef(0);

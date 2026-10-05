@@ -6,14 +6,14 @@ import Image from "next/image";
 
 export const ProductWrapper = styled.div`
   display: grid;
-  grid-template-columns: 1fr 570px;
+  grid-template-columns: 1fr 400px;
   align-items: center;
   gap: 20px;
-  padding: 20px;
+  padding: 110px 20px 20px;
   ${media.tabletMd} {
      grid-template-columns: 1fr;
      gap: 16px;
-     padding: 0;
+     justify-content: center;
   }
 
   h1{
@@ -176,6 +176,9 @@ export const GalleryWrapper = styled.div`
   position: relative;
   max-height: calc(100svh - 260px);
   width: 100%;
+   ${media.tabletMd} {
+   min-height: 80vh;
+   }
   ${media.mobile}{
     touch-action: pan-y;
   }
