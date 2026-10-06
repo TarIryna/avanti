@@ -73,7 +73,7 @@ const Sizes = ({ sizes, item, isShop, onSelect, info, color='black', shop, isTex
 
       <S.SizesContainer isNotification={isNotification}>
        {!!sizes?.length && isShop && <S.SizesBlock color={color}> A{shop} </S.SizesBlock>} 
-        {sizes?.map((el) => <Size isInfo={info} sizes={sizes} item={el} size={size} sizesAll={item.sizes_all} setSize={setSize} color={color}/>)}
+       {!!sizes?.length && sizes?.map((el) => <Size isInfo={info} sizes={sizes} product={item} item={el} size={size} sizesAll={item.sizes_all} setSize={setSize} color={color}/>)}
       </S.SizesContainer>
 
       {!info && <S.SizesButton onClick={onButtonClick} disabled={!size && sizes.length > 1}>

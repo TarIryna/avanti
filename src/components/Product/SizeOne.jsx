@@ -5,9 +5,10 @@ import { getShopAdress } from '../Shop/data'
 import Info from "@/assets/icons/info-icon.svg";
 import Image from "next/image";
 
-const Size = ({sizes, item, size, sizesAll, isInfo, setSize, color}) => {
+const Size = ({sizes, item, size, sizesAll, isInfo, setSize, color, product}) => {
   const [isOpenInfo, setIsOpenInfo ] = useState(false)
   const [isOpenInfoIcon, setIsOpenInfoIcon ] = useState(false)
+  const isBag = product.type === 3
 
   const onIconClick = () => {
     setIsOpenInfo(true)
@@ -25,13 +26,12 @@ const Size = ({sizes, item, size, sizesAll, isInfo, setSize, color}) => {
       setIsOpenInfoIcon(true)
     }, 1000);
   }
+
   
-
-
     const isDisabled = item?.q === 0;
     const isActive = item?.size === size?.size
     let text = "Даний розмір можна приміряти за адресою: "
-    Object.entries(sizesAll).forEach(([index, data]) => {
+    sizesAll && Object.entries(sizesAll).forEach(([index, data]) => {
         const size = data.find(i => i.size === item.size)
         const infoText = `${!!size ? getShopAdress(index): ""}`
            text += `${text.endsWith('адресою: ') ? "" : !!infoText ? " ;" : ""} ${infoText}`
@@ -54,7 +54,7 @@ const Size = ({sizes, item, size, sizesAll, isInfo, setSize, color}) => {
                   onClick={() => !isDisabled && !isInfo && onSizeClick(item)}
                   color={color}
                 >
-                  {item.type ===  3 ? getColorById(item?.size, 'ukr') : item?.size}
+                  {isBag ? getColorById(product.color, 'ukr') : item?.size}
                 </S.SizesBlock>
                 {isInfo && <S.SizesBlock color="grey">{item?.q}</S.SizesBlock>}
                 </S.SizeContainer>
