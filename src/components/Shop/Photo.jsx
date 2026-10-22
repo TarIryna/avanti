@@ -53,7 +53,7 @@ const PhotoPage = () => {
 };
 
 const onUpload = (images) => {
-  setImages(prevImages => [...prevImages, ...images]);
+  setImages(prevImages => [...prevImages, ...images.filter(Boolean)]);
 }
 
 const onUploadFromServer = async () => {

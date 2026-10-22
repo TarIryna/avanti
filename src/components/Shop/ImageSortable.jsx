@@ -72,27 +72,21 @@ const ImageSorter = ({ initialImages, code, setImages }) => {
       }
       
       // Отсекаем расширение файла (.jpg, .webp и т.д.)
-      return pathAfterUpload.replace(/\.[^/.]+\$/, "");
+      return pathAfterUpload.replace(/\.[^/.]+$/, "");
     };
 
     const publicId = getPublicIdFromUrl(imgToDelete);
 
     if (publicId) {
       // 2. Сначала удаляем физический файл из Cloudinary через ваш DELETE-эндпоинт
-      // (Замените путь к API на ваш актуальный, например, `/api/product/upload`)
-      const cloudDeleteResponse = await fetch(`/api/product/upload`, {
+      const params = new URLSearchParams({ publicId, code: String(code) });
+      const cloudDeleteResponse = await fetch(`/api/cloudinary?${params}`, {
         method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          publicId: publicId,
-          code: code // передаем код товара, чтобы бэкенд знал, у кого чистить small_image, если удаляется первое фото
-        }),
       });
 
       if (!cloudDeleteResponse.ok) {
-        console.error("Не удалось удалить файл из Cloudinary, но продолжаем обновление БД");
+        const errorData = await cloudDeleteResponse.json().catch(() => null);
+        throw new Error(errorData?.error || "Не удалось удалить файл из Cloudinary");
       }
     }
   } catch (e) {

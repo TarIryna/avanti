@@ -172,20 +172,23 @@ export async function GET() {
 }
 
 export async function DELETE(req) {
+  let deleteStage = "read query parameters";
   try {
-    await connectToDB(); // Подключаемся к БД
-
-    // Получаем данные из запроса (ожидаем publicId и code товара)
-    const { publicId, code } = await req.json();
-
-    console.log('publicId', publicId, 'code', code)
+    const { searchParams } = new URL(req.url);
+    const publicId = searchParams.get("publicId");
+    const code = searchParams.get("code");
 
     if (!publicId) {
-      return Response.json({ error: "Не передан publicId для удаления" }, { status: 400 });
+      return NextResponse.json({ error: "Не передан publicId для удаления" }, { status: 400 });
     }
 
-    // 1. Удаляем изображение из Cloudinary
-    const cloudinaryResult = await cloudinary.uploader.destroy(publicId);
+    deleteStage = "connect to database";
+    await connectToDB();
+
+    deleteStage = "delete asset from Cloudinary";
+    const cloudinaryResult = await cloudinary.uploader.destroy(publicId, {
+      invalidate: true,
+    });
 
     if (cloudinaryResult.result !== "ok") {
       // Если Cloudinary вернул "not found", возможно оно уже удалено, но базу все равно стоит почистить
@@ -194,6 +197,7 @@ export async function DELETE(req) {
 
     // 2. Если передан code товара, удаляем ссылки на фото из MongoDB
     if (code) {
+      deleteStage = "update product images in database";
       const product = await Product.findOne({ barcodes: { $in: [code] } });
 
       if (product) {
@@ -221,10 +225,14 @@ export async function DELETE(req) {
       }
     }
 
-    return Response.json({ success: true, message: "Фото успешно удалено" });
+    return NextResponse.json({
+      success: true,
+      message: "Фото успешно удалено",
+      cloudinaryResult: cloudinaryResult.result,
+    });
 
   } catch (error) {
-    console.error("Delete error:", error);
-    return Response.json({ error: error.message }, { status: 500 });
+    console.error(`Cloudinary delete failed during stage: ${deleteStage}`, error?.stack || error);
+    return NextResponse.json({ error: error.message, stage: deleteStage }, { status: 500 });
   }
 }

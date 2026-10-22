@@ -13,7 +13,7 @@ const uploadFiles = async (files) => {
 
     const res = await fetch("/api/cloudinary", { method: "POST", body: formData });
     const data = await res.json();
-    return data.url;
+    return data.originalUrl;
   });
 
   const urls = await Promise.all(uploadPromises);
