@@ -5,12 +5,19 @@ export const Form = styled.form`
   width: 100%;
   display: flex;
   flex-direction: column;
+  justify-items: center;
   gap: 16px;
   align-items: center;
-  input {
-    background: white;
-    max-width: 100%;
+  div {
+    width: auto;
   }
+  input {
+    width: 250px;
+    background: white;
+  }
+    button {
+      width: 250px;
+    }
 `;
 
 export const Title = styled.p`
@@ -141,3 +148,9 @@ export const Links = styled.div`
   text-align: center;
   margin-top: 4px;
 `;
+
+export const Grid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5px;
+`

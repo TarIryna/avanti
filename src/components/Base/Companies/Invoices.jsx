@@ -29,25 +29,28 @@ const Invoices = ({invoices}) => {
      <thead>
        <tr>
          <th>Дата</th>
+         <th>Номер накладной</th>
+         <th>Год/сезон</th>
          <th>Сумма</th>
          <th>Курс</th>
          <th>Сумма USD</th>
-         <th>Год/сезон</th>
-         <th>Комментарий</th>
+         <th>Пар</th>
        </tr>
      </thead>
    
      <tbody>
-       {invoices.map((item) => (
+       {invoices.map((item) => {
+        return (
          <tr key={item._id} className="cursor" onClick={() => openInvoice(item)}>
            <td>{parseDate(item.date)}</td>
+           <td>{item.comment}</td>
+           <td>{getYearById(item.season)}</td>
            <td>{`${item.total?.toFixed(2)} ${getCurrencySymbol(item.currency)}`}</td>
            <td>{item.rate}</td>
            <td>{item.totalUSD?.toFixed(2)}</td>
-           <td>{getYearById(item.season)}</td>
-           <td>{item.comment}</td>
-         </tr>
-       ))}
+           <td>{item.totalQuantity ?? 0}</td>
+      </tr>
+       )})}
      </tbody>
    </S.Table>
    </S.Wrapper>

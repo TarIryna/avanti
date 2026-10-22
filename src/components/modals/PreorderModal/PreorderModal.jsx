@@ -127,9 +127,6 @@ const addPreorderMutation = useMutation({
 });
 
 
-
-
-
 const onSubmit = async (data) => {
   if (!rateValue || typeof currency !== "number"){
     toast.error("Необхідно проставити курс валюти!")
@@ -155,8 +152,6 @@ const onSubmit = async (data) => {
 
   const date = getDateLocal(dateToParse);
 
-  //  const date = getDate(data.date);
-  //  console.log(data)
    data.rate = rateValue;
    data.items = items;
    data.total = items.reduce((sum, item) => sum + item.total, 0);
@@ -218,7 +213,7 @@ const deleteItem = (id) => {
   const filteredArray = items.filter(item => item._id !== id)
   setItems(filteredArray)
 }
-console.log(rate)
+
   return (
     <ReactModal id={id} closeOnClickOutside={false}>
       <Wrapper>

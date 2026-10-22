@@ -51,6 +51,15 @@ const ProductSchema = new Schema(
     year: Number,
     heel: Number,
     totalCount: Number,
+    totalGot: Number,
+    priceOrder: {
+      price: {
+        type: Number,
+      },
+      currency: {
+        type: Number,
+      },
+    },
     company: Number,
     total: {
     type: [

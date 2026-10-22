@@ -2410,12 +2410,32 @@ export const companies = [
    "e-mail": ""
  },
   {
+   "id": 320,
+   "name": "Сумки Киев",
+   "city": "",
+   "телефон": "",
+   "manager": "",
+   "country_id": "",
+   "site": "",
+   "e-mail": ""
+ },
+  {
    "id": 321,
    "name": "CHARM BAGS Сумки",
    "city": "",
    "телефон": "",
    "manager": "",
    "country_id": "",
+   "site": "",
+   "e-mail": ""
+ },
+   {
+   "id": 322,
+   "name": "GORANGD Сумки",
+   "city": "",
+   "телефон": "",
+   "manager": "",
+   "country_id": "1",
    "site": "",
    "e-mail": ""
  }

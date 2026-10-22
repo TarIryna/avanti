@@ -63,6 +63,8 @@ export const POST = async (request) => {
       filterParams.year = { $lte: Number(yearMinus) };
     }
 
+  filterParams.totalCount = { $gt: 0 };
+
 
     const pipeline = [
   { $match: filterParams },
@@ -74,7 +76,7 @@ export const POST = async (request) => {
         { $limit: Number(limit) },
       ],
       meta: [
-        { $count: "total" }, 
+        { $count: "totalCount" }, 
       ],
       // --- ДОБАВЛЯЕМ НОВУЮ СЕКЦИЮ ДЛЯ ПОДСЧЕТА СУММЫ Q ---
       shopTotals: [

@@ -61,9 +61,10 @@ const onUploadFromServer = async () => {
   try {
     const res = await fetch(`/api/cloudinary`);
     
-    if (!res.ok) {
-      throw new Error(`Ошибка сервера: ${res.status}`);
-    }
+   if (!res.ok) {
+    const errorData = await res.json();
+    throw new Error(errorData.message || 'Что-то пошло не так');
+  }
 
     // Читаем ответ как обычный текст (CSV), а не JSON!
     const csvContent = await res.text();
@@ -88,8 +89,7 @@ const onUploadFromServer = async () => {
 
     toast.success("Успішно завантажено та збережено файл!");
   } catch (e) {
-    console.error("Помилка завантажения:", e);
-    toast.error("Помилка при загрузці фото");
+    toast.error(e?.message ?? "Сталась помилка при вивантаженні даних");
   } finally {
       setIsDownloadingSecond(false);
     }

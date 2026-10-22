@@ -29,7 +29,6 @@ export const ModalContainer = styled.div`
 `;
 
 export const TitleBlock = styled.div`
-  margin-top: 30px;
   text-align: center;
   display: flex;
   justify-content: space-between;

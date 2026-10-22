@@ -50,13 +50,14 @@ const NewProductPage = () => {
 
   // Перенесли функцию внутрь или обернули бы в useCallback, но для useEffect можно оставить так
   const generateAndCheckCode = async () => {
-    if (!year || !season) return;
-
+    if (!year) return
+    if (type === 1 && !season) return;
+    
     const yearLabel = getYearById(year); // Получаем строку (например, "2026")
     if (!yearLabel) return;
 
     const yearPart = yearLabel.slice(2, 4); // Вырезаем последние 2 цифры
-    const seasonPart = getCodePart(season);
+    const seasonPart = type === 3 ? "9" : getCodePart(season);
     const firstPart = `${yearPart}${seasonPart}`; 
 
     if (firstPart?.length === 3) {
@@ -79,7 +80,7 @@ const NewProductPage = () => {
     if (season && year) {
       generateAndCheckCode();
     }
-  }, [season, year]); // Срабатывает каждый раз при изменении сезона или года
+  }, [season, year, type]); // Срабатывает каждый раз при изменении сезона или года
 
    useEffect(() => {
     if (vendor) {
@@ -93,6 +94,15 @@ const NewProductPage = () => {
       }
     }
   }, [vendor]); 
+
+  useEffect(() => {
+    if (type === 3){
+     setValue('season', 13, { shouldValidate: true })
+     setValue('rozetka_id', 20769, { shouldValidate: true })
+     setValue('sizesGroup', 20, { shouldValidate: true })
+     setValue('view', "bags-crossbody", {shouldValidate: true})
+    }
+  }, [type])
 
   useEffect(() => {
     if (materialTop) {
@@ -147,7 +157,7 @@ const NewProductPage = () => {
   const onSubmit = async(data) => {
     const name = getNameTotal(data)
     const code = Number(data.code)
-    const product = {...data, name, code, barcodes: [code]}
+    const product = {...data, name, code, barcodes: [code.toString()]}
 
     Object.keys(product).forEach(key => {
       if (product[key] === undefined) {

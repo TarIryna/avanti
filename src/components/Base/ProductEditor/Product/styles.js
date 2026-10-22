@@ -29,6 +29,12 @@ export const Flex = styled.div`
     }
 `
 
+export const Column = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+`
+
 export const ImageWrapper = styled.div`
     width: 400px;
     height: 400px;
@@ -41,3 +47,4 @@ export const ImageWrapper = styled.div`
     object-fit: contain;
   }
 `
+

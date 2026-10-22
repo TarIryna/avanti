@@ -9,19 +9,24 @@ export async function POST(req) {
     await connectToDB();
 
     const body = await req.json();
-    console.log('body', body)
 
     // Создаем накладную
     const order = await Preorder.create(body);
+    console.log(order)
 
     // Обрабатываем товары
     for (const item of body.items) {
       const product = await Product.findOne({
         code: item.productCode,
       });
+      if (product) {
+        const price = { price: Number(item.price ?? 0), currency: order.currency}
+        product.priceOrder = price
+        product.markModified("priceOrder");
+        await product.save()
+      }
 
       if (!product) {
-        console.log(`Товар ${item.productCode} не найден`);
         continue;
       }
     }

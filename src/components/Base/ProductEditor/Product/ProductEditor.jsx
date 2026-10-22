@@ -1,19 +1,21 @@
 "use client";
-import { Input, Select } from '../../ui';
+import { Input, Select } from '../../../ui';
 import * as S from './styles';
-import { Title, Row, Flex } from '../styles';
+import { Title, Row, Flex } from '../../styles';
 import { useForm, FormProvider, Controller } from 'react-hook-form';
 import { colors, years, seasonData, getDefaultYear, types, genders, vendors, views, sizesLengths, countries, materialInside, materialsTop, materialData, styles, heels, sizesGroup, facebookCategories, categories } from '@/data';
 import { useMemo, useState } from 'react';
 import { accessoires } from '@/data/accesoires';
 import toast from 'react-hot-toast';
-import ShopCard from '../../Shop/ShopCard/ShopCard';
+import ShopCard from '../../../Shop/ShopCard/ShopCard';
 import Image from 'next/image';
 import { companies } from '@/data/companies';
+import SizesEditor from '../Sizes/SizesEditor';
 
 const ProductEditorPage = () => {
   const [list, setList ] = useState([]);
   const [image, setImage] = useState("");
+  const [product, setProduct] = useState(null);
 
   const defaultYear = getDefaultYear();
 
@@ -37,6 +39,7 @@ const ProductEditorPage = () => {
       model: product.model || "",
       color: product.color || "",
       country: product.country || "",
+      company: product.company || null,
       accessoires: product.accessoires || "",
       material_top: product.material_top || "",
       material_inside: product.material_inside || "",
@@ -76,6 +79,7 @@ const onChangeCode = async (e) => {
 
     setImage(foundProduct.small_image ?? foundProduct.images?.[0] ?? "")
     setForm(foundProduct)
+    setProduct(foundProduct)
 
     toast.success("Товар успішно завантажено!");
   } catch (e) {
@@ -111,8 +115,9 @@ const isVisibleAccessoires = useMemo(() => type === 9, [type])
 
 const onSetProductFromList = (product) => {
    setImage(product.small_image ?? product.images?.[0] ?? "")
-   
-  setList([])
+   setProduct(product)
+   setForm(product)
+   setList([])
 }
 
   const onSubmit = async(data) => {
@@ -505,9 +510,12 @@ const onSetProductFromList = (product) => {
 
         </S.Form>
       </FormProvider>
+      <S.Column>
       {image && <S.ImageWrapper>
         <Image src={image} alt="image" fill/>
       </S.ImageWrapper>}
+      {product && <SizesEditor product={product} key={product.code}/>}
+      </S.Column>
       </Flex>
     </section>
   );

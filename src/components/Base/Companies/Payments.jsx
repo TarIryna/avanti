@@ -1,10 +1,22 @@
 import * as S from './styles'
 import { parseDate } from '@/helpers/getDate'
-import { getCompanyName } from '@/data/companies'
 import { getCurrencySymbol } from '@/data/currencies'
 import { getYearById } from '@/data'
+import { registerDynamicModal } from '@/helpers/useDynamicModal'
+import { MODALS } from '@/constants/constants'
+import { useModal } from '@ebay/nice-modal-react'
+
+registerDynamicModal(
+  MODALS.PAYMENT_CHANGE,
+  import("@/components/modals/PaymentModal/PaymentChangeModal")
+);
 
 const Payments = ({payments}) => {
+    const {show: showDetails} = useModal(MODALS.PAYMENT_CHANGE)
+    const openPayment = (item) => {
+      showDetails({item})
+    } 
+
  return (
   <S.Wrapper>
     <S.Title>Платежи</S.Title>
@@ -22,7 +34,7 @@ const Payments = ({payments}) => {
 
   <tbody>
     {payments.map((item) => (
-      <tr key={item._id}>
+      <tr key={item._id} onClick={() => openPayment(item)}>
         <td>{parseDate(item.date)}</td>
         <td>{`${item.amount} ${getCurrencySymbol(item.currency)}`}</td>
         <td>{item.rate}</td>

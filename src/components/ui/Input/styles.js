@@ -7,14 +7,14 @@ export const Wrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  min-height: ${({ hasError }) => (hasError ? 56 : 40)}px;
+  height: ${({ hasError }) => (hasError ? 56 : 40)}px;
   position: relative;
 `;
 
 export const InputWrapper = styled.div`
   position: relative;
   width: 100%;
-  height: 40px;
+  height: 100%;
   ${({isBorder}) => (isBorder && 'border-radius: 16px;')};
   ${({isBorder, isError}) => ((isBorder && isError) ? 'border: 1px solid red;' : (isBorder && !isError) ? 'border: 1px solid grey;' : "")};
 `;
@@ -49,7 +49,7 @@ export const InputElement = styled.input(
     border-radius: 8px;
     outline: none;
     width: 100%;
-
+    height: 100%;
     &:focus,
     &:focus-visible {
       ${!isShowSuccess && !isError && "border-color: grey"};

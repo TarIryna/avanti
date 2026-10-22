@@ -18,13 +18,14 @@ export const GET = async (req, { params }) => {
     
     // Преобразуем season к числу, так как в схеме season: Number
     const currentSeason = Number(lastSeasonValue); 
+    const seasons = [currentSeason, currentSeason - 1, currentSeason - 2];
 
     const invoices = await Invoice.aggregate([
       // 1. Фильтруем по числам. Теперь типы данных совпадают на 100%
       { 
         $match: { 
           company: companyId, 
-          season: currentSeason 
+          season: { $in: seasons }
         } 
       },
       
@@ -84,7 +85,8 @@ export const GET = async (req, { params }) => {
       },
       
       // 8. Опционально: сортируем инвойсы по дате создания (как они шли бы при find)
-      { $sort: { createdAt: -1 } }
+        { $sort: {season: -1, date: -1, comment: -1, _id: -1 } }
+
     ]);
 
         const orders = await Preorder.aggregate([
@@ -92,7 +94,7 @@ export const GET = async (req, { params }) => {
       { 
         $match: { 
           company: companyId, 
-          season: currentSeason 
+          season: { $in: seasons }
         } 
       },
       
@@ -152,10 +154,10 @@ export const GET = async (req, { params }) => {
       },
       
       // 8. Опционально: сортируем инвойсы по дате создания (как они шли бы при find)
-      { $sort: { createdAt: -1 } }
+          { $sort: { season: -1, date: -1 } }
     ]);
 
-    const payments = await Payment.find({ company: companyId, season: currentSeason });
+    const payments = await Payment.find({ company: companyId, season: { $in: seasons } }).sort({season: -1, date: -1});
     const company = companies.find(i => i.id === companyId);
 
     return NextResponse.json({ company, invoices, payments, orders }, { status: 200 });

@@ -46,6 +46,10 @@ export const Table = styled.table`
     font-size: 12px;
     width: 100%;
 
+    tr {
+    cursor: pointer;
+    }
+
     th, td {
     padding: 0 5px;
     text-align: center;

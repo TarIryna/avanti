@@ -120,7 +120,7 @@ export const POST = async (request) => {
           size: item.size,
           code: item.code,
           quantity: currentQuantity,
-          terminal: terminalPart / (currentQuantity || 1),
+          terminal: terminalPart / (-1 * currentQuantity || 1),
           operationId,
           type,
           shop,

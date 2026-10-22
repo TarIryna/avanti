@@ -11,7 +11,7 @@ const SizesChange = ({ item, setProduct, addToCheck, shop, type, comment, staff,
   const { handleSubmit, control, reset } = methods;
   const buttonText = type === OPERATION_TYPE.ARRIVAL ? "Оформити прихід" : type === OPERATION_TYPE.RETURN ? "Оформити повернення" : type === OPERATION_TYPE.SALE ? "Оформити продаж" : "Оформити списання"
   const isAddFunction = type === OPERATION_TYPE.RETURN || type === OPERATION_TYPE.ARRIVAL 
-  const isBags = item.type === 3
+  const isOne = item.sizesGroup === 20
 
  const onSubmit = async (data) => {
   try {
@@ -130,35 +130,11 @@ const SizesChange = ({ item, setProduct, addToCheck, shop, type, comment, staff,
         <S.SizesForm onSubmit={handleSubmit(onSubmit)}>
           <S.List>
             {shop && <div>A{shop}</div>}
-            {isBags && 
-              <>
-              {item.total.map(shop => <div>{` - ${shop.q} шт`}</div>)}
-                
-                <S.BlockContainer>
-                  <S.SizesBlock isOne>
-                    штук
-                  </S.SizesBlock>
-
-                  <Controller
-                    name="oneSize"
-                    control={control}
-                    defaultValue=""
-                    render={({ field }) => (
-                      <Input
-                        {...field}
-                        type="number"
-                        isBorder
-                      />
-                    )}
-                  />
-                </S.BlockContainer>
-               </>
-                }
             {sizes?.map((el) => {
               if (!el) return null;
 
               return (
-                <S.BlockContainer key={`${item.code}${el?.size}`}>
+                <S.BlockContainer key={`${item.code}${el?.size}`} isOne={isOne}>
                   <S.SizesBlock isOne={sizes?.length === 1}>
                     {el?.size}
                   </S.SizesBlock>

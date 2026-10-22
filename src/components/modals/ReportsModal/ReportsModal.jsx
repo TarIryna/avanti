@@ -3,6 +3,7 @@ import ReactModal from "react-modal";
 import { Wrapper } from "../styles";
 import * as S from "./styles";
 import Operations from "./Operations";
+import Head from "../components/Head/Head";
 
 const ReportsModal = create(({ id, report, shop }) => {
  const modal = useModal(id);
@@ -54,37 +55,37 @@ const ReportsModal = create(({ id, report, shop }) => {
   //   };
   // }, [modal.visible]);
 
-//   const customModalStyles = {
-//   overlay: {
-//     overflowY: 'auto', // Включаем скролл на самом заднем фоне (overlay)
-//      zIndex: 200,
-//   },
-//   content: {
-//     position: 'relative', // Отменяем абсолютное позиционирование react-modal
-//     top: 'auto',
-//     left: 'auto',
-//     right: 'auto',
-//     bottom: 'auto',
-//     width: '100vw',
-//     maxWidth: '100vw', // Ширина под ваш формат А4 с отступами
-//     minHeight: 'auto', // Высота прыгает в зависимости от контента
-//     padding: '20px',
-//     borderRadius: '8px',
-//     background: '#fff',
-//     border: 'none',
-//   },
-// };
+  const customModalStyles = {
+  overlay: {
+    overflowY: 'auto', // Включаем скролл на самом заднем фоне (overlay)
+     zIndex: 200,
+  },
+  content: {
+    position: 'relative', // Отменяем абсолютное позиционирование react-modal
+    top: '100px',
+    left: 'auto',
+    right: 'auto',
+    bottom: 'auto',
+    width: 'calc(100vw - 20px)',
+    maxWidth: 'calc(100vw - 20px)', // Ширина под ваш формат А4 с отступами
+    minHeight: 'auto', // Высота прыгает в зависимости от контента
+    borderRadius: '8px',
+    background: '#fff',
+    border: 'none',
+  },
+};
 
   return (
     <ReactModal
       isOpen={modal.visible}
       // Встроенный метод библиотеки: закрывает по Esc и клику на темный фон
       onRequestClose={() => modal.remove()} 
-      // style={customModalStyles}
+      style={customModalStyles}
       ariaHideApp={false}
     >
       <Wrapper>
         <S.ModalContainer>
+          <Head close={() => modal.remove()}/>
           <S.TitleBlock>
             <S.Date>{formattedDate}</S.Date>
             <S.Date>A{shop}</S.Date>

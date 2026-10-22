@@ -12,7 +12,7 @@ const InvoiceProduct = ({ product, addToInvoice, setProduct, isOrder }) => {
     const image = product.small_image ?? product.images[0] ?? "";
     const [sizes, setSizes] = useState(() => getSizesList(product));
     const [quantity, setQuantity] = useState(0);
-    const [price, setPrice] = useState(null);
+    const [price, setPrice] = useState(Number(product?.priceOrder?.price ?? null));
 
     const handleAddToInvoice = () => {
         if (!price || !quantity){
@@ -24,8 +24,6 @@ const InvoiceProduct = ({ product, addToInvoice, setProduct, isOrder }) => {
         }
     }
 
-    // 🌟 СИНХРОНИЗАЦИЯ: Если изменился сам продукт (например, пришла новая сетка с сервера), 
-    // сбрасываем и обновляем локальный стейт размеров
     useEffect(() => {
         setSizes(getSizesList(product));
     }, [product?.sizesGroup, product?._id]);

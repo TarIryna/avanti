@@ -284,7 +284,7 @@ export const PriceContainer = styled.p`
 export const BlockContainer = styled.div`
     display: flex;
     flex-direction: column;
-    width: 50px;
+    width: ${({isOne}) => (isOne ? '70px' : '50px')};
 
     input {
     padding: 0 2px;

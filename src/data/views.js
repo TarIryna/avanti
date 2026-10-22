@@ -22,4 +22,11 @@ export const views = [
     {id: 21, ukr: "Черевики класичні", ru: "Ботинки классические", value: "boots-classic"},
     {id: 22, ukr: "Лофери, мокасини", ru: " Лоферы, мокасины", value: "lofers"},
     {id: 23, ukr: "Кімнатне взуття", ru: "Комнатные тапочки", value: "home"},
+    {id: 24, ukr: "Кроссбоді", ru: "Кроссбоди", value: "bags-crossbody"},
+    {id: 25, ukr: "Сумки класичні жіночі", ru: "Сумки классические женские", value: "bags-classic"},
+    {id: 26, ukr:"Дорожні сумки", ru: "Дорожные сумки", value: "bags-travel"},
+    {id: 27, ukr: "Клатчі", ru: "Клатч", value: "bags-clatch"},
+    {id: 28, ukr: "Гаманці", ru: "Кошельки", value: "bags-wallet"},
+    {id: 29, ukr: "Рюкзаки", ru: "Рюкзаки", value: "bags-backpack"},
+    {id: 30, ukr: "Сумки для ноутбуків", ru: "Сумки для ноутбуков", value: "bags-notebook"},
 ]

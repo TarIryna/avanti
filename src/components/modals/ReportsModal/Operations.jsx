@@ -57,11 +57,11 @@ const Operations = ({ operations }) => {
                 {/* Строки с товарами этой группы */}
                 {items.map((item) => (
                   <tr key={item._id}>
-                    <td>{item.product.code}</td>
-                    <td>{getVendor(item.product.vendor)}</td>
-                    <td>{item.product.model}</td>
-                    <td>{item.product.price2 ?? item.product.price}</td>
-                    <td>{item.product.price2 ? item.product.price : ""}</td>
+                    <td>{item.product?.code}</td>
+                    <td>{getVendor(item.product?.vendor)}</td>
+                    <td>{item.product?.model}</td>
+                    <td>{item.product?.price2 ?? item.product?.price}</td>
+                    <td>{item.product?.price2 ? item.product?.price : ""}</td>
                     <td>{item.quantity}</td>
                     <td>{getSizes(item.size)}</td>
                     <td>{item.salePrice}</td>

@@ -1,7 +1,7 @@
 import * as S from './styles'
 
-const ProductResult = ({operations, invoices}) => {
-  console.log(operations, invoices)
+const ProductResult = ({product}) => {
+  if (!product) return null;
   
     return (
         <S.Wrapper>
@@ -21,13 +21,13 @@ const ProductResult = ({operations, invoices}) => {
                
                  <tbody>
                      <tr>
-                       <td>{invoices.totalUSD.toFixed(2)}</td>
-                       <td>{operations.totalUSD.toFixed(2)}</td>
-                       <td>{invoices.totalCount}</td>
-                       <td>{Math.abs(operations.totalCount)}</td>
-                       <td>{(operations.totalUSD - invoices.totalUSD).toFixed(2)}</td>
-                       <td>{((Math.abs(operations.totalCount) ?? 0 / (invoices.totalCount ?? 1)) ?? 0  * 100).toFixed(2)}%</td>
-                       <td>{((Math.abs(operations.totalUSD) ?? 0 / (invoices.totalUSD ?? 1) ?? 0) * 100).toFixed(2)}%</td>
+                       <td>{product.start ?? 0}</td>
+                       <td>{product.res ?? 0}</td>
+                       <td>{product.totalGot ?? 0 }</td>
+                       <td>{product.pop }</td>
+                       <td>{(product.res - product.start).toFixed(2)}</td>
+                       <td>{(((product.pop ?? 0) / (product.totalGot ?? 1) ?? 0)  * 100 ).toFixed(2)}%</td>
+                       <td>{(( (product.res - product.start) / product.start ?? 0) * 100 ).toFixed(2)}%</td>
                      </tr>
                  </tbody>
                </S.Table>

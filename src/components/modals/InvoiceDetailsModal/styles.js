@@ -2,24 +2,12 @@
 import { media } from "@/styles/mediaBrakepoints";
 import styled from "@emotion/styled";
 
-export const Flex = styled.div`
-  display: flex;
-  gap: 10px;
-  align-items: center;
-.invoice {
-  width: 100px;
-  margin-top: 36px;
-  background: white;
-  border-radius: 14px;
-}
-`
-
 
 export const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: calc(100vw - 120px);
-  height: calc(100vh - 120px);
+  display: grid;
+  grid-template-rows: 56px calc(100vh - 86px);
+  width: calc(100vw - 30px);
+  height: calc(100vh - 30px);
   background: rgb(229, 229, 229);
   border-radius: 16px;
   ${media.mobile} {
@@ -32,15 +20,27 @@ export const Container = styled.div`
   }
 `;
 
-export const Wrapper = styled.div`
-  font-size: 14px;
-  width: 100%;
-  .invoice-select {
-    width: 30%;
+export const Content = styled.div`
+  max-height: 100%;
+  overflow-y: auto;
+  padding: 16px;
+
+  .rate_input {
+    width: 160px;
+    height: 30px;
   }
-
 `
-
+export const Flex = styled.div`
+  display: flex;
+  gap: 10px;
+  align-items: center;
+.invoice {
+  width: 100px;
+  margin-top: 36px;
+  background: white;
+  border-radius: 14px;
+}
+`
 export const Title = styled.div`
   height: 30px;
   background: white;
@@ -50,11 +50,19 @@ export const Title = styled.div`
   margin-bottom: 5px;
   width: 100px;
 `
-
 export const Text = styled(Title)`
   width: max-content;
+  min-width: 160px;
   `
 
+export const Wrapper = styled.div`
+  font-size: 14px;
+  width: 100%;
+  .invoice-select {
+    width: 30%;
+  }
+
+`
 export const ImageCard = styled.div`
   width: 100px;
   height: 100px;
@@ -90,15 +98,16 @@ export const ItemImageCard = styled(ImageCard)`
   width: 40px;
   height: 100%;
 `
-export const Content = styled.div`
-  display: grid;
-  fgrid-template-columns: repeat(2, 1fr);
-  gap: 5px;
-  padding: 0 20px;
-`
+
 export const Table = styled.table``
 
 export const ImageInvoice = styled(ImageCard)`
   width: 40px;
   height: 40px;
+`
+export const ButtonsWrapper = styled.div`
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
 `

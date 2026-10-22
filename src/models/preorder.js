@@ -4,6 +4,12 @@ const ItemSchema = new Schema({
   productCode: { type: String, required: true },
   price: { type: Number, required: true },
   quantity: { type: Number, required: true, default: 1 },
+  sizes: [
+      {
+        size: { type: String },
+        q: { type: Number }
+      }
+    ],
   total: Number,
 });
 

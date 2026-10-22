@@ -4,7 +4,12 @@ const ItemSchema = new Schema({
   productCode: { type: String, required: true },
   price: { type: Number, required: true },
   quantity: { type: Number, required: true, default: 1 },
-  sizes: {size: String, q: Number},
+  sizes: [
+      {
+        size: { type: String },
+        q: { type: Number }
+      }
+    ],
   total: Number,
 });
 
@@ -16,6 +21,7 @@ const InvoiceSchema = new Schema(
     currency: Number,
     total: Number,
     totalUSD: Number,
+    totalQuantity: Number,
     comment: String,
     number: String,
     date: Date,

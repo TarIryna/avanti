@@ -1,4 +1,5 @@
 import { FormProvider, Controller, useForm } from 'react-hook-form';
+import { useQueryClient } from '@tanstack/react-query';
 import { currencies } from '@/data/currencies';
 import { Input, Select } from '../../ui';
 import toast from 'react-hot-toast';
@@ -6,6 +7,7 @@ import { getCurrencyName } from '@/data';
 import * as S from './styles'
 
 const RateForm = () => {
+  const queryClient = useQueryClient();
   const methods = useForm({
         defaultValues: {
            currency: null,
@@ -38,6 +40,10 @@ const RateForm = () => {
      const result = await res.json();
 
      if (result.success){
+      queryClient.setQueryData(["rate"], (currentRates = []) => [
+        ...currentRates.filter((item) => Number(item.currency) !== Number(result.newRate.currency)),
+        result.newRate,
+      ]);
       toast.success(`Задано курс ${result.newRate?.rate ?? ''} для валюты ${getCurrencyName(result.newRate?.currency ?? '')}`)
       reset()
     }

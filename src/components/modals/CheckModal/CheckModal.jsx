@@ -1,5 +1,5 @@
 import { create, useModal } from "@ebay/nice-modal-react";
-import React, { useEffect, useState } from "react";
+import React, {useMemo} from "react";
 import ReactModal from "@/components/modals/ReactModal";
 import { Wrapper, Container, Content } from "../styles";
 import { FormProvider, useForm } from "react-hook-form";
@@ -9,7 +9,6 @@ import CheckProductInfo from "@/components/Shop/CheckProductInfo";
 import * as S from "./styles";
 import { registerDynamicModal } from "@/helpers/useDynamicModal";
 import { MODALS, OPERATION_TYPE } from "@/constants/constants";
-import toast from "react-hot-toast";
 
 registerDynamicModal(
   MODALS.CHECK_PRINT,
@@ -17,69 +16,33 @@ registerDynamicModal(
 );
 
 const CheckModal = create(({ id, check, type, resetCheck }) => {
-  const { visible, hide } = useModal(id);
-
+  const { remove } = useModal(id);
   const { show: showPrint } = useModal(MODALS.CHECK_PRINT);
-  const title = type === OPERATION_TYPE.SALE ? "Чек продажу" : "Чек повернення";
-  const buttonText = type === OPERATION_TYPE.SALE ? "Провести продаж" : "Провести повернення";
 
-  const methods = useForm({ 
-    mode: "onSubmit",
+  const title = type === OPERATION_TYPE.SALE ? "Чек продажу" : "Чек повернення";
+  const buttonText = type === OPERATION_TYPE.SALE ? "Провести продаж з чеком" : "Провести повернення з чеком";
+
+  // 1. Инициализируем форму. Сумма по умолчанию идет в наличку (или как вам удобно)
+  const methods = useForm({
+    mode: "onChange",
     defaultValues: {
-      terminal: "",
-      cash: ""
+      terminal: 0,
     }
   });
-  
-  const {
-    watch,
-    setValue
-  } = methods;
 
-  const terminal = watch('terminal')
-  const cash = watch('cash')
+  const { setValue, handleSubmit, watch } = methods;
 
-  useEffect(() => {
-    const terminalValue = Math.max(0, Number(check.total) - Number(cash))
-    setValue('terminal', terminalValue, { shouldValidate: true, shouldDirty: true });
-  }, [cash])
-  
-  useEffect(() => {
-    const cashValue = Math.max(0, Number(check.total) - Number(terminal))
-    setValue('cash', cashValue, { shouldValidate: true, shouldDirty: true })
+  const terminal = Number(watch('terminal') ?? 0)
+
+  const cash = useMemo(() => {
+    const total = check.total ?? 0;
+    return total - terminal;
   }, [terminal])
 
-// // Изменение терминала меняет наличку
-// const onChangeTerminal = (e) => {
-//   if (e.key !== "Enter") return;
-//   e.preventDefault();
-
-//   // 🌟 Читаем значение НАПРЯМУЮ из инпута, минуя watch()
-//   const inputValue = e.target.value; 
-
-//   const terminalValue = Number(inputValue || 0);
-//   const cashValue = Math.max(0, Number(check.total) - terminalValue);
-//   setCash(cashValue);
-  
-//   // Принудительно прописываем значение во второй инпут и обновляем состояние формы
-//   setValue('cash', cashValue, { shouldValidate: true, shouldDirty: true });
-// };
-
-
-// // Изменение налички меняет терминал
-// const onChangeCash = (e) => {
-//   if (e.key !== "Enter") return;
-//   e.preventDefault();
-
-//   // 🌟 Читаем значение НАПРЯМУЮ из инпута, минуя watch()
-//   const inputValue = e.target.value;
-
-//   const cashValue = Number(inputValue || 0);
-//   const terminalValue = Math.max(0, Number(check.total) - cashValue);
-  
-//   // Принудительно прописываем значение в первый инпут и обновляем состояние формы
-//   setValue('terminal', terminalValue, { shouldValidate: true, shouldDirty: true });
-// };
+  const handleTerminalChange = (e) => {
+    const value = Number(e.target.value);
+    setValue("terminal", value);
+};
 
 
   const sendOperation = async (params) => {
@@ -95,64 +58,86 @@ const CheckModal = create(({ id, check, type, resetCheck }) => {
     }
   };
 
-  const onPrint = () => {
-    // Если менеджер ничего не вводил, то вся сумма идет в наличку по умолчанию
-    const cashData = cash === 0 && terminal === 0 ? check.total : cash;
-    
-    const data = {
-      client: check.client, 
-      items: check.items, 
-      total: check.total, 
-      shop: check.shop, 
-      cash: cashData, 
-      terminal, 
+  const onTerminalButton = () => {
+    setValue("terminal", check.total);
+    onSubmit(check.total, true)
+  }
+
+  const onTerminalNoPrintButton = () => {
+    setValue("terminal", check.total);
+    onSubmit(check.total, false)
+  }
+
+  const onPrintButton = () => {
+    onSubmit(terminal, true)
+  }
+
+  const onNoPrintButton = () => {
+    onSubmit(terminal, false)
+  }
+
+  // 3. Отправка формы через стандартный onSubmit в react-hook-form
+  const onSubmit = async (terminal, isPrint) => {
+    const payload = {
+      client: check.client,
+      items: check.items,
+      total: check.total,
+      shop: check.shop,
+      terminal,
       type
     };
-    
-    sendOperation(data);
-    showPrint({ data, type, resetCheck });
-    hide(); // Закрываем модальное окно после проведения операции
+
+    await sendOperation(payload);
+    if (isPrint){
+      showPrint({ data: payload, type, resetCheck });
+    }
+    remove();
   };
-
-
-  console.log(term)
 
   return (
     <ReactModal id={id} closeOnClickOutside={false}>
       <Wrapper>
         <Container>
-          <Head close={hide} title={title} />
+          <Head close={remove} title={title} />
           <Content>
             <FormProvider {...methods}>
-              <S.Form autoComplete="off" onSubmit={(e) => e.preventDefault()}>
-                {check.client && <S.Text>{`КЛІЄНТ: ${check.client.phone} ${check.client.discount}%`}</S.Text>}
-                {!!check.items?.length && check.items.map(item => <CheckProductInfo key={item.code} data={item}/>)}
-                {!!check.items?.length && <S.Total>До сплати: {check.total} грн</S.Total>}
+              {/* Стандартный сабмит формы */}
+              <S.Form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
+                {check.client && (
+                  <S.Text>{`КЛІЄНТ: ${check.client.phone} ${check.client.discount}%`}</S.Text>
+                )}
                 
-                {/* 🌟 ИСПРАВЛЕНО: Используем name вместо ...register */}
-                <Input
+                {!!check.items?.length && 
+                  check.items.map(item => <CheckProductInfo key={item.code} data={item}/>)
+                }
+                
+                {!!check.items?.length && (
+                  <S.Total>До сплати готівкою: {cash} грн</S.Total>
+                )}
+
+                {/* 4. Возвращаем стандартный register и обрабатываем изменение */}
+                <Input 
                   name="terminal"
-                  placeholder="термінал"
-                  onKeyDown={onChangeTerminal}
-                  tabIndex={1}
-                  type="text"
+                  placeholder="термінал" 
+                  type="number" 
                   label="Термінал"
-                  onBlurHandler={onChangeTerminal}
+                  onChange={(e) => handleTerminalChange(e)}
                 />
-                
-                {/* 🌟 ИСПРАВЛЕНО: Используем name вместо ...register */}
-                <Input
-                  name="cash"
-                  placeholder="готівка"
-                  onKeyDown={onChangeCash}
-                  tabIndex={2}
-                  type="text"
-                  label="Готівка"
-                />
-                
-                <Button type="button" onClick={onPrint}>
+                <S.Grid>
+            
+                <Button type="button" onClick={onPrintButton}>
                   {buttonText}
                 </Button>
+                <Button type="button" onClick={onNoPrintButton}>
+                  Провести без чека
+                </Button>
+                <Button type="button" onClick={onTerminalButton}>
+                  Провести терміналом з чеком
+                </Button>
+                <Button type="button" onClick={onTerminalNoPrintButton}>
+                  Провести терміналом без чека
+                </Button>
+                </S.Grid>
               </S.Form>
             </FormProvider>
           </Content>

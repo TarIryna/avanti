@@ -171,61 +171,60 @@ export async function GET() {
   }
 }
 
+export async function DELETE(req) {
+  try {
+    await connectToDB(); // Подключаемся к БД
 
+    // Получаем данные из запроса (ожидаем publicId и code товара)
+    const { publicId, code } = await req.json();
 
-// export async function GET() {
-//   const startDate = '2026-08-26';
-//   const endDate = '2026-08-31';
+    console.log('publicId', publicId, 'code', code)
 
-//   try {
-//     console.log(`Поиск файлов за период с ${startDate} по ${endDate}...`);
+    if (!publicId) {
+      return Response.json({ error: "Не передан publicId для удаления" }, { status: 400 });
+    }
 
-//     // Запрос к Search API Cloudinary
-//     const result = await cloudinary.search
-//       .expression(`uploaded_at:[${startDate} TO ${endDate}]`)
-//       .sort_by('uploaded_at', 'desc')
-//       .max_results(500)
-//       .execute();
+    // 1. Удаляем изображение из Cloudinary
+    const cloudinaryResult = await cloudinary.uploader.destroy(publicId);
 
-//     const resources = result.resources || [];
+    if (cloudinaryResult.result !== "ok") {
+      // Если Cloudinary вернул "not found", возможно оно уже удалено, но базу все равно стоит почистить
+      console.warn(`Предупреждение Cloudinary: ${cloudinaryResult.result}`);
+    }
 
-//     if (resources.length === 0) {
-//       return NextResponse.json({ message: 'Файлы за этот период не найдены.' }, { status: 404 });
-//     }
+    // 2. Если передан code товара, удаляем ссылки на фото из MongoDB
+    if (code) {
+      const product = await Product.findOne({ barcodes: { $in: [code] } });
 
-//     // 1. Формируем заголовки CSV (колонки)
-//     // Используем точку с запятой (;), чтобы Excel в русскоязычной локали сразу разбил на столбцы
-//     let csvContent = 'code;url;small\n';
+      if (product) {
+        // Фильтруем массив картинок, убирая ту, которая содержит удаленный publicId
+        product.images = product.images.filter((imgUrl) => !imgUrl.includes(publicId));
 
-//     // 2. Наполняем CSV данными
-//     resources.forEach((asset, index) => {
-//       const filename = asset.public_id?.slice(9, 15);
-//       const url = asset.secure_url;
-//       const small = url.replace('upload', 'upload/c_scale,q_30,w_400')
-      
-//       // Оборачиваем данные в кавычки на случай, если в имени файла есть спецсимволы
-//       csvContent += `"${filename}";"${url}";${small}\n`;
-//     });
+        // Если удаленное фото стояло в качестве превью (small_image), очищаем его
+        if (product.small_image && product.small_image.includes(publicId)) {
+          product.small_image = ""; // или null, смотря что ожидает ваша схема
+          product.markModified("small_image");
+        }
 
-//     // 3. ПРАВИЛЬНАЯ ЗАПИСЬ НА СЕРВЕРЕ (опционально)
-//     // Если вам физически нужен файл на диске сервера, сохраняйте его в папку /tmp
-//     // На серверах типа Vercel только папка /tmp доступна для записи во время работы
-//     const filePath = path.join('/tmp', 'cloudinary_report.csv');
-//     fs.writeFileSync(filePath, csvContent, 'utf-8');
-//     console.log(`Отчет сохранен на сервере: ${filePath}`);
+        // Если превью удалено, но в массиве еще остались другие фото,
+        // можно автоматически сделать уменьшенную копию из следующего оставшегося фото:
+        if (!product.small_image && product.images.length > 0) {
+          // Вытаскиваем public_id следующего фото (извлекаем структуру папок + имя между /upload/.../ и расширением)
+          const nextImageUrl = product.images[0];
+          // Простая замена пути для генерации lowQualityUrl прямо строкой:
+          product.small_image = nextImageUrl.replace('/upload/', '/upload/c_scale,q_30,w_400/');
+          product.markModified("small_image");
+        }
 
-//     // 4. ПРАВИЛЬНЫЙ ОТВЕТ ДЛЯ БРАУЗЕРА (чтобы файл скачался у пользователя)
-//     return new Response(csvContent, {
-//       status: 200,
-//       headers: {
-//         'Content-Type': 'text/csv; charset=utf-8',
-//         // Этот заголовок заставит браузер именно СКАЧАТЬ файл с указанным именем
-//         'Content-Disposition': `attachment; filename="cloudinary_report_${startDate}.csv"`,
-//       },
-//     });
+        product.markModified("images");
+        await product.save();
+      }
+    }
 
-//   } catch (error) {
-//     console.error('Произошла ошибка:', error.message);
-//     return NextResponse.json({ error: error.message }, { status: 500 });
-//   }
-// }
+    return Response.json({ success: true, message: "Фото успешно удалено" });
+
+  } catch (error) {
+    console.error("Delete error:", error);
+    return Response.json({ error: error.message }, { status: 500 });
+  }
+}

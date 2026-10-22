@@ -2,12 +2,31 @@
 import { media } from "@/styles/mediaBrakepoints";
 import styled from "@emotion/styled";
 
+export const ContainerModal = styled.div`
+  display: grid;
+  grid-template-rows: 56px calc(100vh - 86px);
+  width: calc(100vw - 30px);
+  height: calc(100vh - 30px);
+  background: rgb(229, 229, 229);
+  border-radius: 16px;
+  ${media.mobile} {
+    height: 100dvh;
+    width: 100vw;
+    min-height: auto;
+    border-radius: 0;
+    overflow: hidden;
+    overflow-y: auto;
+  }
+`;
+
+
 export const Form = styled.form`
   width: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   align-items: center;
   gap: 10px;
+  margin-bottom: 10px;
 
   div {
     width: 100%;
@@ -30,10 +49,11 @@ export const Flex = styled.div`
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: calc(100vw - 120px);
-  height: calc(100vh - 120px);
+  width: calc(100vw - 600px);
+  height: calc(100vh - 600px);
   background: rgb(229, 229, 229);
   border-radius: 16px;
+  overflow-y: auto;
   ${media.mobile} {
     height: 100dvh;
     width: 100vw;
@@ -60,6 +80,8 @@ export const Text = styled.div`
   width: max-content;
   border-radius: 14px;
   margin-bottom: 5px;
+  width: 550px;
+  text-overflow: ellipsses;
 `
 
 export const ImageCard = styled.div`
@@ -169,6 +191,10 @@ export const ListItemWrapper = styled.div`
   align-items: end;
   height: 40px;
   gap: 10px;
+  .price_input {
+    width: 120px;
+    padding: 0 2px;
+  }
 `
 
 export const ItemImageCard = styled(ImageCard)`
@@ -181,4 +207,11 @@ export const Rate = styled.div`
   font-weight: 600;
   display: flex;
   gap: 10px;
+  margin-bottom: 10px;
+`
+
+export const Content = styled.div`
+  max-height: 100%;
+  overflow-y: auto;
+  padding: 16px;
 `

@@ -40,11 +40,11 @@ const Size = ({sizes, item, size, sizesAll, isInfo, setSize, color, product}) =>
           return (
               <S.SizeContainer
                   isOne={sizes?.length === 1} onClick={() => setIsOpenInfoIcon(true)}>
-             {size && isActive && isOpenInfoIcon && ( 
+             {size && isActive && isOpenInfoIcon && !isBag && ( 
               <S.Icon onClick={() => onIconClick()}>
                 <Image src={Info} alt="info" width={20} height={20} />
               </S.Icon>)}
-            {size && isActive &&  isOpenInfo && !!text && ( <S.Info href="/">
+            {size && isActive &&  isOpenInfo && !!text && !isBag && ( <S.Info href="/">
                 {text}
               </S.Info>)}
                 <S.SizesBlock

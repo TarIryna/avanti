@@ -97,6 +97,7 @@ const addPaymentMutation = useMutation({
       // 🔥 Сбрасываем кэш компании, чтобы React Query сам перезапросил свежие данные
       // Замените 'id', на реальную переменную айдишника этой компании
       queryClient.invalidateQueries({ queryKey: ['company', companyData] }); 
+      remove()
     }
   },
   onError: (error) => {

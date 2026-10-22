@@ -216,7 +216,7 @@ export const sizesGroup = [
   {id: 17, name: "46-48 -6-", default: [{size: "46", q: 2}, {size: "47", q: 2}, {size: "48", q: 2}], quantity: 6},
   {id: 18, name: "18-23 -8-20,21", default: [{size: "18", q: 1}, {size: "19", q: 1}, {size: "20", q: 2}, {size: "21", q: 2}, {size: "22", q: 1}, {size: "23", q: 1}], quantity: 8},
   {id: 19, name: "19-24-8", default: [{size: "19", q: 1}, {size: "20", q: 1}, {size: "21", q: 2}, {size: "22", q: 2}, {size: "23", q: 1}, {size: "24", q: 1}], quantity: 8},
-  {id: 20, name: "без размера", default: []},
+  {id: 20, name: "без размера", default: [{size: "один розмір", q: 1}]},
   {id: 21, name: "23-28-8", default: [{size: "23", q: 1}, {size: "24", q: 1}, {size: "25", q: 2}, {size: "26", q: 2}, {size: "27", q: 1}, {size: "28", q: 1}], quantity: 8},
   {id: 22, name: "21-26-8", default: [{size: "21", q: 1}, {size: "22", q: 1}, {size: "23", q: 2}, {size: "24", q: 2}, {size: "25", q: 1}, {size: "26", q: 1}], quantity: 8},
   {id: 23, name: "26-31-8", default: [{size: "26", q: 1}, {size: "27", q: 1}, {size: "28", q: 2}, {size: "29", q: 2}, {size: "30", q: 1}, {size: "31", q: 1}], quantity: 8},
@@ -458,6 +458,17 @@ export const sizesGroup = [
   {size: "39", q: 2},
   {size: "40", q: 2},
 ], quantity: 8},
+{id: 53, name: "S-XL", default: [
+  {size: "S", q: 2},
+  {size: "M", q: 2},
+  {size: "L", q: 2},
+  {size: "XL", q: 2},
+], quantity: 8},
+{id: 54, name: "41-43-6", default: [
+  {size: "41", q: 2},
+  {size: "42", q: 2},
+  {size: "43", q: 2},
+], quantity: 6},
 ]
 
 

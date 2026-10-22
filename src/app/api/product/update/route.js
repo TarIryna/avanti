@@ -4,7 +4,7 @@ import { connectToDB } from "@/utils/database";
 
 export const PUT = async (request) => {
   // Получаем данные с фронтенда
-  const { images, code, video, sizesGroup } = await request.json(); 
+  const { images, code, video, sizesGroup, sizes_all } = await request.json(); 
 
   try {
     await connectToDB();
@@ -55,6 +55,11 @@ export const PUT = async (request) => {
     if (sizesGroup !== undefined) {
       product.sizesGroup = Number(sizesGroup);
       product.markModified("sizesGroup");
+    }
+
+    if (sizes_all !== undefined) {
+      product.sizes_all = sizes_all;
+      product.markModified("sizes_all");
     }
 
     // 5. Сохраняем обновленный документ

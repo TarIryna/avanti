@@ -33,6 +33,9 @@ const salePrice = (product, client) => {
 }
 
 useEffect(() => {
+  if (!check || !check?.client){
+    return
+  }
   if (check.client){
     check.items.map(item => item.salePrice = salePrice(item, check.client))
   }

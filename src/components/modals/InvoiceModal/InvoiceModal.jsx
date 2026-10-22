@@ -4,7 +4,7 @@ import ReactModal from "../ReactModal";
 import Head from "../components/Head/Head";
 import { useForm, FormProvider, Controller } from "react-hook-form";
 import { Input, Select, Button } from "@/components/ui";
-import { Wrapper, Content } from "../styles";
+import { Wrapper } from "../styles";
 import * as S from "./styles";
 import { getRate, lastSeasonValue, years } from "@/data";
 import { companies } from "@/data/companies";
@@ -39,11 +39,7 @@ const InvoiceModal = create(({ id, company }) => {
     mode: "onSubmit" ,
   defaultValues: {
     season: lastSeasonValue,
-    currency: [
-      {currency: "UAH", rate: 45},
-      {currency: "EUR", rate: 0.88},
-      {currency: "USD", rate: 1}
-    ],
+    currency: null,
     comment: "",
     company,
     date: new Date().toLocaleDateString('ru-RU')
@@ -66,18 +62,21 @@ const companyData = watch("company");
 useEffect(() => {
   if (currency){
     // Получаем чистый ID валюты (поддерживает и объект от Селекта, и просто число)
-    const currencyValue = typeof currency === 'object' ? currency?.value : currency ? Number(currency) : null;
-    const currentRate = Number(getRate(rate, currencyValue)?.rate) || 1; // Защита: дефолтный курс, если кэш пуст
+    const currencyValue = typeof currency === 'object'
+      ? Number(currency?.value ?? currency?.id)
+      : Number(currency);
+    const foundRate = getRate(rate, currencyValue);
+    const currentRate = Number(typeof foundRate === 'object' ? foundRate?.rate : foundRate) || 1;
 
     setRateValue(currentRate)
   }
-}, [currency]);
+}, [currency, rate]);
 
 useEffect(() => {
   if (companyData){
     getList()
   }
-}, [companyData])
+}, [companyData, year])
 
 
 const handleUpdateProduct = (updatedProduct) => {
@@ -118,6 +117,7 @@ const addInvoiceMutation = useMutation({
       // 🔥 Сбрасываем кэш компании, чтобы React Query сам перезапросил свежие данные
       // Замените 'id', на реальную переменную айдишника этой компании
       queryClient.invalidateQueries({ queryKey: ['company', companyData] }); 
+      remove()
     }
   },
   onError: (error) => {
@@ -156,6 +156,7 @@ const onSubmit = async (data) => {
    data.total = items.reduce((sum, item) => sum + item.total, 0);
    data.totalUSD = Number((data.total / rateValue).toFixed(2));
    data.date = date
+   data.totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
    
     try {
       await addInvoiceMutation.mutateAsync(data);
@@ -208,17 +209,12 @@ const addItemToInvoice = ({quantity, sizes, price, id}) => {
   setSelectedProductId(""); 
 }
 
-const deleteItem = (id) => {
-  const filteredArray = items.filter(item => item._id !== id)
-  setItems(filteredArray)
-}
-
   return (
     <ReactModal id={id} closeOnClickOutside={false}>
       <Wrapper>
-        <S.Container>
+        <S.ContainerModal>
           <Head close={remove} title="Нова накладна" />
-          <Content>
+          <S.Content>
             {rateValue && <S.Rate>Курс: {rateValue}
               <Button type="button" onClick={() => showRate()}>Змінити курс</Button>
            </S.Rate>}
@@ -303,10 +299,10 @@ const deleteItem = (id) => {
                 <Button type="submit">Провести</Button>
               </S.Form>
             </FormProvider>
-            {!!items?.length && <InvoiceList list={items} deleteItem={deleteItem}/>}
+            {!!items?.length && <InvoiceList items={items} setItems={setItems}/>}
             {product && <InvoiceProduct product={product} addToInvoice={addItemToInvoice} setProduct={handleUpdateProduct}/>}
-          </Content>
-        </S.Container>
+          </S.Content>
+        </S.ContainerModal>
       </Wrapper>
     </ReactModal>
   );

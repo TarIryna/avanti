@@ -150,7 +150,7 @@ const onSetProductFromList = (data) => {
                 <ShopCard item={productData.product} setProduct={onSetProductFromList} isSelected info/>
                 <ProductInfo product={productData.product}/>
               </S.Wrapper>}
-              {!!productData?.operations && !!productData?.invoices && <ProductResult operations={getTotalOperations(productData.operations)} invoices={getTotalInvoices(productData.invoices)}/>}
+              {!!productData && <ProductResult product={productData.product}/>}
               {!!productData && <S.Grid>
                   <ProductOperations operations={productData.operations ?? []} total={getTotalOperations(productData.operations)}/>
                   <ProductInvoices invoices={productData.invoices ?? []} code={productData?.product?.code} total={getTotalInvoices(productData.invoices)}/>

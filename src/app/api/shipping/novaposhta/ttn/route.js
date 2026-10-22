@@ -99,18 +99,34 @@ export const PUT = async (request) => {
     // CREATE WAYBILL
     // =========================
 
+    const hasAfterpayment = Number(data.payment) > 0;
+
     const params = {
       apiKey: process.env.NOVA_POSHTA_API_KEY,
       modelName: "InternetDocument",
       calledMethod: "save",
       methodProperties: {
+        // За доставку платит получатель в отделении. 
+        // Способ оплаты доставки ТОЛЬКО "Cash" (безнал для Recipient запрещен API).
         PayerType: "Recipient",
-        PaymentMethod: "Cash",
+        PaymentMethod: "Cash", 
+        
         DateTime: new Date().toLocaleDateString("uk-UA"),
         CargoType: "Parcel",
         Weight: "2",
         ServiceType: "WarehouseWarehouse",
         SeatsAmount: "1",
+
+        // Массив мест (защита от "OptionsSeat is empty")
+        OptionsSeat: [
+          {
+            volumetricVolume: "1",
+            volumetricWidth: "20",
+            volumetricLength: "30",
+            volumetricHeight: "15",
+            weight: "2"
+          }
+        ],
 
         Sender: "3d6a1bb1-5103-11f0-a1d5-48df37b921da",
         SenderAddress: "a9f834ab-e9be-11e4-8a92-005056887b8d",
@@ -125,13 +141,17 @@ export const PUT = async (request) => {
         CitySender: "e221d627-391c-11dd-90d9-001a92567626",
         CityRecipient: data.city,
         Description: "Взуття",
-        Cost: String(data.cost || 0),
+        
+        // Оценочная стоимость (для страховки) всегда должна быть реальной, даже если payment: "0"
+        Cost: String(data.cost || 100), 
 
-        ...(data.payment > 0 && {
+        // Если это наложенный платеж (оплата при получении ТОВАРА), добавляем блок
+        ...(hasAfterpayment && {
           AfterpaymentOnGoodsCost: String(data.payment),
         }),
       },
     };
+
 
     const response = await fetch(
       "https://api.novaposhta.ua/v2.0/json/",

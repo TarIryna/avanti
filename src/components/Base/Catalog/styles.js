@@ -2,7 +2,6 @@ import { media } from "@/styles/mediaBrakepoints";
 import styled from "@emotion/styled";
 
 export const Form = styled.form`
-    width: 600px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;

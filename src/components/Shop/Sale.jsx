@@ -29,10 +29,13 @@ const SalePage = () => {
 
 
 useEffect(() => {
+   if (!check || !check?.client){
+    return
+  }
   if (check.client){
     check.items.map(item => item.salePrice = salePrice(item, check.client))
   }
-}, [check.client])
+}, [check?.client])
 
  const {
   handleSubmit,
@@ -50,6 +53,7 @@ console.log(data)
 
 const onReset = () => {
   setProduct(null)
+  setCheck({client: null, items: []})
   reset()
 } 
 
@@ -207,7 +211,7 @@ const setDiscountToProduct = (discount, index) => {
             {product &&  <SaleCard client={check?.client} product={product} addToCheck={addToCheck} shop={shop} type={OPERATION_TYPE.SALE}/>}
            </S.InfoContainer>
              
-            {check.items.length > 0 && <Check check={check} type={OPERATION_TYPE.SALE} setDiscount={setDiscountToProduct} reset={onReset} resetCheck={onResetCheck}/>}
+            {check?.items?.length > 0 && <Check check={check} type={OPERATION_TYPE.SALE} setDiscount={setDiscountToProduct} reset={onReset} resetCheck={onResetCheck}/>}
             </S.ProductConatiner>
        
           </S.Form>

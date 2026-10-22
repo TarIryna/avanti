@@ -1,4 +1,22 @@
 export const vendors = [
+   {
+   "id": 1072,
+   "name": "ALEX&MIA",
+   "material_id": 2,
+   "company_id": 299,
+   "country_id": 1,
+   "description": "",
+   "description_ukr": ""
+ },
+   {
+   "id": 1073,
+   "name": "JESIRA",
+   "material_id": 1,
+   "company_id": 267,
+   "country_id": 1,
+   "description": "",
+   "description_ukr": ""
+ },
  {
    "id": 1026,
    "name": "ARTO",

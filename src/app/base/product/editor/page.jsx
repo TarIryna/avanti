@@ -1,6 +1,6 @@
 "use client";
 
-import ProductEditorPage from "@/components/Base/ProductEditor/ProductEditor";
+import ProductEditorPage from "@/components/Base/ProductEditor/Product/ProductEditor";
 
 const ProductEditor = () => <ProductEditorPage />;
 

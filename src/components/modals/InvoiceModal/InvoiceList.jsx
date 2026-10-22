@@ -1,30 +1,40 @@
-import Image from 'next/image'
-import * as S from './styles'
-import IconDelete from "@/assets/icons/delete.svg";
+import * as S from "./styles";
+import ListItem from "./ListItem";
 
-const InvoiceList = ({list, deleteItem}) => {
+const InvoiceList = ({ items, setItems }) => {
+  const deleteItem = (id) => {
+    console.log('delete')
+    const newList = items.filter((item) => item.productCode !== id);
+    setItems(newList);
+  };
 
-    return (
-        <S.ListWrapper>
-            {!!list?.length && list.map(item => 
-            (<S.ListItemWrapper>
-                <S.ItemImageCard>
-                    <Image src={item.product.small_image ?? item.product.images?.[0]} alt={item.product.code} fill/>
-                </S.ItemImageCard>
-                <S.Text>{`${item.product.code} ${item.product.name} ${item.price} * ${item.quantity} = ${item.total.toFixed(2)}`}</S.Text>
-                <S.Button type="button" onClick={() => deleteItem(item._id)}>
-                    <Image
-                        className="pointer"
-                        src={IconDelete.src}
-                        width={24}
-                        height={24}
-                        alt="delete"
-                    />
-                </S.Button>
-            </S.ListItemWrapper>)
-            )}
-        </S.ListWrapper>
-    )
-}
+  const updateItems = (updatedSizes, code, price) => {
+    const newItem = items.find((i) => i.productCode === code);
+    if (newItem) {
+      const quantity = updatedSizes.reduce((sum, el) => sum + (el.q || 0), 0);
+      newItem.sizes = updatedSizes;
+      newItem.quantity = quantity;
+      newItem.price = price;
+      newItem.total = Math.round(quantity * price * 100) / 100;
+    }
+    setItems((prevItems) =>
+      prevItems.map((item) => (item.productCode === newItem.productCode ? newItem : item)),
+    );
+  };
 
-export default InvoiceList
+  return (
+    <S.ListWrapper>
+      {!!items?.length &&
+        items.map((item) => (
+          <ListItem
+            item={item}
+            updateItems={updateItems}
+            deleteItem={deleteItem}
+            key={item.productCode}
+          />
+        ))}
+    </S.ListWrapper>
+  );
+};
+
+export default InvoiceList;
