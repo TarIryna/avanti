@@ -13,6 +13,9 @@ export const shopsData = [
     {id: 1, short: "А1", name: "Аванті 1", isShop: true, adress: "вул.Корзо, 10"},
     {id: 2, short: "А2", name: "Аванті 2", isShop: true, adress: "вул.Заньковецької, 2"},
     {id: 3, short: "СКЛ", name: "Склад", isShop: false, adress: "Склад" },
+    {id: 4, short: "Розетка", name: "В дорозі до клієнта Розетка", isShop: false, adress: "Розетка" },
+    {id: 5, short: "Пром", name: "В дорозі до клієнта Пром", isShop: false, adress: "Пром" },
+    {id: 6, short: "Сайт", name: "В дорозі до клієнта Сайт", isShop: false, adress: "Сайт" },
 ]
 
 export const getOperationName = (value) => {

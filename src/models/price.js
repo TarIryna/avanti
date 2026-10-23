@@ -2,20 +2,11 @@ import { Schema, model, models } from "mongoose";
 
 const PriceSchema = new Schema(
   {
-    product: {
-      type: Schema.Types.ObjectId,
-      ref: "Product",
-      required: [true, "Product is required!"],
-        },
     firstPrice: {
       type: Number,
         },
     secondPrice: {
           type: Number,
-        },
-    newPrice: {
-          type: Number,
-          required: [true, "Image is required!"],
         },
     code: {
         type: Number,

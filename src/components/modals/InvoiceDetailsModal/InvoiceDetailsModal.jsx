@@ -55,7 +55,7 @@ const InvoiceModal = create(({ item, id }) => {
         const vendorText = typeof getVendor === 'function' && i.vendor !== undefined ? (getVendor(i.vendor) ?? "") : "";
         newItem.name = `${i.model || ""} ${i.code ?? ""} ${colorText} ${vendorText}`.trim();
         newItem.value = i._id;
-        delete newItem.model;
+        // delete newItem.model;
         return newItem;
       });
       setList(newArray);

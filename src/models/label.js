@@ -2,11 +2,7 @@ import { Schema, model, models } from "mongoose";
 
 const LabelSchema = new Schema(
   {
-    product: {
-      type: Schema.Types.ObjectId,
-      ref: "Product",
-      required: [true, "Product is required!"],
-        },
+    code: String
   },
   {
     timestamps: true, // ✅ это нужно ставить здесь, во втором аргументе

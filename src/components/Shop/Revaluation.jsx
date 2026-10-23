@@ -16,6 +16,9 @@ const RevaluationPage = () => {
     const methods = useForm({
                defaultValues: {
                  code: "",
+                 first_price: null,
+                 second_price: null,
+                 staff: null
                },
              });
      
@@ -23,7 +26,8 @@ const RevaluationPage = () => {
              handleSubmit,
              register,
              watch,
-             reset
+             reset,
+             setValue
            } = methods;
 
   const onChangeCode = async (e) => {
@@ -39,19 +43,25 @@ const RevaluationPage = () => {
           return;
         }
         setProduct(product);
+        setValue('first_price', product.price2 ?? product.price ?? null)
+        setValue('second_price', product.price2 != null ? product.price : null)
       } catch (e) {
         console.error(e);
       }
     };
 
       const onSubmit = async(data) => {
-        const price = Number(data.price)
-        if (!price ||  price <= 0 || !product ){ 
+        const {code} = data
+        const firstPrice = Number(data.first_price);
+        const secondPrice = data.second_price === '' || data.second_price == null
+          ? null
+          : Number(data.second_price);
+        if (!firstPrice || firstPrice <= 0 || !code || (secondPrice !== null && (!Number.isFinite(secondPrice) || secondPrice <= 0))) {
           toast.error("Заповніть всі поля!")
           return;
         }
-        if (price === product.price){
-          toast.error("Ціна має відрізнятись від поточної!")
+        if (secondPrice !== null && firstPrice <= secondPrice){
+          toast.error("Друга ціна має бути нижча за першу!")
           return;
         }
         try{
@@ -61,9 +71,11 @@ const RevaluationPage = () => {
                   "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                  item: product,
-                  newPrice: price,
-                  shop
+                  code: product.code,
+                  firstPrice,
+                  secondPrice,
+                  shop,
+                  staff: null
             }),
               });
          const result = await response.json();
@@ -99,16 +111,27 @@ const RevaluationPage = () => {
                         {...register("code", { required: true })}
                         rules={{ required: "Це поле є обов'язковим для заповнення" }}
                         />
-                        <Input
-                          type="text"
+                      <Input
+                          type="number"
+                          step="0.01"
                           tabIndex={2}
                           enterKeyHint={onSubmit}
-                          label='Нова ціна'
+                          label='Перша ціна'
                           isBorder
-                        {...register("price", { required: true })}
-                        rules={{ required: "Це поле є обов'язковим для заповнення" }}
+                          name="first_price"
+                          rules={{ required: true, valueAsNumber: true }}
                         />
-                        <Button>Переоцінити</Button>
+                        <Input
+                          type="number"
+                          step="0.01"
+                          tabIndex={2}
+                          enterKeyHint={onSubmit}
+                          label='Друга ціна'
+                          isBorder
+                          name="second_price"
+                          rules={{ setValueAs: value => value === "" ? null : Number(value) }}
+                        />
+                        <Button type="submit">Переоцінити</Button>
                 
                       {!!product && <ShopCard item={product} isSelected shop={shop} type="revaluation" info/>}
                    </S.InfoContainer>

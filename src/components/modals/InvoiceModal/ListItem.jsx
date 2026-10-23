@@ -4,12 +4,14 @@ import Image from 'next/image'
 import { useState } from "react";
 import IconDelete from "@/assets/icons/delete.svg";
 import { Input } from '@/components/ui';
-import { getVendor } from '@/data';
+import { getColorNameById, getVendor } from '@/data';
 
 
 const ListItem = ({ item, updateItems, deleteItem }) => {
     const [sizes, setSizes ] = useState(null)
     const [price, setPrice] = useState(null)
+
+    console.log(item)
 
     const setData = (item) => {
         setSizes(item.sizes)
@@ -25,9 +27,9 @@ const ListItem = ({ item, updateItems, deleteItem }) => {
 return (
     <S.ListItemWrapper>
                 <S.ItemImageCard>
-                    <Image src={item.product.small_image ?? item.product.images?.[0]} alt={item.product.code} fill/>
+                    <Image src={item?.product?.small_image ?? item?.product?.images?.[0]} alt={item?.product?.code} fill/>
                 </S.ItemImageCard>
-                <S.Text onClick={() => setData(item)}>{`${item.product.name} ${item.price} * ${item.quantity} = ${item.total.toFixed(2)}`}</S.Text>
+                <S.Text onClick={() => setData(item)}>{`${item.product.code} ${item.product.model} ${getVendor(item.product.vendor) ?? ""} ${getColorNameById(item.product.color)} ${item.price} * ${item.quantity} = ${item.total.toFixed(2)}`}</S.Text>
                  {price !== null && <Input className="price_input" value={price} type="number" onValueChange={(e) => setPrice(e.target.value)}/>}
                  {sizes && <>
                     <Sizes sizes={sizes} item={item.product} setSizes={setSizes}/>

@@ -104,7 +104,7 @@ const CheckModal = create(({ id, check, type, resetCheck }) => {
               {/* Стандартный сабмит формы */}
               <S.Form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
                 {check.client && (
-                  <S.Text>{`КЛІЄНТ: ${check.client.phone} ${check.client.discount}%`}</S.Text>
+                  <S.Text>{`КЛІЄНТ: ${check.client.phone} ${check?.client?.discount}%`}</S.Text>
                 )}
                 
                 {!!check.items?.length && 

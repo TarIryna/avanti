@@ -1,5 +1,5 @@
 import { create, useModal } from "@ebay/nice-modal-react";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import ReactModal from "../ReactModal";
 import Head from "../components/Head/Head";
 import { useForm, FormProvider, Controller } from "react-hook-form";
@@ -26,11 +26,7 @@ const PaymentModal = create(({ id, company }) => {
     mode: "onSubmit" ,
   defaultValues: {
     season: lastSeasonValue,
-    currency: [
-      {currency: "UAH", rate: 45},
-      {currency: "EUR", rate: 0.88},
-      {currency: "USD", rate: 1}
-    ],
+    currency: null,
     amount: null,
     comment: "",
     company,
@@ -50,15 +46,33 @@ const PaymentModal = create(({ id, company }) => {
 const currency = watch('currency');
 const amount = watch('amount');
 const companyData = watch('company');
+const [rateOverride, setRateOverride] = useState(null);
+const currencyValue = useMemo(() => {
+  if (currency == null || currency === '') return null;
+  const value = typeof currency === 'object' ? currency.value ?? currency.id : currency;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : null;
+}, [currency]);
+const rateValue = useMemo(() => {
+  if (currencyValue == null) return '';
+  if (rateOverride?.currencyValue === currencyValue) return rateOverride.value;
+  const rateData = getRate(rate, currencyValue);
+  const value = typeof rateData === 'object' ? rateData?.rate : rateData;
+  const parsed = Number(value);
+  return parsed > 0 ? parsed : currencyValue === 1 ? 1 : '';
+}, [currencyValue, rate, rateOverride]);
 
 useEffect(() => {
-  // Получаем чистый ID валюты (поддерживает и объект от Селекта, и просто число)
-  const currencyValue = typeof currency === 'object' ? currency?.value : currency ? Number(currency) : null;
+  if (currencyValue == null) {
+    setValue('amountUSD', '');
+    return;
+  }
+
   const currentAmount = Number(amount || 0);
-  const currentRate = Number(getRate(rate, currencyValue)?.rate) || 1; // Защита: дефолтный курс, если кэш пуст
+  const currentRate = Number(rateValue);
 
   // 🌟 Если сумма не введена — очищаем поле USD
-  if (!currentAmount) {
+  if (!currentAmount || !Number.isFinite(currentRate) || currentRate <= 0) {
     setValue('amountUSD', "");
     return;
   }
@@ -72,7 +86,7 @@ useEffect(() => {
     const calculatedUSD = (currentAmount / currentRate).toFixed(2);
     setValue('amountUSD', Number(calculatedUSD));
   }
-}, [currency, amount, rate, setValue]);
+}, [currencyValue, amount, rateValue, setValue]);
 
 const addPaymentMutation = useMutation({
   mutationFn: async (paymentData) => {
@@ -109,7 +123,11 @@ const addPaymentMutation = useMutation({
 
 
   const onSubmit = async (formData) => {
-    formData.rate = (formData.amount / formData.amountUSD).toFixed(2);
+    if (!Number.isFinite(Number(rateValue)) || Number(rateValue) <= 0) {
+      toast.error('Укажите корректный курс валюты');
+      return;
+    }
+    formData.rate = Number(rateValue);
     try {
      await addPaymentMutation.mutateAsync(formData);
      reset()
@@ -137,7 +155,7 @@ const addPaymentMutation = useMutation({
                           placeholder="Поставщик..."
                           isInput={true}
                           value={field.value} 
-                          onChange={field.onChange} 
+                          onChange={field.onChange}
                           tabIndex={1}
                         />
                       )}
@@ -167,11 +185,29 @@ const addPaymentMutation = useMutation({
                           placeholder="Валюта"
                           isInput={true}
                           value={field.value} 
-                          onChange={field.onChange} 
+                          onChange={(value) => {
+                            field.onChange(value);
+                            setRateOverride(null);
+                          }}
                           tabIndex={3}
                         />
                       )}
                     />
+                <Input
+                  type="number"
+                  min="0.000001"
+                  step="any"
+                  inputMode="decimal"
+                  placeholder="Курс"
+                  value={rateValue}
+                  onValueChange={(event) => setRateOverride({
+                    currencyValue,
+                    value: event.target.value,
+                  })}
+                  disabled={currencyValue == null}
+                  isBorder
+                  label="Курс валюты"
+                />
                 <Input
                   name="amount"
                   type="number"

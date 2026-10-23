@@ -185,7 +185,7 @@ const getList = async () => {
         
         newItem.name = `${item.model} ${item.code ?? ""} ${getColorSimple(item.color)} ${getVendor(item.vendor) ?? ""}`;   // Записываем значение из model в name (старое name затрется)
         newItem.value = item._id
-        delete newItem.model;        // Удаляем старое поле model
+        // delete newItem.model;        // Удаляем старое поле model
         
         return newItem;
       });
@@ -203,6 +203,7 @@ const setProductToItems = (id) => {
 
 const addItemToInvoice = ({quantity, sizes, price, id}) => {
   const itemData = list.find(item => item._id === id)
+  console.log('data', itemData)
   const item = {quantity, sizes, price, total: price * quantity, product: itemData, productCode: itemData.code}
   setItems(prevItems => [...prevItems, item]);
   setProductState(null)

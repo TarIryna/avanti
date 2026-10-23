@@ -39,7 +39,7 @@ useEffect(() => {
   if (check.client){
     check.items.map(item => item.salePrice = salePrice(item, check.client))
   }
-}, [check.client])
+}, [check?.client])
 
  const {
   handleSubmit,
@@ -77,7 +77,7 @@ const addToCheck =  (size) => {
           size: size,
           price: product.price,
           price2: product.price2,
-          salePrice: salePrice(product, check.client),
+          salePrice: salePrice(product, check?.client),
           quantity,
         },
       ],
@@ -178,7 +178,7 @@ if (!number) {
              {check?.client && <Description label="Клієнт" text={`${check?.client.name} ${check?.client.discount}% знижки`}/>}
             </S.InfoContainer>
               {product &&  <SaleCard client={check?.client} product={product} addToCheck={addToCheck} shop={shop} type={OPERATION_TYPE.RETURN}/>}
-            {check.items.length > 0 && <Check check={check} type={OPERATION_TYPE.RETURN} reset={onReset}/>}
+            {check?.items.length > 0 && <Check check={check} type={OPERATION_TYPE.RETURN} reset={onReset}/>}
             </S.ProductConatiner>
        
    
