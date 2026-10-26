@@ -6,7 +6,7 @@ import { Button, Input } from "@/components/ui";
 import { toast } from "react-hot-toast";
 import { OPERATION_TYPE } from "@/constants/constants";
 
-const SizesChange = ({ item, setProduct, addToCheck, shop, type, comment, staff, isOrder }) => {
+const SizesChange = ({ item, setProduct, onSuccess, addToCheck, shop, type, comment, destination, staff, isOrder, addBarcodes }) => {
   const methods = useForm({ mode: "onSubmit" });
   const { handleSubmit, control, reset } = methods;
   const buttonText = type === OPERATION_TYPE.ARRIVAL ? "Оформити прихід" : type === OPERATION_TYPE.RETURN ? "Оформити повернення" : type === OPERATION_TYPE.SALE ? "Оформити продаж" : "Оформити списання"
@@ -26,6 +26,11 @@ const SizesChange = ({ item, setProduct, addToCheck, shop, type, comment, staff,
       }));
 
   if (!operationSizes.length) {
+      return;
+    }
+
+    if (type === OPERATION_TYPE.DECREASE && !destination) {
+      toast.error("Оберіть, куди списується товар");
       return;
     }
 
@@ -74,6 +79,7 @@ const SizesChange = ({ item, setProduct, addToCheck, shop, type, comment, staff,
       ...item,
         size: operationSizes,
         comment: comment ? comment : "",
+        destination: destination ? Number(destination) : undefined,
         staff: staff ? Number(staff) : null,
         quantity: operationSizes.reduce((sum, el) => sum + (el.q || 0), 0)
       }
@@ -95,6 +101,7 @@ const SizesChange = ({ item, setProduct, addToCheck, shop, type, comment, staff,
     if (result.success) {
           setProduct(null);
           reset();
+          onSuccess?.();
         }
 
     }
@@ -107,13 +114,15 @@ const SizesChange = ({ item, setProduct, addToCheck, shop, type, comment, staff,
       body: JSON.stringify({
         items,
         shop,
-        type
+        type,
+        addBarcodes
       }),
     });
       const result = await response.json();
     if (result.success) {
           setProduct(null);
           reset();
+          onSuccess?.();
         }
     }
 

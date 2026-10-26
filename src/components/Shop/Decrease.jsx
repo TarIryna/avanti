@@ -127,7 +127,7 @@ const destination = watch('destination')
                           isBorder
                         {...register("model")}
                         />
-                          {!!product && <ShopCard item={product} setProduct={onSetProductFromList} isSelected type={OPERATION_TYPE.DECREASE} shop={shop} comment={getDestinationName(destination)}/>}
+                          {!!product && <ShopCard item={product} setProduct={onSetProductFromList} isSelected type={OPERATION_TYPE.DECREASE} shop={shop} destination={Number(destination) || null} comment={getDestinationName(destination)}/>}
                           {!!list?.length && 
                           <S.List>
                             {list.map(item => <ShopCard item={item} id={item.code} setProduct={onSetProductFromList} isList/>)}
@@ -140,4 +140,4 @@ const destination = watch('destination')
     )
 }
 
-export default DecreasePage 
+export default DecreasePage

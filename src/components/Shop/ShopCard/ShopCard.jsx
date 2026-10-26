@@ -6,7 +6,7 @@ import SizesChange from "./SizesChange/SizesChange";
 import * as S from "./styles";
 import { OPERATION_TYPE } from "@/constants/constants";
 
-const ShopCard = ({ item, setProduct, isList, info, shop, type, comment, staff, isOrder, hideImage}) => {
+const ShopCard = ({ item, setProduct, onSuccess, isList, info, shop, type, comment, destination, staff, isOrder, hideImage, addBarcodes}) => {
   if (!item){
     return
   }
@@ -53,8 +53,8 @@ const ShopCard = ({ item, setProduct, isList, info, shop, type, comment, staff, 
              
             </S.Flex>
             {!isList && !info &&
-              <> <S.Text>{text}</S.Text>
-            <SizesChange item={item} setProduct={onSetProduct} type={type} shop={shop} comment={comment} staff={staff} isOrder={isOrder}/>
+            <> <S.Text>{text}</S.Text>
+            <SizesChange item={item} setProduct={onSetProduct} onSuccess={onSuccess} type={type} shop={shop} comment={comment} destination={destination} staff={staff} isOrder={isOrder} addBarcodes={addBarcodes}/>
              </>
          }
           {isSale ? (

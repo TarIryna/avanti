@@ -6,13 +6,21 @@ import { Input } from '../ui';
 import ShopCard from './ShopCard/ShopCard';
 import { useParams } from 'next/navigation';
 import HeadButtons from './HeadButtons';
-import { OPERATION_TYPE } from '@/constants/constants';
+import { MODALS, OPERATION_TYPE } from '@/constants/constants';
+import { useModal } from '@ebay/nice-modal-react';
+import { registerDynamicModal } from '@/helpers/useDynamicModal';
+
+registerDynamicModal(MODALS.LABELS_MODAL, import('@/components/modals/LabelsModal/LabelsModal'));
+registerDynamicModal(MODALS.BARCODES_MODAL, import('@/components/modals/BarcodesModal/BarcodesModal'));
 
 const ArrivalPage = () => {
    const params = useParams();
    const shop = params.shop;
    const [product, setProduct] = useState(null)
    const [list, setList] = useState([])
+   const [addBarcodes, setAddBarcodes] = useState(false)
+   const { show: showLabels } = useModal(MODALS.LABELS_MODAL);
+   const { show: showBarcodes } = useModal(MODALS.BARCODES_MODAL);
 
      const methods = useForm({
           defaultValues: {
@@ -24,6 +32,8 @@ const ArrivalPage = () => {
         handleSubmit,
         register,
         watch,
+        setFocus,
+        setValue,
       } = methods;
 
       const onSubmit = async(data) => {
@@ -74,10 +84,26 @@ const onSetProductFromList = (data) => {
   setList([])
 }
 
+const onArrivalSuccess = () => {
+  setProduct(null);
+  setList([]);
+  setValue("code", "");
+  setValue("model", "");
+  setFocus("code");
+}
+
     return (
       <section className="container page">
         <S.Title>ПРИХІД</S.Title>
-        <HeadButtons/>
+        <HeadButtons isArrival shop={shop}/>
+        <label style={{ display: 'flex', alignItems: 'center', gap: 8, margin: '12px 0', cursor: 'pointer' }}>
+          <input
+            type="checkbox"
+            checked={addBarcodes}
+            onChange={(event) => setAddBarcodes(event.target.checked)}
+          />
+          Додавати штрихкоди для товару
+        </label>
           <FormProvider {...methods}>
              <S.Form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
                 <S.ProductConatiner>
@@ -104,17 +130,25 @@ const onSetProductFromList = (data) => {
                           isBorder
                         {...register("model", { required: true })}
                         />
-                          {!!product && <ShopCard item={product} setProduct={onSetProductFromList} isSelected shop={shop} type={OPERATION_TYPE.ARRIVAL}/>}
+                          {!!product && <ShopCard item={product} setProduct={onSetProductFromList} onSuccess={onArrivalSuccess} isSelected shop={shop} type={OPERATION_TYPE.ARRIVAL} addBarcodes={addBarcodes}/>}
                           {!!list?.length && 
                           <S.List>
-                            {list.map(item => <ShopCard item={item} id={item.code} setProduct={onSetProductFromList} isList shop={shop} type={OPERATION_TYPE.ARRIVAL}/>)}
+                            {list.map(item => <ShopCard item={item} id={item.code} setProduct={onSetProductFromList} isList shop={shop} type={OPERATION_TYPE.ARRIVAL} addBarcodes={addBarcodes}/>)}
                             </S.List>}
                    </S.InfoContainer>
                 </S.ProductConatiner>
              </S.Form>
           </FormProvider>
+          <S.ButtonsConatainer>
+            <S.CheckButton type="button" onClick={() => showBarcodes({ shop })}>
+              Друк штрихкодів
+            </S.CheckButton>
+            <S.CheckButton type="button" onClick={() => showLabels()}>
+              Друк цінників
+            </S.CheckButton>
+          </S.ButtonsConatainer>
       </section>
     )
 }
 
-export default ArrivalPage 
+export default ArrivalPage

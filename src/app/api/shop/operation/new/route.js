@@ -2,10 +2,12 @@ import { OPERATION_TYPE } from "@/constants/constants";
 import Operation from "@/models/operation";
 import Product from "@/models/product";
 import Rate from "@/models/rate";
+import Label from "@/models/label";
+import Barcodes from "@/models/barcodes";
 import { connectToDB } from "@/utils/database";
 
 export const POST = async (request) => {
-  const { client, items, terminal, shop, type } = await request.json();
+  const { client, items, terminal, shop, type, addBarcodes = false } = await request.json();
   const isSalePrice = type === OPERATION_TYPE.SALE || type === OPERATION_TYPE.RETURN;
   
   // Флаги типов операций на основе вашего справочника
@@ -28,6 +30,22 @@ export const POST = async (request) => {
 
   try {
     await connectToDB();
+    if (isDecrease && items.some((item) => !Number.isInteger(Number(item.destination)) || Number(item.destination) < 1)) {
+      return Response.json({ success: false, error: "Для списання потрібно вказати призначення" }, { status: 400 });
+    }
+    if (isArrival) {
+      const sourceOperationIds = items.map((item) => item.sourceOperationId).filter(Boolean);
+      if (sourceOperationIds.length) {
+        const existingArrival = await Operation.exists({
+          type: OPERATION_TYPE.ARRIVAL,
+          shop: Number(shop),
+          sourceOperationId: { $in: sourceOperationIds },
+        });
+        if (existingArrival) {
+          return Response.json({ success: false, error: "Одне або кілька списань вже додані в прихід" }, { status: 409 });
+        }
+      }
+    }
     const lastRate = await Rate.findOne().sort({ timestamp: -1 });
     const rate = lastRate?.rate ?? 45;
     
@@ -149,7 +167,15 @@ export const POST = async (request) => {
             product.res = Number((product.res || 0) - (item.salePrice / rate)).toFixed(2);
           }
 
-          // Сортировка всех массивов для идеального порядка в базе данных
+          //---4. Для прихода добавляем ценник. Штрихкоды печатаются отдельно.
+          if (isArrival) {
+            await Label.create({code: item.code});
+            if (addBarcodes) {
+              await Barcodes.create({code: item.code, amount: currentQuantity, shop: Number(shop)});
+            }
+          }
+
+          //---5 Сортировка всех массивов для идеального порядка в базе данных
           sizes.sort((a, b) => Number(a.size) - Number(b.size));
           shopSizes.sort((a, b) => Number(a.size) - Number(b.size));
           if (sizesAll[shop3]) sizesAll[shop3].sort((a, b) => Number(a.size) - Number(b.size));
@@ -166,7 +192,7 @@ export const POST = async (request) => {
    
         // Автоматическое формирование красивых лог-комментариев
         let autoComment = item.comment ?? null;
-        if (isArrival) autoComment = `${item.comment ?? ''} (знято з транзитного складу 3)`.trim();
+        if (isArrival) autoComment = `${item.comment ?? ''}`.trim();
         if (isDecrease) autoComment = `${item.comment ?? ''} (переміщено на склад 3)`.trim();
         
         if (isTransit) {
@@ -190,8 +216,10 @@ export const POST = async (request) => {
           quantity: currentQuantity,
           terminal: terminalPart / (-1 * currentQuantity || 1),
           operationId,
+          sourceOperationId: item.sourceOperationId,
           type,
           shop: Number(shop), // ИСПРАВЛЕНО: Принудительное приведение к числу для схемы Mongoose
+          destination: item.destination ?? null,
           comment: autoComment,
           staff: item.staff ?? null
         };

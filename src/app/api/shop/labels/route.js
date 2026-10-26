@@ -8,18 +8,13 @@ export const dynamic = "force-dynamic";
 export const GET = async () => {
       try {
         await connectToDB();
-           const labels = await Product.aggregate([
-      {
-        $lookup: {
-          from: "labels",          // Имя коллекции лейблов в MongoDB (обычно во множественном числе)
-          localField: "_id",       // Поле из коллекции Product
-          foreignField: "product", // Поле из коллекции Label, где хранится ID товара
-          as: "labelInfo"          // Временное поле для хранения совпадений
-        }
-      },
-      // Отсекаем товары, у которых нет ни одного лейбла
-      { $match: { "labelInfo.0": { $exists: true } } }
-    ]);
+      const labelRecords = await Label.find({}, { code: 1, _id: 0 }).lean();
+      const codes = labelRecords.map(({ code }) => String(code));
+      const products = await Product.find({ code: { $in: codes.map(Number) } }).lean();
+      const productsByCode = new Map(products.map((product) => [String(product.code), product]));
+      const labels = labelRecords
+        .map(({ code }) => productsByCode.get(String(code)))
+        .filter(Boolean);
 
             return new Response(JSON.stringify(labels), {
             status: 200,

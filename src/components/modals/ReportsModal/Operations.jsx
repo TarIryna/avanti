@@ -3,6 +3,8 @@ import React from 'react';
 import { getOperationName, getVendor } from '@/data';
 
 const Operations = ({ operations }) => {
+
+  console.log(operations)
   if (!operations || !Array.isArray(operations) || !operations.length) {
     return <div>Нема списку операцій</div>;
   }
@@ -44,7 +46,7 @@ const Operations = ({ operations }) => {
           {Object.entries(groupedOperations).map(([type, items]) => {
             // Подсчитываем общее количество пар в текущей группе
             const totalQuantity = items.reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
-
+            
             return (
               <React.Fragment key={type}>
                 {/* Строка-заголовок для группы */}
@@ -57,7 +59,7 @@ const Operations = ({ operations }) => {
                 {/* Строки с товарами этой группы */}
                 {items.map((item) => (
                   <tr key={item._id}>
-                    <td>{item.product?.code}</td>
+                    <td>{item.code}</td>
                     <td>{getVendor(item.product?.vendor)}</td>
                     <td>{item.product?.model}</td>
                     <td>{item.product?.price2 ?? item.product?.price}</td>

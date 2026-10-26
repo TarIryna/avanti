@@ -3,22 +3,49 @@ import Operation from "@/models/operation";
 import { connectToDB } from "@/utils/database";
 import Spending from "@/models/spendings";
 
+const kyivOffsetAt = (date) => {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Europe/Kyiv",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hourCycle: "h23",
+  }).formatToParts(date).filter(({ type }) => type !== "literal");
+  const values = Object.fromEntries(parts.map(({ type, value }) => [type, value]));
+  return Date.UTC(values.year, values.month - 1, values.day, values.hour, values.minute, values.second) - date.getTime();
+};
+
+const parseDate = (value) => {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value || "")) return null;
+  const date = new Date(`${value}T00:00:00.000Z`);
+  if (Number.isNaN(date.getTime())) return null;
+  return date.toISOString().slice(0, 10) === value ? date : null;
+};
+
+const kyivStartOfDay = (date) => new Date(date.getTime() - kyivOffsetAt(date));
+
 export const GET = async (request, { params }) => {
-     // 1. Получаем динамический параметр из пути (например, "1")
-    const { shop } = await params; 
+  const { shop: shopParam } = await params;
+  const shop = Number(shopParam);
+  const { searchParams } = new URL(request.url);
+  // const startDate = parseDate("2026-10-23");
+  // const endDate = parseDate("2026-10-23");
+  const startDate = parseDate(searchParams.get("start"));
+  const endDate = parseDate(searchParams.get("end"));
 
-    // 2. Получаем query-параметры из URL запроса
-    const { searchParams } = new URL(request.url);
-    const startStr = searchParams.get('start'); // пришли строки вида "2026-09-11"
-    const endStr = searchParams.get('end');     // "2026-09-12"
+  if (!Number.isInteger(shop) || shop < 1) {
+    return Response.json({ error: "Вкажіть коректний номер магазину" }, { status: 400 });
+  }
+  if (!startDate || !endDate || startDate > endDate) {
+    return Response.json({ error: "Вкажіть коректний період звіту" }, { status: 400 });
+  }
 
-    // 1. Превращаем строки в объекты дат
-    const start = new Date(startStr);
-    const end = new Date(endStr);
-
-    // 2. Устанавливаем время (используем UTC, чтобы время не съезжало на сервере)
-    start.setUTCHours(0, 0, 0, 0);       // Начало дня (00:00:00.000)
-    end.setUTCHours(23, 59, 59, 999);    // Конец дня (23:59:59.999)
+  const nextDay = new Date(endDate.getTime() + 24 * 60 * 60 * 1000);
+  const start = kyivStartOfDay(startDate);
+  const end = kyivStartOfDay(nextDay);
 
   try {
     await connectToDB();
@@ -54,7 +81,7 @@ export const GET = async (request, { params }) => {
       shop,
       createdAt: {
         $gte: start,
-        $lte: end,
+        $lt: end,
       }
     })
     .populate("product") // 🌟 Теперь Mongoose найдет модель Product в памяти и подставит данные
@@ -64,9 +91,9 @@ export const GET = async (request, { params }) => {
        shop,
        createdAt: {
         $gte: start,
-        $lte: end,
+        $lt: end,
       }
-    })
+    }).sort({ createdAt: -1 });
 
     const totalQuantity = result.length > 0 ? result[0].grandTotal : 0;
 

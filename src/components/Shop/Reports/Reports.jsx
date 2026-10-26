@@ -20,13 +20,19 @@ const Reports = ({shop}) => {
         }
     }, [report])
 
+    console.log(shop)
+
 
     const onDayReport = async() => {
-      const now = new Date();
-        const end = now.toISOString().split('T')[0]; // "2026-09-12"
-        const yesterday = new Date();
-        yesterday.setDate(now.getDate() - 1);
-        const start = yesterday.toISOString().split('T')[0]; // "2026-09-11"
+      const dateParts = Object.fromEntries(new Intl.DateTimeFormat("en-GB", {
+        timeZone: "Europe/Kyiv",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      }).formatToParts(new Date()).filter(({ type }) => type !== "literal").map(({ type, value }) => [type, value]));
+      const date = `${dateParts.year}-${dateParts.month}-${dateParts.day}`;
+      const start = date;
+      const end = date;
     try {
         const res = await fetch(`/api/shop/day/${shop}/?start=${start}&end=${end}`);
         const result = await res.json();

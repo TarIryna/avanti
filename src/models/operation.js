@@ -38,6 +38,9 @@ const OperationSchema = new Schema(
     operationId: {
       type: String
     },
+    sourceOperationId: {
+      type: String,
+    },
     type: {
       type: Number,
       default: 1
