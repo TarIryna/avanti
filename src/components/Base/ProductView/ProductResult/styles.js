@@ -9,19 +9,42 @@ export const Wrapper = styled.div`
     flex-direction: column;
     justify-content: space-between;
     margin-bottom: 10px;
+    overflow-x: auto;
 `
 
 export const Title = styled.div`
-    text-align: center;
+    text-align: left;
     font-size: 14px;
     font-weight: 600;
 `
+
+export const ProductHeader = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+`;
+
+export const ProductImage = styled.div`
+    position: relative;
+    flex: 0 0 90px;
+    width: 90px;
+    height: 90px;
+
+    img {
+      object-fit: contain;
+    }
+`;
 export const Table = styled.table`
     font-size: 14px;
     text-align: center;
     font-weight: 600;
+    border-collapse: collapse;
+    min-width: 760px;
+    width: 100%;
 
-    td, tr {
-        padding: 0 10px;
+    th, td {
+        padding: 8px 10px;
+        border: 1px solid #ddd;
     } 
 `

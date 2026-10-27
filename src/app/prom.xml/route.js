@@ -25,7 +25,7 @@ export async function GET() {
  const products = await Product.find({
    rozetka_id: { $exists: true, $ne: null },
    type: 1,
-   year: { $gt: 36 },
+   year: { $gt: 38 },
    season:  { $in: season }
  }).limit(1000).lean()
 
