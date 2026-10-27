@@ -3,7 +3,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { useUserSession } from "@/fetchActions/user/useUser";
-import { baseEmails, colors, countries, genders, materialData, seasonData, types, vendors, views, years, getDefaultYear } from "@/data";
+import { baseEmails, colors, genders, materialData, seasonData, types, vendors, views, years, getDefaultYear } from "@/data";
+import { companies } from "@/data/companies";
 import { Select } from "@/components/ui";
 import { Title } from "../../styles";
 import ImageWrapper from "@/components/Product/ImageWrapper";
@@ -16,7 +17,7 @@ const filterFields = [
   { name: "view", label: "Вид товару", options: views },
   { name: "vendor", label: "Марка", options: vendors, isMulti: true },
   { name: "color", label: "Колір", options: colors, isMulti: true },
-  { name: "country", label: "Виробник", options: countries, isMulti: true },
+  { name: "company", label: "Поставщик", options: companies, isMulti: true },
   { name: "material", label: "Матеріал", options: materialData },
   { name: "year", label: "Рік-сезон", options: years },
   { name: "yearMinus", label: "До року-сезону", options: years },
@@ -43,7 +44,7 @@ const ProductsLidersPage = () => {
       view: "",
       vendor: [],
       color: [],
-      country: [],
+      company: [],
       material: "",
       year: defaultYear?.value ?? "",
       yearMinus: "",

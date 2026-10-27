@@ -298,3 +298,25 @@ export const VideoContainer = styled.div`
     display: flex;
     gap: 10px;
 `
+
+export const NoPhotoList = styled.div`
+    margin-top: 16px;
+    padding: 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+`;
+
+export const NoPhotoCodes = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+
+    span {
+        padding: 5px 9px;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        background: #f9fafb;
+        font-family: monospace;
+    }
+`;

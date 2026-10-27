@@ -14,6 +14,10 @@ const PhotoPage = () => {
    const [isDownloadingFirst, setIsDownloadingFirst] = useState(false);
    const [isDownloadingSecond, setIsDownloadingSecond] = useState(false);
    const [isDownloadingThird, setIsDownloadingThird] = useState(false);
+   const [showNoPhotoCodes, setShowNoPhotoCodes] = useState(false);
+   const [noPhotoCodes, setNoPhotoCodes] = useState([]);
+   const [isLoadingNoPhotoCodes, setIsLoadingNoPhotoCodes] = useState(false);
+   const [noPhotoCodesError, setNoPhotoCodesError] = useState("");
    const methods = useForm({
       defaultValues: {
         code: "",
@@ -230,6 +234,7 @@ const downloadProducts = async () => {
   {
     type: 'text/csv;charset=utf-8',
   }
+
 );
 
     const url = window.URL.createObjectURL(blob);
@@ -253,6 +258,28 @@ const downloadProducts = async () => {
       setIsDownloadingThird(false)
     }
   }
+
+
+  const toggleNoPhotoCodes = async () => {
+    if (showNoPhotoCodes) {
+      setShowNoPhotoCodes(false);
+      return;
+    }
+
+    setShowNoPhotoCodes(true);
+    setNoPhotoCodesError("");
+    setIsLoadingNoPhotoCodes(true);
+    try {
+      const response = await fetch("/api/products/no-images");
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || "Не удалось загрузить список");
+      setNoPhotoCodes(data.codes || []);
+    } catch (error) {
+      setNoPhotoCodesError(error.message || "Не удалось загрузить список");
+    } finally {
+      setIsLoadingNoPhotoCodes(false);
+    }
+  };
 
 
     return (
@@ -311,6 +338,23 @@ const downloadProducts = async () => {
              {isDownloadingThird? 'Формирование файла...' : 'Скачати список відео'}
           </Button>
           </S.FlexLeft>
+          <Button onClick={toggleNoPhotoCodes} disabled={isLoadingNoPhotoCodes} style={{ marginTop: "20px" }}>
+            {isLoadingNoPhotoCodes ? "Загрузка списка…" : showNoPhotoCodes ? "Скрыть список" : "Список для фото"}
+          </Button>
+          {showNoPhotoCodes && (
+            <S.NoPhotoList>
+              <strong>Товаров без фото: {noPhotoCodes.length}</strong>
+              {noPhotoCodesError ? (
+                <p role="alert">{noPhotoCodesError}</p>
+              ) : isLoadingNoPhotoCodes ? null : noPhotoCodes.length ? (
+                <S.NoPhotoCodes>
+                  {noPhotoCodes.map((code) => <span key={code}>{code}</span>)}
+                </S.NoPhotoCodes>
+              ) : (
+                <p>Все товары имеют фото.</p>
+              )}
+            </S.NoPhotoList>
+          )}
       </section>
     )
 }

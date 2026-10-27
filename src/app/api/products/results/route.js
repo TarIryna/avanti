@@ -19,7 +19,7 @@ export const POST = async (request) => {
       view,
       vendor,
       color,
-      country,
+      company,
       material,
       year,
       yearMinus,
@@ -43,8 +43,8 @@ export const POST = async (request) => {
     const colorValues = values(color).map(Number).filter(Number.isFinite);
     if (colorValues.length) filter.color = { $in: colorValues };
 
-    const countryValues = values(country).map(Number).filter(Number.isFinite);
-    if (countryValues.length) filter.country = { $in: countryValues };
+    const companyValues = values(company).map(Number).filter(Number.isFinite);
+    if (companyValues.length) filter.company = { $in: companyValues };
 
     if (view) filter.view = view;
     if (material !== "" && material != null) filter.material = Number(material);
