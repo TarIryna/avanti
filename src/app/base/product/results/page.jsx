@@ -1,7 +1,7 @@
 "use client";
 
-import ProductViewPage from "@/components/Base/ProductView/ProductView";
+import ProductResultsPage from "@/components/Base/ProductResults/ProductResults";
 
-const ProductView = () => <ProductViewPage />;
+const ProductView = () => <ProductResultsPage />;
 
 export default ProductView;

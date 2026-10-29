@@ -157,7 +157,7 @@ export const years = [
  },
   {
    "value": 40,
-   "name": "2026-2 Лето"
+   "name": "2026-2 Зима"
  }
 ]
 

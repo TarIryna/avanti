@@ -18,6 +18,12 @@ const PhotoPage = () => {
    const [noPhotoCodes, setNoPhotoCodes] = useState([]);
    const [isLoadingNoPhotoCodes, setIsLoadingNoPhotoCodes] = useState(false);
    const [noPhotoCodesError, setNoPhotoCodesError] = useState("");
+   const [cloudinaryDate, setCloudinaryDate] = useState(() => {
+     const today = new Date();
+     const month = String(today.getMonth() + 1).padStart(2, "0");
+     const day = String(today.getDate()).padStart(2, "0");
+     return `${today.getFullYear()}-${month}-${day}`;
+   });
    const methods = useForm({
       defaultValues: {
         code: "",
@@ -63,7 +69,7 @@ const onUpload = (images) => {
 const onUploadFromServer = async () => {
    setIsDownloadingSecond(true);
   try {
-    const res = await fetch(`/api/cloudinary`);
+     const res = await fetch(`/api/cloudinary?date=${encodeURIComponent(cloudinaryDate)}`);
     
    if (!res.ok) {
     const errorData = await res.json();
@@ -82,8 +88,7 @@ const onUploadFromServer = async () => {
     link.href = url;
     
     // Имя файла можно достать из заголовков или задать вручную
-    const dateStr = new Date().toISOString().split('T')[0];
-    link.download = `cloudinary_report_${dateStr}.csv`;
+    link.download = `cloudinary_report_${cloudinaryDate}.csv`;
     
     document.body.appendChild(link);
     link.click();
@@ -331,19 +336,28 @@ const downloadProducts = async () => {
            <Button onClick={downloadProducts} disabled={isDownloadingFirst} style={{marginTop: "50px"}}>
             {isDownloadingFirst ? 'Формирование файла...' : 'Скачати JSON за сьогодні'}
           </Button>
-         <Button onClick={onUploadFromServer} disabled={isDownloadingSecond} style={{marginTop: "50px"}}>
-             {isDownloadingSecond ? 'Формирование файла...' : 'Скачати дані з Cloudinary'}
+         <label style={{ display: "flex", alignItems: "center", gap: "10px", marginTop: "50px" }}>
+           Дата завантаження:
+           <input
+             type="date"
+             value={cloudinaryDate}
+             onChange={(event) => setCloudinaryDate(event.target.value)}
+             disabled={isDownloadingSecond}
+           />
+         </label>
+         <Button onClick={onUploadFromServer} disabled={isDownloadingSecond || !cloudinaryDate} style={{marginTop: "50px"}}>
+             {isDownloadingSecond ? 'Формування файлу...' : 'Скачати дані з Cloudinary'}
           </Button>
           <Button onClick={downloadVideoList} disabled={isDownloadingThird} style={{marginTop: "50px"}}>
-             {isDownloadingThird? 'Формирование файла...' : 'Скачати список відео'}
+             {isDownloadingThird? 'Формування...' : 'Скачати список відео'}
           </Button>
           </S.FlexLeft>
           <Button onClick={toggleNoPhotoCodes} disabled={isLoadingNoPhotoCodes} style={{ marginTop: "20px" }}>
-            {isLoadingNoPhotoCodes ? "Загрузка списка…" : showNoPhotoCodes ? "Скрыть список" : "Список для фото"}
+            {isLoadingNoPhotoCodes ? "Завантаження списку…" : showNoPhotoCodes ? "Сховати список" : "Список для фото"}
           </Button>
           {showNoPhotoCodes && (
             <S.NoPhotoList>
-              <strong>Товаров без фото: {noPhotoCodes.length}</strong>
+              <strong>Товарів без фото: {noPhotoCodes.length}</strong>
               {noPhotoCodesError ? (
                 <p role="alert">{noPhotoCodesError}</p>
               ) : isLoadingNoPhotoCodes ? null : noPhotoCodes.length ? (
@@ -351,7 +365,7 @@ const downloadProducts = async () => {
                   {noPhotoCodes.map((code) => <span key={code}>{code}</span>)}
                 </S.NoPhotoCodes>
               ) : (
-                <p>Все товары имеют фото.</p>
+                <p>Всі товари мають фото.</p>
               )}
             </S.NoPhotoList>
           )}

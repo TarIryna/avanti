@@ -7,7 +7,6 @@ import { useModal } from "@ebay/nice-modal-react";
 import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import IconCheck from "@/assets/icons/reciept.svg";
-import { Input } from "../ui";
 import toast from "react-hot-toast";
 
 registerDynamicModal(
@@ -137,7 +136,7 @@ const cancelOrder = async () => {
                     <S.DeliveryText>ТТН: {ttn?.IntDocNumber}</S.DeliveryText>
                     }
                 {!!order.deliveryStatus && <S.DeliveryText>{order.deliveryStatus }</S.DeliveryText>}
-                {order.status === "new" && <S.Button onClick={cancelOrder}>Відмінити</S.Button>}
+                {(order.status === "new" || order.status === "delivery") && <S.Button onClick={cancelOrder}>Відмінити</S.Button>}
                 {order.status === "new" && <S.Button onClick={deleteOrder}>Видалити</S.Button>}
                 </S.DeliveryData>
             </S.CartWrapper>

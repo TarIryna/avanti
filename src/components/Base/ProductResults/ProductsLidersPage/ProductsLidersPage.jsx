@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { Controller, FormProvider, useForm } from "react-hook-form";
+import { Controller, FormProvider, useForm, useWatch } from "react-hook-form";
 import { useUserSession } from "@/fetchActions/user/useUser";
 import { baseEmails, colors, genders, materialData, seasonData, types, vendors, views, years, getDefaultYear } from "@/data";
 import { companies } from "@/data/companies";
@@ -11,17 +11,17 @@ import ImageWrapper from "@/components/Product/ImageWrapper";
 import * as S from "./styles";
 
 const filterFields = [
-  { name: "type", label: "Тип товару", options: types },
+  { name: "type", label: "Тип товара", options: types },
   { name: "season", label: "Сезон", options: seasonData, isMulti: true },
-  { name: "gender", label: "Стать", options: genders, isMulti: true },
-  { name: "view", label: "Вид товару", options: views },
+  { name: "gender", label: "Пол", options: genders, isMulti: true },
+  { name: "view", label: "Вид товара", options: views },
   { name: "vendor", label: "Марка", options: vendors, isMulti: true },
-  { name: "color", label: "Колір", options: colors, isMulti: true },
+  { name: "color", label: "Цвет", options: colors, isMulti: true },
   { name: "company", label: "Поставщик", options: companies, isMulti: true },
-  { name: "material", label: "Матеріал", options: materialData },
-  { name: "year", label: "Рік-сезон", options: years },
-  { name: "yearMinus", label: "До року-сезону", options: years },
-  { name: "yearPlus", label: "Від року-сезону", options: years },
+  { name: "material", label: "Материал", options: materialData },
+  { name: "year", label: "Год-сезон", options: years },
+  { name: "yearMinus", label: "До года-сезона", options: years },
+  { name: "yearPlus", label: "После года-сезона", options: years },
 ];
 
 const asNumber = (value) => {
@@ -52,6 +52,7 @@ const ProductsLidersPage = () => {
     },
   });
   const getValues = methods.getValues;
+  const watchedFilters = useWatch({ control: methods.control });
 
   const loadResults = useCallback(async (filters) => {
     setIsLoading(true);
@@ -88,10 +89,44 @@ const ProductsLidersPage = () => {
     return <section className="container page"><S.Status>Немає доступу до результатів.</S.Status></section>;
   }
 
+  const totals = products.reduce((sum, product) => {
+    const cost = asNumber(product.start);
+    const revenue = asNumber(product.res);
+
+    sum.cost += cost;
+    sum.revenue += revenue;
+    sum.received += asNumber(product.totalGot);
+    sum.sold += asNumber(product.pop);
+    sum.result += asNumber(product.activityResult ?? revenue - cost);
+
+    return sum;
+  }, { cost: 0, revenue: 0, received: 0, sold: 0, result: 0 });
+
+  const totalSellThrough = totals.received ? (totals.sold / totals.received) * 100 : 0;
+  const totalProfitability = totals.cost ? (totals.result / totals.cost) * 100 : 0;
+  const printFilters = filterFields.flatMap(({ name, label, options }) => {
+    const value = watchedFilters?.[name];
+    const values = (Array.isArray(value) ? value : [value]).filter(
+      (item) => item !== "" && item != null
+    );
+
+    if (!values.length) return [];
+
+    const selectedOptions = values.map((selectedValue) => {
+      const option = options.find(
+        (item) => String(item.value ?? item.id) === String(selectedValue)
+      );
+
+      return option?.ru || option?.name || option?.ukr || String(selectedValue);
+    });
+
+    return [{ label, values: selectedOptions }];
+  });
+
   return (
     <section className="container page">
       <S.PrintGlobalStyles />
-      <Title>Лідери продажу</Title>
+      <Title>Лидеры продаж</Title>
       <FormProvider {...methods}>
         <S.Form onSubmit={methods.handleSubmit(onSubmit)}>
           {filterFields.map(({ name, label, options, isMulti }, index) => (
@@ -103,6 +138,7 @@ const ProductsLidersPage = () => {
                 <Select
                   options={options}
                   label={label}
+                  lang="ru"
                   placeholder={`Оберіть: ${label.toLowerCase()}`}
                   isInput
                   isMulti={isMulti}
@@ -122,9 +158,14 @@ const ProductsLidersPage = () => {
       {error && <S.Status role="alert">{error}</S.Status>}
       {!error && !isLoading && <S.Status>Знайдено товарів: {products.length}</S.Status>}
       <S.PrintButton type="button" disabled={!products.length} onClick={() => window.print()}>
-        Друк списку
+        Печать списка
       </S.PrintButton>
       <S.ResultsScroll className="results-print-root">
+        <S.PrintFilters className="results-print-filters">
+          {printFilters.map(({ label, values }) => (
+            <span key={label}><strong>{label}:</strong> {values.join(", ")}</span>
+          ))}
+        </S.PrintFilters>
         <S.ResultsTable className="results-print-table">
           <thead>
             <tr>
@@ -173,6 +214,18 @@ const ProductsLidersPage = () => {
               );
             })}
           </tbody>
+          <tfoot>
+            <tr>
+              <td colSpan={4}>Разом</td>
+              <td>{totals.cost.toFixed(2)}</td>
+              <td>{totals.revenue.toFixed(2)}</td>
+              <td>{totals.received}</td>
+              <td>{totals.sold}</td>
+              <td>{totals.result.toFixed(2)}</td>
+              <td>{totalSellThrough.toFixed(2)}%</td>
+              <td>{totalProfitability.toFixed(2)}%</td>
+            </tr>
+          </tfoot>
         </S.ResultsTable>
       </S.ResultsScroll>
     </section>

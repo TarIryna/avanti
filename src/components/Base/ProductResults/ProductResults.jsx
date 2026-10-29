@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useUserSession } from "@/fetchActions/user/useUser";
 import { baseEmails} from "@/data";
-import * as S from "./styles";
+import * as S from "../styles";
 import { useRouter } from "next/navigation";
 
 const ProductResultsPage = () => {

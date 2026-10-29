@@ -71,18 +71,21 @@ export async function POST(req) {
 }
 
 
-export async function GET() {
-  // const startDate = '2026-08-05';
-  // const endDate = '2026-08-06';
-  const now = new Date();
+export async function GET(req) {
+  const { searchParams } = new URL(req.url);
+  const startDate = searchParams.get("date");
+  const parsedDate = startDate ? new Date(`${startDate}T00:00:00.000Z`) : null;
 
-  // Сегодня
-  const endDate = now.toISOString().split('T')[0];
+  if (
+    !startDate ||
+    !/^\d{4}-\d{2}-\d{2}$/.test(startDate) ||
+    Number.isNaN(parsedDate.getTime()) ||
+    parsedDate.toISOString().slice(0, 10) !== startDate
+  ) {
+    return NextResponse.json({ message: "Укажите корректную дату в формате YYYY-MM-DD" }, { status: 400 });
+  }
 
-  // Вчера
-  const yesterday = new Date(now);
-  yesterday.setDate(now.getDate() - 1);
-  const startDate = yesterday.toISOString().split('T')[0];
+  const endDate = startDate;
 
   try {
     console.log(`Поиск файлов за период с ${startDate} по ${endDate}...`);

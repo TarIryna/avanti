@@ -21,7 +21,7 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
   await connectToDB();
-  const season = [1, 3, 14]
+  const season = [1, 3]
  const products = await Product.find({
    rozetka_id: { $exists: true, $ne: null },
    type: 1,

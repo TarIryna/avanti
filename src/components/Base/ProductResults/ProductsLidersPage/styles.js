@@ -99,6 +99,7 @@ export const PrintButton = styled.button`
   background: #fff;
   font-weight: 600;
   cursor: pointer;
+  margin-bottom: 10px;
 `;
 
 export const ResultsScroll = styled.div`
@@ -109,6 +110,18 @@ export const ResultsScroll = styled.div`
   overflow: auto;
   border: 1px solid #ccc;
   border-radius: 8px;
+`;
+
+export const PrintFilters = styled.div`
+  display: none;
+
+  @media print {
+    display: flex !important;
+    flex-wrap: wrap;
+    gap: 2mm 5mm;
+    margin-bottom: 3mm;
+    font-size: 8pt;
+  }
 `;
 
 export const ResultsTable = styled.table`
@@ -135,6 +148,14 @@ export const ResultsTable = styled.table`
     background: #f4f4f4;
     box-shadow: 0 1px 0 #bbb;
   }
+
+  tfoot tr {
+    height: 48px;
+    font-weight: 700;
+    background: #f4f4f4;
+  }
+
+  tfoot td { background: #f4f4f4; }
 
   th:first-of-type, td:first-of-type { position: sticky; left: 0; }
   th:first-of-type { z-index: 2; background: #f4f4f4; }

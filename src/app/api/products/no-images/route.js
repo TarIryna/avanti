@@ -23,6 +23,7 @@ export const GET = async () => {
       {
         $match: {
           type: { $in: [1, 3] },
+          totalCount: { $gt: 0 },
           $expr: {
             $eq: [
               {

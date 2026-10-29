@@ -45,7 +45,9 @@ const CartItem = ({ data, status }) => {
             )}
           </S.ImageWrapper>
           <S.Content>
-            <S.Text>Код товару: {data?.code ?? ""}</S.Text>
+            <S.ProductLink href={"/product/" + data.code} target="_blank" rel="noopener noreferrer">
+              <S.Text>Код товару: {data?.code ?? ""}</S.Text>
+            </S.ProductLink>
             <S.Text>Розмір: {data?.size?.size ?? data?.size ?? ""}</S.Text>
             <S.Text>
               Кількість:  

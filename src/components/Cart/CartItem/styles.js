@@ -20,6 +20,12 @@ export const Content = styled.div`
   }
 `;
 
+export const ProductLink = styled.a`
+  width: fit-content;
+  color: inherit;
+  cursor: pointer;
+`;
+
 export const ImageWrapper = styled.div`
   width: 250px;
   height: 200px;
