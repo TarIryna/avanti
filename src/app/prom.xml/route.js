@@ -27,7 +27,7 @@ export async function GET() {
    type: 1,
    year: { $gt: 38 },
    season:  { $in: season }
- }).limit(1000).lean()
+ }).limit(1500).lean()
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <yml_catalog date="${new Date().toISOString()}">
