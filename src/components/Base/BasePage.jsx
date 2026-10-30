@@ -29,6 +29,7 @@ const BasePage = () => {
                  <S.MenuShopButton onClick={() => router.push(`/base/companies`)}>ПОСТАВЩИКИ</S.MenuShopButton>
                  <S.MenuShopButton onClick={() => router.push(`/base/rate`)}>КУРС</S.MenuShopButton>
                  <S.MenuShopButton onClick={() => router.push(`/base/shop`)}>МАГАЗИНЫ</S.MenuShopButton>
+                 <S.MenuShopButton onClick={() => router.push(`/base/results`)}>РЕЗУЛЬТАТЫ</S.MenuShopButton>
         </S.MenuList>
         {/* </>
       ) : ( 

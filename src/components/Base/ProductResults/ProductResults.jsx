@@ -22,7 +22,8 @@ const ProductResultsPage = () => {
         <>
         <S.Title>РЕЗУЛЬТАТЫ</S.Title>
         <S.MenuList>
-                 <S.MenuShopButton onClick={() => router.push(`/base/product/results/liders`)}>Лидеры продаж</S.MenuShopButton>
+                 <S.MenuShopButton onClick={() => router.push(`/base/results/liders`)}>Лидеры продаж</S.MenuShopButton>
+                 <S.MenuShopButton onClick={() => router.push(`/base/results/companies`)}>Результаты по поставщикам</S.MenuShopButton>
         </S.MenuList>
         </>
       ) : ( 
