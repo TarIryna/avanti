@@ -8,5 +8,5 @@ export const shopEmails = [
 export const baseEmails = [
     'tar86irina@gmail.com',
     'sanichjulia@gmail.com',
-    'avanti2uzh@gmail.com'
+    'romacmarina@gmail.com'
 ]

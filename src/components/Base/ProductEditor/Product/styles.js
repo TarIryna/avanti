@@ -13,6 +13,21 @@ export const Form = styled.form`
     flex-direction: column;
     gap: 10px;
     `
+
+export const MediaCopy = styled.div`
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    flex-wrap: wrap;
+
+    button {
+        border: 1px solid black;
+        padding: 8px 14px;
+        border-radius: 16px;
+        background: white;
+        cursor: pointer;
+    }
+`
 export const Flex = styled.div`
     display: flex;
     gap: 16px;
@@ -47,4 +62,10 @@ export const ImageWrapper = styled.div`
     object-fit: contain;
   }
 `
-
+export const ButtonsWrapper = styled.div`
+    width: 400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+`

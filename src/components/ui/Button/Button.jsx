@@ -12,6 +12,7 @@ const Button = forwardRef(
       rightIcon,
       leftIcon,
       children,
+      width,
       ...props
     },
     ref
@@ -24,6 +25,7 @@ const Button = forwardRef(
       isLoading={isLoading}
       isIcon={Boolean(rightIcon || leftIcon)}
       disabled={isLoading || disabled}
+      width={width}
       {...props}
     >
       {leftIcon}

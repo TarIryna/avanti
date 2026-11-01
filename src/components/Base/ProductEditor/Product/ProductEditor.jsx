@@ -1,9 +1,9 @@
 "use client";
-import { Input, Select } from '../../../ui';
+import { Input, Select, Button } from '../../../ui';
 import * as S from './styles';
 import { Title, Row, Flex } from '../../styles';
 import { useForm, FormProvider, Controller } from 'react-hook-form';
-import { colors, years, seasonData, getDefaultYear, types, genders, vendors, views, sizesLengths, countries, materialInside, materialsTop, materialData, styles, heels, sizesGroup, facebookCategories, categories } from '@/data';
+import { colors, years, seasonData, getDefaultYear, getCodePart, getYearById, types, genders, vendors, views, sizesLengths, countries, materialInside, materialsTop, materialData, styles, heels, sizesGroup, facebookCategories, categories } from '@/data';
 import { useMemo, useState } from 'react';
 import { accessoires } from '@/data/accesoires';
 import toast from 'react-hot-toast';
@@ -147,6 +147,99 @@ const onSetProductFromList = (product) => {
          console.error(e)
       }
   }
+
+  const onCopyMedia = async () => {
+    const targetCode = watch("copyMediaCode")?.trim();
+
+    if (!product) {
+      toast.error("Сначала загрузите товар, ссылки которого нужно скопировать");
+      return;
+    }
+    if (!targetCode) {
+      toast.error("Введите код товара, куда копировать ссылки");
+      return;
+    }
+    if (targetCode === product.code) {
+      toast.error("Код назначения совпадает с текущим товаром");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/product/update", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          code: targetCode,
+          images: product.images ?? [],
+          video: product.video ?? "",
+        }),
+      });
+
+      if (!response.ok) {
+        toast.error(response.status === 404 ? "Товар с таким кодом не найден" : "Не удалось скопировать ссылки");
+        return;
+      }
+
+      toast.success("Ссылки фото и видео скопированы");
+    } catch (error) {
+      console.error(error);
+      toast.error("Ошибка при копировании ссылок");
+    }
+  };
+
+  const onCreateSeasonCopy = async () => {
+    if (!product) {
+      toast.error("Сначала загрузите товар");
+      return;
+    }
+    if (!defaultYear?.value) {
+      toast.error("Не удалось определить текущий год-сезон");
+      return;
+    }
+
+    const yearName = getYearById(defaultYear.value);
+    const seasonPart = product.type === 3 ? "9" : getCodePart(product.season);
+    if (!yearName || !seasonPart) {
+      toast.error("Не хватает года или сезона для нового кода");
+      return;
+    }
+
+    try {
+      const codePrefix = `${yearName.slice(2, 4)}${seasonPart}`;
+      const codeResponse = await fetch(`/api/products/code?query=${codePrefix}`);
+      if (!codeResponse.ok) throw new Error("Failed to generate product code");
+
+      const { maxCode } = await codeResponse.json();
+      const newCode = maxCode ? Number(maxCode) + 1 : Number(`${codePrefix}001`);
+      const productData = { ...product };
+      delete productData._id;
+      delete productData.__v;
+      delete productData.createdAt;
+      delete productData.updatedAt;
+      const newProduct = {
+        ...productData,
+        code: String(newCode),
+        barcodes: [String(newCode)],
+        year: defaultYear.value,
+      };
+
+      const response = await fetch("/api/product/new", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ product: newProduct }),
+      });
+
+      if (!response.ok) {
+        toast.error("Не удалось создать копию товара");
+        return;
+      }
+
+      toast.success(`Создан новый товар: ${newCode}`);
+    } catch (error) {
+      console.error(error);
+      toast.error("Ошибка при создании копии товара");
+    }
+  };
 
   return (
     <section className="container page">
@@ -506,7 +599,26 @@ const onSetProductFromList = (product) => {
     
 </Row>
 </Flex>
-          <button type="submit">Изменить товар</button>
+  <S.ButtonsWrapper>
+          <Button type="submit" width="200">Изменить товар</Button>
+
+          <S.MediaCopy>
+            <Input
+              type="text"
+              label="Код товара назначения"
+              placeholder="Введите код товара"
+              isBorder
+              {...register("copyMediaCode")}
+            />
+            <Button type="button" onClick={onCopyMedia}>
+              {"Скопировать ссылки фото и видео"}
+            </Button>
+          </S.MediaCopy>
+
+          <Button type="button" onClick={onCreateSeasonCopy}>
+            {"Создать копию на новый сезон"}
+          </Button>
+        </S.ButtonsWrapper>
 
         </S.Form>
       </FormProvider>
