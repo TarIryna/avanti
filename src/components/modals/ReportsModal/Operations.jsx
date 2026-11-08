@@ -3,8 +3,6 @@ import React from 'react';
 import { getOperationName, getVendor } from '@/data';
 
 const Operations = ({ operations }) => {
-
-  console.log(operations)
   if (!operations || !Array.isArray(operations) || !operations.length) {
     return <div>Нема списку операцій</div>;
   }

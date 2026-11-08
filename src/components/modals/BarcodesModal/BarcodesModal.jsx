@@ -22,7 +22,7 @@ const BarcodesModal = create(({ id, shop }) => {
       }
     };
     getBarcodes();
-  }, [shop]);
+  }, [shop, visible]);
 
   const pages = Array.from({ length: Math.ceil(items.length / 91) }, (_, pageIndex) =>
     items.slice(pageIndex * 91, (pageIndex + 1) * 91)

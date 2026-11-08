@@ -1,9 +1,11 @@
 {
   "compilerOptions": {
+    "allowJs": true,
     "paths": {
       "@*": [
         "./src*"
       ]
     }
-  }
+  },
+  "exclude": ["node_modules", ".next", ".pnpm-store", ".git"]
 }

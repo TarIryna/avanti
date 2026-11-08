@@ -81,6 +81,19 @@ const ProductSchema = new Schema(
   { versionKey: false, timestamps: true, collection: "products" } // ← обязательно
 );
 
+// Keep per-shop totals in sync for every document save that changes stock.
+ProductSchema.pre("validate", function () {
+  if (!this.isModified("sizes_all")) return;
+
+  this.total = Object.entries(this.sizes_all || {}).map(([shop, sizes]) => ({
+    shop: Number(shop),
+    q: (Array.isArray(sizes) ? sizes : []).reduce((sum, item) => {
+      const quantity = Number(item.q);
+      return sum + (Number.isFinite(quantity) ? quantity : 0);
+    }, 0),
+  }));
+});
+
 const Product = models.Product || model("Product", ProductSchema);
 
 export default Product;

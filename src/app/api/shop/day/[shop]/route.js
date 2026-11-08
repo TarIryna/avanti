@@ -50,33 +50,27 @@ export const GET = async (request, { params }) => {
   try {
     await connectToDB();
 
+    // Use the same per-shop stock as operations and the product page.
+    const stockPath = `sizes_all.${shop}`;
     const result = await Product.aggregate([
-      // 1. Разворачиваем массив total для всех товаров
-      { $unwind: "$total" },
-      
-      // 2. Оставляем записи только для shop
-      { $match: { "total.shop": shop } },
-      
-      // 3. Группируем и безопасно конвертируем строки в числа
+      { $unwind: `$${stockPath}` },
       {
         $group: {
           _id: null,
-          grandTotal: { 
-            $sum: { 
+          grandTotal: {
+            $sum: {
               $convert: {
-                input: "$total.q",
+                input: `$${stockPath}.q`,
                 to: "int",
-                onError: 0, // ИСПРАВЛЕНО: если в поле пустая строка, подставится 0
-                onNull: 0   // ИСПРАВЛЕНО: если поля нет или оно null, подставится 0
-              }
-            } 
-          }
-        }
-      }
+                onError: 0,
+                onNull: 0,
+              },
+            },
+          },
+        },
+      },
     ]);
 
-
-    // 2. Делаем запрос с обязательным вызовом .populate()
     const operations = await Operation.find({
       shop,
       createdAt: {

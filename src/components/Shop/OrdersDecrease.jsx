@@ -32,7 +32,7 @@ const OrdersDecreasePage = () => {
     const code = watch("code");
 
   try {
-    const res = await fetch(`/api/product/${code}`);
+    const res = await fetch(`/api/product/${code}`, { cache: "no-store" });
     const product = await res.json();
     if (!product){
       toast.error("Товар не знайдено!")

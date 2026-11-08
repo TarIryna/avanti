@@ -36,7 +36,8 @@ export const POST = async (request) => {
       firstPrice,
       secondPrice,
     });
-    await Label.create({ code: data.code });
+    const labelShop = [1, 2].includes(Number(data.shop)) ? Number(data.shop) : 0;
+    await Label.create({ code: data.code, shop: labelShop });
 
     // `price` is the active price. With a second price, keep the first in `price2`.
     product.price = secondPrice ?? firstPrice;

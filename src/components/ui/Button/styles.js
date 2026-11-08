@@ -17,5 +17,5 @@ export const StyledButton = styled.button`
     ${buttonStyles}
   }
   ${buttonStyles}
-  width: ${(fullWidth, width) => (fullWidth ? '100%' : width ? `${width}px` : 'fit-content')};
+  width: ${({ fullWidth, width }) => (fullWidth ? '100%' : width ? `${width}px` : 'fit-content')};
 `;

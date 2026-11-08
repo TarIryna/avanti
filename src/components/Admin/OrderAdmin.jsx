@@ -15,6 +15,7 @@ registerDynamicModal(
 );
     
 export const OrderAdmin = ({order}) => {
+  console.log(order)
     const [ttn, setTtn] = useState(order?.ttn || null);
     const [check, setCheck] = useState(null);
     const {show: showDeliveryModal} = useModal(MODALS.DELIVERY_TTN)
@@ -105,6 +106,7 @@ const cancelOrder = async () => {
                 <S.BlockTitle>Реквізити отримувача:</S.BlockTitle>
                 <S.Text>{`ПІБ: ${order.delivery.surname} ${order.delivery.name}`}</S.Text>
                 <S.Text>{`Телефон: ${order.delivery.phone}`}</S.Text>
+                <S.Text>{`Email: ${order.delivery.email}`}</S.Text>
                 <S.Text>{`Місто: ${order.delivery.cityDescription}`}</S.Text>
                 <S.Text>{`Адреса: ${order.delivery.addressDescription}`}</S.Text>
                 <S.Flex>  

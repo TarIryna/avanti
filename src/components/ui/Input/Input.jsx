@@ -1,3 +1,4 @@
+'use client';
 import lget from "lodash/get";
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";

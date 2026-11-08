@@ -7,11 +7,17 @@ import toast from 'react-hot-toast';
 import ShopCard from './ShopCard/ShopCard';
 import { Button, Input } from '../ui';
 import HeadButtons from './HeadButtons';
+import { MODALS } from '@/constants/constants';
+import { useModal } from '@ebay/nice-modal-react';
+import { registerDynamicModal } from '@/helpers/useDynamicModal';
+
+registerDynamicModal(MODALS.LABELS_MODAL, import('@/components/modals/LabelsModal/LabelsModal'));
 
 const RevaluationPage = () => {
      const params = useParams();
      const shop = params.shop;
      const [product, setProduct] = useState(null)
+     const { show: showLabels } = useModal(MODALS.LABELS_MODAL);
 
     const methods = useForm({
                defaultValues: {
@@ -36,7 +42,7 @@ const RevaluationPage = () => {
       const code = watch("code");
 
       try {
-        const res = await fetch(`/api/product/${code}`);
+        const res = await fetch(`/api/product/${code}`, { cache: "no-store" });
         const product = await res.json();
         if (!product){
           toast.error("Товар не знайдено!")
@@ -96,6 +102,11 @@ const RevaluationPage = () => {
       <section className="container page">
         <S.Title>ПЕРЕОЦІНКА</S.Title>
         <HeadButtons/>
+        <S.ButtonsConatainer>
+          <Button type="button" onClick={() => showLabels({ shop })}>
+            Відкрити цінники
+          </Button>
+        </S.ButtonsConatainer>
           <FormProvider {...methods}>
              <S.Form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
                 <S.ProductConatiner>

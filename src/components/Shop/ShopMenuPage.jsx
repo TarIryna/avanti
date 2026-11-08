@@ -11,13 +11,13 @@ const ShopMenuPage = () => {
     const router = useRouter();
         return (
       <section className="container page">
-        <S.Title>МАГАЗИН ОНЛАЙН</S.Title>
+        <S.Title>ТОВАРИ</S.Title>
          <HeadButtons isMain shop={shop}/>
         <S.MenuList>
           {shopMenuData.map((i) => (
                   <MenuItem key={i.id} item={i}/>
                 ))}
-          <S.MenuButton onClick={() => router.push(`/shop/product`)}>ТОВАРИ</S.MenuButton>
+          <S.MenuButton onClick={() => router.push(`/shop/${shop}/product`)}>ТОВАРИ</S.MenuButton>
           <S.MenuButton onClick={() => router.push(`/shop/catalog`)}>КАТАЛОГИ</S.MenuButton>
         </S.MenuList>
     </section>

@@ -102,7 +102,7 @@ const RevaluePage = () => {
 
  const deleteLabels = async () => {
     try {
-    const res = await fetch('/api/shop/labels', { 
+    const res = await fetch('/api/shop/labels?shop=0', {
         method: 'DELETE',
       });
      const result = await res.json();

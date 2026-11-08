@@ -1,6 +1,8 @@
 import Product from "@/models/product";
 import { connectToDB } from "@/utils/database";
 
+export const dynamic = "force-dynamic";
+
 export const GET = async (request, { params }) => {
   const code = params.id
   try {
@@ -8,7 +10,12 @@ export const GET = async (request, { params }) => {
     const product = await Product.findOne({
       barcodes: { $in: [code] }
     });
-    return new Response(JSON.stringify(product), { status: 200 });
+    return new Response(JSON.stringify(product), {
+      status: 200,
+      headers: {
+        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+      },
+    });
   } catch (error) {
     return new Response("Failed to fetch all products", { status: 500 });
   }

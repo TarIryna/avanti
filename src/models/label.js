@@ -2,7 +2,8 @@ import { Schema, model, models } from "mongoose";
 
 const LabelSchema = new Schema(
   {
-    code: String
+    code: String,
+    shop: { type: Number, default: 0 },
   },
   {
     timestamps: true, // ✅ это нужно ставить здесь, во втором аргументе

@@ -169,7 +169,7 @@ export const POST = async (request) => {
 
           //---4. Для прихода добавляем ценник. Штрихкоды печатаются отдельно.
           if (isArrival) {
-            await Label.create({code: item.code});
+            await Label.create({ code: item.code, shop: Number(shop) || 0 });
             if (addBarcodes) {
               await Barcodes.create({code: item.code, amount: currentQuantity, shop: Number(shop)});
             }

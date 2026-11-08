@@ -41,7 +41,7 @@ const DecreasePage = () => {
     const code = watch("code");
 
   try {
-    const res = await fetch(`/api/product/${code}`);
+    const res = await fetch(`/api/product/${code}`, { cache: "no-store" });
     const product = await res.json();
     if (!product){
       toast.error("Товар не знайдено!")
@@ -84,7 +84,7 @@ const destination = watch('destination')
     return (
       <section className="container page">
         <S.Title>СПИСАННЯ</S.Title>
-        <HeadButtons/>
+        <HeadButtons shop={shop} />
           <FormProvider {...methods}>
              <S.Form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
                 <S.ProductConatiner>

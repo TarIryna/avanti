@@ -1,3 +1,4 @@
+'use client';
 import { useState, useEffect, useRef, useMemo } from 'react';
 import * as S from './styles';
 import Image from "next/image";

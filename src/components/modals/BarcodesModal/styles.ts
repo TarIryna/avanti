@@ -79,9 +79,14 @@ export const Page = styled.div`
   grid-template-columns: repeat(7, 30mm);
   grid-template-rows: repeat(13, 21.8mm);
   justify-content: start;
-  align-content: center;
+  align-content: space-between;
+  padding: 6mm 0;
   break-inside: avoid;
   page-break-inside: avoid;
+
+  @media print {
+    height: 297mm !important;
+  }
 
   @media screen {
     outline: 1px solid #bbb;
@@ -93,7 +98,7 @@ export const Container = styled.div`
   box-sizing: border-box;
   width: 30mm;
   height: 21.8mm;
-  padding: 1mm 2.6mm;
+  padding: 1.5mm 2.6mm 0.5mm;
   border: 0.1mm solid #ddd;
   display: flex;
   flex-direction: column;
@@ -103,11 +108,58 @@ export const Container = styled.div`
   color: #111;
   font-family: Arial, sans-serif;
 
-  @media print { border-color: transparent; }
+  @media print {
+    height: 21.8mm !important;
+    overflow: hidden !important;
+    border-color: transparent;
+    padding: 2mm 3mm 1.5mm;
+  }
+`;
+
+export const InfoRow = styled.div`
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.2fr) minmax(0, 0.9fr);
+  align-items: center;
+  gap: 0;
+  margin-bottom: 0.6mm;
+  line-height: 1;
+`;
+
+export const InfoCell = styled.div`
+  box-sizing: border-box;
+  min-width: 0;
+  height: 3.5mm;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 0.5mm;
+  border: 0.2mm solid #555;
+  font-size: 4.5pt;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: clip;
+  white-space: nowrap;
+
+  @media print {
+    height: 3.5mm !important;
+    overflow: hidden !important;
+  }
+
+  span {
+    display: block;
+    min-width: 0;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: clip;
+    white-space: nowrap;
+  }
 `;
 
 export const Text = styled.div`
-  font-size: 6pt;
+  margin-top: 0.2mm;
+  font-size: 9pt;
+  font-weight: 700;
   line-height: 1;
   text-align: center;
   white-space: nowrap;
@@ -116,26 +168,39 @@ export const Text = styled.div`
   text-overflow: ellipsis;
 `;
 
-export const BarcodeBars = styled.div`
+export const BarcodeFont = styled.div`
   box-sizing: border-box;
-  width: max-content;
-  max-width: 100%;
-  height: 12mm;
-  min-height: 12mm;
-  flex: 0 0 12mm;
+  width: 100%;
+  height: 11.8mm;
+  min-height: 11.8mm;
+  flex: 0 0 11.8mm;
   display: flex;
-  align-items: stretch;
-  background: #fff;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.2mm;
+  overflow: hidden;
+  color: #000;
+  font-family: "Code39", "Code 39", "Free 3 of 9", "3 of 9 Barcode", "IDAutomationHC39M", monospace;
+  font-weight: normal;
+  line-height: 1;
+  letter-spacing: 0;
+  text-align: center;
+  white-space: nowrap;
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
-`;
 
-export const BarcodeModule = styled.span`
-  box-sizing: border-box;
-  flex: 0 0 ${({ $width, $moduleWidth }) => `${$width * $moduleWidth}mm`};
-  width: ${({ $width, $moduleWidth }) => `${$width * $moduleWidth}mm`};
-  height: 100%;
-  background: ${({ $isBar }) => ($isBar ? "#000" : "#fff")};
-  -webkit-print-color-adjust: exact;
-  print-color-adjust: exact;
+  span {
+    display: block;
+    flex: 0 0 auto;
+    width: max-content;
+    transform-origin: center;
+  }
+
+  @media print {
+    height: 10mm !important;
+    min-height: 10mm;
+    flex-basis: 10mm;
+    overflow: hidden !important;
+
+  }
 `;

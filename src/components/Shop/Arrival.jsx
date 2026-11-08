@@ -46,7 +46,7 @@ const ArrivalPage = () => {
   const code = watch("code");
 
   try {
-    const res = await fetch(`/api/product/${code}`);
+    const res = await fetch(`/api/product/${code}`, { cache: "no-store" });
     const product = await res.json();
     if (!product){
       toast.error("Товар не знайдено!")
@@ -143,7 +143,7 @@ const onArrivalSuccess = () => {
             <S.CheckButton type="button" onClick={() => showBarcodes({ shop })}>
               Друк штрихкодів
             </S.CheckButton>
-            <S.CheckButton type="button" onClick={() => showLabels()}>
+            <S.CheckButton type="button" onClick={() => showLabels({ shop, queueShop: shop })}>
               Друк цінників
             </S.CheckButton>
           </S.ButtonsConatainer>

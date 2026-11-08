@@ -192,6 +192,10 @@ export const Flex = styled.div`
     gap: 16px;
     align-items: center;
     justify-content: center;
+
+    button {
+    width: fit-content;
+    }
 `
 
 export const FlexLeft = styled.div`

@@ -26,5 +26,12 @@ export const genders = [
    "ukr": "Дівчата",
    "eng": "girls",
    "google": "female"
+ },
+  {
+   "id": 5,
+   "ru": "Для всех",
+   "ukr": "Для всіх",
+   "eng": "all",
+   "google": "all"
  }
 ]

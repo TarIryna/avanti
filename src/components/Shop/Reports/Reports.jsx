@@ -1,3 +1,4 @@
+'use client'
 import { useEffect, useState } from 'react';
 import * as S from './styles'
 import { Button } from '@/components/ui';
@@ -19,8 +20,6 @@ const Reports = ({shop}) => {
            show({report, shop})
         }
     }, [report])
-
-    console.log(shop)
 
 
     const onDayReport = async() => {

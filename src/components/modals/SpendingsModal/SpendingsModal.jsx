@@ -1,3 +1,4 @@
+'use client';
 import { create, useModal } from "@ebay/nice-modal-react";
 import React, { useEffect, useState } from "react";
 import ReactModal from "../ReactModal";
