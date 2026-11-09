@@ -11,7 +11,7 @@ registerDynamicModal(
   import("../modals/CheckModal/CheckModal")
 );
 
-const Check = ({check, type=OPERATION_TYPE.SALE, setDiscount, reset, resetCheck}) => {
+const Check = ({check, type=OPERATION_TYPE.SALE, setDiscount, onRemove, reset, resetCheck}) => {
     const {show: showCheck} = useModal(MODALS.CHECK)
     const params = useParams();
     const shop = params.shop;
@@ -32,7 +32,7 @@ const Check = ({check, type=OPERATION_TYPE.SALE, setDiscount, reset, resetCheck}
     <S.CheckContainer>
         <S.CheckTitle>Товари у чеку:</S.CheckTitle>
             <S.CheckList>
-                {check.items.map((item, index) => <CheckProductInfo isImage data={item} setDiscount={setDiscount} index={index}/>)}
+                {check.items.map((item, index) => <CheckProductInfo key={`${item.code}-${index}`} isImage data={item} setDiscount={setDiscount} onRemove={onRemove} index={index}/>)}
             </S.CheckList>
         <S.CheckTotal>Загальна сума: {total} грн</S.CheckTotal>
         <S.CheckButton onClick={onClick}>{buttonText}</S.CheckButton>

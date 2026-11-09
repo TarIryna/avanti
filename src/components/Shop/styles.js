@@ -126,6 +126,10 @@ export const CheckText = styled.div`
     ${({bold}) => (bold && 'font-weight: 600;')}
 `
 
+export const Uplined = styled.span`
+    text-decoration: line-through red 1px;
+`
+
 export const CheckImageContainer = styled.div`
     width: 150px;
     height: 150px;

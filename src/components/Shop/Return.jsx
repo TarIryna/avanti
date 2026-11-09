@@ -62,6 +62,13 @@ const onReset = () => {
   methods.reset()
 }
 
+const removeFromCheck = (index) => {
+  setCheck(prev => ({
+    ...prev,
+    items: prev.items.filter((_, itemIndex) => itemIndex !== index),
+  }));
+};
+
 const addToCheck =  (size) => {
   const quantity = size.reduce((sum, item) => {
       return sum + (Number(item.q) || 0);
@@ -170,7 +177,7 @@ if (!number) {
              {check?.client && <Description label="Клієнт" text={`${check?.client.name} ${check?.client.discount}% знижки`}/>}
             </S.InfoContainer>
               {product &&  <SaleCard client={check?.client} product={product} addToCheck={addToCheck} shop={shop} type={OPERATION_TYPE.RETURN}/>}
-            {check?.items.length > 0 && <Check check={check} type={OPERATION_TYPE.RETURN} reset={onReset}/>}
+            {check?.items.length > 0 && <Check check={check} onRemove={removeFromCheck} type={OPERATION_TYPE.RETURN} reset={onReset}/>}
             </S.ProductConatiner>
        
    
