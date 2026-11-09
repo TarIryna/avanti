@@ -1,4 +1,5 @@
 "use client";
+import { useEffect } from "react";
 import { getSizesList } from "@/data/sizes";
 import * as S from './styles'
 import { Controller, useFormContext, FormProvider, useForm  } from "react-hook-form";
@@ -7,15 +8,16 @@ import { toast } from "react-hot-toast";
 import { OPERATION_TYPE } from "@/constants/constants";
 
 const SizesChange = ({ item, setProduct, onSuccess, addToCheck, shop, type, comment, destination, staff, isOrder, addBarcodes }) => {
-  const methods = useForm({ mode: "onSubmit" });
+  const methods = useForm({ mode: "onSubmit", shouldUnregister: true });
   const { handleSubmit, control, reset } = methods;
+  useEffect(() => { reset(); }, [item, shop, type, reset]);
   const buttonText = type === OPERATION_TYPE.ARRIVAL ? "Оформити прихід" : type === OPERATION_TYPE.RETURN ? "Оформити повернення" : type === OPERATION_TYPE.SALE ? "Оформити продаж" : "Оформити списання"
   const isAddFunction = type === OPERATION_TYPE.RETURN || type === OPERATION_TYPE.ARRIVAL 
   const isOne = item.sizesGroup === 20
 
  const onSubmit = async (data) => {
   try {
-    const existingSizes = isOrder ? item.sizes : [...(item.sizes_all?.[shop?.toString()] || [])];
+    const existingSizes = (isOrder ? item.sizes : item.sizes_all?.[shop?.toString()] || []).map(size => ({ ...size }));
 
     // размеры, которые реально участвуют в операции
     const operationSizes = Object.entries(data)
@@ -70,7 +72,7 @@ const SizesChange = ({ item, setProduct, onSuccess, addToCheck, shop, type, comm
     //   // .filter((s) => s.q > 0)
     //   .sort((a, b) => Number(a.size) - Number(b.size));
 
-  if (type === OPERATION_TYPE.RETURN || type === OPERATION_TYPE.SALE && typeof addToCheck === 'function'){
+  if ((type === OPERATION_TYPE.RETURN || type === OPERATION_TYPE.SALE) && typeof addToCheck === 'function'){
       addToCheck(operationSizes)
       return
       }

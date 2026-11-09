@@ -4,11 +4,11 @@ import { connectToDB } from "@/utils/database";
 export const dynamic = "force-dynamic";
 
 export const GET = async (request, { params }) => {
-  const code = params.id
+  const code = params.id.trim()
   try {
     await connectToDB();
     const product = await Product.findOne({
-      barcodes: { $in: [code] }
+      $or: [{ barcodes: code }, { code }]
     });
     return new Response(JSON.stringify(product), {
       status: 200,

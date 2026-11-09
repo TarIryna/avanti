@@ -1,4 +1,5 @@
 "use client";
+import useShopProductSearch from "@/hooks/useShopProductSearch";
 import { useParams } from 'next/navigation';
 import * as S from './styles'
 import { useState } from 'react';
@@ -16,6 +17,7 @@ registerDynamicModal(MODALS.LABELS_MODAL, import('@/components/modals/LabelsModa
 const RevaluationPage = () => {
      const params = useParams();
      const shop = params.shop;
+     const searchProduct = useShopProductSearch();
      const [product, setProduct] = useState(null)
      const { show: showLabels } = useModal(MODALS.LABELS_MODAL);
 
@@ -37,24 +39,11 @@ const RevaluationPage = () => {
            } = methods;
 
   const onChangeCode = async (e) => {
-      if (e.key !== "Enter") return;
-      e.preventDefault();
-      const code = watch("code");
-
-      try {
-        const res = await fetch(`/api/product/${code}`, { cache: "no-store" });
-        const product = await res.json();
-        if (!product){
-          toast.error("Товар не знайдено!")
-          return;
-        }
-        setProduct(product);
-        setValue('first_price', product.price2 ?? product.price ?? null)
-        setValue('second_price', product.price2 != null ? product.price : null)
-      } catch (e) {
-        console.error(e);
-      }
-    };
+    if (e.key !== "Enter") return;
+    e.preventDefault();
+    await searchProduct({ value: watch("code"),
+      onClear: () => { setProduct(null); setValue('first_price', null); setValue('second_price', null); }, onResult: (item) => { setProduct(item); setValue('first_price', item.price2 ?? item.price ?? null); setValue('second_price', item.price2 != null ? item.price : null); } });
+  };
 
       const onSubmit = async(data) => {
         const {code} = data
@@ -62,7 +51,7 @@ const RevaluationPage = () => {
         const secondPrice = data.second_price === '' || data.second_price == null
           ? null
           : Number(data.second_price);
-        if (!firstPrice || firstPrice <= 0 || !code || (secondPrice !== null && (!Number.isFinite(secondPrice) || secondPrice <= 0))) {
+        if (!product || !firstPrice || firstPrice <= 0 || !code || (secondPrice !== null && (!Number.isFinite(secondPrice) || secondPrice <= 0))) {
           toast.error("Заповніть всі поля!")
           return;
         }

@@ -1,4 +1,5 @@
 "use client";
+import useShopProductSearch from "@/hooks/useShopProductSearch";
 import * as S from './styles'
 import { Input } from '../ui';
 import { useEffect, useState } from 'react';
@@ -17,6 +18,7 @@ import HeadButtons from './HeadButtons';
 const SalePage = () => {
   const params = useParams();
   const shop = params.shop;
+  const searchProduct = useShopProductSearch();
   const [check, setCheck] = useState({client: null, items: []})
   const [product, setProduct] = useState(null)
 
@@ -97,22 +99,11 @@ const addToCheck = (size) => {
 
 
 const onChangeCode = async (e) => {
-  if (e.key !== "Enter") return;
-  e.preventDefault();
-  const code = watch("code");
-
-  try {
-    const res = await fetch(`/api/product/${code}`, { cache: "no-store" });
-    const product = await res.json();
-    if (!product){
-      toast.error("Товар не знайдено!")
-      return;
-    }
-    setProduct(product);
-  } catch (e) {
-    console.error(e);
-  }
-};
+    if (e.key !== "Enter") return;
+    e.preventDefault();
+    await searchProduct({ value: watch("code"),
+      onClear: () => { setProduct(null); }, onResult: setProduct });
+  };
 
 const onChangeClient = async (e) => {
   if (e.key !== "Enter") return;

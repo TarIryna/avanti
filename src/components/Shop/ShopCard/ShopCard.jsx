@@ -11,6 +11,8 @@ const ShopCard = ({ item, setProduct, onSuccess, isList, info, shop, type, comme
     return
   }
 
+  console.log(item)
+
   const sizes = item.sizes_all
   const name = item.name?.slice(0, 1).toUpperCase() + item.name?.slice(1);
   const image = item.images?.[0]

@@ -109,6 +109,7 @@ const AuditPage = () => {
       if (res.ok) {
         toast.success(`Полицю ${place} успішно збережено в базі!`);
         // Очищаем стейт и локальное хранилище для СЛЕДУЮЩЕЙ полки
+        setBarcode("");
         setScannedItems({});
         setPlace("");
         localStorage.removeItem("current_audit_items");

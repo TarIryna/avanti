@@ -1,4 +1,5 @@
 "use client";
+import useShopProductSearch from "@/hooks/useShopProductSearch";
 import { useState } from 'react';
 import * as S from './styles'
 import { FormProvider, useForm } from 'react-hook-form';
@@ -12,6 +13,7 @@ import { OPERATION_TYPE } from '@/constants/constants';
 
 
 const InsideSalePage = () => {
+   const searchProduct = useShopProductSearch();
    const [product, setProduct] = useState(null)
    const [list, setList] = useState([])
    const [staff, setStaff] = useState(null)
@@ -37,45 +39,28 @@ const InsideSalePage = () => {
   const onChangeCode = async (e) => {
     if (e.key !== "Enter") return;
     e.preventDefault();
-    const code = watch("code");
-
-  try {
-    const res = await fetch(`/api/product/${code}`, { cache: "no-store" });
-    const product = await res.json();
-    if (!product){
-      toast.error("Товар не знайдено!")
-      return;
-    }
-    setProduct(product);
-  } catch (e) {
-    console.error(e);
-  }
-};
+    await searchProduct({ value: watch("code"),
+      onClear: () => { setProduct(null); setList([]); }, onResult: setProduct });
+  };
 
 const onChangeModel = async (e) => {
   if (e.key !== "Enter") return;
   e.preventDefault();
-  setProduct(null)
-  const model = watch("model");
-
-  try {
-    const params = { gender: "all", limit: 50, page: 1, query: model };
-    const queryString = new URLSearchParams(params).toString();
-    const res = await fetch(`/api/products/filter?${queryString}`);
-    const result = await res.json();
-    if (!result){
-      toast.error("Товар не знайдено!")
-      return;
-    }
-    setList(result.products);
-  } catch (e) {
-    console.error(e);
-  }
+  await searchProduct({ value: watch("model"), model: true,
+    onClear: () => { setProduct(null); setList([]); }, onResult: setList });
 };
 
 const onChangeStaff = (e) => {
   setStaff(e.target?.value)
 }
+
+const onOperationSuccess = () => {
+  setProduct(null);
+  setList([]);
+  methods.setValue("code", "");
+  methods.setValue("model", "");
+  methods.setFocus("code");
+};
 
 const onSetProductFromList = (product) => {
   setProduct(product)
@@ -114,7 +99,7 @@ const onSetProductFromList = (product) => {
                           isBorder
                         {...register("model")}
                         />
-                          {!!product && <ShopCard item={product} setProduct={onSetProductFromList} isSelected type={OPERATION_TYPE.INSIDE} shop={shop} staff={staff}/>}
+                          {!!product && <ShopCard item={product} onSuccess={onOperationSuccess} setProduct={onSetProductFromList} isSelected type={OPERATION_TYPE.INSIDE} shop={shop} staff={staff}/>}
                           {!!list?.length && 
                           <S.List>
                             {list.map(item => <ShopCard item={item} id={item.code} setProduct={onSetProductFromList} isList/>)}

@@ -103,6 +103,7 @@ if (query) {
       { model: { $regex: safeWord, $options: "i" } },
       {vendor: getVendorId(safeWord)},
       { code: { $regex: safeWord, $options: "i" } },
+      { barcodes: { $regex: safeWord, $options: "i" } },
     ];
 
     // если число → ищем по коду

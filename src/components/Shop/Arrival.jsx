@@ -1,4 +1,5 @@
 "use client";
+import useShopProductSearch from "@/hooks/useShopProductSearch";
 import { useState } from 'react';
 import * as S from './styles'
 import { FormProvider, useForm } from 'react-hook-form';
@@ -16,6 +17,7 @@ registerDynamicModal(MODALS.BARCODES_MODAL, import('@/components/modals/Barcodes
 const ArrivalPage = () => {
    const params = useParams();
    const shop = params.shop;
+   const searchProduct = useShopProductSearch();
    const [product, setProduct] = useState(null)
    const [list, setList] = useState([])
    const [addBarcodes, setAddBarcodes] = useState(false)
@@ -41,42 +43,17 @@ const ArrivalPage = () => {
         }
 
   const onChangeCode = async (e) => {
-  if (e.key !== "Enter") return;
-  e.preventDefault();
-  const code = watch("code");
-
-  try {
-    const res = await fetch(`/api/product/${code}`, { cache: "no-store" });
-    const product = await res.json();
-    if (!product){
-      toast.error("Товар не знайдено!")
-      return;
-    }
-    setProduct(product);
-  } catch (e) {
-    console.error(e);
-  }
-};
+    if (e.key !== "Enter") return;
+    e.preventDefault();
+    await searchProduct({ value: watch("code"),
+      onClear: () => { setProduct(null); setList([]); }, onResult: setProduct });
+  };
 
 const onChangeModel = async (e) => {
   if (e.key !== "Enter") return;
   e.preventDefault();
-  setProduct(null)
-  const model = watch("model");
-
-  try {
-    const params = { gender: "all", limit: 50, page: 1, query: model };
-    const queryString = new URLSearchParams(params).toString();
-    const res = await fetch(`/api/products/filter?${queryString}`);
-    const result = await res.json();
-    if (!result){
-      toast.error("Товар не знайдено!")
-      return;
-    }
-    setList(result.products);
-  } catch (e) {
-    console.error(e);
-  }
+  await searchProduct({ value: watch("model"), model: true,
+    onClear: () => { setProduct(null); setList([]); }, onResult: setList });
 };
 
 const onSetProductFromList = (data) => {

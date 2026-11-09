@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useModal } from "@ebay/nice-modal-react";
 import { useParams } from "next/navigation";
 import toast from "react-hot-toast";
@@ -28,26 +28,34 @@ const ProductPage = () => {
   const { show: showLabels } = useModal(MODALS.LABELS_MODAL);
   const { show: showBarcodes } = useModal(MODALS.BARCODES_MODAL);
 
+  const searchController = useRef(null);
+  useEffect(() => () => searchController.current?.abort(), []);
+
   const search = async (event) => {
     event?.preventDefault();
+    searchController.current?.abort();
+    const controller = new AbortController();
+    searchController.current = controller;
     const value = query.trim();
-    if (!value) return;
-    setLoading(true);
     setProduct(null);
     setResults([]);
+    setBarcodeAmount(1);
+    if (!value) { setLoading(false); return; }
+    setLoading(true);
     try {
-      const response = await fetch(`/api/shop/products/search?${new URLSearchParams({ query: value })}`);
+      const response = await fetch(`/api/shop/products/search?${new URLSearchParams({ query: value })}`, { cache: "no-store", signal: controller.signal });
       const data = await response.json();
       if (!response.ok) throw new Error(data?.error || "Search failed");
+      if (controller.signal.aborted) return;
       const items = Array.isArray(data?.products) ? data.products : [];
       if (!items.length) throw new Error("Товары не найдены");
       if (items.length === 1) setProduct(items[0]);
       else setResults(items);
 
     } catch (error) {
-      toast.error(error.message || "Ошибка поиска товара");
+      if (!controller.signal.aborted) toast.error(error.message || "Ошибка поиска товара");
     } finally {
-      setLoading(false);
+      if (!controller.signal.aborted) setLoading(false);
     }
   };
 
@@ -65,6 +73,7 @@ const ProductPage = () => {
       const data = await response.json();
       if (!response.ok) throw new Error(data?.error || "Не удалось добавить в очередь печати");
       toast.success(kind === "label" ? "Ценник добавлен в очередь" : "Штрихкоды добавлены в очередь");
+      setQuery("");
       if (kind === "label") showLabels({ shop, queueShop: shop });
       else showBarcodes({ shop });
     } catch (error) {

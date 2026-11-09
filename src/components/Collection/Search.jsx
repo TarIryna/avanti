@@ -10,14 +10,15 @@ const Search = () => {
   const router = useRouter();
 
   const handleSearchChange = () => {
-    router.push(`/all/?query=${searchData}&limit=24&page=1`);
+    const params = new URLSearchParams({ query: searchData.trim(), limit: "24", page: "1" });
+    router.push(`/all/?${params}`);
   };
 
   return (
     <SearchWrapper>
       <SearchInput
         type="text"
-        placeholder="Пошук по назві або коду"
+        placeholder="Пошук по назві, коду або штрихкоду"
         value={searchData}
         onChange={(e) => setSearchData(e?.target?.value)}
         onKeyDown={(e) => {

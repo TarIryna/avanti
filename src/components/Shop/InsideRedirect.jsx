@@ -1,4 +1,5 @@
 "use client";
+import useShopProductSearch from "@/hooks/useShopProductSearch";
 import { useEffect, useState } from 'react';
 import * as S from './styles'
 import { useParams } from 'next/navigation';
@@ -10,6 +11,7 @@ import HeadButtons from './HeadButtons';
 import { OPERATION_TYPE } from '@/constants/constants';
 
 const InsideRedirectPage = () => {
+    const searchProduct = useShopProductSearch();
     const [productFrom, setProductFrom] = useState(null)
     const [productTo, setProductTo] = useState(null)
     const params = useParams();
@@ -33,32 +35,10 @@ const InsideRedirectPage = () => {
   const onChangeCode = async (name, e) => {
     if (e.key !== "Enter") return;
     e.preventDefault();
-    const code = watch(name);
-    if (code === ""){
-       if (name === 'codeFrom') {
-      setProductFrom(null) 
-      } else {
-        setProductTo(null);
-      } 
-      return
-    }
-
-  try {
-    const res = await fetch(`/api/product/${code}`, { cache: "no-store" });
-    const product = await res.json();
-    if (!product){
-      toast.error("Товар не знайдено!")
-      return;
-    }
-    if (name === 'codeFrom') {
-      setProductFrom(product) 
-    } else {
-      setProductTo(product);
-    } 
-  } catch (e) {
-    console.error(e);
-  }
-};
+    const select = name === "codeFrom" ? setProductFrom : setProductTo;
+    await searchProduct({ value: watch(name), channel: name,
+      onClear: () => select(null), onResult: select });
+  };
 
 const onSubmit = async() => {
   if (!productFrom || !productTo){
