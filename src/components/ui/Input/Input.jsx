@@ -9,6 +9,7 @@ const Input = ({
   autocomplete = "off",
   name,
   placeholder,
+  prefix,
   label,
   rules,
   step = 1,
@@ -90,10 +91,12 @@ const Input = ({
         isBorder={isBorder}
       >
         <S.Label>{label}</S.Label>
+        {prefix && <S.Prefix aria-hidden="true">{prefix}</S.Prefix>}
         {icon}
         {form ? (
           <>
             <S.Input
+              hasPrefix={!!prefix}
               name={name} 
               disabled={disabled}
               doubleIcon={doubleIcon}
@@ -123,6 +126,7 @@ const Input = ({
         ) : (
           <>
             <S.Input
+              hasPrefix={!!prefix}
               name={name} 
               autocomplete={autocomplete}
               step={step}

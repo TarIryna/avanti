@@ -1,7 +1,17 @@
 import { Input } from "@/components/ui";
-import InputMask from "react-input-mask";
 import { useUserSession } from "@/fetchActions/user/useUser";
 import { Controller, useFormContext } from "react-hook-form";
+
+const formatPhone = (value) => {
+  const digits = String(value ?? "")
+    .replace(/\D/g, "")
+    .replace(/^(?:038|38)/, "")
+    .slice(0, 10);
+
+  return [digits.slice(0, 3), digits.slice(3, 6), digits.slice(6, 8), digits.slice(8, 10)]
+    .filter(Boolean)
+    .join("-");
+};
 
 const CartForm = ({ register }) => {
   const { data: user } = useUserSession()
@@ -49,43 +59,27 @@ const CartForm = ({ register }) => {
         name="phone"
         control={control}
         rules={{ required: true }}
-        defaultValue={user?.phone ?? ""}
+        defaultValue={formatPhone(user?.phone)}
         render={({ field }) => (
-          <InputMask
-            {...field}
-            mask="099-999-99-99"
-            maskChar={null}
-          >
-            {(inputProps) => (
               <Input
-                {...inputProps}
+                name={field.name}
+                value={field.value}
+                onValueChange={(event) => {
+                  const phone = formatPhone(event.target.value);
+                  event.target.value = phone;
+                  field.onChange(phone);
+                }}
+                onBlurHandler={field.onBlur}
                 type="tel"
+                prefix="+38"
                 placeholder="050-555-55-55"
                 tabIndex={4}
                 enterKeyHint="next"
                 label="Телефон"
                 isBorder
               />
-            )}
-          </InputMask>
         )}
       />
-
-      {/* <Input
-        type="tel"
-        placeholder="Телефон"
-        {...register("phone", { required: true })}
-        tabIndex={4}
-        enterKeyHint="next"
-        defaultValue={user?.phone ?? ''}
-        label="Телефон"
-        isBorder
-        rules={{
-          required: true,
-          validate: (value) => value?.replace(/\D/g, "").length === 10
-        }}
-
-      /> */}
     </>
   );
 };

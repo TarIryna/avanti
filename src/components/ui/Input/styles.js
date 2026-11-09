@@ -21,6 +21,19 @@ export const InputWrapper = styled.div`
 
 export const Recommended = styled.h4``;
 
+export const Prefix = styled.span`
+  position: absolute;
+  left: 16px;
+  top: 52%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 120%;
+  color: black;
+  pointer-events: none;
+  user-select: none;
+`;
+
 export const LabelInfo = styled.h4`
   display: flex;
   align-items: center;
@@ -127,6 +140,7 @@ export const Input = styled.input`
       : props.doubleIcon
       ? `0px 48px`
       : "0px 16px"};
+  ${({ hasPrefix }) => hasPrefix && "padding-left: 52px;"}
 `;
 
 export const ButtonShow = styled.button`
