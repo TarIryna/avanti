@@ -135,10 +135,6 @@ const RedirectReportPage = () => {
                                     </S.StockRow>)}
                                     </S.StockOverview>
                                 </S.Product></td>
-                                <td data-label="Розмір">{row.recommendations.map(item => <S.RecommendationLine key={item.size}>{item.size}</S.RecommendationLine>)}</td>
-                                <td data-label="А1">{row.recommendations.map(item => <S.RecommendationLine key={item.size}>{item.shop1}</S.RecommendationLine>)}</td>
-                                <td data-label="А2">{row.recommendations.map(item => <S.RecommendationLine key={item.size}>{item.shop2}</S.RecommendationLine>)}</td>
-                                <td data-label="Склад А3">{row.recommendations.map(item => <S.RecommendationLine key={item.size}>{item.shop3}</S.RecommendationLine>)}</td>
                             </tr>)}</tbody>
                         </S.Table>
                     </S.TableWrapper>

@@ -17,7 +17,6 @@
     "@react-email/render": "^2.0.0",
     "@react-oauth/google": "^0.12.1",
     "@reduxjs/toolkit": "^2.2.1",
-    "@tailwindcss/postcss": "^4.1.12",
     "@tanstack/react-query": "^5.90.5",
     "autoprefixer": "10.4.14",
     "axios": "^1.6.7",
@@ -44,8 +43,7 @@
     "react-responsive": "^10.0.0",
     "resend": "^6.4.2",
     "sortablejs": "^1.15.7",
-    "spinner": "^0.3.4",
-    "tailwindcss": "3.3.2"
+    "spinner": "^0.3.4"
   },
   "devDependencies": {
     "styled-components": "^5.3.11",

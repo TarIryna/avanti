@@ -1,7 +1,6 @@
 'use client';
-import lget from "lodash/get";
 import { useState } from "react";
-import { useFormContext } from "react-hook-form";
+import { get as lget, useFormContext } from "react-hook-form";
 import { IconEye, IconEyeOff } from "@/components/icons";
 import * as S from "./styles";
 

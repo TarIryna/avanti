@@ -113,7 +113,6 @@ export const ProductInfo = styled.div`
 export const StockOverview = styled.div`
   margin-left: auto;
   padding-left: 12px;
-  border-left: 1px solid #ddd;
   display: grid;
   gap: 4px;
   @media (max-width: 640px) {
@@ -122,7 +121,6 @@ export const StockOverview = styled.div`
     margin-left: 0;
     padding: 8px 0 0;
     border-left: 0;
-    border-top: 1px solid #eee;
     overflow-x: auto;
   }
 `;
