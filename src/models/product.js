@@ -74,6 +74,7 @@ const ProductSchema = new Schema(
       type: [String],
     }, 
    sizes_all: {
+    // { [shop]: [{ size, q, isDefect? }] }; isDefect counts defective pairs within q.
     type: Object,
     default: {},
   },

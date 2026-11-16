@@ -1,46 +1,44 @@
-import * as S from "./styles";
-import { Input } from "@/components/ui";
+﻿import * as S from "./styles";
 
-const Size = ({ size, shop, sizes, setSizes }) => {
- const changeQuantity = (e) => {
-    const targetSize = e.target.name;
-    const targetValue = e.target.value;
-
-    if (!sizes) return;
-    const targetSizes = sizes[shop?.toString()]
-    let updatedSizes = sizes
-
-    // 2. Напрямую маппим проп `sizes` и обновляем родительский стейт
-    const updatedTargetSizes = targetSizes.map((el) => {
-      if (el && String(el.size) === String(targetSize)) {
-        return {
-          ...el,
-          q: targetValue === "" ? "" : Number(targetValue),
-        };
-      }
-      return el;
-    });
-
-    updatedSizes[shop?.toString()] = updatedTargetSizes
-
-    // 3. Вызываем родительский сеттер напрямую
-    setSizes(updatedSizes);
+const Size = ({ size, shop, setSizes, disabled }) => {
+  const defects = size.isDefect || 0;
+  const updateSize = (update) => {
+    setSizes(previous => ({
+      ...previous,
+      [shop]: previous[shop].map(item => item.size === size.size ? update(item) : item),
+    }));
   };
-  
+
   return (
-        <S.Block>
-              <S.SizesBlock>
-                {size?.size}
-              </S.SizesBlock>
-              <S.SizesBlock>
-                <Input
-                  type="number"
-                  defaultValue={size.q}
-                  name={size.size}
-                  onValueChange={(e) => changeQuantity(e)}
-                />
-              </S.SizesBlock>
+    <S.Block>
+      <S.SizesBlock>{size.size}</S.SizesBlock>
+      <S.SizesBlock>
+        <input
+          type="number"
+          min={defects}
+          step="1"
+          value={size.q}
+          disabled={disabled}
+          aria-label={`Залишок розміру ${size.size}, магазин А${shop}`}
+          onChange={event => {
+            const value = event.target.value;
+            updateSize(item => ({ ...item, q: value === "" ? "" : Number(value) }));
+          }}
+        />
+      </S.SizesBlock>
+      <S.DefectCount>Брак: {defects}</S.DefectCount>
+      <S.DefectButton
+        type="button"
+        disabled={disabled || defects >= Number(size.q)}
+        onClick={() => updateSize(item => ({ ...item, isDefect: (item.isDefect || 0) + 1 }))}
+      >Позначити брак</S.DefectButton>
+      <S.DefectButton
+        type="button"
+        disabled={disabled || !defects}
+        onClick={() => updateSize(item => ({ ...item, isDefect: Math.max(0, (item.isDefect || 0) - 1) }))}
+      >Зняти брак</S.DefectButton>
     </S.Block>
   );
 };
+
 export default Size;

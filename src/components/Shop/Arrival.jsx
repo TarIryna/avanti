@@ -27,6 +27,7 @@ const ArrivalPage = () => {
      const methods = useForm({
           defaultValues: {
             code: "",
+            comment: "",
           },
         });
 
@@ -66,6 +67,7 @@ const onArrivalSuccess = () => {
   setList([]);
   setValue("code", "");
   setValue("model", "");
+  setValue("comment", "");
   setFocus("code");
 }
 
@@ -107,7 +109,17 @@ const onArrivalSuccess = () => {
                           isBorder
                         {...register("model", { required: true })}
                         />
-                          {!!product && <ShopCard item={product} setProduct={onSetProductFromList} onSuccess={onArrivalSuccess} isSelected shop={shop} type={OPERATION_TYPE.ARRIVAL} addBarcodes={addBarcodes}/>}
+                        <Input
+                          name="comment"
+                          type="text"
+                          label="Коментар"
+                          placeholder="комментар"
+                          isBorder
+                          onKeyDown={(event) => {
+                            if (event.key === "Enter") event.preventDefault();
+                          }}
+                        />
+                          {!!product && <ShopCard item={product} setProduct={onSetProductFromList} onSuccess={onArrivalSuccess} isSelected shop={shop} type={OPERATION_TYPE.ARRIVAL} addBarcodes={addBarcodes} comment={watch("comment")}/>}
                           {!!list?.length && 
                           <S.List>
                             {list.map(item => <ShopCard item={item} id={item.code} setProduct={onSetProductFromList} isList shop={shop} type={OPERATION_TYPE.ARRIVAL} addBarcodes={addBarcodes}/>)}

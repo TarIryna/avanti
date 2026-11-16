@@ -2,12 +2,15 @@ import { media } from "@/styles/mediaBrakepoints";
 import styled from "@emotion/styled";
 
 export const SizesWrapper = styled.div`
+  min-width: 0;
   display: flex;
   flex-direction: column;
   position: relative;
 `;
 
 export const SizesContainer = styled.div`
+  overflow-x: auto;
+  > div { justify-content: flex-start; }
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -118,5 +121,21 @@ export const Block = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2px;
-  width: 50px;
+  width: 90px;
+  flex-shrink: 0;
+  input { width: 65px; }
 `
+
+export const DefectCount = styled.span`
+  font-size: 12px;
+  text-align: center;
+`;
+
+export const DefectButton = styled.button`
+  padding: 4px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  font-size: 11px;
+  cursor: pointer;
+  &:disabled { opacity: 0.4; cursor: default; }
+`;

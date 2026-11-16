@@ -154,20 +154,14 @@ const setDiscountToProduct = (discount, index) => {
   setCheck(prev => ({
     ...prev,
     items: prev.items.map((item, idx) => {
-      // Если это не тот товар, который мы выбрали — возвращаем его без изменений
       if (idx !== index) return item;
 
-      // Рассчитываем базовую цену (с учетом скидки клиента, если нет фиксированной price2)
-      const basePrice = item.price2 
-        ? Number(item.price) 
-        : Number(item.price) * (100 - (client?.discount || 0)) / 100;
-
-      // Уменьшаем базовую цену на сумму дополнительной скидки товара и округляем в большую сторону
-      const finalSalePrice = Math.ceil(basePrice - Number(discount || 0));
+      const basePrice = Number(salePrice(item, prev.client));
+      const finalSalePrice = Math.round((basePrice - Number(discount)) * 100) / 100;
 
       return {
         ...item,
-        salePrice: Math.max(0, finalSalePrice) // Защита: цена не может быть меньше 0
+        salePrice: Math.max(0, finalSalePrice)
       };
     })
   }));

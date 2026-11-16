@@ -1,16 +1,21 @@
 //api>product>update>route.js
 import Product from "@/models/product";
 import { connectToDB } from "@/utils/database";
+import { applyDefectStockChange, validateDefectStock } from "@/utils/defectStock";
 
 export const PUT = async (request) => {
   // Получаем данные с фронтенда
   const { images, code, video, sizesGroup, sizes_all } = await request.json(); 
 
   try {
+    if (sizes_all !== undefined) {
+      const error = validateDefectStock(sizes_all);
+      if (error) return Response.json({ error }, { status: 400 });
+    }
     await connectToDB();
 
     // 1. Находим товар по штрихкоду
-    const product = await Product.findOne({ barcodes: { $in: [code] } });
+    const product = await Product.findOne({ $or: [{ code }, { barcodes: { $in: [code] } }] });
 
     // 2. ИСПРАВЛЕНО: Проверяем существование товара СРАЗУ, до манипуляций с ним
     if (!product) {
@@ -58,6 +63,8 @@ export const PUT = async (request) => {
     }
 
     if (sizes_all !== undefined) {
+      product.sizes = applyDefectStockChange(product.sizes || [], product.sizes_all, sizes_all);
+      product.markModified("sizes");
       product.sizes_all = sizes_all;
       product.markModified("sizes_all");
     }

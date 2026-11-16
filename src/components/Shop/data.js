@@ -7,6 +7,7 @@ export const shopMenuData = [
     { id: 6, name: "Внутрішня продажа", value: "inside"},
     { id: 7, name: "Переоцінка", value: "revaluation"},
     { id: 8, name: "Перекидка між кодами", value: "inside-redirect"},
+    { id: 8, name: "Перекидка між магазинами", value: "redirect-report"},
 ]
 
 export const shopsData = [

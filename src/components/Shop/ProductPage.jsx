@@ -151,7 +151,7 @@ const ProductPage = () => {
               const amount = sizes.reduce((sum, item) => sum + (Number(item.q) || 0), 0);
               return (
                 <S.StoreCard key={shop.id}>
-                  <S.StoreHeading><strong>Магазин {shop.id}</strong><span>{amount} пар</span></S.StoreHeading>
+                  <S.StoreHeading><strong>А{shop.id}</strong><span>{amount} пар</span></S.StoreHeading>
                   {sizes.length ? <Sizes sizes={sizes} item={product} info isShop shop={String(shop.id)} /> : <S.NoStock>Нема залишків</S.NoStock>}
                 </S.StoreCard>
               );

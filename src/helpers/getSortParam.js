@@ -14,8 +14,10 @@ export const getSortParam = (sort) => {
 };
 
 
-export const getSeasonPriorityByDate = () => {
-  const month = new Date().getMonth() + 1;
+export const getSeasonPriorityByDate = (date = new Date()) => {
+  const month = Number(new Intl.DateTimeFormat('en-US', {
+    timeZone: 'Europe/Kyiv', month: 'numeric',
+  }).format(date));
 
   if ([11, 12, 1].includes(month)) {
     return [1, 3, 14];

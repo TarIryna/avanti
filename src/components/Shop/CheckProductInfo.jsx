@@ -10,12 +10,16 @@ const CheckProductInfo = ({data, isImage, isSmall, setDiscount, onRemove, index}
         setProductDiscount(0)
     }, [data])
     const onChangeDiscount = () => {
-        if (productDiscount){
-            setDiscount(productDiscount, index)
-        }
-        else {
+        if (String(productDiscount).trim() === '') {
             toast.error("Необхідно внести суму знижки")
+            return
         }
+        const discount = Number(productDiscount)
+        if (!Number.isFinite(discount) || discount < 0) {
+            toast.error("Введіть коректну суму знижки")
+            return
+        }
+        setDiscount(discount, index)
     }
 
     return data.size.map((item, sizeIndex) => (
@@ -28,7 +32,7 @@ const CheckProductInfo = ({data, isImage, isSmall, setDiscount, onRemove, index}
             {data.price2 &&<S.CheckText>Перша ціна: <S.Uplined>{data.price2} грн</S.Uplined></S.CheckText> }
             <S.CheckText bold>Ціна: {data.salePrice} грн</S.CheckText>
             {!!setDiscount && <S.InputWrapper>
-                <S.Input type="number" value={productDiscount} onChange={(e) => setProductDiscount(e.target.value)}/>
+                <S.Input type="number" min="0" step="0.01" value={productDiscount} onChange={(e) => setProductDiscount(e.target.value)}/>
                 <S.Placeholder>Знижка</S.Placeholder>
                 <Button type="button" onClick={onChangeDiscount}>Внести знижку</Button>
             </S.InputWrapper>}

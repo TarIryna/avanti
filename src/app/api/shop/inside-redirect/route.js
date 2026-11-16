@@ -84,8 +84,9 @@ export const POST = async (request) => {
         const sizeObj = sizesArray.find(s => s.size === itemSize.size);
         if (sizeObj) {
           sizeObj.q += itemSize.q;
+          if (itemSize.isDefect) sizeObj.isDefect = (sizeObj.isDefect || 0) + itemSize.isDefect;
         } else {
-          sizesArray.push({ size: itemSize.size, q: itemSize.q });
+          sizesArray.push({ size: itemSize.size, q: itemSize.q, ...(itemSize.isDefect ? { isDefect: itemSize.isDefect } : {}) });
         }
       }
 
