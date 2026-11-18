@@ -82,7 +82,7 @@ export const menuData = {
         view: "sneakers",
       },
       "Туфлі на підборах": { gender: "women", season: "autumn", view: "heels" },
-      "Туфлі закриті на шнурках": {
+      "Туфлі на низькому": {
         gender: "women",
         season: "autumn",
         view: "shoes",
