@@ -36,11 +36,6 @@ export const tabsData = [
 export const menuData = {
   Жінки: {
     "Зимове взуття": {
-      "Кросівки зимові": {
-        gender: "women",
-        season: "winter",
-        view: "winter-sneakers",
-      },
       "Черевики на підборах": {
         gender: "women",
         season: "winter",
@@ -51,7 +46,7 @@ export const menuData = {
         season: "winter",
         view: "boots",
       },
-      "Черевики casual": { gender: "women", season: "winter", view: "boots-casual" },
+      "Черевики casual, кросівки": { gender: "women", season: "winter", view: "boots-casual" },
       Чоботи: { gender: "women", season: "winter", view: "high" },
       Ботфорти: { gender: "women", season: "winter", view: "botforts"},
     },
