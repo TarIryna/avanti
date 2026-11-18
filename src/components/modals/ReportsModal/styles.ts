@@ -3,6 +3,29 @@ import styled from "@emotion/styled";
 
 export const Container = styled.div``
 
+export const SummarySection = styled.section`
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  h3 { margin-bottom: 8px; font-weight: 600; }
+`;
+
+export const SummaryList = styled.ul`
+  display: grid;
+  gap: 8px;
+  li { display: flex; justify-content: space-between; align-items: start; gap: 12px; }
+  li > :last-child { flex-shrink: 0; }
+`;
+
+export const ExpenseDetail = styled.div`
+  margin-top: 3px;
+  font-size: 12px;
+  color: #555;
+  overflow-wrap: anywhere;
+`;
+
 export const Text = styled.div`
   font-size: 10px;
 `

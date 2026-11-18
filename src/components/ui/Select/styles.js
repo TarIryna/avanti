@@ -1,3 +1,4 @@
+import { InputControl } from '@/components/ui/Input/Input';
 import { styles } from "@/data";
 import { media } from "@/styles/mediaBrakepoints";
 import { css } from "@emotion/react";
@@ -16,7 +17,7 @@ export const SelectContainer = styled.div`
   border-color: initial; /* если нужно убрать изменение цвета рамки */
 }
 `
-export const Input = styled.input`
+export const Input = styled(InputControl)`
   width: 100%;
   display: block;
   height: calc(100% - 2px);
@@ -95,7 +96,7 @@ export const SelectButton = styled.button`
 
   ${media.mobile}{
     padding: 7px;
-      > div { 
+      > div {
     font-size: 12px;
     line-height: 0.8;
     height: 100%;

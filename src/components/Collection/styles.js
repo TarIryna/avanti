@@ -1,7 +1,9 @@
+import { SelectControl } from '@/components/ui/Select/Select';
+import { InputControl } from '@/components/ui/Input/Input';
 import { media } from "@/styles/mediaBrakepoints";
 import styled from "@emotion/styled";
 
-export const SearchInput = styled.input`
+export const SearchInput = styled(InputControl)`
   display: block;
   border-radius: 10px;
   border-width: 1px;
@@ -70,7 +72,7 @@ export const FilterGrid = styled.div`
     grid-template-columns: repeat(2, 50%);
     column-gap: 4px;
   }
-   
+
 `;
 
 export const SearchButton = styled.button`
@@ -91,7 +93,7 @@ export const SearchWrapper = styled.div`
   margin-left: auto;
   `
 
-  export const Select = styled.select`
+  export const Select = styled(SelectControl)`
   font-weight: 400;
   ${(isCurrent) => (isCurrent && 'font-weight: 700;')}
   `

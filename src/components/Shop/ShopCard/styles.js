@@ -83,6 +83,7 @@ export const PriceContainer = styled.div`
  align-items: center;
  justify-content: center;
  position: relative;
+ gap: 6px;
 `
 
 export const Text = styled.div`

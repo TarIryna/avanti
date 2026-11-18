@@ -2,9 +2,10 @@
 import useShopProductSearch from "@/hooks/useShopProductSearch";
 import * as S from './styles'
 import { Input } from '../ui';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { FormProvider, useForm } from "react-hook-form";
 import { salePrice } from '@/utils/salePrice';
+import { changeSaleClient, priceSaleItem } from '@/utils/saleCheck';
 
 import Check from './Check';
 import { toast } from "react-hot-toast";
@@ -29,15 +30,6 @@ const SalePage = () => {
 });
 
 
-
-useEffect(() => {
-   if (!check || !check?.client){
-    return
-  }
-  if (check.client){
-    check.items.map(item => item.salePrice = salePrice(item, check.client))
-  }
-}, [check?.client])
 
  const {
   handleSubmit,
@@ -115,38 +107,20 @@ const onChangeCode = async (e) => {
 const onChangeClient = async (e) => {
   if (e.key !== "Enter") return;
   e.preventDefault();
-  const number = watch("client");
+  const number = (watch("client") || '').trim();
 if (!number) {
-  setCheck(prev => ({
-    ...prev,
-    client: null,
-    items: prev.items.map(item => ({
-      ...item,
-      salePrice: item.price
-    }))
-  }));
+  setCheck(prev => changeSaleClient(prev, null));
   return
 }
   try {
-    const res = await fetch(`/api/client/${number}`);
+    const res = await fetch(`/api/client/${encodeURIComponent(number)}`);
     const client = await res.json();
-
- setCheck(prev => ({
-  ...prev,
-  client,
-  items: prev.items.map(item => ({
-    ...item,
-    salePrice: Math.ceil(
-  item.price2 
-    ? item.price 
-    : item.price * (100 - client.discount) / 100
-)
-
-  }))
-}));
+    if (!res.ok) throw new Error(client?.error || 'Помилка пошуку клієнта');
+    if (!client?.phone) throw new Error('Клієнта не знайдено');
+    setCheck(prev => changeSaleClient(prev, client));
 
   } catch (e) {
-    console.error(e);
+    toast.error(e.message || 'Помилка пошуку клієнта');
   }
 };
 
@@ -156,14 +130,15 @@ const setDiscountToProduct = (discount, index) => {
     items: prev.items.map((item, idx) => {
       if (idx !== index) return item;
 
-      const basePrice = Number(salePrice(item, prev.client));
-      const finalSalePrice = Math.round((basePrice - Number(discount)) * 100) / 100;
-
-      return {
-        ...item,
-        salePrice: Math.max(0, finalSalePrice)
-      };
+      return priceSaleItem(item, prev.client, discount);
     })
+  }));
+};
+
+const setProductComment = (comment, index) => {
+  setCheck(prev => ({
+    ...prev,
+    items: prev.items.map((item, idx) => idx === index ? { ...item, comment } : item),
   }));
 };
 
@@ -203,7 +178,7 @@ const setDiscountToProduct = (discount, index) => {
             {product &&  <SaleCard client={check?.client} product={product} addToCheck={addToCheck} shop={shop} type={OPERATION_TYPE.SALE}/>}
            </S.InfoContainer>
              
-            {check?.items?.length > 0 && <Check check={check} onRemove={removeFromCheck} type={OPERATION_TYPE.SALE} setDiscount={setDiscountToProduct} reset={onReset} resetCheck={onResetCheck}/>}
+            {check?.items?.length > 0 && <Check check={check} onRemove={removeFromCheck} type={OPERATION_TYPE.SALE} setDiscount={setDiscountToProduct} setComment={setProductComment} reset={onReset} resetCheck={onResetCheck}/>}
             </S.ProductConatiner>
        
           </S.Form>

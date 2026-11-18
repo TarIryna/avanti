@@ -1,3 +1,5 @@
+import { SelectControl } from '@/components/ui/Select/Select';
+import { InputControl } from '@/components/ui/Input/Input';
 import styled from "@emotion/styled";
 import { Input } from "../ui";
 import { media } from "@/styles/mediaBrakepoints";
@@ -13,7 +15,7 @@ export const Form = styled.form`
   }
 `;
 
-export const CustomInput = styled.input`
+export const CustomInput = styled(InputControl)`
   width: 100%;
   display: block;
   height: 30px;
@@ -25,7 +27,7 @@ export const CustomInput = styled.input`
   }
 `;
 
-export const Select = styled.select`
+export const Select = styled(SelectControl)`
   width: 100%;
   height: 30px;
   border: 0.8px solid grey;

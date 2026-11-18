@@ -1,3 +1,5 @@
+import { SelectControl } from '@/components/ui/Select/Select';
+import { InputControl } from '@/components/ui/Input/Input';
 import styled from "@emotion/styled";
 
 export const Wrapper = styled.div`
@@ -5,7 +7,7 @@ export const Wrapper = styled.div`
   height: 40px;
 `;
 
-export const Input = styled.input`
+export const Input = styled(InputControl)`
   width: 90%;
   display: block;
   height: calc(100% - 2px);
@@ -23,7 +25,7 @@ export const Input = styled.input`
   }
 `;
 
-export const Select = styled.select`
+export const Select = styled(SelectControl)`
   width: 100%;
   height: inherit;
   border: 0.8px solid grey;

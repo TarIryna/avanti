@@ -1,3 +1,4 @@
+import { InputControl } from '@/components/ui/Input/Input';
 ﻿import * as S from "./styles";
 
 const Size = ({ size, shop, setSizes, disabled }) => {
@@ -13,7 +14,7 @@ const Size = ({ size, shop, setSizes, disabled }) => {
     <S.Block>
       <S.SizesBlock>{size.size}</S.SizesBlock>
       <S.SizesBlock>
-        <input
+        <InputControl
           type="number"
           min={defects}
           step="1"

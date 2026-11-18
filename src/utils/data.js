@@ -51,7 +51,7 @@ export const menuData = {
         season: "winter",
         view: "boots",
       },
-      Угги: { gender: "women", season: "winter", view: "uggs" },
+      "Черевики casual": { gender: "women", season: "winter", view: "boots-casual" },
       Чоботи: { gender: "women", season: "winter", view: "high" },
       Ботфорти: { gender: "women", season: "winter", view: "botforts"},
     },
@@ -121,9 +121,8 @@ export const menuData = {
   Чоловіки: {
     "Зимове взуття": {
       "Черевики класичні": { gender: "men", season: "winter", view: "boots-classic" },
-      "Черевики спортивні": { gender: "men", season: "winter", view: "boots-sneakers" },
+      "Черевики спортивні": { gender: "men", season: "winter", view: "boots-casual" },
       "Черевики комфорт": { gender: "men", season: "winter", view: "boots-comfort" },
-      Угги: { gender: "men", season: "winter", view: "uggs" },
     },
     "Літнє взуття": {
       Санділії: { gender: "men", season: "summer", view: "sandals" },
@@ -152,7 +151,7 @@ export const menuData = {
     },
     "Демісезонне взуття": {
       "Черевики класичні": { gender: "men", season: "demi", view: "boots-classic" },
-      "Черевики спортивні": { gender: "men", season: "demi", view: "boots-sneakers" },
+      "Черевики спортивні": { gender: "men", season: "demi", view: "boots-casual" },
       "Черевики комфорт": { gender: "men", season: "demi", view: "boots-comfort" },
     },
   },
@@ -163,12 +162,11 @@ export const menuData = {
         season: "winter",
         view: "classic",
       },
-      "Черевики спортивні": {
+      "Черевики casual": {
         gender: "girls",
         season: "winter",
         view: "boots",
       },
-      Угги: { gender: "girls", season: "winter", view: "uggs" },
     },
     "Літнє взуття": {
       Санділії: { gender: "girls", season: "summer", view: "sandals" },
@@ -206,7 +204,6 @@ export const menuData = {
   Хлопці: {
     "Зимове взуття": {
       Черевики: { gender: "boys", season: "winter", view: "boots" },
-      Угги: { gender: "boys", season: "winter", view: "uggs" },
     },
     "Літнє взуття": {
       Санділії: { gender: "boys", season: "summer", view: "sandals" },

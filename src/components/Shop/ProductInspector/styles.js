@@ -1,3 +1,4 @@
+import { InputControl } from '@/components/ui/Input/Input';
 import styled from "@emotion/styled";
 import { media } from "@/styles/mediaBrakepoints";
 
@@ -15,7 +16,7 @@ export const SearchForm = styled.form`
   ${media.mobile} { flex-direction: column; }
 `;
 
-export const SearchInput = styled.input`
+export const SearchInput = styled(InputControl)`
   flex: 1;
   min-width: 0;
   height: 44px;
@@ -194,7 +195,7 @@ export const BarcodeAction = styled.div`
   label { font-size: 14px; }
 `;
 
-export const AmountInput = styled.input`
+export const AmountInput = styled(InputControl)`
   width: 78px;
   height: 42px;
   padding: 0 8px;

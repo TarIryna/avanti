@@ -1,3 +1,4 @@
+import { InputControl } from '@/components/ui/Input/Input';
 import { media } from "@/styles/mediaBrakepoints";
 import styled from "@emotion/styled";
 import Image from "next/image";
@@ -43,7 +44,7 @@ export const MenuShopButton = styled.div`
     padding: 0 16px;
     display: flex;
     align-items: center;
-    justify-content: center; 
+    justify-content: center;
     text-align: center;
 `
 
@@ -172,7 +173,7 @@ export const ButtonsConatainer = styled.div`
 export const CheckTitle = styled.div`
    text-align: center;
    font-size: 24px;
-   font-weight: 600;             
+   font-weight: 600;
 `
 export const CheckTotal = styled(CheckTitle)`
     text-align: left;
@@ -216,19 +217,19 @@ export const Row = styled.div`
 export const ListRevalue = styled.div`
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 6px;   
+    gap: 6px;
 `
 
 export const InputWrapper = styled.div`
     position: relative;
-    display: flex; 
+    display: flex;
     gap: 10px;
     button {
         font-size: 10px;
     }
 `
 
-export const Input = styled.input`
+export const Input = styled(InputControl)`
     border-radius: 16px;
     border: 1px solid grey;
     padding: 0 10px;
@@ -248,18 +249,18 @@ export const ImagesList = styled.div`
     gap: 10px;
     padding: 12px;
     border: 1px solid #e5e7eb;
-    border-radius: 12px; 
+    border-radius: 12px;
     background-color: #f9fafb;
 
-    .imageCard {  
+    .imageCard {
         width: 250px;
-        height: 300px;       
-        border: 2px solid #d1d5db;  
+        height: 300px;
+        border: 2px solid #d1d5db;
         border-radius: 8px;
         overflow: hidden;
-        cursor: grab; 
+        cursor: grab;
         background-color: #ffffff;
-        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
                     0 1px 2px -1px rgba(0, 0, 0, 0.1); /* shadow-sm */
         transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1); /* transition-transform */
         position: relative;

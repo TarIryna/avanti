@@ -1,4 +1,6 @@
 "use client";
+import { InputControl } from '@/components/ui/Input/Input';
+
 import { media } from "@/styles/mediaBrakepoints";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
@@ -225,7 +227,7 @@ export const Slider = styled.div`
 `;
 
 export const ImageCard = styled.div`
-  flex: 0 0 100%; 
+  flex: 0 0 100%;
   height: 100%;
   display: flex;
   justify-content: center;
@@ -240,7 +242,7 @@ export const ImageCard = styled.div`
     transform: translate3d(0, 0, 0);
     cursor: pointer;
     ${media.mobile}{
-      position: unset !important; 
+      position: unset !important;
     }
   }
 `;
@@ -292,7 +294,7 @@ export const BlockContainer = styled.div`
     }
 `
 
-export const Quantity = styled.input`
+export const Quantity = styled(InputControl)`
     width: 100%;
     font-size: 14px;
 `

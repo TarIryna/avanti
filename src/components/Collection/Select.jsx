@@ -1,3 +1,4 @@
+import { SelectControl } from '@/components/ui/Select/Select';
 const Select = ({ array, active, setActive, name, title }) => {
   const handleChange = (e) => {
     const value = e.target.value;
@@ -6,7 +7,7 @@ const Select = ({ array, active, setActive, name, title }) => {
 
   return (
     <form className="select">
-      <select name={name} onChange={handleChange}>
+      <SelectControl name={name} onChange={handleChange}>
         <option value={null}>{title}</option>
         {array &&
           array.map((item) => (
@@ -18,7 +19,7 @@ const Select = ({ array, active, setActive, name, title }) => {
               {item.name ? item.name : item}
             </option>
           ))}
-      </select>
+      </SelectControl>
     </form>
   );
 };

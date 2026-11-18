@@ -4,11 +4,11 @@ import { getVendor } from '@/data/getData'
 import { Button } from '../ui'
 import toast from 'react-hot-toast'
 
-const CheckProductInfo = ({data, isImage, isSmall, setDiscount, onRemove, index}) => {
-    const [productDiscount, setProductDiscount] = useState(0)
+const CheckProductInfo = ({data, isImage, isSmall, setDiscount, setComment, onRemove, index}) => {
+    const [productDiscount, setProductDiscount] = useState(data.manualDiscount || 0)
     useEffect(() => {
-        setProductDiscount(0)
-    }, [data])
+        setProductDiscount(data.manualDiscount || 0)
+    }, [data.manualDiscount, data.code])
     const onChangeDiscount = () => {
         if (String(productDiscount).trim() === '') {
             toast.error("Необхідно внести суму знижки")
@@ -36,6 +36,14 @@ const CheckProductInfo = ({data, isImage, isSmall, setDiscount, onRemove, index}
                 <S.Placeholder>Знижка</S.Placeholder>
                 <Button type="button" onClick={onChangeDiscount}>Внести знижку</Button>
             </S.InputWrapper>}
+            {setComment && <S.Input
+                type="text"
+                value={data.comment || ''}
+                placeholder="Коментар: причина знижки"
+                aria-label="Причина знижки"
+                onChange={event => setComment(event.target.value, index)}
+            />}
+            {!setComment && !isSmall && data.comment && <S.CheckText>Коментар: {data.comment}</S.CheckText>}
             {isImage && 
             <S.CheckImageContainer>
                 <S.CheckImage src={data.images[0]} fill />

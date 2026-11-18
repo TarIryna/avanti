@@ -1,3 +1,4 @@
+import { InputControl } from '@/components/ui/Input/Input';
 import { useRef } from "react";
 import toast from "react-hot-toast";
 import ImageWrapper from "@/components/Product/ImageWrapper";
@@ -34,7 +35,7 @@ const uploadFiles = async (files) => {
         Обрати фото
       </button>
 
-      <input
+      <InputControl
         ref={inputRef}
         type="file"
         multiple

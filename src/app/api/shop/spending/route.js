@@ -1,6 +1,7 @@
 // /api/shop/audit/route.js
 import Spending from "@/models/spendings";
 import { connectToDB } from "@/utils/database";
+import { calculateWorkHours } from '@/utils/workHours';
 
 export const GET = async (request, { params }) => {
     // 1. Получаем query-параметры из URL запроса
@@ -38,10 +39,19 @@ export const GET = async (request, { params }) => {
 
 export const POST = async (request) => {
   try {
-    const { staff, amount, comment, shop, type } = await request.json();
+    const { staff, amount, comment, shop, type, startHour, endHour } = await request.json();
+    let spending = { staff, amount, comment, shop, type };
+    if (Number(type) === 13) {
+      const hours = calculateWorkHours(startHour, endHour);
+      if (hours === null) return Response.json({ error: 'Вкажіть цілі години: початок 0–23, кінець 1–24, кінець пізніше початку' }, { status: 400 });
+      if (!Number.isInteger(Number(staff)) || Number(staff) < 1 || !Number.isInteger(Number(shop)) || Number(shop) < 1) {
+        return Response.json({ error: 'Вкажіть працівника та магазин' }, { status: 400 });
+      }
+      spending = { staff: Number(staff), shop: Number(shop), type: 13, hours };
+    }
     await connectToDB();
 
-    const newSpending = await Spending.create({ staff, amount, comment, shop, type });
+    await Spending.create(spending);
     return new Response(JSON.stringify({ success: true }), { 
       status: 200,
       headers: { "Content-Type": "application/json" }

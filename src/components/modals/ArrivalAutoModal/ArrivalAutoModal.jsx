@@ -1,4 +1,6 @@
 'use client';
+import { InputControl } from '@/components/ui/Input/Input';
+
 import { create, useModal } from "@ebay/nice-modal-react";
 import React, { useCallback, useEffect, useState } from "react";
 import ReactModal from "../ReactModal";
@@ -104,7 +106,7 @@ const ArrivalAutoModal = create(({ id, shop }) => {
                 <S.List>
                   {items.map((item) => (
                     <S.Item key={item.id}>
-                      <input
+                      <InputControl
                         type="checkbox"
                         checked={selected.has(item.id)}
                         disabled={item.missingProduct}

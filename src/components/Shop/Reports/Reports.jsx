@@ -5,6 +5,7 @@ import { Button } from '@/components/ui';
 import { registerDynamicModal } from '@/helpers/useDynamicModal';
 import { MODALS } from '@/constants/constants';
 import { useModal } from '@ebay/nice-modal-react';
+import toast from 'react-hot-toast';
 
 registerDynamicModal(
   MODALS.REPORTS,
@@ -35,13 +36,10 @@ const Reports = ({shop}) => {
     try {
         const res = await fetch(`/api/shop/day/${shop}/?start=${start}&end=${end}`);
         const result = await res.json();
-        if (!result){
-        toast.error("Сталась помилка! Даних не знайдено")
-        return;
-        }
+        if (!res.ok || !result) throw new Error(result?.error || 'Не вдалося завантажити звіт');
         setReport(result);
     } catch (e) {
-        console.error(e);
+        toast.error(e.message || 'Не вдалося завантажити звіт');
     }
     }
 

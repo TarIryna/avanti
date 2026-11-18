@@ -1,4 +1,6 @@
 "use client";
+import { InputControl } from '@/components/ui/Input/Input';
+
 import { useState } from 'react';
 import * as S from './styles'
 import { FormProvider, useForm } from 'react-hook-form';
@@ -70,7 +72,7 @@ const onUploadFromServer = async () => {
    setIsDownloadingSecond(true);
   try {
      const res = await fetch(`/api/cloudinary?date=${encodeURIComponent(cloudinaryDate)}`);
-    
+
    if (!res.ok) {
     const errorData = await res.json();
     throw new Error(errorData.message || 'Что-то пошло не так');
@@ -78,21 +80,21 @@ const onUploadFromServer = async () => {
 
     // Читаем ответ как обычный текст (CSV), а не JSON!
     const csvContent = await res.text();
-    
+
     // Создаем Blob из полученной CSV-строки
     const blob = new Blob([csvContent], { type: 'text/csv; charset=utf-8' });
     const url = window.URL.createObjectURL(blob);
-    
+
     // Автоматически скачиваем файл пользователю
     const link = document.createElement('a');
     link.href = url;
-    
+
     // Имя файла можно достать из заголовков или задать вручную
     link.download = `cloudinary_report_${cloudinaryDate}.csv`;
-    
+
     document.body.appendChild(link);
     link.click();
-    
+
     document.body.removeChild(link);
     window.URL.revokeObjectURL(url);
 
@@ -123,7 +125,7 @@ const onSetVideo = async() => {
 
           await response.json();
           toast.success("Відео успішно додано");
-          
+
           // if (data && data.images) {
           //   setImages(data.images);
           //   toast.success("Порядок успішно збережено");
@@ -147,7 +149,7 @@ const getImagesData = (data) => {
       code: item.code,
       photo_small: item.small_image,
       Фото1: item.images[0] ?? "",
-      Фото2: item.images[1] ?? "",  
+      Фото2: item.images[1] ?? "",
       Фото3: item.images[2] ?? "",
       Фото4: item.images[3] ?? "",
       Фото5: item.images[4] ?? "",
@@ -165,9 +167,9 @@ const downloadProducts = async () => {
       // 1. Получаем JSON-данные с бэкенда
       const response = await fetch('/api/products/updated');
       if (!response.ok) throw new Error(`Ошибка сервера: ${response.status}`);
-      
+
       const data = await response.json();
-      
+
       // Трансформируем данные (получаем массив объектов)
       const transformedData = getImagesData(data);
 
@@ -194,26 +196,26 @@ const downloadProducts = async () => {
         });
         csvContent += row.join(';') + '\n';
       });
-      
+
       // 3. Создаем Blob-объект с типом text/csv (с поддержкой кириллицы BOM)
       // '\uFEFF' в начале строки нужен для того, чтобы Excel сразу правильно читал UTF-8 (кириллицу)
       const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv; charset=utf-8' });
-      
+
       // 4. Генерируем временную URL-ссылку для Blob
       const url = window.URL.createObjectURL(blob);
-      
+
       // 5. Создаем невидимый элемент ссылки для скачивания (теперь .csv)
       const link = document.createElement('a');
       link.href = url;
-      
+
       // Формируем имя файла с расширением .csv
       // const dateStr = new Date().toISOString().split('T')[0];
       link.download = `products_changed.csv`;
-      
+
       // 6. Программно имитируем клик по ссылке для запуска скачивания
       document.body.appendChild(link);
       link.click();
-      
+
       // 7. Удаляем ссылку и освобождаем выделенную память
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
@@ -230,9 +232,9 @@ const downloadProducts = async () => {
     try {
       const res = await fetch('/api/products/video');
       // if (!response.ok) throw new Error(`Ошибка сервера: ${response.status}`);
-      
+
        const csvContent = await res.text();
-    
+
     // Создаем Blob из полученной CSV-строки
     const blob = new Blob(
   ['\uFEFF', csvContent],
@@ -243,15 +245,15 @@ const downloadProducts = async () => {
 );
 
     const url = window.URL.createObjectURL(blob);
-    
+
     // Автоматически скачиваем файл пользователю
     const link = document.createElement('a');
     link.href = url;
     link.download = `video.csv`;
-    
+
     document.body.appendChild(link);
     link.click();
-    
+
     document.body.removeChild(link);
     window.URL.revokeObjectURL(url);
 
@@ -304,8 +306,8 @@ const downloadProducts = async () => {
                           isBorder
                           name="code"
                         />
-                
-                          {!!product && 
+
+                          {!!product &&
                           <>
                           <ShopCard item={product} info hideImage/>
                          {product &&  <ImageUploader code={product.code} onUpload={(urls) => onUpload(urls)} onSuccess={onSuccess}/>}
@@ -338,7 +340,7 @@ const downloadProducts = async () => {
           </Button>
          <label style={{ display: "flex", alignItems: "center", gap: "10px", marginTop: "50px" }}>
            Дата завантаження:
-           <input
+           <InputControl
              type="date"
              value={cloudinaryDate}
              onChange={(event) => setCloudinaryDate(event.target.value)}

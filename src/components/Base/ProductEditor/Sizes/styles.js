@@ -15,6 +15,7 @@ export const SizesContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   margin-top: 10px;
+  margin-bottom: 10px;
 `;
 
 export const SizesBlock = styled.div`

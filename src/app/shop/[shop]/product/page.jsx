@@ -13,7 +13,7 @@ const ShopMenuPage = () => {
         return (
       <section className="container page">
         <S.Title>ТОВАРИ</S.Title>
-         <HeadButtons isMain shop={shop}/>
+         <HeadButtons shop={shop}/>
         <S.MenuList>
           <S.MenuButton onClick={() => router.push(`/shop/${shop}/product/view`)}>ПЕРЕГЛЯД</S.MenuButton>
           <S.MenuButton onClick={() => router.push(`/shop/catalog`)}>КАТАЛОГИ</S.MenuButton>

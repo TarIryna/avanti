@@ -1,3 +1,4 @@
+import { InputControl } from '@/components/ui/Input/Input';
 import styled from "@emotion/styled";
 import { statusColors } from "../Profile/Orders/components/styles";
 
@@ -82,7 +83,7 @@ export const Flex = styled.div`
     }
 `
 
-export const Input = styled.input`
+export const Input = styled(InputControl)`
         width: 300px;
         border-radius: 16px;
         border: 0.5px solid grey;

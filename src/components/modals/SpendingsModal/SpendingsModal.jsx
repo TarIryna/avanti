@@ -43,15 +43,16 @@ const onSubmit = async(data) => {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(data) 
+        body: JSON.stringify({ ...data, shop })
       });
       const result = await res.json()
+      if (!res.ok || !result.success) throw new Error(result.error || 'Не вдалося зберегти витрати');
       if (result.success){
         toast.success("Успішно додано витрати!")
         reset()
       }
   } catch (e) {
-    toast.error("Виникла помилка при відправці витрат!")
+    toast.error(e.message || "Виникла помилка при відправці витрат!")
   } 
 };
 

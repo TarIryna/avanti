@@ -28,17 +28,20 @@ export const Controls = styled.div`
   align-items: end;
   gap: 12px;
   margin: 12px 0;
-  label { display: grid; gap: 6px; font-size: 14px; }
-  input, select { padding: 8px; border: 1px solid #aaa; border-radius: 4px; }
+  > button { min-height: 40px; }
   @media (max-width: 640px) {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
-    label, input, select, button { min-width: 0; width: 100%; }
-    label { font-size: 12px; }
-    input, select { box-sizing: border-box; }
-    button { white-space: normal; }
+    > button { min-width: 0; width: 100%; white-space: normal; }
+    > .report-shop-field { grid-column: 1 / -1; }
   }
+`;
+
+export const FilterField = styled.div`
+  width: 210px;
+  min-width: 0;
+  @media (max-width: 640px) { width: 100%; }
 `;
 
 export const Message = styled.div`
@@ -56,6 +59,7 @@ export const TableWrapper = styled.div`
 export const Table = styled.table`
   width: 100%;
   min-width: 650px;
+  max-width: 700px;
   border-collapse: collapse;
   th, td { padding: 12px; border: 1px solid #ddd; text-align: left; vertical-align: middle; }
   th { background: #f3f3f3; }

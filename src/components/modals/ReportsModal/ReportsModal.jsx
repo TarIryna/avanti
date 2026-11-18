@@ -4,12 +4,18 @@ import { Wrapper } from "../styles";
 import * as S from "./styles";
 import Operations from "./Operations";
 import Head from "../components/Head/Head";
+import { getStaffName } from '@/data/staff';
+import { spendings as spendingTypes } from '@/data/spendings';
+import { daySpendingSummary } from '@/helpers/daySpendingSummary';
 
 const ReportsModal = create(({ id, report, shop }) => {
  const modal = useModal(id);
 
  const today = new Date();
- const formattedDate = today.toLocaleDateString('ru-RU');
+ const formattedDate = today.toLocaleDateString('uk-UA', { timeZone: 'Europe/Kyiv' });
+ const { workers, expenses, totalExpenses } = daySpendingSummary(report.spendings || []);
+ const formatMoney = value => new Intl.NumberFormat('uk-UA', { maximumFractionDigits: 2 }).format(Number(value) || 0);
+ const staffName = staff => getStaffName(staff) || 'Продавця не вказано';
  const totalOperations = report?.operations?.reduce((sum, op) => sum + Number(op.quantity || 0), 0);
  const totalSum = report?.operations?.reduce((sum, op) => {
     // Умножаем на -quantity, так как при продаже (quantity < 0) деньги в кассу ПРИХОДЯТ (+), 
@@ -88,7 +94,29 @@ const ReportsModal = create(({ id, report, shop }) => {
           <Head close={() => modal.remove()}/>
           <S.TitleBlock>
             <S.Date>{formattedDate}</S.Date>
+                     <S.SummarySection>
+              <h3>Працювали</h3>
+              {workers.length ? <S.SummaryList>
+                {workers.map(worker => <li key={worker.staff ?? 'unknown'}>
+                  <strong>{staffName(worker.staff)}</strong>
+                  <span>{worker.hours == null ? 'Години не вказано' : `${worker.hours} год.`}</span>
+                </li>)}
+              </S.SummaryList> : <p>Робочі години не внесено.</p>}
+            </S.SummarySection>
             <S.Date>A{shop}</S.Date>
+                   <S.SummarySection>
+              <h3>Витрати — {formatMoney(totalExpenses)} грн</h3>
+              {expenses.length ? <S.SummaryList>
+                {expenses.map((expense, index) => <li key={expense._id || index}>
+                  <div>
+                    <strong>{spendingTypes.find(item => item.id === Number(expense.type))?.ukr || 'Витрати'}</strong>
+                    <S.ExpenseDetail>{staffName(expense.staff)}</S.ExpenseDetail>
+                    {String(expense.comment || '').trim() && <S.ExpenseDetail>{expense.comment}</S.ExpenseDetail>}
+                  </div>
+                  <strong>{formatMoney(expense.amount)} грн</strong>
+                </li>)}
+              </S.SummaryList> : <p>Витрат немає.</p>}
+            </S.SummarySection>
             <S.RightBlock>
               <S.TitleText>{totalSum}</S.TitleText>
               <S.TitleText>{totalTerminal}</S.TitleText>
@@ -100,6 +128,7 @@ const ReportsModal = create(({ id, report, shop }) => {
               <S.TitleText>{report.total}</S.TitleText>
             </S.RightBlock>
           </S.TitleBlock>
+
           {!!report.operations?.length && <S.Operations>
                <Operations operations={report.operations}/>
           </S.Operations>}

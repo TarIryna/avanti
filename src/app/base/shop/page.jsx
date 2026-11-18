@@ -1,4 +1,6 @@
 "use client";
+import { InputControl } from '@/components/ui/Input/Input';
+
 
 import { useState } from "react";
 import { Button } from "@/components/ui";
@@ -65,11 +67,11 @@ const ShopReportPage = () => {
       <S.Form onSubmit={loadReport}>
         <S.Field>
           <span>Дата</span>
-          <input type="date" value={date} onChange={(event) => setDate(event.target.value)} required />
+          <InputControl type="date" value={date} onChange={(event) => setDate(event.target.value)} required />
         </S.Field>
         <S.Field>
           <span>Номер магазину</span>
-          <input type="number" min="1" step="1" value={shop} onChange={(event) => setShop(event.target.value)} placeholder="Наприклад, 1" required />
+          <InputControl type="number" min="1" step="1" value={shop} onChange={(event) => setShop(event.target.value)} placeholder="Наприклад, 1" required />
         </S.Field>
         <Button type="submit" disabled={loading}>{loading ? "Завантаження…" : "Показати звіт"}</Button>
       </S.Form>

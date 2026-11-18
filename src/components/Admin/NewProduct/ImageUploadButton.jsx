@@ -1,4 +1,6 @@
 "use client";
+import { InputControl } from '@/components/ui/Input/Input';
+
 
 import { useState } from "react";
 
@@ -30,7 +32,7 @@ const ImageUploadButton = ({ productId, field, onSuccess }) => {
 
   return (
     <label style={{ cursor: "pointer" }}>
-      <input
+      <InputControl
         type="file"
         accept="image/*"
         hidden

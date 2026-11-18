@@ -1,10 +1,11 @@
 'use client';
+
 import * as S from './styles'
 import HeadButtons from '../HeadButtons'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { Button } from '@/components/ui';
+import { Button, Input, Select } from '@/components/ui';
 import { getVendor } from '@/data/getData';
 import { seasonData } from '@/data/seasons';
 import { getKyivDateKey, groupRedirectReportRows } from '@/helpers/redirectReport';
@@ -31,8 +32,9 @@ const RedirectReportPage = () => {
         return () => controller.current?.abort();
     }, [shop, resetReport]);
 
-    const changeShop = (event) => {
-        const nextShop = event.target.value;
+    const changeShop = (value) => {
+        const nextShop = String(value);
+        if (!['1', '2', '3'].includes(nextShop)) return;
         if (nextShop === String(shop)) return;
         resetReport();
         router.push(`/shop/${nextShop}/redirect-report`, { scroll: false });
@@ -82,19 +84,16 @@ const RedirectReportPage = () => {
             <p>А1 — пріоритетний магазин. Пропонуємо по 1 парі відсутнього розміру: спочатку зі складу А3, а для А1 — з А2, якщо на складі немає доступної пари. Брак не враховується. Якщо на складі лише одна пара, пріоритет має А1.</p>
             <p>Звіт показує поточні залишки та рекомендації. Для переміщення потрібно окремо оформити списання і прихід.</p>
             <S.Controls>
-                <label>Магазин
-                    <select value={String(shop)} onChange={changeShop}>
-                        <option value="1">А1</option>
-                        <option value="2">А2</option>
-                        <option value="3">Склад А3</option>
-                    </select>
-                </label>
-                <label>Дата від
-                    <input type="date" value={from} max={to || getKyivDateKey()} onChange={event => setFrom(event.target.value)} />
-                </label>
-                <label>Дата до (необов’язково)
-                    <input type="date" value={to} min={from} max={getKyivDateKey()} onChange={event => setTo(event.target.value)} />
-                </label>
+                <S.FilterField className="report-shop-field">
+                    <Select label="Магазин" value={String(shop)} onChange={changeShop}
+                        options={[{ value: '1', name: 'А1' }, { value: '2', name: 'А2' }, { value: '3', name: 'Склад А3' }]} />
+                </S.FilterField>
+                <S.FilterField>
+                    <Input label="Дата від" type="date" isBorder value={from} max={to || getKyivDateKey()} onChange={event => setFrom(event.target.value)} />
+                </S.FilterField>
+                <S.FilterField>
+                    <Input label="Дата до (необов’язково)" type="date" isBorder value={to} min={from} max={getKyivDateKey()} onChange={event => setTo(event.target.value)} />
+                </S.FilterField>
                 <Button type="button" disabled={loading || !from || (!!to && to < from)} onClick={() => loadReport('operations')}>За операціями</Button>
                 <Button type="button" disabled={loading} onClick={() => loadReport('stock')}>Усі сезонні залишки</Button>
             </S.Controls>
@@ -114,7 +113,7 @@ const RedirectReportPage = () => {
                 {!report.rows.length ? <S.Message>Варіантів для переміщення не знайдено.</S.Message> : <>
                     <S.TableWrapper>
                         <S.Table>
-                            <thead><tr><th>Товар та залишки</th><th>Розмір</th><th>А1</th><th>А2</th><th>Склад А3</th></tr></thead>
+                            <thead><tr><th>Товар та залишки</th></tr></thead>
                             <tbody>{rows.map(row => <tr key={row.code}>
                                 <td><S.Product>
                                     {row.image && <Image src={row.image} width={55} height={55} alt={`Товар ${row.code}`} unoptimized />}

@@ -1,4 +1,6 @@
 "use client";
+import { InputControl } from '@/components/ui/Input/Input';
+
 import useShopProductSearch from "@/hooks/useShopProductSearch";
 import { useState } from 'react';
 import * as S from './styles'
@@ -76,7 +78,7 @@ const onArrivalSuccess = () => {
         <S.Title>ПРИХІД</S.Title>
         <HeadButtons isArrival shop={shop}/>
         <label style={{ display: 'flex', alignItems: 'center', gap: 8, margin: '12px 0', cursor: 'pointer' }}>
-          <input
+          <InputControl
             type="checkbox"
             checked={addBarcodes}
             onChange={(event) => setAddBarcodes(event.target.checked)}
@@ -120,7 +122,7 @@ const onArrivalSuccess = () => {
                           }}
                         />
                           {!!product && <ShopCard item={product} setProduct={onSetProductFromList} onSuccess={onArrivalSuccess} isSelected shop={shop} type={OPERATION_TYPE.ARRIVAL} addBarcodes={addBarcodes} comment={watch("comment")}/>}
-                          {!!list?.length && 
+                          {!!list?.length &&
                           <S.List>
                             {list.map(item => <ShopCard item={item} id={item.code} setProduct={onSetProductFromList} isList shop={shop} type={OPERATION_TYPE.ARRIVAL} addBarcodes={addBarcodes}/>)}
                             </S.List>}

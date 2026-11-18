@@ -31,7 +31,7 @@ const CheckPrint = create(({ id, data, type, resetCheck }) => {
       {/* Добавляем класс pos-receipt-print */}
       <S.PrintContainer className="pos-receipt-print">
         <S.CheckTitle>{title}</S.CheckTitle>
-        {data.client && <S.TextCheck>{`КЛІЄНТ: ${data.client.phone} ${data.client.discount}%`}</S.TextCheck>}
+        {data.client && <S.TextCheck>{`КЛІЄНТ: ${data.client.phone} ${data.client.name} ${data.client.discount}%`}</S.TextCheck>}
         {!!data.items?.length && data.items.map(item => (
           <CheckProductInfo key={item.code} isSmall data={item}/>
         ))}

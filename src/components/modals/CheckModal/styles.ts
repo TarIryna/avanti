@@ -1,23 +1,94 @@
 import styled, { createGlobalStyle } from "styled-components";
 import { media } from "@/styles/mediaBrakepoints";
 
-export const Form = styled.form`
-  width: 100%;
+export const CheckContainer = styled.div`
+  width: min(900px, calc(100vw - 32px));
+  height: calc(100vh - 32px);
+  height: calc(100dvh - 32px);
   display: flex;
   flex-direction: column;
-  justify-items: center;
-  gap: 16px;
+  background: rgb(229, 229, 229);
+  border-radius: 16px;
+  overflow: hidden;
+  > :first-child { flex-shrink: 0; }
+  ${media.mobile} {
+    width: 100vw;
+    height: 100dvh;
+    border-radius: 0;
+  }
+`;
+
+export const CheckContent = styled.div`
+  flex: 1;
+  min-height: 0;
+  padding: 0 20px 16px;
+  overflow: hidden;
+  @media (max-height: 600px), (max-width: 600px) {
+    padding: 0 12px 12px;
+    overflow-y: auto;
+  }
+`;
+
+export const Form = styled.form`
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 12px;
+  input { width: 100%; background: white; }
+  button { max-width: 100%; }
+  @media (max-height: 600px), (max-width: 600px) {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+  }
+`;
+
+export const ClientSection = styled.div`
+  display: grid;
+  gap: 6px;
+`;
+
+export const ClientControls = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
   align-items: center;
-  div {
-    width: auto;
+  > .base_input { flex: 1; min-width: 180px; }
+  > button { min-height: 40px; }
+  ${media.mobile} {
+    > .base_input { flex-basis: 100%; }
+    > button { flex: 1; }
   }
-  input {
-    width: 250px;
-    background: white;
-  }
-    button {
-      width: 250px;
-    }
+`;
+
+export const Items = styled.div`
+  min-height: 0;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  align-content: start;
+  overscroll-behavior: contain;
+  > div { width: auto; min-width: 0; overflow-wrap: anywhere; }
+  @media (max-height: 600px), (max-width: 600px) { overflow: visible; }
+  @media (max-width: 600px) { grid-template-columns: 1fr; }
+`;
+
+export const PaymentSection = styled.div`
+  display: grid;
+  gap: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #ccc;
+  > .base_input { max-width: 250px; }
+`;
+
+export const Totals = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px 16px;
 `;
 
 export const Title = styled.p`
@@ -32,7 +103,7 @@ export const Text = styled.div`
 `
 
 export const Total = styled.div`
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 600;
 `
 
@@ -153,4 +224,6 @@ export const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 5px;
+  > button { width: 100%; min-height: 40px; }
+  ${media.mobileSm} { grid-template-columns: 1fr; }
 `
