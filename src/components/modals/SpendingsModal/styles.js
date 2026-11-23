@@ -12,6 +12,10 @@ export const Form = styled.form`
   div {
     width: 100%;
   }
+
+  @media screen and (max-width: 767px) {
+    grid-template-columns: minmax(0, 1fr); min-width: 0;
+  }
 `;
 
 export const Flex = styled.div`

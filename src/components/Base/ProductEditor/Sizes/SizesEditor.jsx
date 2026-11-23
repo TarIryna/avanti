@@ -6,13 +6,16 @@ import { Button } from "@/components/ui";
 import { getSizesObject } from "@/helpers/sizesPrepare";
 import toast from "react-hot-toast";
 import { validateDefectStock } from "@/utils/defectStock";
+import { getDestinationName } from "@/data/destination";
 
 const SizesEditor = ({ product }) => {
 const [sizes, setSizes] = useState(getSizesObject(product))
+const [total, setTotal] = useState(product.total ?? [])
 const [saving, setSaving] = useState(false)
 
 useEffect(() => {
   setSizes(getSizesObject(product))
+  setTotal(product.total ?? [])
 }, [product])
 
   const onButtonClick = async() => {
@@ -33,6 +36,7 @@ useEffect(() => {
                   if (!response.ok) throw new Error(result.error || "Ошибка сервера");
                   else {
                     setSizes(getSizesObject(result));
+                    setTotal(result.total ?? []);
                     toast.success('Успешно обновлены размеры');
                   }
 
@@ -47,6 +51,13 @@ useEffect(() => {
   return (
     <S.SizesWrapper>
       <p>Брак входить у залишок, але недоступний на сайті. Збережіть зміни кнопкою «Оновити розміри».</p>
+      <p>
+        <strong>Залишки</strong>
+        {total.map(({ shop, q }) => (
+          <span key={shop}>{` · ${getDestinationName(shop) || `А${shop}`} — ${q ?? 0}`}</span>
+        ))}
+        {` · Всього — ${total.reduce((sum, { q }) => sum + (q ?? 0), 0)}`}
+      </p>
       <S.SizesContainer>
       {sizes && Object.entries(sizes).map(shopData => <S.SizesBlock key={shopData[0]}>
         <S.Shop>{`А${shopData[0]}`}</S.Shop>

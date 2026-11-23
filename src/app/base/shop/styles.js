@@ -11,6 +11,10 @@ export const Form = styled.form`
   align-items: flex-end;
   gap: 16px;
   margin-bottom: 24px;
+
+  @media screen and (max-width: 767px) {
+    align-items: stretch; > button { width: 100%; min-height: 40px; }
+  }
 `;
 
 export const ArrivalAction = styled.div`
@@ -38,6 +42,10 @@ export const Field = styled.label`
     background: #fff;
     font: inherit;
   }
+
+  @media screen and (max-width: 767px) {
+    min-width: 0; width: 100%;
+  }
 `;
 
 export const Error = styled.p`
@@ -48,6 +56,10 @@ export const Report = styled.div`
   padding: 20px;
   background: #fff;
   border-radius: 10px;
+
+  @media screen and (max-width: 767px) {
+    min-width: 0; padding: 12px;
+  }
 `;
 
 export const ReportTitle = styled.h2`

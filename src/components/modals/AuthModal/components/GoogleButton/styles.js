@@ -11,4 +11,8 @@ export const GoogleBtn = styled.button`
   display: flex;
   gap: 10px;
   justify-content: center;
+
+  @media screen and (max-width: 767px) {
+    height: auto; min-height: 44px; max-width: 100%; align-items: center; padding: 8px 10px;
+  }
 `;

@@ -27,6 +27,10 @@ export const Form = styled.form`
     button {
     min-height: 40px;
     }
+
+  @media screen and (max-width: 767px) {
+    grid-template-columns: minmax(0, 1fr); min-width: 0;
+  }
 `
 
 export const Grid = styled.div`
@@ -34,6 +38,10 @@ export const Grid = styled.div`
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
+
+  @media screen and (max-width: 767px) {
+    grid-template-columns: minmax(0, 1fr); min-width: 0;
+  }
 `
 export const Wrapper = styled.div`
     width: 100%;
@@ -41,6 +49,10 @@ export const Wrapper = styled.div`
     border: 0.5px solid grey;
     border-radius: 14px;
     margin: 20px 0;
+
+  @media screen and (max-width: 767px) {
+    min-width: 0; overflow-x: auto;
+  }
 `
 export const Table = styled.table`
     font-size: 12px;

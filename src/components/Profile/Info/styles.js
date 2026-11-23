@@ -13,6 +13,10 @@ export const Line = styled.div`
       font-weight: 400;
     }
   }
+
+  @media screen and (max-width: 767px) {
+    flex-wrap: wrap; gap: 4px 8px; font-size: 16px; overflow-wrap: anywhere;
+  }
 `;
 
 export const Content = styled.div`

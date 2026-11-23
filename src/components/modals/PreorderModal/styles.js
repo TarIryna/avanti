@@ -16,6 +16,10 @@ export const Form = styled.form`
   ${media.tablet}{
     grid-template-columns: repeat(2, 1fr);
   }
+
+  @media screen and (max-width: 767px) {
+    grid-template-columns: minmax(0, 1fr); min-width: 0;
+  }
 `;
 
 export const Flex = styled.div`
@@ -28,6 +32,10 @@ export const Flex = styled.div`
   background: white;
   border-radius: 14px;
 }
+
+  @media screen and (max-width: 767px) {
+    flex-wrap: wrap; min-width: 0; .invoice { margin-top: 8px; }
+  }
 `
 
 
@@ -58,6 +66,10 @@ export const Wrapper = styled.div`
     width: 30%;
   }
 
+
+  @media screen and (max-width: 767px) {
+    .invoice-select { width: 100%; }
+  }
 `
 
 export const Text = styled.div`
@@ -97,6 +109,10 @@ export const SizesContainer = styled.div`
   justify-content: center;
   margin-top: 10px;
   gap: 6px;
+
+  @media screen and (max-width: 767px) {
+    justify-content: flex-start; overflow-x: auto; max-width: 100%; > * { flex-shrink: 0; }
+  }
 `;
 
 export const SizesBlock = styled.div`
@@ -176,6 +192,10 @@ export const ListItemWrapper = styled.div`
   align-items: end;
   height: 40px;
   gap: 10px;
+
+  @media screen and (max-width: 767px) {
+    height: auto; flex-wrap: wrap; align-items: center; padding: 6px 0;
+  }
 `
 
 export const ItemImageCard = styled(ImageCard)`

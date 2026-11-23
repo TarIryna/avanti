@@ -13,6 +13,10 @@ export const CartWrapper = styled.div`
     padding: 10px 20px;
     border-bottom: 1px solid grey;
     border-top: 1px solid grey;
+
+  @media screen and (max-width: 767px) {
+    padding: 10px 0; min-width: 0;
+  }
 `
 
 export const Subtitle = styled.div`
@@ -23,6 +27,10 @@ export const Subtitle = styled.div`
     width: fit-content;
     margin: 0 auto;
     max-width: calc(100% - 100px);
+
+  @media screen and (max-width: 767px) {
+    max-width: 100%; overflow-wrap: anywhere;
+  }
 `
 
 export const BlockTitle = styled.div`
@@ -45,6 +53,10 @@ export const Status = styled.div`
     display: flex;
     align-items: center;
     border-radius: 10px;
+
+  @media screen and (max-width: 767px) {
+    position: static; transform: none; margin-top: 6px; width: fit-content; min-width: 0;
+  }
 `
 
 export const Form = styled.form`
@@ -53,6 +65,10 @@ export const Form = styled.form`
     gap: 6px;
     width: 200px;
     padding: 20px 0;
+
+  @media screen and (max-width: 767px) {
+    width: 100%;
+  }
 `
 
 export const Button = styled.button`
@@ -71,6 +87,10 @@ export const DeliveryData = styled.div`
     button {
         margin-top: 10px;
     }
+
+  @media screen and (max-width: 767px) {
+    flex-wrap: wrap; > * { min-width: 0; max-width: 100%; }
+  }
 `
 
 export const Flex = styled.div`
@@ -81,6 +101,10 @@ export const Flex = styled.div`
     button {
         width: 200px;
     }
+
+  @media screen and (max-width: 767px) {
+    flex-wrap: wrap; > * { min-width: 0; max-width: 100%; }
+  }
 `
 
 export const Input = styled(InputControl)`
@@ -88,4 +112,8 @@ export const Input = styled(InputControl)`
         border-radius: 16px;
         border: 0.5px solid grey;
         padding: 0 10px;
+
+  @media screen and (max-width: 767px) {
+    width: 100%; min-width: 0; min-height: 40px;
+  }
 `

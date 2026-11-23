@@ -20,6 +20,10 @@ export const ProductWrapper = styled.div`
     display: flex;
     gap: 6px;
     align-items: center;
+
+  @media screen and (max-width: 767px) {
+    align-items: flex-start; min-width: 0; overflow-wrap: anywhere; > div { min-width: 0; }
+  }
 `
 export const ImageWrapper = styled.div`
     height: 200px;
@@ -30,6 +34,10 @@ export const ImageWrapper = styled.div`
         object-fit: contain;
         object-position: left center;
     }
+
+  @media screen and (max-width: 767px) {
+    width: 90px; height: 110px; flex: 0 0 90px;
+  }
 `
 
 export const Status = styled.p`
@@ -44,4 +52,8 @@ span {
     display: flex;
     align-items: center;
 }
+
+  @media screen and (max-width: 767px) {
+    flex-wrap: wrap;
+  }
 `

@@ -13,6 +13,10 @@ export const Form = styled.form`
   ${media.mobile}{
     width: 100%;
   }
+
+  @media screen and (max-width: 767px) {
+    width: 100%; max-width: 100%; min-width: 0; > button[type="submit"] { min-height: 44px; }
+  }
 `;
 
 export const CustomInput = styled(InputControl)`
@@ -57,6 +61,10 @@ export const RegistrationButton = styled.button`
     width: 100%;
     font-size: 14px;
   }
+
+  @media screen and (max-width: 767px) {
+    height: auto; min-height: 44px; padding: 8px 12px;
+  }
 `
 
 export const List = styled.div`
@@ -67,6 +75,10 @@ export const List = styled.div`
 
 export const DeliveryCartWrapper = styled.div`
   max-width: 100%;
+
+  @media screen and (max-width: 767px) {
+    width: 100%; min-width: 0;
+  }
 `
 export const CartListProducts = styled.div`
   display: flex;

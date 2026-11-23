@@ -17,6 +17,10 @@ export const ContainerModal = styled.div`
     overflow: hidden;
     overflow-y: auto;
   }
+
+  @media screen and (max-width: 767px) {
+    height: 100dvh; grid-template-rows: auto minmax(0, 1fr);
+  }
 `;
 
 
@@ -31,6 +35,10 @@ export const Form = styled.form`
   div {
     width: 100%;
   }
+
+  @media screen and (max-width: 767px) {
+    grid-template-columns: minmax(0, 1fr); min-width: 0;
+  }
 `;
 
 export const Flex = styled.div`
@@ -43,6 +51,10 @@ export const Flex = styled.div`
   background: white;
   border-radius: 14px;
 }
+
+  @media screen and (max-width: 767px) {
+    flex-wrap: wrap; min-width: 0; .invoice { margin-top: 8px; }
+  }
 `
 
 
@@ -71,6 +83,10 @@ export const Wrapper = styled.div`
     width: 30%;
   }
 
+
+  @media screen and (max-width: 767px) {
+    .invoice-select { width: 100%; }
+  }
 `
 
 export const Text = styled.div`
@@ -82,6 +98,10 @@ export const Text = styled.div`
   margin-bottom: 5px;
   width: 550px;
   text-overflow: ellipsses;
+
+  @media screen and (max-width: 767px) {
+    width: 100%; height: auto; min-height: 33px; overflow-wrap: anywhere;
+  }
 `
 
 export const ImageCard = styled.div`
@@ -112,6 +132,10 @@ export const SizesContainer = styled.div`
   justify-content: center;
   margin-top: 10px;
   gap: 6px;
+
+  @media screen and (max-width: 767px) {
+    justify-content: flex-start; overflow-x: auto; max-width: 100%; > * { flex-shrink: 0; }
+  }
 `;
 
 export const SizesBlock = styled.div`
@@ -195,6 +219,10 @@ export const ListItemWrapper = styled.div`
     width: 120px;
     padding: 0 2px;
   }
+
+  @media screen and (max-width: 767px) {
+    height: auto; flex-wrap: wrap; align-items: center; padding: 6px 0;
+  }
 `
 
 export const ItemImageCard = styled(ImageCard)`
@@ -214,4 +242,8 @@ export const Content = styled.div`
   max-height: 100%;
   overflow-y: auto;
   padding: 16px;
+
+  @media screen and (max-width: 767px) {
+    min-width: 0; min-height: 0; padding: 12px;
+  }
 `

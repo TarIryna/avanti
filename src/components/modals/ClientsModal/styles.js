@@ -12,12 +12,20 @@ export const Form = styled.form`
   div {
     width: 100%;
   }
+
+  @media screen and (max-width: 767px) {
+    grid-template-columns: minmax(0, 1fr); min-width: 0;
+  }
 `;
 
 export const ModeSwitch = styled.div`
   display: flex;
   gap: 10px;
   padding: 0 20px 12px;
+
+  @media screen and (max-width: 767px) {
+    padding: 0 12px 12px; flex-wrap: wrap;
+  }
 `;
 
 export const SearchForm = styled.form`
@@ -26,6 +34,10 @@ export const SearchForm = styled.form`
   align-items: center;
   gap: 10px;
   padding: 0 20px 12px;
+
+  @media screen and (max-width: 767px) {
+    grid-template-columns: minmax(0, 1fr); padding: 0 12px 12px;
+  }
 `;
 
 export const Results = styled.div`
@@ -46,6 +58,10 @@ export const Flex = styled.div`
   background: white;
   border-radius: 14px;
 }
+
+  @media screen and (max-width: 767px) {
+    flex-wrap: wrap;
+  }
 `
 
 

@@ -8,4 +8,8 @@ export const Grid = styled.div`
     border: 1px solid grey;
     border-radius: 12px;
     padding: 10px;
+
+  @media screen and (max-width: 767px) {
+    grid-template-columns: minmax(0, 1fr); overflow-wrap: anywhere;
+  }
 `

@@ -14,6 +14,10 @@ export const Form = styled.form`
     display: flex;
     flex-direction: column;
     gap: 10px;
+
+  @media screen and (max-width: 767px) {
+    width: 100%; max-width: 400px;
+  }
 `
 
 
@@ -30,4 +34,8 @@ export const CheckButton = styled.button`
     gap: 10px;
     align-items: center;
     justify-content: center;
+
+  @media screen and (max-width: 767px) {
+    min-width: 0; width: 100%; font-size: 18px; padding: 8px 12px;
+  }
 `

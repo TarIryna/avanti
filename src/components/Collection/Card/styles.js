@@ -5,6 +5,10 @@ export const SalePrice = styled.span`
   font-size: 25px;
   font-weight: 600;
   margin-left: 10px;
+
+  @media screen and (max-width: 767px) {
+    font-size: 20px;
+  }
 `;
 
 export const LastPrice = styled.span`
@@ -12,6 +16,10 @@ export const LastPrice = styled.span`
   color: black;
   font-size: 25px;
   font-weight: 600;
+
+  @media screen and (max-width: 767px) {
+    font-size: 20px;
+  }
 `;
 
 export const CardWrapper = styled.div`
@@ -24,12 +32,20 @@ export const CardWrapper = styled.div`
   flex-direction: column;
   padding: 10px 0;
   cursor: pointer;
+
+  @media screen and (max-width: 767px) {
+    min-width: 0; min-height: 0; padding-bottom: 16px;
+  }
 `;
 
 export const Title = styled.h3`
   font-weight: 600;
   font-size: 18px;
   padding: 0 6px;
+
+  @media screen and (max-width: 767px) {
+    font-size: 16px; overflow-wrap: anywhere;
+  }
 `;
 
 export const ImageWrapper = styled.div`
@@ -41,6 +57,10 @@ export const ImageWrapper = styled.div`
     max-height: 100%;
     object-position: center;
     object-fit: contain;
+  }
+
+  @media screen and (max-width: 767px) {
+    width: 100%; max-width: 300px; height: auto; aspect-ratio: 1;
   }
 `;
 
@@ -55,6 +75,10 @@ export const DiscountMessage = styled.div`
   right: -120%;
   top: 8%;
   width: max-content;
+
+  @media screen and (max-width: 767px) {
+    position: static; width: fit-content; max-width: 100%; margin: 4px auto;
+  }
 `
 
 export const PriceWrapper = styled.div`

@@ -41,6 +41,10 @@ export const RightBlock = styled.div`
   gap: 6px;
   font-size: 20px;
   font-weight: 600;
+
+  @media screen and (max-width: 767px) {
+    font-size: 16px; gap: 4px;
+  }
 `
 
 export const ModalContainer = styled.div`
@@ -57,6 +61,10 @@ export const TitleBlock = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 20px;
+
+  @media screen and (max-width: 767px) {
+    padding: 12px 0; flex-wrap: wrap; gap: 12px; align-items: flex-start;
+  }
 `
 
 export const Date = styled.div`
@@ -65,10 +73,18 @@ export const Date = styled.div`
   font-size: 30px;
   font-weight: 600;
   margin-left: 50px;
+
+  @media screen and (max-width: 767px) {
+    margin-left: 0; font-size: 20px;
+  }
 `
 export const Operations = styled.div`
 
-  `
+  
+  @media screen and (max-width: 767px) {
+    min-width: 0; max-width: 100%; overflow-x: auto;
+  }
+`
 
 export const Table = styled.table`
       font-size: 12px;

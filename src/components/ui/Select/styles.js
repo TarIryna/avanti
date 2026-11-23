@@ -16,6 +16,10 @@ export const SelectContainer = styled.div`
   box-shadow: none; /* иногда тень добавляется для контура */
   border-color: initial; /* если нужно убрать изменение цвета рамки */
 }
+
+  @media screen and (max-width: 767px) {
+    min-width: 0; max-width: 100%;
+  }
 `
 export const Input = styled(InputControl)`
   width: 100%;
@@ -105,6 +109,10 @@ export const SelectButton = styled.button`
     align-items: center;
   }
 }
+
+  @media screen and (max-width: 767px) {
+    > div { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  }
 `
 
 export const CheckIcon = styled.div``

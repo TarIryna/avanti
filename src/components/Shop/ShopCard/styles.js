@@ -54,6 +54,10 @@ export const Flex = styled.div`
   gap: 20px;
   align-items: center;
   margin-top: 10px;
+
+  @media screen and (max-width: 767px) {
+    flex-wrap: wrap; justify-content: center; gap: 8px;
+  }
 `
 
 export const DiscountMessage = styled.div`
@@ -66,6 +70,10 @@ export const DiscountMessage = styled.div`
   right: -120%;
   top: 8%;
   width: max-content;
+
+  @media screen and (max-width: 767px) {
+    position: static; width: fit-content; max-width: 100%; margin: 4px auto; font-size: 11px;
+  }
 `
 
 export const PriceWrapper = styled.div`

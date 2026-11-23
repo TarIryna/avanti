@@ -8,6 +8,10 @@ export const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
+  @media screen and (max-width: 767px) {
+    min-width: 0; max-width: 100%; overflow-x: auto;
+  }
 `
 
 export const Title = styled.div`

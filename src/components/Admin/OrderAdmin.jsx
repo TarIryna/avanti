@@ -17,7 +17,9 @@ registerDynamicModal(
 export const OrderAdmin = ({order}) => {
   console.log(order)
     const [ttn, setTtn] = useState(order?.ttn || null);
-    const [check, setCheck] = useState(null);
+    const [check, setCheck] = useState("");
+    const [savingCheck, setSavingCheck] = useState(false);
+    const [markingSuccessful, setMarkingSuccessful] = useState(false);
     const {show: showDeliveryModal} = useModal(MODALS.DELIVERY_TTN)
     const queryClient = useQueryClient();
 
@@ -78,24 +80,58 @@ const cancelOrder = async () => {
 };
 
 
+  const markOrderSuccessful = async () => {
+    setMarkingSuccessful(true);
+    try {
+      const response = await fetch(`/api/order/${order._id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: "success" }),
+      });
+
+      if (!response.ok) throw new Error("Failed to update order status");
+      const updatedOrder = await response.json();
+      if (updatedOrder?.status !== "success") throw new Error("Order status was not updated");
+
+      queryClient.setQueryData(["orders"], (orders) =>
+        orders?.map((item) =>
+          item._id === order._id ? { ...item, status: updatedOrder.status } : item
+        )
+      );
+      toast.success("Замовлення позначено як успішне");
+    } catch (error) {
+      console.error(error);
+      toast.error("Не вдалося оновити статус замовлення");
+    } finally {
+      setMarkingSuccessful(false);
+    }
+  };
+
   const addCheck = async () => {
-        try {
-            const response = await fetch(`/api/order/${order._id}`, {
-                method: "PUT",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                 check
-                }),
-              });
-              if (response) {
-              //  console.log(response.data)
-              }
-            } catch (error) {
-              console.log(error);
-            }
-          };
+    setSavingCheck(true);
+    try {
+      const response = await fetch(`/api/order/${order._id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ check: check.trim() }),
+      });
+
+      if (!response.ok) throw new Error("Failed to save receipt");
+      const updatedOrder = await response.json();
+      if (!updatedOrder?.check) throw new Error("Receipt was not saved");
+
+      queryClient.setQueryData(["orders"], (orders) =>
+        orders?.map((item) =>
+          item._id === order._id ? { ...item, check: updatedOrder.check } : item
+        )
+      );
+    } catch (error) {
+      console.error(error);
+      toast.error("Не вдалося прикріпити чек");
+    } finally {
+      setSavingCheck(false);
+    }
+  };
 
 
     return (
@@ -123,9 +159,12 @@ const cancelOrder = async () => {
                       <>
                         <S.Input
                            id="check"
-                           onChange={(e) => setCheck(e?.target?.value)}
+                           onChange={(e) => setCheck(e.target.value)}
+                           disabled={savingCheck}
                         />
-                        <S.Button onClick={addCheck}>Додати чек</S.Button>
+                        <S.Button onClick={addCheck} disabled={savingCheck || !check.trim()}>
+                          {savingCheck ? "Збереження…" : "Додати чек"}
+                        </S.Button>
                       </>
                     ) 
                     : null}
@@ -138,11 +177,14 @@ const cancelOrder = async () => {
                     <S.DeliveryText>ТТН: {ttn?.IntDocNumber}</S.DeliveryText>
                     }
                 {!!order.deliveryStatus && <S.DeliveryText>{order.deliveryStatus }</S.DeliveryText>}
+                {order.status !== "success" && (
+                  <S.Button onClick={markOrderSuccessful} disabled={markingSuccessful}>
+                    Позначити як успішне
+                  </S.Button>
+                )}
                 {(order.status === "new" || order.status === "delivery") && <S.Button onClick={cancelOrder}>Відмінити</S.Button>}
                 {order.status === "new" && <S.Button onClick={deleteOrder}>Видалити</S.Button>}
                 </S.DeliveryData>
             </S.CartWrapper>
         )
       }
-      
-   

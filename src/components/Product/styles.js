@@ -21,6 +21,10 @@ export const ProductWrapper = styled.div`
     font-size: 2px;
     position: absolute;
   }
+
+  @media screen and (max-width: 767px) {
+    min-width: 0; grid-template-columns: minmax(0, 1fr); padding: 80px 12px 16px;
+  }
 `;
 
 export const Content = styled.div`
@@ -68,6 +72,10 @@ export const SizesContainer = styled.div`
     border: 1px solid red;
     border-radius: 16px;
     `)}
+
+  @media screen and (max-width: 767px) {
+    min-width: 0; justify-content: flex-start; overflow-x: auto;
+  }
 `;
 
 export const SizesBlock = styled.div`

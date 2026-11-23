@@ -9,6 +9,10 @@ export const Wrapper = styled.div`
   flex-direction: column;
   height: ${({ hasError }) => (hasError ? 56 : 40)}px;
   position: relative;
+
+  @media screen and (max-width: 767px) {
+    min-width: 0; max-width: 100%;
+  }
 `;
 
 export const InputWrapper = styled.div`
@@ -141,6 +145,10 @@ export const Input = styled.input`
       ? `0px 48px`
       : "0px 16px"};
   ${({ hasPrefix }) => hasPrefix && "padding-left: 52px;"}
+
+  @media screen and (max-width: 767px) {
+    min-width: 0; max-width: 100%;
+  }
 `;
 
 export const ButtonShow = styled.button`

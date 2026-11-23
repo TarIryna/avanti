@@ -35,6 +35,10 @@ export const MenuShopButton = styled.div`
     align-items: center;
     justify-content: center; 
     text-align: center;
+
+  @media screen and (max-width: 767px) {
+    height: auto; min-height: 64px; font-size: 22px; padding: 12px;
+  }
 `
 export const Form = styled.form`
     width: 100%;
@@ -53,6 +57,10 @@ export const Form = styled.form`
       ${media.mobile}{
      grid-template-columns: repeat(1, 1fr);
     }
+
+  @media screen and (max-width: 767px) {
+    width: 100%; min-width: 0; grid-template-columns: minmax(0, 1fr);
+  }
 `
 
 export const Flex = styled.div`
@@ -60,6 +68,10 @@ export const Flex = styled.div`
     gap: 16px;
     align-items: center;
     justify-content: center;
+
+  @media screen and (max-width: 767px) {
+    flex-direction: column; align-items: stretch; > * { min-width: 0; max-width: 100%; }
+  }
 `
 
 export const Row = styled.div`
@@ -67,6 +79,10 @@ export const Row = styled.div`
     display: flex;
     flex-direction: column;
     gap: 4px;
+
+  @media screen and (max-width: 767px) {
+    width: 100%; min-width: 0;
+  }
 `
 
 export const CheckButton = styled.button`
@@ -95,6 +111,10 @@ export const ListRevalue = styled.div`
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 6px;   
+
+  @media screen and (max-width: 767px) {
+    grid-template-columns: minmax(0, 1fr);
+  }
 `
 
 
@@ -113,6 +133,10 @@ export const SizesContainer = styled.div`
     border: 1px solid red;
     border-radius: 16px;
     `)}
+
+  @media screen and (max-width: 767px) {
+    min-width: 0; overflow-x: auto;
+  }
 `;
 
 export const SizesBlock = styled.div`
@@ -154,6 +178,10 @@ export const ShopSizesList = styled.div`
   display: flex;
   flex-wrap: nowrap;
   gap: 6px;
+
+  @media screen and (max-width: 767px) {
+    min-width: 0; overflow-x: auto;
+  }
 `;
 
 export const ShopTitle = styled.div`
@@ -161,6 +189,10 @@ export const ShopTitle = styled.div`
   margin-top: 2px;
   text-align: left;
   width: ${({isSmall}) => (isSmall ? '11px' : '165px')};
+
+  @media screen and (max-width: 767px) {
+    width: 44px; flex-shrink: 0; font-size: 12px;
+  }
 `;
 
 export const ShopGroupBlock = styled.div`

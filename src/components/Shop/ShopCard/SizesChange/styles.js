@@ -54,6 +54,10 @@ export const SizesWrapper = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
+
+  @media screen and (max-width: 767px) {
+    min-width: 0; max-width: 100%; overflow-x: auto;
+  }
 `;
 
 export const ProductSizes = styled.p`
@@ -74,6 +78,10 @@ export const SizesForm = styled.form`
 export const List = styled.div`
   display: flex;
   justify-content: center;
+
+  @media screen and (max-width: 767px) {
+    justify-content: flex-start; width: max-content; min-width: 100%;
+  }
 `
 
 export const SizesBlock = styled.div`

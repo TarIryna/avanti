@@ -20,6 +20,10 @@ export const List = styled.div`
     max-width: 200px;
     margin-top: 16px;
   }
+
+  @media screen and (max-width: 767px) {
+    padding: 12px 0; gap: 8px;
+  }
 `;
 
 export const Item = styled(Link)`

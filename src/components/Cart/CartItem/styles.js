@@ -7,6 +7,10 @@ export const Wrapper = styled.div`
   gap: 24px;
   border-bottom: 1px solid darkgrey;
   border-top: 1px solid darkgrey;
+
+  @media screen and (max-width: 767px) {
+    gap: 12px; padding: 10px 0; align-items: flex-start; min-width: 0;
+  }
 `;
 
 export const Content = styled.div`
@@ -17,6 +21,10 @@ export const Content = styled.div`
   img {
     margin-left: 20px;
     margin-top: 10px;
+  }
+
+  @media screen and (max-width: 767px) {
+    min-width: 0; flex: 1; overflow-wrap: anywhere; img { margin-left: 0; }
   }
 `;
 
@@ -35,6 +43,10 @@ export const ImageWrapper = styled.div`
     max-height: 100%;
     object-fit: contain;
     object-position: center;
+  }
+
+  @media screen and (max-width: 767px) {
+    width: 90px; height: 110px; flex: 0 0 90px;
   }
 `;
 
@@ -58,4 +70,8 @@ export const QuantityButton = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
+
+  @media screen and (max-width: 767px) {
+    width: 28px; height: 28px; flex-shrink: 0;
+  }
 `

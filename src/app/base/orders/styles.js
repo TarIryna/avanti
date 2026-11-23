@@ -17,4 +17,8 @@ export const ButtonsList = styled.div`
         border-radius: 16px;
         border: solid 1px grey;
     }
+
+  @media screen and (max-width: 767px) {
+    width: 100%; a { min-width: 0; width: 100%; max-width: 100%; font-size: 20px; padding: 14px; overflow-wrap: anywhere; }
+  }
 `

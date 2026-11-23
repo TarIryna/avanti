@@ -44,7 +44,12 @@ export const menuData = {
       "Черевики на низькому": {
         gender: "women",
         season: "winter",
-        view: "boots",
+        view: "boots-classic",
+      },
+       "Черевики комфорт": {
+        gender: "women",
+        season: "winter",
+        view: "boots-comfort",
       },
       "Черевики casual, кросівки": { gender: "women", season: "winter", view: "boots-casual" },
       Чоботи: { gender: "women", season: "winter", view: "high" },
@@ -107,8 +112,14 @@ export const menuData = {
       "Черевики на низькому": {
         gender: "women",
         season: "demi",
-        view: "boots",
+        view: "boots-classic",
       },
+      "Черевики комфорт": {
+        gender: "women",
+        season: "demi",
+        view: "boots-comfort",
+      },
+      "Черевики casual, кросівки": { gender: "women", season: "winter", view: "boots-casual" },
       Чоботи: { gender: "women", season: "demi", view: "high" },
       Ботфорти: { gender: "women", season: "demi", view: "botforts"},
     },
@@ -155,7 +166,7 @@ export const menuData = {
       "Черевики класичні": {
         gender: "girls",
         season: "winter",
-        view: "classic",
+        view: "boots-classic",
       },
       "Черевики casual": {
         gender: "girls",
@@ -192,13 +203,13 @@ export const menuData = {
       Туфлі: { gender: "girls", season: "autumn", view: "shoes" },
     },
     "Демісезонне взуття": {
-      "Черевики класичні": { gender: "girls", season: "demi", view: "classic" },
-      "Черевики спортивні": { gender: "girls", season: "demi", view: "boots" },
+      "Черевики класичні": { gender: "girls", season: "demi", view: "boots-classic" },
+      "Черевики спортивні": { gender: "girls", season: "demi", view: "boots-casual" },
     },
   },
   Хлопці: {
     "Зимове взуття": {
-      Черевики: { gender: "boys", season: "winter", view: "boots" },
+      Черевики: { gender: "boys", season: "winter", view: "boots-casual" },
     },
     "Літнє взуття": {
       Санділії: { gender: "boys", season: "summer", view: "sandals" },
@@ -216,7 +227,7 @@ export const menuData = {
       },
     },
     "Демісезонне взуття": {
-      Черевики: { gender: "boys", season: "demi", view: "boots" },
+      Черевики: { gender: "boys", season: "demi", view: "boots-casual" },
     },
   },
 };

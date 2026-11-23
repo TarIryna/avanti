@@ -24,11 +24,19 @@ export const SearchInput = styled(InputControl)`
     width: calc(100vw - 250px);
     text-overflow: ellipsis;
   }
+
+  @media screen and (max-width: 767px) {
+    width: 100%; min-width: 0;
+  }
 `;
 
 export const TabsWrapper = styled.div`
   display: flex;
   justify-content: center;
+
+  @media screen and (max-width: 767px) {
+    max-width: 100%; overflow-x: auto; justify-content: flex-start;
+  }
 `;
 
 export const CollectionSearch = styled(SearchInput)`
@@ -73,6 +81,10 @@ export const FilterGrid = styled.div`
     column-gap: 4px;
   }
 
+
+  @media screen and (max-width: 767px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 4px;
+  }
 `;
 
 export const SearchButton = styled.button`
@@ -91,7 +103,11 @@ export const SearchButton = styled.button`
 export const SearchWrapper = styled.div`
   position: relative;
   margin-left: auto;
-  `
+  
+  @media screen and (max-width: 767px) {
+    flex: 1; min-width: 0;
+  }
+`
 
   export const Select = styled(SelectControl)`
   font-weight: 400;

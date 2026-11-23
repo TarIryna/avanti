@@ -21,6 +21,7 @@ registerDynamicModal(
 
 const DeliveryCart = () => {
   const [needUpdate, setNeedUpdate] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
   const methods = useForm({ mode: "onSubmit" });
   const {
     register,
@@ -108,6 +109,7 @@ const DeliveryCart = () => {
   };
 
 const onSubmit = async (e) => { // Добавляем async, если handleOrder отправляет запрос на сервер
+  setIsProcessing(true);
   const name = e.name ?? user?.name;
   const surname = e.surname ?? user?.surname;
   const phone = e.phone ?? user?.phone;
@@ -139,7 +141,7 @@ const onSubmit = async (e) => { // Добавляем async, если handleOrde
     // Предположим, handleOrder отправляет данные на бэкенд и возвращает созданный заказ
     const orderResult = await handleOrder(orderData); 
     const orderId = orderResult?.id || `order_${Date.now()}`; // Запасной вариант для transaction_id
-
+    setIsProcessing(false);
     if (typeof window !== "undefined" && window.gtag) {
       // Считаем общую сумму, принудительно приводя к числу
       const totalValue = items.reduce((sum, item) => {
@@ -172,7 +174,9 @@ const onSubmit = async (e) => { // Добавляем async, если handleOrde
         <S.Form onSubmit={handleSubmit(onSubmit)}>
           <CartClientInfo needUpdate={needUpdate} register={register} />
           <DeliveryForm register={register} />
-          <button type="submit">Відправити замовлення</button>
+          <button type="submit" disabled={isProcessing}>
+            {isProcessing ? "Обробка..." : "Відправити замовлення"}
+          </button>
         </S.Form>
       </FormProvider>
     </div>

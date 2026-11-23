@@ -6,6 +6,10 @@ export const Container = styled.div`
     align-items: center;
     border-radius: 16px;
     border: 0.5px solid grey;
+
+  @media screen and (max-width: 767px) {
+    min-width: 0; align-items: flex-start; padding: 8px;
+  }
 `
 
 export const ImageWrapper = styled.div`
@@ -21,6 +25,10 @@ export const ImageWrapper = styled.div`
     p {
     font-size: 12px;
     }
+
+  @media screen and (max-width: 767px) {
+    width: 70px; height: 80px; flex: 0 0 70px;
+  }
 `;
 
 
@@ -28,6 +36,10 @@ export const ImageWrapper = styled.div`
 export const Info = styled.div`
     font-size: 10px;
     padding: 0 10px;
+
+  @media screen and (max-width: 767px) {
+    min-width: 0; padding: 0; overflow-wrap: anywhere;
+  }
 `
 
 export const Text = styled.div`

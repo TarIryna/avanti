@@ -10,6 +10,10 @@ export const Wrapper = styled.div`
     justify-content: space-between;
     margin-bottom: 10px;
     overflow-x: auto;
+
+  @media screen and (max-width: 767px) {
+    min-width: 0; max-width: 100%; overflow-x: auto;
+  }
 `
 
 export const Title = styled.div`

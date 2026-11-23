@@ -26,6 +26,10 @@ export const Container = styled.div`
     overflow-x: hidden;
     overflow-y: auto;
   }
+
+  @media screen and (max-width: 767px) {
+    justify-content: flex-start; min-height: 0; > * { flex-shrink: 0; }
+  }
 `;
 
 export const Content = styled.div`
@@ -36,6 +40,10 @@ export const Content = styled.div`
   flex-wrap: wrap;
   ${media.mobile} {
     padding: 0 16px 16px 16px;
+  }
+
+  @media screen and (max-width: 767px) {
+    min-width: 0; padding: 0 12px 16px;
   }
 `;
 

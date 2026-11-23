@@ -5,6 +5,10 @@ export const Title = styled.h2`
   color: black;
   font-weight: 800;
   text-align: center;
+
+  @media screen and (max-width: 767px) {
+    font-size: 20px; padding: 0 36px; overflow-wrap: anywhere;
+  }
 `;
 
 export const TitleWrapper = styled.div`

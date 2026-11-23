@@ -14,7 +14,11 @@ export const Wrapper = styled.div`
   width: 100vw;
   height: 80vh;
   }
-  `
+  
+  @media screen and (max-width: 767px) {
+    width: 100%; max-width: 326px; height: auto; aspect-ratio: 326 / 600; max-height: 80dvh;
+  }
+`
 
 export const Iframe = styled.iframe`
   position: absolute;

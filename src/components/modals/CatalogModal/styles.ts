@@ -47,6 +47,10 @@ export const Flex = styled.div`
   gap: 20px;
   align-items: center;
   margin-top: 10px;
+
+  @media screen and (max-width: 767px) {
+    flex-wrap: wrap; gap: 8px;
+  }
 `
 
 
@@ -103,6 +107,10 @@ export const CardWrapper = styled.div`
     page-break-after: always; 
     break-after: page;
   }
+
+  @media screen and (max-width: 767px) {
+    width: 100%; min-width: 0;
+  }
 `;
 
 export const ImageWrapper = styled.div`
@@ -147,6 +155,10 @@ export const ImageWrapper = styled.div`
       /* Сохраняем пропорции без деформации */
       object-fit: contain !important; 
     }
+  }
+
+  @media screen and (max-width: 767px) {
+    width: 100%; max-width: 900px; height: auto; aspect-ratio: 9 / 10;
   }
 `;
 

@@ -18,4 +18,8 @@ export const StyledButton = styled.button`
   }
   ${buttonStyles}
   width: ${({ fullWidth, width }) => (fullWidth ? '100%' : width ? `${width}px` : 'fit-content')};
+
+  @media screen and (max-width: 767px) {
+    max-width: 100%; white-space: normal; overflow-wrap: anywhere;
+  }
 `;

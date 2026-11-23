@@ -12,6 +12,7 @@ const nextConfig = {
     domains: [
       "lh3.googleusercontent.com",
       "i.ibb.co",
+      "ibb.co",
       "pricecreator.rozetka.com.ua",
       "res.cloudinary.com",
       "res-console.cloudinary.com"

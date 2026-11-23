@@ -19,6 +19,10 @@ export const MenuList = styled.div`
     ${media.mobile}{
         padding: 0 16px;
     }
+
+  @media screen and (max-width: 767px) {
+    grid-template-columns: minmax(0, 1fr); padding: 0; gap: 10px;
+  }
 `
 export const MenuButton = styled.div`
     height: 36px;
@@ -46,6 +50,10 @@ export const MenuShopButton = styled.div`
     align-items: center;
     justify-content: center;
     text-align: center;
+
+  @media screen and (max-width: 767px) {
+    height: auto; min-height: 70px; font-size: 24px; padding: 12px;
+  }
 `
 
 export const Form = styled.form`
@@ -104,6 +112,10 @@ export const ProductConatiner = styled.div`
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
+
+  @media screen and (max-width: 767px) {
+    grid-template-columns: minmax(0, 1fr); > * { min-width: 0; }
+  }
 `
 export const ImageWrapper = styled.div`
         width: 100%;
@@ -121,6 +133,10 @@ export const CheckInfoContainer = styled.div`
     width: 200px;
     font-size: ${({ isSmall }) => (isSmall ? '10px' : '14px')};
     margin-bottom: 10px;
+
+  @media screen and (max-width: 767px) {
+    max-width: 100%; width: auto; overflow-wrap: anywhere;
+  }
 `
 
 export const CheckText = styled.div`
@@ -145,6 +161,10 @@ export const CheckList = styled.div`
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
+
+  @media screen and (max-width: 767px) {
+    grid-template-columns: minmax(0, 1fr);
+  }
 `
 
 export const CheckButton = styled.button`
@@ -158,6 +178,10 @@ export const CheckButton = styled.button`
     border: 1px solid grey;
     display: flex;
     gap: 10px;
+
+  @media screen and (max-width: 767px) {
+    min-width: 0; width: 100%; padding: 8px 12px; font-size: 18px; justify-content: center;
+  }
 `
 
 export const CheckContainer = styled.div`
@@ -168,6 +192,10 @@ export const ButtonsConatainer = styled.div`
         display: flex;
         gap: 10px;
         margin-top: 10px;
+
+  @media screen and (max-width: 767px) {
+    flex-wrap: wrap; > button { max-width: 100%; white-space: normal; }
+  }
 `
 
 export const CheckTitle = styled.div`
@@ -190,6 +218,10 @@ export const List = styled.div`
       ${media.mobile}{
      grid-template-columns: repeat(2, 1fr);
     }
+
+  @media screen and (max-width: 380px) {
+    grid-template-columns: minmax(0, 1fr);
+  }
 `
 
 export const Flex = styled.div`
@@ -201,11 +233,19 @@ export const Flex = styled.div`
     button {
     width: fit-content;
     }
+
+  @media screen and (max-width: 767px) {
+    flex-wrap: wrap; gap: 8px; > * { min-width: 0; max-width: 100%; }
+  }
 `
 
 export const FlexLeft = styled.div`
     display: flex;
     gap: 10px;
+
+  @media screen and (max-width: 767px) {
+    flex-wrap: wrap; > * { min-width: 0; max-width: 100%; }
+  }
 `
 
 export const Row = styled.div`
@@ -213,11 +253,19 @@ export const Row = styled.div`
     display: flex;
     flex-direction: column;
     gap: 4px;
+
+  @media screen and (max-width: 767px) {
+    width: 100%; min-width: 0;
+  }
 `
 export const ListRevalue = styled.div`
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 6px;
+
+  @media screen and (max-width: 767px) {
+    grid-template-columns: minmax(0, 1fr);
+  }
 `
 
 export const InputWrapper = styled.div`
@@ -227,6 +275,10 @@ export const InputWrapper = styled.div`
     button {
         font-size: 10px;
     }
+
+  @media screen and (max-width: 767px) {
+    flex-wrap: wrap; > input { min-width: 0; width: 100%; } > button { min-height: 36px; }
+  }
 `
 
 export const Input = styled(InputControl)`
@@ -301,11 +353,19 @@ export const ImagesList = styled.div`
         .imageCard:hover {
         transform: scale(1.05);
         }
+
+  @media screen and (max-width: 767px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 8px; .imageCard { width: 100%; height: 180px; } .imageCard:hover { transform: none; }
+  }
 `
 
 export const VideoContainer = styled.div`
     display: flex;
     gap: 10px;
+
+  @media screen and (max-width: 767px) {
+    flex-direction: column; min-width: 0;
+  }
 `
 
 export const NoPhotoList = styled.div`
