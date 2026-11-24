@@ -13,19 +13,19 @@ export const POST = async (request) => {
   if (!Object.values(PAYMENT_METHODS).includes(paymentMethod)) {
     return new Response("Невідомий спосіб оплати", { status: 400 });
   }
-  const isSandbox = paymentMethod === PAYMENT_METHODS.LIQPAY;
-  const liqPayKeys = isSandbox ? getLiqPayKeys() : null;
-  if (isSandbox && !liqPayKeys) {
-    return new Response("Тестова оплата LiqPay недоступна", { status: 503 });
+  const isLiqPay = paymentMethod === PAYMENT_METHODS.LIQPAY;
+  const liqPayKeys = isLiqPay ? getLiqPayKeys() : null;
+  if (isLiqPay && (!liqPayKeys || (!liqPayKeys.sandbox && !process.env.LIQPAY_SITE_URL))) {
+    return new Response("Оплата LiqPay недоступна", { status: 503 });
   }
-  if (isSandbox && (!Array.isArray(items) || items.length === 0)) {
+  if (isLiqPay && (!Array.isArray(items) || items.length === 0)) {
     return new Response("Кошик порожній", { status: 400 });
   }
 
   try {
     await connectToDB();
 
-    if (isSandbox) {
+    if (isLiqPay) {
       const pricedItems = [];
       let totalInKopiykas = 0;
       for (const item of items) {
@@ -53,7 +53,7 @@ export const POST = async (request) => {
       const payment = {
         method: paymentMethod,
         status: "pending",
-        sandbox: true,
+        sandbox: liqPayKeys.sandbox,
         amount: totalInKopiykas / 100,
         currency: "UAH",
         providerOrderId: randomUUID(),
@@ -63,6 +63,9 @@ export const POST = async (request) => {
         liqPayKeys,
         process.env.LIQPAY_SITE_URL || new URL(request.url).origin
       );
+      if (!checkout) {
+        return new Response("Оплата LiqPay недоступна", { status: 503 });
+      }
       const creator = userId || (await User.create({
         email: `guest_${payment.providerOrderId}@avanti.local`,
         username: `guest_${payment.providerOrderId}@avanti.local`,

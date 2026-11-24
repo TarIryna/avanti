@@ -18,7 +18,8 @@ export const POST = async (request) => {
     return new Response(null, { status: 400 });
   }
 
-  const isPaid = status === "sandbox" || status === "success";
+  if (!keys.sandbox && status === "sandbox") return new Response(null, { status: 400 });
+  const isPaid = status === "success" || (keys.sandbox && status === "sandbox");
   const isFailed = status === "failure" || status === "error";
   const update = {
     "payment.status": isPaid ? "paid" : isFailed ? "failed" : "pending",
@@ -30,7 +31,7 @@ export const POST = async (request) => {
   await connectToDB();
   await Order.updateOne({
     "payment.method": PAYMENT_METHODS.LIQPAY,
-    "payment.sandbox": true,
+    "payment.sandbox": keys.sandbox,
     "payment.providerOrderId": order_id,
     "payment.currency": currency,
     "payment.amount": orderAmount,
