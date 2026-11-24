@@ -38,6 +38,16 @@ export const BlockTitle = styled.div`
     font-weight: 500;
 `
 
+export const Payment = styled.div`
+    font-size: 14px;
+    font-weight: 500;
+    border: 1px solid grey;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    width: fit-content;
+`
+
 export const Text = styled.div`
     font-size: 14px;
     font-weight: 400;

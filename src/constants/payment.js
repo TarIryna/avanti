@@ -9,3 +9,11 @@ export const PAYMENT_METHOD_LABELS = {
 };
 
 export const PAYMENT_STATUSES = ["unpaid", "pending", "paid", "failed", "refunded"];
+
+export const PAYMENT_STATUS_LABELS = {
+  unpaid: "Не оплачено",
+  pending: "Ожидание платежа",
+  paid: "Оплачено",
+  failed: "Платёж не прошёл",
+  refunded: "Возврат средств",
+};

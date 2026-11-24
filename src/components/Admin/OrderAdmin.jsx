@@ -8,7 +8,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import IconCheck from "@/assets/icons/reciept.svg";
 import toast from "react-hot-toast";
-import { PAYMENT_METHODS } from "@/constants/payment";
+import { PAYMENT_METHODS, PAYMENT_STATUS_LABELS } from "@/constants/payment";
 
 registerDynamicModal(
   MODALS.DELIVERY_TTN,
@@ -16,7 +16,6 @@ registerDynamicModal(
 );
     
 export const OrderAdmin = ({order}) => {
-  console.log(order)
     const [ttn, setTtn] = useState(order?.ttn || null);
     const [check, setCheck] = useState("");
     const [savingCheck, setSavingCheck] = useState(false);
@@ -141,7 +140,10 @@ const cancelOrder = async () => {
                 {order?.status && statuses && <S.Status status={order.status}>{`${statuses[order.status]}`}</S.Status>}
                 </S.Subtitle>
                 {order.payment?.method === PAYMENT_METHODS.LIQPAY && (
-                  <S.Text>{`${order.payment.sandbox ? "Тестова оплата" : "Онлайн-оплата"} LiqPay · ${order.payment.status}`}</S.Text>
+                  <S.Payment>
+                    {order.payment.sandbox ? "Тестова оплата" : "Онлайн-оплата"} LiqPay ·{" "}
+                    {PAYMENT_STATUS_LABELS[order.payment.status] ?? order.payment.status}
+                  </S.Payment>
                 )}
                 <S.BlockTitle>Реквізити отримувача:</S.BlockTitle>
                 <S.Text>{`ПІБ: ${order.delivery.surname} ${order.delivery.name}`}</S.Text>
