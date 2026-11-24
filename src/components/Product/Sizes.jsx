@@ -71,7 +71,10 @@ const Sizes = ({ sizes, item, isShop, onSelect, info, color='black', shop, isTex
         <S.Notification>Необхідно додати розмір</S.Notification>
       )}
 
-      <S.SizesContainer isNotification={isNotification}>
+      <S.SizesContainer
+        isNotification={isNotification}
+        $reserveInfoSpace={!info && item.type !== 3 && Boolean(sizes?.length)}
+      >
        {!!sizes?.length && isShop && <S.SizesBlock color={color}> A{shop} </S.SizesBlock>} 
        {!!sizes?.length && sizes?.map((el) => <Size isInfo={info} sizes={sizes} product={item} item={el} size={size} sizesAll={item.sizes_all} setSize={setSize} color={color}/>)}
       </S.SizesContainer>

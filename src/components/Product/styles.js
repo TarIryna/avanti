@@ -54,6 +54,7 @@ export const ButtonAsk = styled.div`
 
 export const SizesWrapper = styled.div`
   display: flex;
+  justify-content: center;
   flex-direction: column;
   position: relative;
 `;
@@ -73,8 +74,10 @@ export const SizesContainer = styled.div`
     border-radius: 16px;
     `)}
 
-  @media screen and (max-width: 767px) {
-    min-width: 0; justify-content: flex-start; overflow-x: auto;
+  ${media.mobile} {
+    min-width: 0;
+    overflow-x: auto;
+    ${({ $reserveInfoSpace }) => $reserveInfoSpace && "padding-top: 22px;"}
   }
 `;
 
@@ -319,6 +322,12 @@ export const Icon = styled.div`
     position: absolute;
     top: -54%;
     right: -26%;
+
+    ${media.mobile} {
+      top: auto;
+      bottom: calc(100% + 2px);
+      right: 0;
+    }
 
     svg {
       max-width: 100%;
