@@ -3,6 +3,8 @@ import { getDestinationName } from "@/data/destination";
 import Operation from "@/models/operation";
 import { connectToDB } from "@/utils/database";
 
+export const dynamic = "force-dynamic";
+
 const kyivParts = (date) => Object.fromEntries(
   new Intl.DateTimeFormat("en-CA", {
     timeZone: "Europe/Kyiv",
