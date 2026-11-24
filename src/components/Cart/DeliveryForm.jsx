@@ -2,10 +2,11 @@ import { Controller, useFormContext } from "react-hook-form";
 import DeliverySelect from "./DeliverySelect/DeliverySelect";
 import { useEffect, useState } from "react";
 import { useUserSession } from "@/fetchActions/user/useUser";
+import { PAYMENT_METHODS, PAYMENT_METHOD_LABELS } from "@/constants/payment";
 import * as S from './styles'
 
 const DeliveryForm = () => {
-  const { control, setValue, watch } = useFormContext();
+  const { control, register, setValue, watch } = useFormContext();
   const { data: user, isLoading } = useUserSession();
 
   const [cityRef, setCityRef] = useState(null);
@@ -31,7 +32,20 @@ const DeliveryForm = () => {
 
   return (
     <>
-    <S.Text><strong>Оплата </strong>здійснюється після дзвінка менеджера</S.Text>
+    <S.PaymentMethods>
+      <legend>Спосіб оплати</legend>
+      <S.PaymentOptions>
+        {Object.entries(PAYMENT_METHOD_LABELS).map(([method, label]) => (
+          <S.PaymentOption key={method}>
+            <input type="radio" value={method} {...register("paymentMethod")} />
+            {method === PAYMENT_METHODS.LIQPAY ? `${label} (тест)` : label}
+          </S.PaymentOption>
+        ))}
+      </S.PaymentOptions>
+    </S.PaymentMethods>
+    {watch("paymentMethod") === PAYMENT_METHODS.LIQPAY && (
+      <S.Text>Відкриється тестова сторінка LiqPay. Кошти не списуються.</S.Text>
+    )}
     <S.Text><strong>Доставка </strong>здійснюється Новою поштою! Оберіть, будь ласка, відділення і місто:</S.Text>
       <Controller
         name="cityDescription"

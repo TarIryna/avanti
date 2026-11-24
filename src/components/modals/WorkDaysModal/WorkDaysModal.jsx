@@ -112,8 +112,8 @@ const onSubmit = async(data) => {
                   tabIndex={3}
                   enterKeyHint="next"
                   isBorder
-                  label='Початок дня (0–23)'
-                  placeholder="Наприклад, 9"
+                  label='Початок дня'
+                  placeholder="9"
                 />
 
               <Input
@@ -123,11 +123,11 @@ const onSubmit = async(data) => {
                   max={24}
                   step={1}
                   rules={{ required: 'Вкажіть кінець дня', valueAsNumber: true, min: 1, max: 24, validate: value => Number.isInteger(value) || 'Введіть цілу годину' }}
-                  placeholder="Наприклад, 18"
+                  placeholder="19"
                   tabIndex={4}
                   enterKeyHint="next"
                   isBorder
-                  label='Кінець дня (1–24)'
+                  label='Кінець дня'
                 />
                 <S.Text aria-live="polite">Відпрацьовано: {hours ?? '—'} год.</S.Text>
                 <Button type="submit" disabled={isSubmitting || hours === null}>{isSubmitting ? 'Збереження…' : 'Провести'}</Button>

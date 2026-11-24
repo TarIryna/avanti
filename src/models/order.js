@@ -1,4 +1,20 @@
 import { Schema, model, models } from "mongoose";
+import { PAYMENT_METHODS, PAYMENT_STATUSES } from "@/constants/payment";
+
+const PaymentSchema = new Schema(
+  {
+    method: { type: String, enum: Object.values(PAYMENT_METHODS), required: true },
+    status: { type: String, enum: PAYMENT_STATUSES, default: "unpaid" },
+    currency: { type: String, default: "UAH" },
+    sandbox: Boolean,
+    amount: { type: Number, min: 0 },
+    providerOrderId: String,
+    providerPaymentId: String,
+    providerStatus: String,
+    paidAt: Date,
+  },
+  { _id: false }
+);
 
 const OrderSchema = new Schema(
   {
@@ -45,6 +61,8 @@ const OrderSchema = new Schema(
      totalPrice: { type: Number, default: 0 }, 
 
     orderId: String,
+
+    payment: PaymentSchema,
 
     delivery: {
       type: Object,

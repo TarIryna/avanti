@@ -139,6 +139,9 @@ const cancelOrder = async () => {
             <S.Subtitle>{`Зaмовлення № :${order.createdAt?.replace("T", " ")?.slice(0, 16)}`}
                 {order?.status && statuses && <S.Status status={order.status}>{`${statuses[order.status]}`}</S.Status>}
                 </S.Subtitle>
+                {order.payment?.sandbox && (
+                  <S.Text>{`Тестова оплата LiqPay · ${order.payment.status}`}</S.Text>
+                )}
                 <S.BlockTitle>Реквізити отримувача:</S.BlockTitle>
                 <S.Text>{`ПІБ: ${order.delivery.surname} ${order.delivery.name}`}</S.Text>
                 <S.Text>{`Телефон: ${order.delivery.phone}`}</S.Text>

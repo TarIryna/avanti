@@ -19,6 +19,52 @@ export const Form = styled.form`
   }
 `;
 
+export const PaymentMethods = styled.fieldset`
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+
+  legend {
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+`;
+
+export const PaymentOptions = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 185px), 1fr));
+  gap: 8px;
+`;
+
+export const PaymentOption = styled.label`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid #777;
+  border-radius: 12px;
+  cursor: pointer;
+
+  input {
+    flex-shrink: 0;
+    margin: 0;
+    accent-color: #222;
+  }
+
+  &:has(input:checked) {
+    border-color: #222;
+    background: #f0f0f0;
+    box-shadow: inset 0 0 0 1px #222;
+  }
+
+  &:focus-within {
+    outline: 2px solid #222;
+    outline-offset: 2px;
+  }
+`;
+
 export const CustomInput = styled(InputControl)`
   width: 100%;
   display: block;

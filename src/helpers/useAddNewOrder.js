@@ -7,10 +7,11 @@ export const useAddNewOrder = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ items, delivery, userId }) => {
+    mutationFn: async ({ items, delivery, paymentMethod, userId }) => {
       const params = {
         items,
         delivery,
+        paymentMethod,
         userId
       };
 
@@ -19,6 +20,13 @@ export const useAddNewOrder = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(params),
       });
+
+      if (!res.ok) {
+        const error = await res.text();
+        throw new Error(error || "Не вдалося створити замовлення");
+      }
+      const result = await res.json();
+      if (result.checkout) return result;
 
       try {
        await fetch("/api/email", {
@@ -36,15 +44,11 @@ export const useAddNewOrder = () => {
         toast.error(error.message);
       }
 
-      if (!res.ok) {
-        const error = await res.text();
-        throw new Error(error || "Не вдалося оновити статус замовлення");
-      }
-
-      return await res.json();
+      return result;
     },
 
-    onSuccess: (_, variables) => {
+    onSuccess: (result, variables) => {
+      if (result.checkout) return;
       if (typeof window !== "undefined" && window.dataLayer) {
         const total = variables.items.reduce(
           (sum, item) => sum + item.price * item.quantity,

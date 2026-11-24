@@ -12,6 +12,7 @@ import { LOGIN, MODALS } from "@/constants/constants";
 import { registerDynamicModal } from "@/helpers/useDynamicModal";
 import { useAddNewOrder } from "@/helpers/useAddNewOrder";
 import { useCartStore } from "../GeneralProvider/context/CartProvider";
+import { PAYMENT_METHODS } from "@/constants/payment";
 
 
 registerDynamicModal(
@@ -22,7 +23,10 @@ registerDynamicModal(
 const DeliveryCart = () => {
   const [needUpdate, setNeedUpdate] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
-  const methods = useForm({ mode: "onSubmit" });
+  const methods = useForm({
+    mode: "onSubmit",
+    defaultValues: { paymentMethod: PAYMENT_METHODS.MANAGER },
+  });
   const {
     register,
     handleSubmit,
@@ -43,15 +47,34 @@ const DeliveryCart = () => {
     }
   };
 
-  const handleOrder = async (deliveryData) => {
+  const handleOrder = async (deliveryData, paymentMethod) => {
   const orderData = {
     items,
     delivery: deliveryData,
+    paymentMethod,
     userId
   };
 
   try {
     const res = await confirmOrder(orderData);
+    if (res.checkout) {
+      const form = document.createElement("form");
+      form.method = "POST";
+      form.action = "https://www.liqpay.ua/api/3/checkout";
+      form.target = "_self";
+      form.hidden = true;
+      for (const name of ["data", "signature"]) {
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = name;
+        input.value = res.checkout[name];
+        form.append(input);
+      }
+      document.body.append(form);
+      form.submit();
+      form.remove();
+      return res;
+    }
 
   const getDate = () => {
     const date = new Date();
@@ -69,6 +92,7 @@ const DeliveryCart = () => {
     });
 
     clearCart();
+    return res;
 
   } catch (error) {
     console.log(error);
@@ -108,8 +132,7 @@ const DeliveryCart = () => {
     return {result, text};
   };
 
-const onSubmit = async (e) => { // Добавляем async, если handleOrder отправляет запрос на сервер
-  setIsProcessing(true);
+const onSubmit = async (e) => {
   const name = e.name ?? user?.name;
   const surname = e.surname ?? user?.surname;
   const phone = e.phone ?? user?.phone;
@@ -136,12 +159,15 @@ const onSubmit = async (e) => { // Добавляем async, если handleOrde
   if (!isFullInfo.result && isFullInfo.text) {
     toast.error(isFullInfo.text);
   } else {
-    handleUpdate(orderData);
+    setIsProcessing(true);
+    if (e.paymentMethod !== PAYMENT_METHODS.LIQPAY) handleUpdate(orderData);
     
     // Предположим, handleOrder отправляет данные на бэкенд и возвращает созданный заказ
-    const orderResult = await handleOrder(orderData); 
-    const orderId = orderResult?.id || `order_${Date.now()}`; // Запасной вариант для transaction_id
+    const orderResult = await handleOrder(orderData, e.paymentMethod);
     setIsProcessing(false);
+    if (orderResult?.checkout) return;
+    if (!orderResult?.order?._id) return;
+    const orderId = orderResult.order._id;
     if (typeof window !== "undefined" && window.gtag) {
       // Считаем общую сумму, принудительно приводя к числу
       const totalValue = items.reduce((sum, item) => {
@@ -165,7 +191,6 @@ const onSubmit = async (e) => { // Добавляем async, если handleOrde
     }
   }
 };
-
 
   return (
     <div>

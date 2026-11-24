@@ -4,12 +4,77 @@ import Product from "@/models/product";
 import User from "@/models/user";
 import { connectToDB } from "@/utils/database";
 import { sendTelegramMessage } from "@/fetchActions/orders/sendTelegramMessage";
+import { PAYMENT_METHODS, PAYMENT_METHOD_LABELS } from "@/constants/payment";
+import { randomUUID } from "node:crypto";
+import { createLiqPayCheckout, getLiqPayKeys } from "@/utils/liqpay";
 
 export const POST = async (request) => {
-  let { delivery, items, userId } = await request.json();
+  let { delivery, items, userId, paymentMethod = PAYMENT_METHODS.MANAGER } = await request.json();
+  if (!Object.values(PAYMENT_METHODS).includes(paymentMethod)) {
+    return new Response("Невідомий спосіб оплати", { status: 400 });
+  }
+  const isSandbox = paymentMethod === PAYMENT_METHODS.LIQPAY;
+  const liqPayKeys = isSandbox ? getLiqPayKeys() : null;
+  if (isSandbox && !liqPayKeys) {
+    return new Response("Тестова оплата LiqPay недоступна", { status: 503 });
+  }
+  if (isSandbox && (!Array.isArray(items) || items.length === 0)) {
+    return new Response("Кошик порожній", { status: 400 });
+  }
 
   try {
     await connectToDB();
+
+    if (isSandbox) {
+      const pricedItems = [];
+      let totalInKopiykas = 0;
+      for (const item of items) {
+        const productId = typeof item.product === "string" ? item.product : item.product?._id;
+        const quantity = item.quantity ?? 1;
+        if (!/^[a-f\d]{24}$/i.test(productId) || !Number.isSafeInteger(quantity) || quantity < 1) {
+          return new Response("Некоректний товар у кошику", { status: 400 });
+        }
+        const product = await Product.findById(productId).select("price code small_image images").lean();
+        const priceInKopiykas = Math.round(product?.price * 100);
+        totalInKopiykas += priceInKopiykas * quantity;
+        if (priceInKopiykas <= 0 || !Number.isSafeInteger(totalInKopiykas)) {
+          return new Response("Ціна товару недоступна", { status: 400 });
+        }
+        pricedItems.push({
+          product: productId,
+          price: priceInKopiykas / 100,
+          quantity,
+          size: item.size,
+          code: product.code,
+          image: product.small_image || product.images?.[0] || "no image",
+        });
+      }
+
+      const payment = {
+        method: paymentMethod,
+        status: "pending",
+        sandbox: true,
+        amount: totalInKopiykas / 100,
+        currency: "UAH",
+        providerOrderId: randomUUID(),
+      };
+      const checkout = createLiqPayCheckout(
+        payment,
+        liqPayKeys,
+        process.env.LIQPAY_SITE_URL || new URL(request.url).origin
+      );
+      const creator = userId || (await User.create({
+        email: `guest_${payment.providerOrderId}@avanti.local`,
+        username: `guest_${payment.providerOrderId}@avanti.local`,
+        name: delivery.name || "Guest",
+        surname: delivery.surname || "",
+        phone: delivery.phone || "",
+        password: "",
+        isGuest: true,
+      }))._id;
+      await Order.create({ creator, items: pricedItems, delivery, totalPrice: payment.amount, payment });
+      return Response.json({ checkout }, { status: 201 });
+    }
 
     // 1️⃣ Если userId нет → создаём гостевого пользователя
     let createdGuest = false;
@@ -74,6 +139,7 @@ export const POST = async (request) => {
       status: "new",
       delivery,
       totalPrice: total,
+      payment: { method: paymentMethod },
     });
 
     // 4️⃣ Чистим корзину (если пользователь был авторизован)
@@ -86,6 +152,7 @@ export const POST = async (request) => {
       `🛒 Нове замовлення!\n` +
       `👤 Клієнт: ${delivery.surname} ${delivery.name}, тел: ${delivery.phone}\n` +
       `Реквізити: ${delivery.cityDescription}, ${delivery.addressDescription}\n` +
+      `💳 Оплата: ${PAYMENT_METHOD_LABELS[paymentMethod]}\n` +
       `📦 Товари: всього ${validatedItems.length}:\n` +
       validatedItems
         .map(
