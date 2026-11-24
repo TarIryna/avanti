@@ -1,8 +1,8 @@
 import { createHash, timingSafeEqual } from "node:crypto";
 
 export const getLiqPayKeys = () => {
-  const publicKey = process.env["LIQPAY-PUBLIC_KEY"];
-  const privateKey = process.env["LIQPAY-PRIVATE_KEY"];
+  const publicKey = process.env["LIQPAY_PUBLIC_KEY"];
+  const privateKey = process.env["LIQPAY_PRIVATE_KEY"];
   return publicKey?.startsWith("sandbox_") && privateKey?.startsWith("sandbox_")
     ? { publicKey, privateKey }
     : null;
