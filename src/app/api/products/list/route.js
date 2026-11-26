@@ -1,5 +1,6 @@
 import Product from "@/models/product";
 import { connectToDB } from "@/utils/database";
+import { getProductCodeMatch, getProductPairCountMatch } from "@/helpers/productRevalueMatch";
 
 export const dynamic = "force-dynamic";
 
@@ -26,7 +27,12 @@ export const POST = async (request) => {
     } = body;
 
     // ✅ Строим фильтр динамически
-    const filterParams = {};
+    const filterParams = getProductPairCountMatch(body);
+    if (!filterParams) return Response.json({ error: "Некоректна кількість пар" }, { status: 400 });
+    const codeMatch = getProductCodeMatch(body.productCode);
+    if (!codeMatch) return Response.json({ error: "Некоректний код товару" }, { status: 400 });
+    const hasCode = Boolean(codeMatch.$or || codeMatch.barcodes);
+    Object.assign(filterParams, codeMatch);
 
     // Обработка сезона (если с фронта прилетает массив, используем напрямую, если строка — через split)
     if (season && season !== "null" && season?.length > 0) {
@@ -47,7 +53,7 @@ export const POST = async (request) => {
       filterParams.color = Array.isArray(color) ? { $in: color } : color;
     }
 
-    if (type ?? type !== "null") filterParams.type = Number(type);
+    if (type != null && type !== "null" && type !== "") filterParams.type = Number(type);
     if (view && view !== "null") filterParams.view = view;
     if (material && material !== "null") filterParams.material = Number(material);
     
@@ -63,7 +69,7 @@ export const POST = async (request) => {
       filterParams.year = { $lte: Number(yearMinus) };
     }
 
-  filterParams.totalCount = { $gt: 0 };
+  if (!filterParams.$expr && !hasCode) filterParams.totalCount = { $gt: 0 };
 
 
     const pipeline = [

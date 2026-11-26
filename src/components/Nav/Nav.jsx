@@ -42,7 +42,7 @@ const Nav = () => {
         <S.NavigationButton href="/all?type=bags&page=1&limit=24">
           Аксесуари
         </S.NavigationButton>
-        <S.NavigationSale href="/sale?page=1&limit=24">Акція</S.NavigationSale>
+        <S.NavigationSale href="/sale?page=1&limit=24">Чорна п'ятниця</S.NavigationSale>
       </S.NavigationWrapper>
       <Search />
       <RightBlock />

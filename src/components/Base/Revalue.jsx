@@ -35,6 +35,9 @@ const RevaluePage = () => {
          country: [],     // для isMulti
          material: "",
          view: "",
+         totalCount: "",
+         pop: "",
+         productCode: "",
       },
    });
 
@@ -49,18 +52,21 @@ const RevaluePage = () => {
 
   const onSubmit = async(data) => {
    try {
-    setFilter(data)
+    const productCode = data.productCode.trim();
+    const searchFilter = productCode ? { productCode } : data;
       const res = await fetch('/api/products/list', { 
         method: 'POST', // Переключаем на POST
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(data) 
+        body: JSON.stringify(searchFilter)
       });
 
      const result = await res.json();
      if (result.products){
       setList(result.products);
+      setFilter(searchFilter);
+      if (productCode && result.products.length === 0) toast.error("Товар за цим кодом не знайдено");
      }
     }catch (e) {
       console.log(e)
@@ -80,8 +86,12 @@ const RevaluePage = () => {
   }, [price])
 
  const onRevaluate = async() => {
-  if (!filter && (!percent || !price)){
+  if (!filter || (!percent && !price)){
     return
+  }
+  if ((filter.productCode ?? "").trim() !== watch("productCode").trim()) {
+    toast.error("Спочатку оновіть результати пошуку");
+    return;
   }
   try {
     const res = await fetch('/api/products/list-revaluation', { 
@@ -94,6 +104,8 @@ const RevaluePage = () => {
      const result = await res.json();
      if (result.success){
       toast.success(`Успішно переоцінено ${result.processedCount ? `${result.processedCount} пар` : ""}!`)
+     } else if (!res.ok) {
+      toast.error(result.error || "Не вдалося переоцінити товар");
      }
   } catch (e) {
     console.log(e)
@@ -278,6 +290,40 @@ const RevaluePage = () => {
                     />        
           
                 </S.Row>
+                <S.Row>
+                <Input
+                  type="number"
+                  label="Усього пар у залишку"
+                  isBorder
+                  placeholder="Наприклад, 1"
+                  min={0}
+                  step={1}
+                  tabIndex={16}
+                  {...register("totalCount", {
+                    pattern: { value: /^\d+$/, message: "Вкажіть цілу кількість пар" },
+                  })}
+                />
+                <Input
+                  type="number"
+                  label="Продано пар"
+                  isBorder
+                  placeholder="Наприклад, 0"
+                  min={0}
+                  step={1}
+                  tabIndex={17}
+                  {...register("pop", {
+                    pattern: { value: /^\d+$/, message: "Вкажіть цілу кількість пар" },
+                  })}
+                />
+                <Input
+                  type="text"
+                  label="Код товару або штрихкод"
+                  isBorder
+                  info="Якщо вказано код, пошук виконується лише за ним."
+                  tabIndex={18}
+                  {...register("productCode")}
+                />
+                </S.Row>
                  <S.CheckButton type="submit">
                   Подивитись результат
                 </S.CheckButton>
@@ -287,19 +333,21 @@ const RevaluePage = () => {
               {list && list.map(item => <RevalueCard item={item} percent={percent} price={price}/>)}
           </S.ListRevalue>
           <S.ButtonsConatainer>
-            <S.Input     
+            <Input
               type="number"
-              placeholder="% знижки"
+              label="% знижки"
+              isBorder
               tabIndex={20}
-              value={percent}
+              value={percent ?? ""}
               onChange={(e) => setPercent(e.target.value)}
               />
-            <S.CheckButton onClick={onRevaluate}>Уцінка на %</S.CheckButton>
-           <S.Input     
+            <S.CheckButton onClick={onRevaluate}>Провести переоцінку</S.CheckButton>
+           <Input
               type="number"
-              placeholder="Нова ціна"
+              label="Нова ціна"
+              isBorder
               tabIndex={21}
-              value={price}
+              value={price ?? ""}
               onChange={(e) => setPrice(e.target.value)}
               />
             <S.CheckButton onClick={() => show()}>Відкрити цінники</S.CheckButton>

@@ -3,11 +3,21 @@ import Label from "@/models/label";
 import Product from "@/models/product";
 import { connectToDB } from "@/utils/database";
 import { getRoundPrice } from "@/helpers/getRoundPrice";
+import { getProductCodeMatch, getProductPairCountMatch } from "@/helpers/productRevalueMatch";
 
 
 export const POST = async (request) => {
   try {
     const { filter, percent, price } = await request.json();
+    const filterParams = getProductPairCountMatch(filter);
+    if (!filterParams) return Response.json({ error: "Некоректна кількість пар" }, { status: 400 });
+    const codeMatch = getProductCodeMatch(filter.productCode);
+    if (!codeMatch) return Response.json({ error: "Некоректний код товару" }, { status: 400 });
+    const hasCode = Boolean(codeMatch.$or || codeMatch.barcodes);
+    Object.assign(filterParams, codeMatch);
+    if (filterParams.pop !== undefined && !filterParams.$expr && !hasCode) {
+      filterParams.totalCount = { $gt: 0 };
+    }
 
     const { 
       color, 
@@ -23,9 +33,6 @@ export const POST = async (request) => {
     } = filter;
 
     await connectToDB();
-
-    // ✅ Строим фильтр динамически
-    const filterParams = {};
 
     if (season && season !== "null" && season?.length > 0) {
       filterParams.season = Array.isArray(season) ? { $in: season } : { $in: season.split(",") };
@@ -66,8 +73,13 @@ export const POST = async (request) => {
       },
     ];
 
-    const result = await Product.aggregate(pipeline);
-    const items = result[0]?.data || [];
+    const items = hasCode
+      ? await Product.find(filterParams).limit(2).lean()
+      : (await Product.aggregate(pipeline))[0]?.data || [];
+
+    if (hasCode && items.length > 1) {
+      return Response.json({ error: "Код відповідає кільком товарам. Вкажіть унікальний код або штрихкод." }, { status: 409 });
+    }
 
     if (items.length === 0) {
       return new Response(JSON.stringify({ message: "No products found for revaluation" }), { 
