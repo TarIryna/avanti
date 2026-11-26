@@ -52,6 +52,16 @@ export const Text = styled.div`
     font-size: 14px;
     font-weight: 400;
 `
+export const ViberLink = styled.a`
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    margin-left: 4px;
+    vertical-align: middle;
+    color: #7360f2;
+`
 export const Status = styled.div`
     padding: 2px 10px;
     ${({ status }) => status && `background: ${statusColors[status]}`};

@@ -3,12 +3,13 @@ import { useUserSession } from "@/fetchActions/user/useUser";
 import { Controller, useFormContext } from "react-hook-form";
 
 const formatPhone = (value) => {
-  const digits = String(value ?? "")
-    .replace(/\D/g, "")
-    .replace(/^(?:038|38)/, "")
-    .slice(0, 10);
+  const input = String(value ?? "").trim();
+  const digits = input.replace(/^\+38/, "").replace(/\D/g, "");
+  const localDigits = !input.startsWith("+38") && /^380\d{9}$/.test(digits)
+    ? digits.slice(2)
+    : digits;
 
-  return [digits.slice(0, 3), digits.slice(3, 6), digits.slice(6, 8), digits.slice(8, 10)]
+  return [localDigits.slice(0, 3), localDigits.slice(3, 6), localDigits.slice(6, 8), localDigits.slice(8)]
     .filter(Boolean)
     .join("-");
 };
@@ -58,7 +59,11 @@ const CartForm = ({ register }) => {
       <Controller
         name="phone"
         control={control}
-        rules={{ required: true }}
+        rules={{
+          required: "Вкажіть номер телефону",
+          validate: (value) => /^0\d{9}$/.test(value.replace(/-/g, ""))
+            || "Номер телефону має містити 10 цифр і починатися з 0",
+        }}
         defaultValue={formatPhone(user?.phone)}
         render={({ field }) => (
               <Input

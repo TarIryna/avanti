@@ -38,6 +38,7 @@ export const ContactItem = styled(Link)`
 `;
 
 export const InfoText = styled.p`
+ ${({underlined}) => (underlined && 't')}
   font-weight: 400;
   font-size: 12px;
 `

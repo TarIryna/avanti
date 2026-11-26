@@ -193,7 +193,7 @@ export const POST = async (request) => {
         // Автоматическое формирование красивых лог-комментариев
         let autoComment = item.comment ?? null;
         if (isArrival) autoComment = `${item.comment ?? ''}`.trim();
-        if (isDecrease) autoComment = `${item.comment ?? ''} (переміщено на склад 3)`.trim();
+        if (isDecrease) autoComment = `${item.comment ?? ''} `.trim();
         
         if (isTransit) {
           const shopNames = { "4": "Розетка", "5": "Пром", "6": "Сайт" };

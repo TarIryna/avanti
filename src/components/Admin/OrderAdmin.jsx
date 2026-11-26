@@ -16,6 +16,14 @@ registerDynamicModal(
 );
     
 export const OrderAdmin = ({order}) => {
+    const phone = String(order.delivery.phone ?? "").trim();
+    const compactPhone = phone.replace(/[\s()-]/g, "");
+    const viberNumber = /^0\d{9}$/.test(compactPhone)
+      ? `+38${compactPhone}`
+      : /^380\d{9}$/.test(compactPhone) ? `+${compactPhone}` : compactPhone;
+    const viberUrl = /^\+[1-9]\d{7,14}$/.test(viberNumber)
+      ? `viber://chat?number=${encodeURIComponent(viberNumber)}`
+      : null;
     const [ttn, setTtn] = useState(order?.ttn || null);
     const [check, setCheck] = useState("");
     const [savingCheck, setSavingCheck] = useState(false);
@@ -147,7 +155,20 @@ const cancelOrder = async () => {
                 )}
                 <S.BlockTitle>Реквізити отримувача:</S.BlockTitle>
                 <S.Text>{`ПІБ: ${order.delivery.surname} ${order.delivery.name}`}</S.Text>
-                <S.Text>{`Телефон: ${order.delivery.phone}`}</S.Text>
+                <S.Text>
+                  Телефон: {phone}
+                  {viberUrl && (
+                    <S.ViberLink href={viberUrl} aria-label="Відкрити чат у Viber" title="Відкрити чат у Viber">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"
+                        aria-hidden="true">
+                        <path d="M21 10a7 7 0 0 0-7-7h-4a7 7 0 0 0-7 7v2a7 7 0 0 0 4 6.3V22l4-3h3a7 7 0 0 0 7-7z" />
+                        <path d="M8 8.5 9.5 8l1.5 2-1 1a7 7 0 0 0 3 3l1-1 2 1.5-.5 1.5c-3 .5-8-4.5-7.5-7.5Z" />
+                        <path d="M14 6.5a4 4 0 0 1 3.5 3.5M13.5 9a1.5 1.5 0 0 1 1.5 1.5" />
+                      </svg>
+                    </S.ViberLink>
+                  )}
+                </S.Text>
                 <S.Text>{`Email: ${order.delivery.email}`}</S.Text>
                 <S.Text>{`Місто: ${order.delivery.cityDescription}`}</S.Text>
                 <S.Text>{`Адреса: ${order.delivery.addressDescription}`}</S.Text>
